@@ -3,7 +3,10 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "^4.0.2",
-    "lux-design-system": "^2.0.4"
+    "lux-design-system": "^2.0.4",
+    "vue": "^2.6.10",
+    "vue-loader": "^15.7.0",
+    "vue-template-compiler": "^2.6.10"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.3.1"
