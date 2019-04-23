@@ -20,3 +20,7 @@ Style/StringLiterals:
 RSpec/DescribeClass:
   Exclude:
     - 'spec/views/**/*'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/controllers/travel_requests_controller_spec.rb'

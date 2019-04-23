@@ -13,4 +13,5 @@ Rails.application.routes.draw do
 
   resources :event_instances
   resources :events
+  resources :travel_requests
 end
