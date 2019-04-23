@@ -29,7 +29,10 @@ RSpec.describe EventsController, type: :controller do
   # Event. As you add validations to Event, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { name: "AwesomeCon",
+      description: "It's awesome",
+      url: "http://example.com/awesome"
+    }
   }
 
   let(:invalid_attributes) {
