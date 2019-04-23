@@ -1,11 +1,11 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "events/show", type: :view do
-  before(:each) do
+  before do
     @event = assign(:event, Event.create!(
-      :name => "Name",
-      :description => "MyText",
-      :url => "Url"
+                              name: "Name",
+                              description: "MyText",
+                              url: "Url"
     ))
   end
 

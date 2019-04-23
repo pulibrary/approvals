@@ -72,6 +72,10 @@ jobs:
           name: Database setup
           command: bin/rails db:schema:load --trace
 
+      - run:
+          name: Run rubocop
+          command: bundle exec rubocop    
+
       # Run rspec in parallel
       - run:
           name: Run rspec in parallel
