@@ -1,0 +1,18 @@
+inherit_gem:
+  bixby: bixby_default.yml
+
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'script/**/*'
+    - 'vendor/**/*'
+    - 'bin/*'
+    - 'config/deploy.rb'
+    - 'config/initializers/blacklight_url_helper_behavior.rb'
+    - 'config/environments/**/*'
+    - 'node_modules/**/*'
+
+Style/StringLiterals:
+   EnforcedStyle: double_quotes
