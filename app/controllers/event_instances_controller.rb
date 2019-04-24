@@ -9,8 +9,7 @@ class EventInstancesController < ApplicationController
 
   # GET /event_instances/1
   # GET /event_instances/1.json
-  def show
-  end
+  def show; end
 
   # GET /event_instances/new
   def new
@@ -18,8 +17,7 @@ class EventInstancesController < ApplicationController
   end
 
   # GET /event_instances/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /event_instances
   # POST /event_instances.json
@@ -28,7 +26,7 @@ class EventInstancesController < ApplicationController
 
     respond_to do |format|
       if @event_instance.save
-        format.html { redirect_to @event_instance, notice: 'Event instance was successfully created.' }
+        format.html { redirect_to @event_instance, notice: "Event instance was successfully created." }
         format.json { render :show, status: :created, location: @event_instance }
       else
         format.html { render :new }
@@ -42,7 +40,7 @@ class EventInstancesController < ApplicationController
   def update
     respond_to do |format|
       if @event_instance.update(event_instance_params)
-        format.html { redirect_to @event_instance, notice: 'Event instance was successfully updated.' }
+        format.html { redirect_to @event_instance, notice: "Event instance was successfully updated." }
         format.json { render :show, status: :ok, location: @event_instance }
       else
         format.html { render :edit }
@@ -56,12 +54,13 @@ class EventInstancesController < ApplicationController
   def destroy
     @event_instance.destroy
     respond_to do |format|
-      format.html { redirect_to event_instances_url, notice: 'Event instance was successfully destroyed.' }
+      format.html { redirect_to event_instances_url, notice: "Event instance was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_event_instance
       @event_instance = EventInstance.find(params[:id])

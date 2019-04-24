@@ -1,12 +1,12 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "event_instances/show", type: :view do
   let(:event) { Event.create! }
-  before(:each) do
+  before do
     @event_instance = assign(:event_instance, EventInstance.create!(
-      :event => event,
-      :location => "Location",
-      :url => "Url"
+                                                event: event,
+                                                location: "Location",
+                                                url: "Url"
     ))
   end
 
