@@ -42,6 +42,11 @@ RSpec.describe EventsController, type: :controller do
   # EventsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  let(:user) { FactoryBot.create :user }
+  before do
+    sign_in user
+  end
+
   describe "GET #index" do
     it "returns a success response" do
       Event.create! valid_attributes
