@@ -24,17 +24,17 @@ require "rails_helper"
 # `rails-controller-testing` gem.
 
 RSpec.describe EventInstancesController, type: :controller do
-  let(:event) { Event.create! }
+  let(:recurring_event) { RecurringEvent.create! }
 
   # This should return the minimal set of attributes required to create a valid
   # EventInstance. As you add validations to EventInstance, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    { event_id: event.id,
+    { recurring_event_id: recurring_event.id,
       start_date: Time.zone.today,
       end_date: Time.zone.tomorrow,
       location: "here",
-      url: "http://example.com/event/instance" }
+      url: "http://example.com/recurring_event/instance" }
   end
 
   let(:invalid_attributes) do

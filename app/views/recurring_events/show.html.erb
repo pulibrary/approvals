@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @recurring_event.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @recurring_event.description %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @recurring_event.url %>
+</p>
+
+<%= link_to 'Edit', edit_recurring_event_path(@recurring_event) %> |
+<%= link_to 'Back', recurring_events_path %>

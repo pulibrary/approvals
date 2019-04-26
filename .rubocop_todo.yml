@@ -17,12 +17,12 @@ RSpec/ExampleLength:
   Exclude:
     - 'spec/views/event_instances/edit.html.erb_spec.rb'
     - 'spec/views/event_instances/new.html.erb_spec.rb'
-    - 'spec/views/events/edit.html.erb_spec.rb'
-    - 'spec/views/events/new.html.erb_spec.rb'
+    - 'spec/views/recurring_events/edit.html.erb_spec.rb'
+    - 'spec/views/recurring_events/new.html.erb_spec.rb'
 
 # Offense count: 2
 # Configuration parameters: AssignmentOnly.
 RSpec/InstanceVariable:
   Exclude:
     - 'spec/views/event_instances/edit.html.erb_spec.rb'
-    - 'spec/views/events/edit.html.erb_spec.rb'
+    - 'spec/views/recurring_events/edit.html.erb_spec.rb'
