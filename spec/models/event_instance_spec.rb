@@ -8,6 +8,5 @@ RSpec.describe EventInstance, type: :model do
     it { is_expected.to respond_to :end_date }
     it { is_expected.to respond_to :location }
     it { is_expected.to respond_to :url }
-    it { is_expected.to respond_to :requests }
   end
 end
