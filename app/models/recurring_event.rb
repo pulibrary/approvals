@@ -1,3 +1,3 @@
 class RecurringEvent < ApplicationRecord
-  has_many :event_instances
+  has_many :events
 end
