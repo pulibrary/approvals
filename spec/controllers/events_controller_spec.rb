@@ -23,18 +23,18 @@ require "rails_helper"
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe EventInstancesController, type: :controller do
+RSpec.describe EventsController, type: :controller do
   let(:recurring_event) { RecurringEvent.create! }
 
   # This should return the minimal set of attributes required to create a valid
-  # EventInstance. As you add validations to EventInstance, be sure to
+  # Event. As you add validations to Event, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
     { recurring_event_id: recurring_event.id,
       start_date: Time.zone.today,
       end_date: Time.zone.tomorrow,
       location: "here",
-      url: "http://example.com/recurring_event/instance" }
+      url: "http://example.com/recurring_event/event" }
   end
 
   let(:invalid_attributes) do
@@ -43,7 +43,7 @@ RSpec.describe EventInstancesController, type: :controller do
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
-  # EventInstancesController. Be sure to keep this updated too.
+  # EventsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
   let(:user) { FactoryBot.create :user }
@@ -53,7 +53,7 @@ RSpec.describe EventInstancesController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
-      EventInstance.create! valid_attributes
+      Event.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
@@ -61,8 +61,8 @@ RSpec.describe EventInstancesController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
-      event_instance = EventInstance.create! valid_attributes
-      get :show, params: { id: event_instance.to_param }, session: valid_session
+      event = Event.create! valid_attributes
+      get :show, params: { id: event.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -76,29 +76,29 @@ RSpec.describe EventInstancesController, type: :controller do
 
   describe "GET #edit" do
     it "returns a success response" do
-      event_instance = EventInstance.create! valid_attributes
-      get :edit, params: { id: event_instance.to_param }, session: valid_session
+      event = Event.create! valid_attributes
+      get :edit, params: { id: event.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
 
   describe "POST #create" do
     context "with valid params" do
-      it "creates a new EventInstance" do
+      it "creates a new Event" do
         expect do
-          post :create, params: { event_instance: valid_attributes }, session: valid_session
-        end.to change(EventInstance, :count).by(1)
+          post :create, params: { event: valid_attributes }, session: valid_session
+        end.to change(Event, :count).by(1)
       end
 
-      it "redirects to the created event_instance" do
-        post :create, params: { event_instance: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(EventInstance.last)
+      it "redirects to the created event" do
+        post :create, params: { event: valid_attributes }, session: valid_session
+        expect(response).to redirect_to(Event.last)
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: { event_instance: invalid_attributes }, session: valid_session
+        post :create, params: { event: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -110,41 +110,41 @@ RSpec.describe EventInstancesController, type: :controller do
         skip("Add a hash of attributes valid for your model")
       end
 
-      it "updates the requested event_instance" do
-        event_instance = EventInstance.create! valid_attributes
-        put :update, params: { id: event_instance.to_param, event_instance: new_attributes }, session: valid_session
-        event_instance.reload
+      it "updates the requested event" do
+        event = Event.create! valid_attributes
+        put :update, params: { id: event.to_param, event: new_attributes }, session: valid_session
+        event.reload
         skip("Add assertions for updated state")
       end
 
-      it "redirects to the event_instance" do
-        event_instance = EventInstance.create! valid_attributes
-        put :update, params: { id: event_instance.to_param, event_instance: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(event_instance)
+      it "redirects to the event" do
+        event = Event.create! valid_attributes
+        put :update, params: { id: event.to_param, event: valid_attributes }, session: valid_session
+        expect(response).to redirect_to(event)
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
-        event_instance = EventInstance.create! valid_attributes
-        put :update, params: { id: event_instance.to_param, event_instance: invalid_attributes }, session: valid_session
+        event = Event.create! valid_attributes
+        put :update, params: { id: event.to_param, event: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested event_instance" do
-      event_instance = EventInstance.create! valid_attributes
+    it "destroys the requested event" do
+      event = Event.create! valid_attributes
       expect do
-        delete :destroy, params: { id: event_instance.to_param }, session: valid_session
-      end.to change(EventInstance, :count).by(-1)
+        delete :destroy, params: { id: event.to_param }, session: valid_session
+      end.to change(Event, :count).by(-1)
     end
 
-    it "redirects to the event_instances list" do
-      event_instance = EventInstance.create! valid_attributes
-      delete :destroy, params: { id: event_instance.to_param }, session: valid_session
-      expect(response).to redirect_to(event_instances_url)
+    it "redirects to the events list" do
+      event = Event.create! valid_attributes
+      delete :destroy, params: { id: event.to_param }, session: valid_session
+      expect(response).to redirect_to(events_url)
     end
   end
 end
