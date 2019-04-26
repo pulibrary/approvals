@@ -12,5 +12,5 @@ Rails.application.routes.draw do
   end
 
   resources :event_instances
-  resources :events
+  resources :recurring_events
 end

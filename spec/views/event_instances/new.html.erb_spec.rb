@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "event_instances/new", type: :view do
   before do
     assign(:event_instance, EventInstance.new(
-                              event: nil,
+                              recurring_event: nil,
                               location: "MyString",
                               url: "MyString"
     ))
@@ -13,7 +13,7 @@ RSpec.describe "event_instances/new", type: :view do
     render
 
     assert_select "form[action=?][method=?]", event_instances_path, "post" do
-      assert_select "input[name=?]", "event_instance[event_id]"
+      assert_select "input[name=?]", "event_instance[recurring_event_id]"
 
       assert_select "input[name=?]", "event_instance[location]"
 

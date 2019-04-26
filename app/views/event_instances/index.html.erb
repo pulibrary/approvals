@@ -5,7 +5,7 @@
 <table>
   <thead>
     <tr>
-      <th>Event</th>
+      <th>Recurring Event</th>
       <th>Start date</th>
       <th>End date</th>
       <th>Location</th>
@@ -17,7 +17,7 @@
   <tbody>
     <% @event_instances.each do |event_instance| %>
       <tr>
-        <td><%= event_instance.event %></td>
+        <td><%= event_instance.recurring_event %></td>
         <td><%= event_instance.start_date %></td>
         <td><%= event_instance.end_date %></td>
         <td><%= event_instance.location %></td>

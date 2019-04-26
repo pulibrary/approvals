@@ -1,14 +1,14 @@
 require "rails_helper"
 
-RSpec.describe "events/index", type: :view do
+RSpec.describe "recurring_events/index", type: :view do
   before do
-    assign(:events, [
-             Event.create!(
+    assign(:recurring_events, [
+             RecurringEvent.create!(
                name: "Name",
                description: "MyText",
                url: "Url"
              ),
-             Event.create!(
+             RecurringEvent.create!(
                name: "Name",
                description: "MyText",
                url: "Url"
@@ -16,7 +16,7 @@ RSpec.describe "events/index", type: :view do
            ])
   end
 
-  it "renders a list of events" do
+  it "renders a list of recurring_events" do
     render
     assert_select "tr>td", text: "Name".to_s, count: 2
     assert_select "tr>td", text: "MyText".to_s, count: 2
