@@ -1,9 +1,9 @@
 require "rails_helper"
 
-RSpec.describe "events/show", type: :view do
+RSpec.describe "event_requests/show", type: :view do
   let(:recurring_event) { RecurringEvent.create! }
   before do
-    @event = assign(:event, Event.create!(
+    @event_request = assign(:event_request, EventRequest.create!(
                               recurring_event: recurring_event,
                               location: "Location",
                               url: "Url"

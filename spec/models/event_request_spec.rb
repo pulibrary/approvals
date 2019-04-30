@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Event, type: :model do
+RSpec.describe EventRequest, type: :model do
   describe "attributes" do
     subject(:event) { described_class.new }
     it { is_expected.to respond_to :recurring_event }

@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Event Requests</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Recurring Event</th>
+      <th>Start date</th>
+      <th>End date</th>
+      <th>Location</th>
+      <th>Url</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @event_requests.each do |event_request| %>
+      <tr>
+        <td><%= event_request.recurring_event %></td>
+        <td><%= event_request.start_date %></td>
+        <td><%= event_request.end_date %></td>
+        <td><%= event_request.location %></td>
+        <td><%= event_request.url %></td>
+        <td><%= link_to 'Show', event_request %></td>
+        <td><%= link_to 'Edit', edit_event_request_path(event_request) %></td>
+        <td><%= link_to 'Destroy', event_request, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Event Request', new_event_request_path %>
