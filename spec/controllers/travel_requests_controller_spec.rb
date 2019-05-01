@@ -114,7 +114,8 @@ RSpec.describe TravelRequestsController, type: :controller do
     context "with valid nested attributes" do
       let(:nested_attributes) do
         {
-          notes_attributes: [{ creator_id: user.id, content: "Important message" }]
+          notes_attributes: [{ creator_id: user.id, content: "Important message" }],
+          estimates_attributes: [amount: 200.20, recurrence: 3, cost_type: "lodging"]
         }
       end
 
@@ -123,6 +124,7 @@ RSpec.describe TravelRequestsController, type: :controller do
         put :update, params: { id: travel_request.to_param, travel_request: nested_attributes }, session: valid_session
         travel_request.reload
         expect(travel_request.notes.last.content).to eq "Important message"
+        expect(travel_request.estimates.last.amount).to eq 200.20
       end
 
       it "redirects to the travel_request" do
