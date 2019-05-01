@@ -11,5 +11,6 @@ RSpec.describe TravelRequest, type: :model do
     it { is_expected.to respond_to :participation }
     it { is_expected.to respond_to :event_requests }
     it { is_expected.to respond_to :travel_category }
+    it { is_expected.to respond_to :notes }
   end
 end

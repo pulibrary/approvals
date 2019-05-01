@@ -9,6 +9,9 @@ class Request < ApplicationRecord
   has_many :events, through: :event_requests
   accepts_nested_attributes_for :event_requests
 
+  has_many :notes
+  accepts_nested_attributes_for :notes
+
   # use request_type as the single table inheritance flag
   self.inheritance_column = "request_type"
 end

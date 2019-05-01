@@ -8,5 +8,6 @@ RSpec.describe AbsenceRequest, type: :model do
     it { is_expected.to respond_to :end_date }
     it { is_expected.to respond_to :request_type }
     it { is_expected.to respond_to :absence_type }
+    it { is_expected.to respond_to :notes }
   end
 end

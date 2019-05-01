@@ -38,7 +38,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       purpose: "Travel to campus for in-person meetings",
       participation: "member", # TODO: Make this an enum?
       event_requests_attributes: [recurring_event_id: recurring_event.id],
-      travel_category: "business" # note this field is not available on the create form; only on approval.
+      travel_category: "business", # note this field is not available on the create form; only on approval.
     }
   end
 
@@ -111,16 +111,18 @@ RSpec.describe TravelRequestsController, type: :controller do
   end
 
   describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) do
-        skip("Add a hash of attributes valid for your model")
+    context "with valid nested attributes" do
+      let(:nested_attributes) do
+        {
+          notes_attributes: [{ creator_id: user.id, content: "Important message" }]
+        }
       end
 
       it "updates the requested travel_request" do
         travel_request = TravelRequest.create! valid_attributes
-        put :update, params: { id: travel_request.to_param, travel_request: new_attributes }, session: valid_session
+        put :update, params: { id: travel_request.to_param, travel_request: nested_attributes }, session: valid_session
         travel_request.reload
-        skip("Add assertions for updated state")
+        expect(travel_request.notes.last.content).to eq "Important message"
       end
 
       it "redirects to the travel_request" do
