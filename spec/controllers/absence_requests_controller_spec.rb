@@ -108,16 +108,18 @@ RSpec.describe AbsenceRequestsController, type: :controller do
   end
 
   describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) do
-        skip("Add a hash of attributes valid for your model")
+    context "with valid nested attributes" do
+      let(:nested_attributes) do
+        {
+          notes_attributes: [{ creator_id: user.id, content: "Important message" }]
+        }
       end
 
       it "updates the requested absence_request" do
         absence_request = AbsenceRequest.create! valid_attributes
-        put :update, params: { id: absence_request.to_param, absence_request: new_attributes }, session: valid_session
+        put :update, params: { id: absence_request.to_param, absence_request: nested_attributes }, session: valid_session
         absence_request.reload
-        skip("Add assertions for updated state")
+        expect(absence_request.notes.last.content).to eq "Important message"
       end
 
       it "redirects to the absence_request" do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_30_205002) do
+ActiveRecord::Schema.define(version: 2019_05_01_172949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,15 @@ ActiveRecord::Schema.define(version: 2019_04_30_205002) do
     t.bigint "request_id"
     t.index ["recurring_event_id"], name: "index_event_requests_on_recurring_event_id"
     t.index ["request_id"], name: "index_event_requests_on_request_id"
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.bigint "request_id"
+    t.bigint "creator_id"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_id"], name: "index_notes_on_request_id"
   end
 
   create_table "recurring_events", force: :cascade do |t|
@@ -61,4 +70,5 @@ ActiveRecord::Schema.define(version: 2019_04_30_205002) do
   end
 
   add_foreign_key "event_requests", "recurring_events"
+  add_foreign_key "notes", "requests"
 end
