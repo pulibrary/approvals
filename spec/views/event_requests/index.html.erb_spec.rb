@@ -2,17 +2,20 @@ require "rails_helper"
 
 RSpec.describe "event_requests/index", type: :view do
   let(:recurring_event) { RecurringEvent.create! }
+  let(:user) { FactoryBot.create(:user) }
   before do
     assign(:event_requests, [
              EventRequest.create!(
                recurring_event: recurring_event,
                location: "Location",
-               url: "Url"
+               url: "Url",
+               request: Request.create!(creator: user)
              ),
              EventRequest.create!(
                recurring_event: recurring_event,
                location: "Location",
-               url: "Url"
+               url: "Url",
+               request: Request.create!(creator: user)
              )
            ])
   end

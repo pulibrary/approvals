@@ -23,20 +23,20 @@ require "rails_helper"
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe EventRequestsController, type: :controller do
-  let(:recurring_event) { RecurringEvent.create! }
-  let(:travel_request) { TravelRequest.create!(creator: user) }
+RSpec.describe AbsenceRequestsController, type: :controller do
+  let(:creator) { User.create!(uid: "person") }
 
   # This should return the minimal set of attributes required to create a valid
-  # Event Request. As you add validations to Event, be sure to
+  # AbsenceRequest. As you add validations to AbsenceRequest, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    { recurring_event_id: recurring_event.id,
+    {
+      creator_id: creator.id,
       start_date: Time.zone.today,
       end_date: Time.zone.tomorrow,
-      location: "here",
-      url: "http://example.com/recurring_event/event",
-      request_id: travel_request.id }
+      request_type: "AbsenceRequest",
+      absence_type: "vacation" # TODO: Make this an enum?
+    }
   end
 
   let(:invalid_attributes) do
@@ -45,17 +45,18 @@ RSpec.describe EventRequestsController, type: :controller do
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
-  # EventsController. Be sure to keep this updated too.
+  # AbsenceRequestsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
   let(:user) { FactoryBot.create :user }
+
   before do
     sign_in user
   end
 
   describe "GET #index" do
     it "returns a success response" do
-      EventRequest.create! valid_attributes
+      AbsenceRequest.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
@@ -63,8 +64,8 @@ RSpec.describe EventRequestsController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
-      event_request = EventRequest.create! valid_attributes
-      get :show, params: { id: event_request.to_param }, session: valid_session
+      absence_request = AbsenceRequest.create! valid_attributes
+      get :show, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -78,29 +79,29 @@ RSpec.describe EventRequestsController, type: :controller do
 
   describe "GET #edit" do
     it "returns a success response" do
-      event_request = EventRequest.create! valid_attributes
-      get :edit, params: { id: event_request.to_param }, session: valid_session
+      absence_request = AbsenceRequest.create! valid_attributes
+      get :edit, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
 
   describe "POST #create" do
     context "with valid params" do
-      it "creates a new EventRequest" do
+      it "creates a new AbsenceRequest" do
         expect do
-          post :create, params: { event_request: valid_attributes }, session: valid_session
-        end.to change(EventRequest, :count).by(1)
+          post :create, params: { absence_request: valid_attributes }, session: valid_session
+        end.to change(AbsenceRequest, :count).by(1)
       end
 
-      it "redirects to the created event" do
-        post :create, params: { event_request: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(EventRequest.last)
+      it "redirects to the created absence_request" do
+        post :create, params: { absence_request: valid_attributes }, session: valid_session
+        expect(response).to redirect_to(AbsenceRequest.last)
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: { event_request: invalid_attributes }, session: valid_session
+        post :create, params: { absence_request: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -112,41 +113,41 @@ RSpec.describe EventRequestsController, type: :controller do
         skip("Add a hash of attributes valid for your model")
       end
 
-      it "updates the requested event" do
-        event_request = EventRequest.create! valid_attributes
-        put :update, params: { id: event_request.to_param, event_request: new_attributes }, session: valid_session
-        event_request.reload
+      it "updates the requested absence_request" do
+        absence_request = AbsenceRequest.create! valid_attributes
+        put :update, params: { id: absence_request.to_param, absence_request: new_attributes }, session: valid_session
+        absence_request.reload
         skip("Add assertions for updated state")
       end
 
-      it "redirects to the event" do
-        event_request = EventRequest.create! valid_attributes
-        put :update, params: { id: event_request.to_param, event_request: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(event_request)
+      it "redirects to the absence_request" do
+        absence_request = AbsenceRequest.create! valid_attributes
+        put :update, params: { id: absence_request.to_param, absence_request: valid_attributes }, session: valid_session
+        expect(response).to redirect_to(absence_request)
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
-        event_request = EventRequest.create! valid_attributes
-        put :update, params: { id: event_request.to_param, event_request: invalid_attributes }, session: valid_session
+        absence_request = AbsenceRequest.create! valid_attributes
+        put :update, params: { id: absence_request.to_param, absence_request: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested event" do
-      event_request = EventRequest.create! valid_attributes
+    it "destroys the requested absence_request" do
+      absence_request = AbsenceRequest.create! valid_attributes
       expect do
-        delete :destroy, params: { id: event_request.to_param }, session: valid_session
-      end.to change(EventRequest, :count).by(-1)
+        delete :destroy, params: { id: absence_request.to_param }, session: valid_session
+      end.to change(AbsenceRequest, :count).by(-1)
     end
 
-    it "redirects to the events list" do
-      event_request = EventRequest.create! valid_attributes
-      delete :destroy, params: { id: event_request.to_param }, session: valid_session
-      expect(response).to redirect_to(event_requests_url)
+    it "redirects to the absence_requests list" do
+      absence_request = AbsenceRequest.create! valid_attributes
+      delete :destroy, params: { id: absence_request.to_param }, session: valid_session
+      expect(response).to redirect_to(absence_requests_url)
     end
   end
 end

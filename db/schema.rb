@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_30_155019) do
+ActiveRecord::Schema.define(version: 2019_04_30_205002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,13 +23,28 @@ ActiveRecord::Schema.define(version: 2019_04_30_155019) do
     t.string "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "request_id"
     t.index ["recurring_event_id"], name: "index_event_requests_on_recurring_event_id"
+    t.index ["request_id"], name: "index_event_requests_on_request_id"
   end
 
   create_table "recurring_events", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "requests", force: :cascade do |t|
+    t.bigint "creator_id"
+    t.date "start_date"
+    t.date "end_date"
+    t.string "request_type"
+    t.string "purpose"
+    t.string "participation"
+    t.string "travel_category"
+    t.string "absence_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

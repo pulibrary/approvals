@@ -3,9 +3,9 @@ require "rails_helper"
 RSpec.describe "event_requests/new", type: :view do
   before do
     assign(:event_request, EventRequest.new(
-                     recurring_event: nil,
-                     location: "MyString",
-                     url: "MyString"
+                             recurring_event: nil,
+                             location: "MyString",
+                             url: "MyString"
     ))
   end
 

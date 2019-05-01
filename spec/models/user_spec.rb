@@ -7,6 +7,11 @@ RSpec.describe User, type: :model do
     FactoryBot.create(:user, uid: "who", provider: "cas")
   end
 
+  describe "relationships" do
+    subject(:user) { described_class.from_cas(access_token) }
+    it { is_expected.to respond_to :requests }
+  end
+
   describe "#from_cas" do
     it "returns a user object" do
       expect(User.from_cas(access_token)).to be_a User

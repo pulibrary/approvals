@@ -68,6 +68,6 @@ class EventRequestsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_request_params
-      params.require(:event_request).permit(:recurring_event_id, :start_date, :end_date, :location, :url)
+      params.require(:event_request).permit(:recurring_event_id, :start_date, :end_date, :location, :url, :request_id)
     end
 end

@@ -13,4 +13,6 @@ Rails.application.routes.draw do
 
   resources :event_requests
   resources :recurring_events
+  resources :travel_requests
+  resources :absence_requests
 end
