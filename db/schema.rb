@@ -15,6 +15,14 @@ ActiveRecord::Schema.define(version: 2019_05_01_172949) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "departments", force: :cascade do |t|
+    t.string "name"
+    t.bigint "head_id"
+    t.bigint "admin_assistant_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "event_requests", force: :cascade do |t|
     t.bigint "recurring_event_id"
     t.date "start_date"
