@@ -4,4 +4,8 @@ class Department < ApplicationRecord
   # belongs_to :admin_assistant, class_name: 'StaffProfile', :optional
 
   validates :name, presence: true
+
+  def to_s
+    name
+  end
 end

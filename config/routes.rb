@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :staff_profiles
   resources :departments
   root "welcome#index"
   get "welcome/index"
