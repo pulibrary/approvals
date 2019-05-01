@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>RecurringEvent:</strong>
+  <%= @event_request.recurring_event %>
+</p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @event_request.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @event_request.end_date %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @event_request.location %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @event_request.url %>
+</p>
+
+<%= link_to 'Edit', edit_event_request_path(@event_request) %> |
+<%= link_to 'Back', event_requests_path %>
