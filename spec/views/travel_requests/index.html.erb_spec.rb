@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "travel_requests/index", type: :view do
-  let(:creator) { FactoryBot.create(:user) }
+  let(:creator) { FactoryBot.create(:staff_profile) }
   before do
     assign(:travel_requests, [
              TravelRequest.create!(

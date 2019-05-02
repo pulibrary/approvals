@@ -10,6 +10,7 @@ RSpec.describe User, type: :model do
   describe "relationships" do
     subject(:user) { described_class.from_cas(access_token) }
     it { is_expected.to respond_to :requests }
+    it { is_expected.to respond_to :staff_profile }
   end
 
   describe "#from_cas" do

@@ -25,7 +25,7 @@ require "rails_helper"
 
 RSpec.describe TravelRequestsController, type: :controller do
   let(:recurring_event) { RecurringEvent.create! }
-  let(:creator) { User.create!(uid: "person") }
+  let(:creator) { FactoryBot.create(:staff_profile) }
   # This should return the minimal set of attributes required to create a valid
   # TravelRequest. As you add validations to TravelRequest, be sure to
   # adjust the attributes here as well.
@@ -114,7 +114,7 @@ RSpec.describe TravelRequestsController, type: :controller do
     context "with valid nested attributes" do
       let(:nested_attributes) do
         {
-          notes_attributes: [{ creator_id: user.id, content: "Important message" }],
+          notes_attributes: [{ creator_id: creator.id, content: "Important message" }],
           estimates_attributes: [amount: 200.20, recurrence: 3, cost_type: "lodging"]
         }
       end
@@ -129,15 +129,21 @@ RSpec.describe TravelRequestsController, type: :controller do
 
       it "redirects to the travel_request" do
         travel_request = TravelRequest.create! valid_attributes
-        put :update, params: { id: travel_request.to_param, travel_request: valid_attributes }, session: valid_session
+        put :update, params: { id: travel_request.to_param, travel_request: nested_attributes }, session: valid_session
         expect(response).to redirect_to(travel_request)
       end
     end
 
     context "with invalid params" do
+      let(:invalid_nested_attributes) do
+        {
+          notes_attributes: [{ creator_id: user.id, content: "Important message" }]
+        }
+      end
+
       it "returns a success response (i.e. to display the 'edit' template)" do
         travel_request = TravelRequest.create! valid_attributes
-        put :update, params: { id: travel_request.to_param, travel_request: invalid_attributes }, session: valid_session
+        put :update, params: { id: travel_request.to_param, travel_request: invalid_nested_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end

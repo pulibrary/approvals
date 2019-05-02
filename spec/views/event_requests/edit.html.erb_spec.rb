@@ -1,13 +1,13 @@
 require "rails_helper"
 
 RSpec.describe "event_requests/edit", type: :view do
-  let(:user) { FactoryBot.create(:user) }
+  let(:staff_profile) { FactoryBot.create(:staff_profile) }
   before do
     @event_request = assign(:event_request, EventRequest.create!(
                                               recurring_event: nil,
                                               location: "MyString",
                                               url: "MyString",
-                                              request: Request.create!(creator: user)
+                                              request: Request.create!(creator: staff_profile)
     ))
   end
 

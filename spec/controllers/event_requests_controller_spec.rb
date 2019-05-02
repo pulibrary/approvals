@@ -25,7 +25,7 @@ require "rails_helper"
 
 RSpec.describe EventRequestsController, type: :controller do
   let(:recurring_event) { RecurringEvent.create! }
-  let(:travel_request) { TravelRequest.create!(creator: user) }
+  let(:travel_request) { TravelRequest.create!(creator: FactoryBot.create(:staff_profile)) }
 
   # This should return the minimal set of attributes required to create a valid
   # Event Request. As you add validations to Event, be sure to
