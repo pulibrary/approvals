@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Staff Profiles</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Department</th>
+      <th>Supervisor</th>
+      <th>Biweekly</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @staff_profiles.each do |staff_profile| %>
+      <tr>
+        <td><%= staff_profile.user %></td>
+        <td><%= staff_profile.department %></td>
+        <td><%= staff_profile.supervisor %></td>
+        <td><%= staff_profile.biweekly %></td>
+        <td><%= link_to 'Show', staff_profile %></td>
+        <td><%= link_to 'Edit', edit_staff_profile_path(staff_profile) %></td>
+        <td><%= link_to 'Destroy', staff_profile, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Staff Profile', new_staff_profile_path %>

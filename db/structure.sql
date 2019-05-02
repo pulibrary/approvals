@@ -9,20 +9,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
---
 -- Name: estimate_cost_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -274,6 +260,43 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: staff_profiles; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.staff_profiles (
+    id bigint NOT NULL,
+    user_id bigint,
+    department_id bigint,
+    supervisor_id bigint,
+    biweekly boolean,
+    given_name character varying,
+    surname character varying,
+    email character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: staff_profiles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.staff_profiles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: staff_profiles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.staff_profiles_id_seq OWNED BY public.staff_profiles.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -349,6 +372,13 @@ ALTER TABLE ONLY public.requests ALTER COLUMN id SET DEFAULT nextval('public.req
 
 
 --
+-- Name: staff_profiles id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.staff_profiles ALTER COLUMN id SET DEFAULT nextval('public.staff_profiles_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -420,6 +450,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: staff_profiles staff_profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.staff_profiles
+    ADD CONSTRAINT staff_profiles_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -453,6 +491,27 @@ CREATE INDEX index_event_requests_on_request_id ON public.event_requests USING b
 --
 
 CREATE INDEX index_notes_on_request_id ON public.notes USING btree (request_id);
+
+
+--
+-- Name: index_staff_profiles_on_department_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_staff_profiles_on_department_id ON public.staff_profiles USING btree (department_id);
+
+
+--
+-- Name: index_staff_profiles_on_supervisor_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_staff_profiles_on_supervisor_id ON public.staff_profiles USING btree (supervisor_id);
+
+
+--
+-- Name: index_staff_profiles_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_staff_profiles_on_user_id ON public.staff_profiles USING btree (user_id);
 
 
 --
@@ -493,11 +552,35 @@ ALTER TABLE ONLY public.estimates
 
 
 --
+-- Name: staff_profiles fk_rails_71cb8bacdd; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.staff_profiles
+    ADD CONSTRAINT fk_rails_71cb8bacdd FOREIGN KEY (supervisor_id) REFERENCES public.users(id);
+
+
+--
+-- Name: staff_profiles fk_rails_873ad824ec; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.staff_profiles
+    ADD CONSTRAINT fk_rails_873ad824ec FOREIGN KEY (department_id) REFERENCES public.departments(id);
+
+
+--
 -- Name: notes fk_rails_93363d2800; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.notes
     ADD CONSTRAINT fk_rails_93363d2800 FOREIGN KEY (request_id) REFERENCES public.requests(id);
+
+
+--
+-- Name: staff_profiles fk_rails_c6a3999052; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.staff_profiles
+    ADD CONSTRAINT fk_rails_c6a3999052 FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -517,6 +600,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190430205002'),
 ('20190501162629'),
 ('20190501172949'),
+('20190501184807'),
 ('20190501185336'),
 ('20190501192018');
 

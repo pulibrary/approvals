@@ -24,7 +24,7 @@ require "rails_helper"
 # `rails-controller-testing` gem.
 
 RSpec.describe AbsenceRequestsController, type: :controller do
-  let(:creator) { User.create!(uid: "person") }
+  let(:creator) { FactoryBot.create(:staff_profile) }
 
   # This should return the minimal set of attributes required to create a valid
   # AbsenceRequest. As you add validations to AbsenceRequest, be sure to
@@ -111,7 +111,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
     context "with valid nested attributes" do
       let(:nested_attributes) do
         {
-          notes_attributes: [{ creator_id: user.id, content: "Important message" }]
+          notes_attributes: [{ creator_id: creator.id, content: "Important message" }]
         }
       end
 
@@ -119,20 +119,27 @@ RSpec.describe AbsenceRequestsController, type: :controller do
         absence_request = AbsenceRequest.create! valid_attributes
         put :update, params: { id: absence_request.to_param, absence_request: nested_attributes }, session: valid_session
         absence_request.reload
+        expect(absence_request.notes.count).to eq 1
         expect(absence_request.notes.last.content).to eq "Important message"
       end
 
       it "redirects to the absence_request" do
         absence_request = AbsenceRequest.create! valid_attributes
-        put :update, params: { id: absence_request.to_param, absence_request: valid_attributes }, session: valid_session
+        put :update, params: { id: absence_request.to_param, absence_request: nested_attributes }, session: valid_session
         expect(response).to redirect_to(absence_request)
       end
     end
 
     context "with invalid params" do
+      let(:invalid_nested_attributes) do
+        {
+          notes_attributes: [{ creator_id: user.id, content: "Important message" }]
+        }
+      end
+
       it "returns a success response (i.e. to display the 'edit' template)" do
         absence_request = AbsenceRequest.create! valid_attributes
-        put :update, params: { id: absence_request.to_param, absence_request: invalid_attributes }, session: valid_session
+        put :update, params: { id: absence_request.to_param, absence_request: invalid_nested_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end

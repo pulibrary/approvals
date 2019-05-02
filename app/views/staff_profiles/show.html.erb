@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @staff_profile.user %>
+</p>
+
+<p>
+  <strong>Department:</strong>
+  <%= @staff_profile.department %>
+</p>
+
+<p>
+  <strong>Supervisor:</strong>
+  <%= @staff_profile.supervisor %>
+</p>
+
+<p>
+  <strong>Biweekly:</strong>
+  <%= @staff_profile.biweekly %>
+</p>
+
+<%= link_to 'Edit', edit_staff_profile_path(@staff_profile) %> |
+<%= link_to 'Back', staff_profiles_path %>
