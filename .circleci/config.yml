@@ -3,7 +3,7 @@ jobs:
   build:
     parallelism: 3
     docker:
-      - image: circleci/ruby:2.4.4-jessie-node
+      - image: circleci/ruby:2.4.5-node-browsers
         environment:
           BUNDLER_VERSION: 2.0.1
           BUNDLE_JOBS: 3
@@ -19,6 +19,9 @@ jobs:
           POSTGRES_PASSWORD: ""
     steps:
       - checkout
+
+      # ensure we have psql which we need for db:schema:load
+      - run: sudo apt install -y postgresql-client || true
 
       - run:
           name: Configure Bundler
@@ -70,7 +73,9 @@ jobs:
 
       - run:
           name: Database setup
-          command: bin/rails db:schema:load --trace
+          command: |
+            bin/rails db:create
+            bin/rails db:structure:load
 
       - run:
           name: Run rubocop

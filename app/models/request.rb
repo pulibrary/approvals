@@ -12,6 +12,9 @@ class Request < ApplicationRecord
   has_many :notes
   accepts_nested_attributes_for :notes
 
+  has_many :estimates
+  accepts_nested_attributes_for :estimates
+
   # use request_type as the single table inheritance flag
   self.inheritance_column = "request_type"
 end
