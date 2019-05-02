@@ -1,0 +1,32 @@
+<%= form_with(model: approval, local: true) do |form| %>
+  <% if approval.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(approval.errors.count, "error") %> prohibited this approval from being saved:</h2>
+
+      <ul>
+      <% approval.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :approver_id %>
+    <%= form.text_field :approver_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :request_id %>
+    <%= form.text_field :request_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :approved %>
+    <%= form.check_box :approved %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

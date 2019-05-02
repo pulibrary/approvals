@@ -9,20 +9,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
---
 -- Name: estimate_cost_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -98,6 +84,39 @@ CREATE TYPE public.request_travel_category AS ENUM (
 SET default_tablespace = '';
 
 SET default_with_oids = false;
+
+--
+-- Name: approvals; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.approvals (
+    id bigint NOT NULL,
+    approver_id bigint,
+    request_id bigint,
+    approved boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: approvals_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.approvals_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: approvals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.approvals_id_seq OWNED BY public.approvals.id;
+
 
 --
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
@@ -399,6 +418,13 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
+-- Name: approvals id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.approvals ALTER COLUMN id SET DEFAULT nextval('public.approvals_id_seq'::regclass);
+
+
+--
 -- Name: departments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -452,6 +478,14 @@ ALTER TABLE ONLY public.staff_profiles ALTER COLUMN id SET DEFAULT nextval('publ
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Name: approvals approvals_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.approvals
+    ADD CONSTRAINT approvals_pkey PRIMARY KEY (id);
 
 
 --
@@ -532,6 +566,13 @@ ALTER TABLE ONLY public.staff_profiles
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_approvals_on_request_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_approvals_on_request_id ON public.approvals USING btree (request_id);
 
 
 --
@@ -621,6 +662,14 @@ ALTER TABLE ONLY public.estimates
 
 
 --
+-- Name: approvals fk_rails_481f096ec0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.approvals
+    ADD CONSTRAINT fk_rails_481f096ec0 FOREIGN KEY (request_id) REFERENCES public.requests(id);
+
+
+--
 -- Name: staff_profiles fk_rails_71cb8bacdd; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -672,6 +721,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190501184807'),
 ('20190501185336'),
 ('20190501192018'),
+('20190502145256'),
 ('20190502174401'),
 ('20190503140654');
 

@@ -15,6 +15,8 @@ class Request < ApplicationRecord
   has_many :estimates
   accepts_nested_attributes_for :estimates
 
+  has_many :approvals
+
   enum status: {
     pending: "pending",
     pending_department: "pending_department",
@@ -51,4 +53,8 @@ class Request < ApplicationRecord
 
   # use request_type as the single table inheritance flag
   self.inheritance_column = "request_type"
+
+  def to_s
+    "#{creator} #{event_requests.first.recurring_event.name}"
+  end
 end
