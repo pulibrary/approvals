@@ -7,7 +7,7 @@ class AddTypeToEstimates < ActiveRecord::Migration[5.2]
   end
 
   def down
-    remove_column :estimates, :estimate_cost_type
+    remove_column :estimates, :cost_type, :estimate_cost_type
     execute <<-SQL
       DROP TYPE estimate_cost_type;
     SQL
