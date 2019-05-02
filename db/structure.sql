@@ -27,6 +27,48 @@ CREATE TYPE public.estimate_cost_type AS ENUM (
 );
 
 
+--
+-- Name: request_absence_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.request_absence_type AS ENUM (
+    'consulting',
+    'vacation_monthly',
+    'personal',
+    'sick',
+    'jury_duty',
+    'death_in_family',
+    'research_days',
+    'work_from_home'
+);
+
+
+--
+-- Name: request_participation_category; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.request_participation_category AS ENUM (
+    'presenter',
+    'member',
+    'committee_chair',
+    'committee_member',
+    'other',
+    'site_visit',
+    'training'
+);
+
+
+--
+-- Name: request_travel_category; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.request_travel_category AS ENUM (
+    'business',
+    'professional_development',
+    'discretionary'
+);
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -223,11 +265,11 @@ CREATE TABLE public.requests (
     end_date date,
     request_type character varying,
     purpose character varying,
-    participation character varying,
-    travel_category character varying,
-    absence_type character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    participation public.request_participation_category,
+    travel_category public.request_travel_category,
+    absence_type public.request_absence_type
 );
 
 
@@ -602,6 +644,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190501172949'),
 ('20190501184807'),
 ('20190501185336'),
-('20190501192018');
+('20190501192018'),
+('20190502174401');
 
 

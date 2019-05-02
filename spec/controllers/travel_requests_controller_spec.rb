@@ -36,7 +36,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       end_date: Time.zone.tomorrow,
       request_type: "TravelRequest",
       purpose: "Travel to campus for in-person meetings",
-      participation: "member", # TODO: Make this an enum?
+      participation: "member",
       event_requests_attributes: [recurring_event_id: recurring_event.id],
       travel_category: "business", # note this field is not available on the create form; only on approval.
     }
