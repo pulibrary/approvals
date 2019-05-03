@@ -32,9 +32,6 @@ gem "jbuilder", "~> 2.5"
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.1.0", require: false
 
@@ -53,6 +50,7 @@ group :development, :test do
 end
 
 group :development do
+  gem "capistrano-rails", "~> 1.1.6"
   gem "foreman"
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "rspec-rails", "~> 3.8"
