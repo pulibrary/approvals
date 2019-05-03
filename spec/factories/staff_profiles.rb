@@ -5,9 +5,14 @@ FactoryBot.define do
     user { FactoryBot.create(:user) }
     department { FactoryBot.create(:department) }
     biweekly { false }
+    given_name { "Pat#{srand}" }
+    surname { "Doe#{srand}" }
 
     trait :with_supervisor do
-      supervisor { FactoryBot.create(:user) }
+      after(:create) do |profile, _evaluator|
+        profile.supervisor = FactoryBot.create(:staff_profile)
+        profile.save
+      end
     end
   end
 end

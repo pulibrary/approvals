@@ -10,7 +10,7 @@ RSpec.describe "staff_profiles/show", type: :view do
     render
     expect(rendered).to match(/#{staff_profile.user}/)
     expect(rendered).to match(/#{staff_profile.department}/)
-    expect(rendered).to match(/#{staff_profile.supervisor}/)
+    expect(rendered).to include staff_profile.supervisor.to_s
     expect(rendered).to match(/false/)
   end
 end

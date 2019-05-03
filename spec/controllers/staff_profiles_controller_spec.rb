@@ -30,7 +30,7 @@ RSpec.describe StaffProfilesController, type: :controller do
   let(:valid_attributes) do
     { department_id: FactoryBot.create(:department).id,
       user_id: FactoryBot.create(:user).id,
-      supervisor_id: FactoryBot.create(:user).id,
+      supervisor_id: FactoryBot.create(:staff_profile).id,
       biweekly: false }
   end
 
@@ -82,6 +82,7 @@ RSpec.describe StaffProfilesController, type: :controller do
   describe "POST #create" do
     context "with valid params" do
       it "creates a new StaffProfile" do
+        valid_attributes # do this here so the supervisor gets created before we post the data
         expect do
           post :create, params: { staff_profile: valid_attributes }, session: valid_session
         end.to change(StaffProfile, :count).by(1)
