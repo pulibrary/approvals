@@ -15,6 +15,13 @@ class Request < ApplicationRecord
   has_many :estimates
   accepts_nested_attributes_for :estimates
 
+  enum status: {
+    pending: "pending",
+    pending_department: "pending_department",
+    approved: "approved",
+    denied: "denied"
+  }
+
   enum participation: {
     presenter: "presenter",
     member: "member",

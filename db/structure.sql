@@ -59,6 +59,18 @@ CREATE TYPE public.request_participation_category AS ENUM (
 
 
 --
+-- Name: request_status; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.request_status AS ENUM (
+    'pending',
+    'pending_department',
+    'approved',
+    'denied'
+);
+
+
+--
 -- Name: request_travel_category; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -269,7 +281,8 @@ CREATE TABLE public.requests (
     updated_at timestamp without time zone NOT NULL,
     participation public.request_participation_category,
     travel_category public.request_travel_category,
-    absence_type public.request_absence_type
+    absence_type public.request_absence_type,
+    status public.request_status
 );
 
 
@@ -645,6 +658,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190501184807'),
 ('20190501185336'),
 ('20190501192018'),
-('20190502174401');
+('20190502174401'),
+('20190503140654');
 
 
