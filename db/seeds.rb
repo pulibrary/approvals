@@ -44,5 +44,5 @@ RecurringEvent.create(name: "LDCX", url: "https://library.stanford.edu/projects/
                         description: "LDCX is an annual unconference that brings together leading technologists in the libraries, archives and museums (LAM) spaces, to work collaboratively on common needs.")
   
 puts "Loaded #{StaffProfile.count} staff profiles in #{Department.count} departments"
-puts "Loaded #{RecurringEvent.coun} recurring events"
+puts "Loaded #{RecurringEvent.count} recurring events"
 
