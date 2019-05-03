@@ -27,6 +27,7 @@ RSpec/ExampleLength:
     - 'spec/views/staff_profiles/edit.html.erb_spec.rb'
     - 'spec/views/staff_profiles/index.html.erb_spec.rb'
     - 'spec/views/staff_profiles/new.html.erb_spec.rb'
+    - 'spec/controllers/travel_requests_controller_spec.rb'
 
 # Offense count: 2
 # Configuration parameters: AssignmentOnly.

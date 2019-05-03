@@ -6,7 +6,7 @@ class Request < ApplicationRecord
   has_many :event_requests
   # we model this as many-to-many to allow for future feature enhancements if
   # needed. Initial intention is only one event request per request.
-  has_many :events, through: :event_requests
+  has_many :recurring_events, through: :event_requests
   accepts_nested_attributes_for :event_requests
 
   has_many :notes
