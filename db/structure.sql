@@ -355,13 +355,13 @@ CREATE TABLE public.staff_profiles (
     id bigint NOT NULL,
     user_id bigint,
     department_id bigint,
-    supervisor_id bigint,
     biweekly boolean,
     given_name character varying,
     surname character varying,
     email character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    supervisor_id bigint
 );
 
 
@@ -674,7 +674,7 @@ ALTER TABLE ONLY public.approvals
 --
 
 ALTER TABLE ONLY public.staff_profiles
-    ADD CONSTRAINT fk_rails_71cb8bacdd FOREIGN KEY (supervisor_id) REFERENCES public.users(id);
+    ADD CONSTRAINT fk_rails_71cb8bacdd FOREIGN KEY (supervisor_id) REFERENCES public.staff_profiles(id);
 
 
 --
@@ -723,6 +723,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190501192018'),
 ('20190502145256'),
 ('20190502174401'),
-('20190503140654');
+('20190503140654'),
+('20190503152336');
 
 
