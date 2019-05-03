@@ -9,6 +9,20 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
 -- Name: estimate_cost_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -24,6 +38,60 @@ CREATE TYPE public.estimate_cost_type AS ENUM (
     'personal_auto',
     'transit_other',
     'train'
+);
+
+
+--
+-- Name: request_absence_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.request_absence_type AS ENUM (
+    'consulting',
+    'vacation_monthly',
+    'personal',
+    'sick',
+    'jury_duty',
+    'death_in_family',
+    'research_days',
+    'work_from_home'
+);
+
+
+--
+-- Name: request_participation_category; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.request_participation_category AS ENUM (
+    'presenter',
+    'member',
+    'committee_chair',
+    'committee_member',
+    'other',
+    'site_visit',
+    'training'
+);
+
+
+--
+-- Name: request_status; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.request_status AS ENUM (
+    'pending',
+    'pending_department',
+    'approved',
+    'denied'
+);
+
+
+--
+-- Name: request_travel_category; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.request_travel_category AS ENUM (
+    'business',
+    'professional_development',
+    'discretionary'
 );
 
 
@@ -223,11 +291,12 @@ CREATE TABLE public.requests (
     end_date date,
     request_type character varying,
     purpose character varying,
-    participation character varying,
-    travel_category character varying,
-    absence_type character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    participation public.request_participation_category,
+    travel_category public.request_travel_category,
+    absence_type public.request_absence_type,
+    status public.request_status
 );
 
 
@@ -602,6 +671,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190501172949'),
 ('20190501184807'),
 ('20190501185336'),
-('20190501192018');
+('20190501192018'),
+('20190502174401'),
+('20190503140654');
 
 

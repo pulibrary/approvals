@@ -15,6 +15,40 @@ class Request < ApplicationRecord
   has_many :estimates
   accepts_nested_attributes_for :estimates
 
+  enum status: {
+    pending: "pending",
+    pending_department: "pending_department",
+    approved: "approved",
+    denied: "denied"
+  }
+
+  enum participation: {
+    presenter: "presenter",
+    member: "member",
+    committee_chair: "committee_chair",
+    committee_member: "committee_member",
+    other: "other",
+    site_visit: "site_visit",
+    training: "training"
+  }
+
+  enum travel_category: {
+    business: "business",
+    professional_development: "professional_development",
+    discretionary: "discretionary"
+  }
+
+  enum absence_type: {
+    consulting: "consulting",
+    vacation_monthly: "vacation_monthly",
+    personal: "personal",
+    sick: "sick",
+    jury_duty: "jury_duty",
+    death_in_family: "death_in_family",
+    research_days: "research_days",
+    work_from_home: "work_from_home"
+  }
+
   # use request_type as the single table inheritance flag
   self.inheritance_column = "request_type"
 end

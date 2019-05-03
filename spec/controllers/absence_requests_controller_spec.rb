@@ -35,7 +35,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       start_date: Time.zone.today,
       end_date: Time.zone.tomorrow,
       request_type: "AbsenceRequest",
-      absence_type: "vacation" # TODO: Make this an enum?
+      absence_type: "vacation_monthly"
     }
   end
 
