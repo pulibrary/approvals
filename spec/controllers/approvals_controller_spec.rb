@@ -136,7 +136,7 @@ RSpec.describe ApprovalsController, type: :controller do
         {
           request_attributes: {
             id: approval_request.id,
-            travel_category: "mine",
+            travel_category: "business",
             notes_attributes: [{
               creator_id: approver.id,
               content: "Approver message"
@@ -153,7 +153,7 @@ RSpec.describe ApprovalsController, type: :controller do
         approval = Approval.create! valid_attributes
         put :update, params: { id: approval.to_param, approval: nested_attributes }, session: valid_session
         approval.reload
-        expect(approval.request.travel_category).to eq "mine"
+        expect(approval.request.travel_category).to eq "business"
         expect(approval.request.notes.last.content).to eq "Approver message"
         expect(approval.request.event_requests.first.recurring_event_id).to eq new_recurring_event.id
       end
