@@ -14,7 +14,6 @@ Rails.application.routes.draw do
     get "sign_out", to: "devise/sessions#destroy", as: :destroy_user_session
   end
 
-  resources :event_requests
   resources :recurring_events
   resources :travel_requests
   resources :absence_requests
