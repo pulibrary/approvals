@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    parallelism: 3
+    parallelism: 1
     docker:
       - image: circleci/ruby:2.4.5-node-browsers
         environment:
@@ -20,9 +20,6 @@ jobs:
     steps:
       - checkout
 
-      # ensure we have psql which we need for db:schema:load
-      - run: sudo apt-get install -y postgresql-client || true
-
       - run:
           name: Configure Bundler
           command: |
@@ -38,8 +35,8 @@ jobs:
       # Restore bundle cache
       - restore_cache:
           keys:
-            - approvals-bundle-v2-{{ checksum "Gemfile.lock" }}
-            - approvals-bundle-v2-
+            - approvals-bundle-v3-{{ checksum "Gemfile.lock" }}
+            - approvals-bundle-v3-
 
       - run:
           name: Bundle Install
@@ -47,15 +44,15 @@ jobs:
 
       # Store bundle cache
       - save_cache:
-          key: approvals-bundle-v2-{{ checksum "Gemfile.lock" }}
+          key: approvals-bundle-v3-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
 
       # Only necessary if app uses webpacker or yarn in some other way
       - restore_cache:
           keys:
-            - approvals-yarn-{{ checksum "yarn.lock" }}
-            - approvals-yarn-
+            - approvals-yarn-v1-{{ checksum "yarn.lock" }}
+            - approvals-yarn-v1-
 
       - run:
           name: Yarn Install
@@ -63,9 +60,12 @@ jobs:
 
       # Store yarn / webpacker cache
       - save_cache:
-          key: approvals-yarn-{{ checksum "yarn.lock" }}
+          key: approvals-yarn-v1-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+
+      # ensure we have psql which we need for db:schema:load
+      - run: sudo apt-get install -y postgresql-client || true
 
       - run:
           name: Wait for DB
@@ -81,14 +81,14 @@ jobs:
           name: Run rubocop
           command: bundle exec rubocop    
 
-      # Run rspec in parallel
+      # Run rspec
       - run:
-          name: Run rspec in parallel
+          name: Run rspec
           command: |
             bundle exec rspec --profile 10 \
                               --out test_results/rspec.xml \
                               --format progress \
-                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+                              $(circleci tests glob "spec/**/*_spec.rb")
 
 
       # Save test results for timing analysis
