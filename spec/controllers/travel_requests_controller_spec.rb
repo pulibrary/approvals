@@ -26,14 +26,16 @@ require "rails_helper"
 RSpec.describe TravelRequestsController, type: :controller do
   let(:recurring_event) { RecurringEvent.create! }
   let(:creator) { FactoryBot.create(:staff_profile) }
+  let(:start_date) { Time.zone.today }
+  let(:end_date) { Time.zone.tomorrow }
   # This should return the minimal set of attributes required to create a valid
   # TravelRequest. As you add validations to TravelRequest, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
     {
       creator_id: creator.id,
-      start_date: Time.zone.today,
-      end_date: Time.zone.tomorrow,
+      start_date: start_date,
+      end_date: end_date,
       request_type: "TravelRequest",
       purpose: "Travel to campus for in-person meetings",
       participation: "member",
@@ -94,6 +96,12 @@ RSpec.describe TravelRequestsController, type: :controller do
         expect do
           post :create, params: { travel_request: valid_attributes }, session: valid_session
         end.to change(TravelRequest, :count).by(1)
+        updated = TravelRequest.last
+        expect(updated.start_date).to eq start_date
+        expect(updated.end_date).to eq end_date
+        expect(updated.purpose).to eq "Travel to campus for in-person meetings"
+        expect(updated.participation).to eq "member"
+        expect(updated.recurring_events.count).to eq 1
       end
 
       it "redirects to the created travel_request" do

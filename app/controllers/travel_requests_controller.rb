@@ -68,6 +68,15 @@ class TravelRequestsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def travel_request_params
-      params.require(:travel_request).permit(:creator_id, notes_attributes: [:creator_id, :content], estimates_attributes: [:amount, :recurrence, :type])
+      params.require(:travel_request).permit(
+        :creator_id,
+        :start_date,
+        :end_date,
+        :purpose,
+        :participation,
+        event_requests_attributes: [:recurring_event_id],
+        notes_attributes: [:creator_id, :content],
+        estimates_attributes: [:amount, :recurrence, :type]
+      )
     end
 end
