@@ -19,7 +19,7 @@ class Request < ApplicationRecord
 
   enum status: {
     pending: "pending",
-    pending_department: "pending_department",
+    changes_requested: "changes_requested",
     approved: "approved",
     denied: "denied"
   }
