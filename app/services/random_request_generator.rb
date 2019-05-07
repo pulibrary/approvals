@@ -1,4 +1,4 @@
-class RandomRequestGenerator < ApplicationRecord
+class RandomRequestGenerator
   class << self
     def generate_travel_request(creator:, status: "pending")
       estimates = generate_random_estimates
