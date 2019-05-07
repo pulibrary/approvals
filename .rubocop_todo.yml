@@ -20,8 +20,6 @@ RSpec/ExampleLength:
     - 'spec/views/approvals/index.html.erb_spec.rb'
     - 'spec/views/approvals/new.html.erb_spec.rb'
     - 'spec/views/departments/new.html.erb_spec.rb'
-    - 'spec/views/event_requests/edit.html.erb_spec.rb'
-    - 'spec/views/event_requests/new.html.erb_spec.rb'
     - 'spec/views/recurring_events/edit.html.erb_spec.rb'
     - 'spec/views/recurring_events/new.html.erb_spec.rb'
     - 'spec/views/staff_profiles/edit.html.erb_spec.rb'
@@ -33,5 +31,4 @@ RSpec/ExampleLength:
 # Configuration parameters: AssignmentOnly.
 RSpec/InstanceVariable:
   Exclude:
-    - 'spec/views/event_requests/edit.html.erb_spec.rb'
     - 'spec/views/recurring_events/edit.html.erb_spec.rb'

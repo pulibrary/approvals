@@ -23,6 +23,5 @@ RSpec/DescribeClass:
 
 Metrics/BlockLength:
   Exclude:
-    - 'spec/controllers/event_requests_controller_spec.rb'
     - 'spec/controllers/travel_requests_controller_spec.rb'
     - 'spec/controllers/absence_requests_controller_spec.rb'
