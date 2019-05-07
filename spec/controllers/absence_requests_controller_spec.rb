@@ -56,7 +56,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
-      AbsenceRequest.create! valid_attributes
+      FactoryBot.create(:absence_request)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
@@ -64,7 +64,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
-      absence_request = AbsenceRequest.create! valid_attributes
+      absence_request = FactoryBot.create(:absence_request)
       get :show, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to be_successful
     end
@@ -79,7 +79,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
 
   describe "GET #edit" do
     it "returns a success response" do
-      absence_request = AbsenceRequest.create! valid_attributes
+      absence_request = FactoryBot.create(:absence_request)
       get :edit, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to be_successful
     end
@@ -116,7 +116,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       end
 
       it "updates the requested absence_request" do
-        absence_request = AbsenceRequest.create! valid_attributes
+        absence_request = FactoryBot.create(:absence_request)
         put :update, params: { id: absence_request.to_param, absence_request: nested_attributes }, session: valid_session
         absence_request.reload
         expect(absence_request.notes.count).to eq 1
@@ -124,7 +124,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       end
 
       it "redirects to the absence_request" do
-        absence_request = AbsenceRequest.create! valid_attributes
+        absence_request = FactoryBot.create(:absence_request)
         put :update, params: { id: absence_request.to_param, absence_request: nested_attributes }, session: valid_session
         expect(response).to redirect_to(absence_request)
       end
@@ -138,7 +138,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       end
 
       it "returns a success response (i.e. to display the 'edit' template)" do
-        absence_request = AbsenceRequest.create! valid_attributes
+        absence_request = FactoryBot.create(:absence_request)
         put :update, params: { id: absence_request.to_param, absence_request: invalid_nested_attributes }, session: valid_session
         expect(response).to be_successful
       end
@@ -147,14 +147,14 @@ RSpec.describe AbsenceRequestsController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested absence_request" do
-      absence_request = AbsenceRequest.create! valid_attributes
+      absence_request = FactoryBot.create(:absence_request)
       expect do
         delete :destroy, params: { id: absence_request.to_param }, session: valid_session
       end.to change(AbsenceRequest, :count).by(-1)
     end
 
     it "redirects to the absence_requests list" do
-      absence_request = AbsenceRequest.create! valid_attributes
+      absence_request = FactoryBot.create(:absence_request)
       delete :destroy, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_requests_url)
     end

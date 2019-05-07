@@ -23,8 +23,7 @@ RSpec.describe TravelRequest, type: :model do
   # so test here on the model. Maybe replace with other controller tests
   # when we work that ticket.
   describe "status enum" do
-    subject(:travel_request) { described_class.create(creator: creator) }
-    let(:creator) { FactoryBot.create(:staff_profile) }
+    subject(:travel_request) { FactoryBot.build(:travel_request) }
     it "set expected values" do
       travel_request.pending!
       expect(travel_request.pending?).to eq true

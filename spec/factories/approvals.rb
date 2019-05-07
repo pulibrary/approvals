@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :approval do
-    request { FactoryBot.create(:request) }
+    request { FactoryBot.create(:travel_request) }
     approver { FactoryBot.create(:staff_profile) }
     approved false
   end

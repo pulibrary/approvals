@@ -55,7 +55,7 @@ RSpec.describe DepartmentsController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
-      Department.create! valid_attributes
+      FactoryBot.create(:department)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
@@ -63,7 +63,7 @@ RSpec.describe DepartmentsController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
-      department = Department.create! valid_attributes
+      department = FactoryBot.create(:department)
       get :show, params: { id: department.to_param }, session: valid_session
       expect(response).to be_successful
     end
@@ -78,7 +78,7 @@ RSpec.describe DepartmentsController, type: :controller do
 
   describe "GET #edit" do
     it "returns a success response" do
-      department = Department.create! valid_attributes
+      department = FactoryBot.create(:department)
       get :edit, params: { id: department.to_param }, session: valid_session
       expect(response).to be_successful
     end
@@ -113,14 +113,14 @@ RSpec.describe DepartmentsController, type: :controller do
       end
 
       it "updates the requested department" do
-        department = Department.create! valid_attributes
+        department = FactoryBot.create(:department)
         put :update, params: { id: department.to_param, department: new_attributes }, session: valid_session
         department.reload
         skip("Add assertions for updated state")
       end
 
       it "redirects to the department" do
-        department = Department.create! valid_attributes
+        department = FactoryBot.create(:department)
         put :update, params: { id: department.to_param, department: valid_attributes }, session: valid_session
         expect(response).to redirect_to(department)
       end
@@ -128,7 +128,7 @@ RSpec.describe DepartmentsController, type: :controller do
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
-        department = Department.create! valid_attributes
+        department = FactoryBot.create(:department)
         put :update, params: { id: department.to_param, department: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
@@ -137,14 +137,14 @@ RSpec.describe DepartmentsController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested department" do
-      department = Department.create! valid_attributes
+      department = FactoryBot.create(:department)
       expect do
         delete :destroy, params: { id: department.to_param }, session: valid_session
       end.to change(Department, :count).by(-1)
     end
 
     it "redirects to the departments list" do
-      department = Department.create! valid_attributes
+      department = FactoryBot.create(:department)
       delete :destroy, params: { id: department.to_param }, session: valid_session
       expect(response).to redirect_to(departments_url)
     end

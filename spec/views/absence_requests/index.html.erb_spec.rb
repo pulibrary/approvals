@@ -1,15 +1,10 @@
 require "rails_helper"
 
 RSpec.describe "absence_requests/index", type: :view do
-  let(:creator) { FactoryBot.create(:staff_profile) }
   before do
     assign(:absence_requests, [
-             AbsenceRequest.create!(
-               creator_id: creator.id
-             ),
-             AbsenceRequest.create!(
-               creator_id: creator.id
-             )
+             FactoryBot.create(:absence_request),
+             FactoryBot.create(:absence_request)
            ])
   end
 

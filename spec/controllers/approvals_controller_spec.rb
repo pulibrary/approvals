@@ -26,7 +26,7 @@ require "rails_helper"
 RSpec.describe ApprovalsController, type: :controller do
   let(:event_request) { FactoryBot.create(:event_request) }
   let(:approver) { FactoryBot.create(:staff_profile) }
-  let(:approval_request) { FactoryBot.create(:request) }
+  let(:travel_request) { FactoryBot.create(:travel_request) }
 
   # This should return the minimal set of attributes required to create a valid
   # Approval. As you add validations to Approval, be sure to
@@ -34,7 +34,7 @@ RSpec.describe ApprovalsController, type: :controller do
   let(:valid_attributes) do
     {
       approver_id: approver.id,
-      request_id: approval_request.id,
+      request_id: travel_request.id,
       approved: true
     }
   end
@@ -59,7 +59,7 @@ RSpec.describe ApprovalsController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
-      Approval.create! valid_attributes
+      FactoryBot.create(:approval)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
@@ -67,7 +67,7 @@ RSpec.describe ApprovalsController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
-      approval = Approval.create! valid_attributes
+      approval = FactoryBot.create(:approval)
       get :show, params: { id: approval.to_param }, session: valid_session
       expect(response).to be_successful
     end
@@ -82,7 +82,7 @@ RSpec.describe ApprovalsController, type: :controller do
 
   describe "GET #edit" do
     it "returns a success response" do
-      approval = Approval.create! valid_attributes
+      approval = FactoryBot.create(:approval)
       get :edit, params: { id: approval.to_param }, session: valid_session
       expect(response).to be_successful
     end
@@ -117,32 +117,32 @@ RSpec.describe ApprovalsController, type: :controller do
       end
 
       it "updates the requested approval" do
-        approval = Approval.create! valid_attributes
+        approval = FactoryBot.create(:approval)
         put :update, params: { id: approval.to_param, approval: new_attributes }, session: valid_session
         approval.reload
         skip("Add assertions for updated state")
       end
 
       it "redirects to the approval" do
-        approval = Approval.create! valid_attributes
+        approval = FactoryBot.create(:approval)
         put :update, params: { id: approval.to_param, approval: valid_attributes }, session: valid_session
         expect(response).to redirect_to(approval)
       end
     end
 
     context "with valid nested attributes for notes and the recurring event changing" do
-      let(:new_recurring_event) { RecurringEvent.create! }
+      let(:new_recurring_event) { FactoryBot.create(:recurring_event) }
       let(:nested_attributes) do
         {
           request_attributes: {
-            id: approval_request.id,
+            id: travel_request.id,
             travel_category: "business",
             notes_attributes: [{
               creator_id: approver.id,
               content: "Approver message"
             }],
             event_requests_attributes: [{
-              id: approval_request.event_requests.last.id,
+              id: travel_request.event_requests.last.id,
               recurring_event_id: new_recurring_event.id
             }]
           }
@@ -150,7 +150,7 @@ RSpec.describe ApprovalsController, type: :controller do
       end
 
       it "updates the requested approval" do
-        approval = Approval.create! valid_attributes
+        approval = FactoryBot.create(:approval, valid_attributes)
         put :update, params: { id: approval.to_param, approval: nested_attributes }, session: valid_session
         approval.reload
         expect(approval.request.travel_category).to eq "business"
@@ -159,7 +159,7 @@ RSpec.describe ApprovalsController, type: :controller do
       end
 
       it "redirects to the approval" do
-        approval = Approval.create! valid_attributes
+        approval = FactoryBot.create(:approval, valid_attributes)
         put :update, params: { id: approval.to_param, approval: nested_attributes }, session: valid_session
         expect(response).to redirect_to(approval)
       end
@@ -167,7 +167,7 @@ RSpec.describe ApprovalsController, type: :controller do
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
-        approval = Approval.create! valid_attributes
+        approval = FactoryBot.create(:approval)
         put :update, params: { id: approval.to_param, approval: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
@@ -176,14 +176,14 @@ RSpec.describe ApprovalsController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested approval" do
-      approval = Approval.create! valid_attributes
+      approval = FactoryBot.create(:approval)
       expect do
         delete :destroy, params: { id: approval.to_param }, session: valid_session
       end.to change(Approval, :count).by(-1)
     end
 
     it "redirects to the approvals list" do
-      approval = Approval.create! valid_attributes
+      approval = FactoryBot.create(:approval)
       delete :destroy, params: { id: approval.to_param }, session: valid_session
       expect(response).to redirect_to(approvals_url)
     end

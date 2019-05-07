@@ -24,7 +24,7 @@ require "rails_helper"
 # `rails-controller-testing` gem.
 
 RSpec.describe TravelRequestsController, type: :controller do
-  let(:recurring_event) { RecurringEvent.create! }
+  let(:recurring_event) { FactoryBot.create(:recurring_event) }
   let(:creator) { FactoryBot.create(:staff_profile) }
   let(:start_date) { Time.zone.today }
   let(:end_date) { Time.zone.tomorrow }
@@ -61,7 +61,7 @@ RSpec.describe TravelRequestsController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
-      TravelRequest.create! valid_attributes
+      FactoryBot.create(:travel_request)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
@@ -69,7 +69,7 @@ RSpec.describe TravelRequestsController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
-      travel_request = TravelRequest.create! valid_attributes
+      travel_request = FactoryBot.create(:travel_request)
       get :show, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to be_successful
     end
@@ -84,7 +84,7 @@ RSpec.describe TravelRequestsController, type: :controller do
 
   describe "GET #edit" do
     it "returns a success response" do
-      travel_request = TravelRequest.create! valid_attributes
+      travel_request = FactoryBot.create(:travel_request)
       get :edit, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to be_successful
     end
@@ -128,7 +128,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       end
 
       it "updates the requested travel_request" do
-        travel_request = TravelRequest.create! valid_attributes
+        travel_request = FactoryBot.create(:travel_request)
         put :update, params: { id: travel_request.to_param, travel_request: nested_attributes }, session: valid_session
         travel_request.reload
         expect(travel_request.notes.last.content).to eq "Important message"
@@ -136,7 +136,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       end
 
       it "redirects to the travel_request" do
-        travel_request = TravelRequest.create! valid_attributes
+        travel_request = FactoryBot.create(:travel_request)
         put :update, params: { id: travel_request.to_param, travel_request: nested_attributes }, session: valid_session
         expect(response).to redirect_to(travel_request)
       end
@@ -150,7 +150,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       end
 
       it "returns a success response (i.e. to display the 'edit' template)" do
-        travel_request = TravelRequest.create! valid_attributes
+        travel_request = FactoryBot.create(:travel_request)
         put :update, params: { id: travel_request.to_param, travel_request: invalid_nested_attributes }, session: valid_session
         expect(response).to be_successful
       end
@@ -159,14 +159,14 @@ RSpec.describe TravelRequestsController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested travel_request" do
-      travel_request = TravelRequest.create! valid_attributes
+      travel_request = FactoryBot.create(:travel_request)
       expect do
         delete :destroy, params: { id: travel_request.to_param }, session: valid_session
       end.to change(TravelRequest, :count).by(-1)
     end
 
     it "redirects to the travel_requests list" do
-      travel_request = TravelRequest.create! valid_attributes
+      travel_request = FactoryBot.create(:travel_request)
       delete :destroy, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to redirect_to(travel_requests_url)
     end

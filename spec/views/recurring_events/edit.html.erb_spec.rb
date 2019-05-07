@@ -2,7 +2,8 @@ require "rails_helper"
 
 RSpec.describe "recurring_events/edit", type: :view do
   before do
-    @recurring_event = assign(:recurring_event, RecurringEvent.create!(
+    @recurring_event = assign(:recurring_event, FactoryBot.create(
+                                                  :recurring_event,
                                                   name: "MyString",
                                                   description: "MyText",
                                                   url: "MyString"
