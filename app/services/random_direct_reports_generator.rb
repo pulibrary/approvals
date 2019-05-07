@@ -1,4 +1,4 @@
-class RandomDirectReportsGenerator < ApplicationRecord
+class RandomDirectReportsGenerator
   class << self
     def create_reports(supervisor:, number_of_people: 5)
       1.upto(number_of_people) do |_i|
