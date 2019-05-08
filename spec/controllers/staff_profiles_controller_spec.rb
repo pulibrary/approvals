@@ -50,7 +50,7 @@ RSpec.describe StaffProfilesController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
-      StaffProfile.create! valid_attributes
+      FactoryBot.create(:staff_profile)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
@@ -58,7 +58,7 @@ RSpec.describe StaffProfilesController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
-      staff_profile = StaffProfile.create! valid_attributes
+      staff_profile = FactoryBot.create(:staff_profile)
       get :show, params: { id: staff_profile.to_param }, session: valid_session
       expect(response).to be_successful
     end
@@ -73,7 +73,7 @@ RSpec.describe StaffProfilesController, type: :controller do
 
   describe "GET #edit" do
     it "returns a success response" do
-      staff_profile = StaffProfile.create! valid_attributes
+      staff_profile = FactoryBot.create(:staff_profile)
       get :edit, params: { id: staff_profile.to_param }, session: valid_session
       expect(response).to be_successful
     end
@@ -109,14 +109,14 @@ RSpec.describe StaffProfilesController, type: :controller do
       end
 
       it "updates the requested staff_profile" do
-        staff_profile = StaffProfile.create! valid_attributes
+        staff_profile = FactoryBot.create(:staff_profile)
         put :update, params: { id: staff_profile.to_param, staff_profile: new_attributes }, session: valid_session
         staff_profile.reload
         expect(staff_profile.biweekly).to be_truthy
       end
 
       it "redirects to the staff_profile" do
-        staff_profile = StaffProfile.create! valid_attributes
+        staff_profile = FactoryBot.create(:staff_profile)
         put :update, params: { id: staff_profile.to_param, staff_profile: valid_attributes }, session: valid_session
         expect(response).to redirect_to(staff_profile)
       end
@@ -124,7 +124,7 @@ RSpec.describe StaffProfilesController, type: :controller do
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
-        staff_profile = StaffProfile.create! valid_attributes
+        staff_profile = FactoryBot.create(:staff_profile)
         put :update, params: { id: staff_profile.to_param, staff_profile: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
@@ -133,14 +133,14 @@ RSpec.describe StaffProfilesController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested staff_profile" do
-      staff_profile = StaffProfile.create! valid_attributes
+      staff_profile = FactoryBot.create(:staff_profile)
       expect do
         delete :destroy, params: { id: staff_profile.to_param }, session: valid_session
       end.to change(StaffProfile, :count).by(-1)
     end
 
     it "redirects to the staff_profiles list" do
-      staff_profile = StaffProfile.create! valid_attributes
+      staff_profile = FactoryBot.create(:staff_profile)
       delete :destroy, params: { id: staff_profile.to_param }, session: valid_session
       expect(response).to redirect_to(staff_profiles_url)
     end

@@ -2,7 +2,8 @@ require "rails_helper"
 
 RSpec.describe "departments/show", type: :view do
   before do
-    @department = assign(:department, Department.create!(
+    @department = assign(:department, FactoryBot.create(
+                                        :department,
                                         name: "Name",
                                         head_id: 2,
                                         admin_assistant_id: 3

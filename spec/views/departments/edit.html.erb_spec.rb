@@ -2,7 +2,8 @@ require "rails_helper"
 
 RSpec.describe "departments/edit", type: :view do
   let(:department) do
-    Department.create!(
+    FactoryBot.create(
+      :department,
       name: "MyString",
       head_id: 1,
       admin_assistant_id: 1

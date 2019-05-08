@@ -4,12 +4,8 @@ RSpec.describe "travel_requests/index", type: :view do
   let(:creator) { FactoryBot.create(:staff_profile) }
   before do
     assign(:travel_requests, [
-             TravelRequest.create!(
-               creator_id: creator.id
-             ),
-             TravelRequest.create!(
-               creator_id: creator.id
-             )
+             FactoryBot.create(:travel_request),
+             FactoryBot.create(:travel_request)
            ])
   end
 

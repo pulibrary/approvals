@@ -49,7 +49,7 @@ RSpec.describe RecurringEventsController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
-      RecurringEvent.create! valid_attributes
+      FactoryBot.create(:recurring_event)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
@@ -57,7 +57,7 @@ RSpec.describe RecurringEventsController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
-      recurring_event = RecurringEvent.create! valid_attributes
+      recurring_event = FactoryBot.create(:recurring_event)
       get :show, params: { id: recurring_event.to_param }, session: valid_session
       expect(response).to be_successful
     end
@@ -72,7 +72,7 @@ RSpec.describe RecurringEventsController, type: :controller do
 
   describe "GET #edit" do
     it "returns a success response" do
-      recurring_event = RecurringEvent.create! valid_attributes
+      recurring_event = FactoryBot.create(:recurring_event)
       get :edit, params: { id: recurring_event.to_param }, session: valid_session
       expect(response).to be_successful
     end
@@ -107,14 +107,14 @@ RSpec.describe RecurringEventsController, type: :controller do
       end
 
       it "updates the requested recurring_event" do
-        recurring_event = RecurringEvent.create! valid_attributes
+        recurring_event = FactoryBot.create(:recurring_event)
         put :update, params: { id: recurring_event.to_param, recurring_event: new_attributes }, session: valid_session
         recurring_event.reload
         skip("Add assertions for updated state")
       end
 
       it "redirects to the recurring_event" do
-        recurring_event = RecurringEvent.create! valid_attributes
+        recurring_event = FactoryBot.create(:recurring_event)
         put :update, params: { id: recurring_event.to_param, recurring_event: valid_attributes }, session: valid_session
         expect(response).to redirect_to(recurring_event)
       end
@@ -122,7 +122,7 @@ RSpec.describe RecurringEventsController, type: :controller do
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
-        recurring_event = RecurringEvent.create! valid_attributes
+        recurring_event = FactoryBot.create(:recurring_event)
         put :update, params: { id: recurring_event.to_param, recurring_event: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
@@ -131,14 +131,14 @@ RSpec.describe RecurringEventsController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested recurring_event" do
-      recurring_event = RecurringEvent.create! valid_attributes
+      recurring_event = FactoryBot.create(:recurring_event)
       expect do
         delete :destroy, params: { id: recurring_event.to_param }, session: valid_session
       end.to change(RecurringEvent, :count).by(-1)
     end
 
     it "redirects to the recurring_events list" do
-      recurring_event = RecurringEvent.create! valid_attributes
+      recurring_event = FactoryBot.create(:recurring_event)
       delete :destroy, params: { id: recurring_event.to_param }, session: valid_session
       expect(response).to redirect_to(recurring_events_url)
     end

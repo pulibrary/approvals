@@ -1,8 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "travel_requests/show", type: :view do
-  let(:creator) { FactoryBot.create(:staff_profile) }
-  let(:travel_request) { TravelRequest.create!(creator_id: creator.id) }
+  let(:travel_request) { FactoryBot.create(:travel_request) }
   before do
     @travel_request = assign(:travel_request, travel_request)
   end

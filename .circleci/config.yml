@@ -65,6 +65,7 @@ jobs:
             - ~/.cache/yarn
 
       # ensure we have psql which we need for db:schema:load
+      - run: sudo apt-get update
       - run: sudo apt-get install -y postgresql-client || true
 
       - run:

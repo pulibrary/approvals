@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :request do
+  factory :travel_request do
     creator { FactoryBot.create(:staff_profile) }
     event_requests { [FactoryBot.build(:event_request)] }
 

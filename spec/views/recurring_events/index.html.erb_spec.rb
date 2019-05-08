@@ -3,12 +3,14 @@ require "rails_helper"
 RSpec.describe "recurring_events/index", type: :view do
   before do
     assign(:recurring_events, [
-             RecurringEvent.create!(
+             FactoryBot.create(
+               :recurring_event,
                name: "Name",
                description: "MyText",
                url: "Url"
              ),
-             RecurringEvent.create!(
+             FactoryBot.create(
+               :recurring_event,
                name: "Name",
                description: "MyText",
                url: "Url"
