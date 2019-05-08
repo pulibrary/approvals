@@ -46,7 +46,7 @@ class RandomRequestGenerator
 
       def generate_random_note(request, creator)
         Note.create!(request: request, creator: creator,
-                     content: "Random content: #{Random.rand(1...1000)}")
+                     content: Faker::Hacker.say_something_smart)
 
         request
       end

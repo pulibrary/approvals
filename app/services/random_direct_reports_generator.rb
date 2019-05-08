@@ -7,7 +7,7 @@ class RandomDirectReportsGenerator
     end
 
     def create_populated_department(head:, number_of_supervisors: 3)
-      department = Department.create!(head: head, name: "Department #{Random.rand(1...50)}")
+      department = Department.create!(head: head, name: "Department of #{Faker::Hacker.adjective} #{Faker::Hacker.noun}")
       head.department = department
       1.upto(number_of_supervisors) do |_i|
         supervisor = create_staff(head)
@@ -25,7 +25,7 @@ class RandomDirectReportsGenerator
         rescue ActiveRecord::RecordNotUnique
           retry
         end
-        StaffProfile.create!(given_name: "given#{index}", surname: "surname#{index}",
+        StaffProfile.create!(given_name: Faker::Name.first_name, surname: Faker::Name.last_name,
                              department: supervisor.department, biweekly: false,
                              user: user, email: "#{user.uid}@princeton.edu",
                              supervisor: supervisor)
