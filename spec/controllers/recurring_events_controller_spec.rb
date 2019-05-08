@@ -34,7 +34,7 @@ RSpec.describe RecurringEventsController, type: :controller do
   end
 
   let(:invalid_attributes) do
-    skip("Add a hash of attributes invalid for your model")
+    { name: "" }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -52,6 +52,7 @@ RSpec.describe RecurringEventsController, type: :controller do
       FactoryBot.create(:recurring_event)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
+      assert_equal RecurringEvent.all, assigns(:recurring_events)
     end
   end
 
@@ -60,6 +61,7 @@ RSpec.describe RecurringEventsController, type: :controller do
       recurring_event = FactoryBot.create(:recurring_event)
       get :show, params: { id: recurring_event.to_param }, session: valid_session
       expect(response).to be_successful
+      assert_equal recurring_event, assigns(:recurring_event)
     end
   end
 
@@ -67,6 +69,7 @@ RSpec.describe RecurringEventsController, type: :controller do
     it "returns a success response" do
       get :new, params: {}, session: valid_session
       expect(response).to be_successful
+      expect(assigns(:recurring_event)).to be_a(RecurringEvent)
     end
   end
 
@@ -75,6 +78,7 @@ RSpec.describe RecurringEventsController, type: :controller do
       recurring_event = FactoryBot.create(:recurring_event)
       get :edit, params: { id: recurring_event.to_param }, session: valid_session
       expect(response).to be_successful
+      assert_equal recurring_event, assigns(:recurring_event)
     end
   end
 
@@ -89,6 +93,7 @@ RSpec.describe RecurringEventsController, type: :controller do
       it "redirects to the created recurring_event" do
         post :create, params: { recurring_event: valid_attributes }, session: valid_session
         expect(response).to redirect_to(RecurringEvent.last)
+        expect(assigns(:recurring_event)).to eq(RecurringEvent.last)
       end
     end
 
@@ -96,6 +101,7 @@ RSpec.describe RecurringEventsController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { recurring_event: invalid_attributes }, session: valid_session
         expect(response).to be_successful
+        expect(assigns(:recurring_event)).to be_a(RecurringEvent)
       end
     end
   end
@@ -103,20 +109,21 @@ RSpec.describe RecurringEventsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) do
-        skip("Add a hash of attributes valid for your model")
+        { name: "new event name" }
       end
 
       it "updates the requested recurring_event" do
         recurring_event = FactoryBot.create(:recurring_event)
         put :update, params: { id: recurring_event.to_param, recurring_event: new_attributes }, session: valid_session
         recurring_event.reload
-        skip("Add assertions for updated state")
+        expect(recurring_event.name).to eq("new event name")
       end
 
       it "redirects to the recurring_event" do
         recurring_event = FactoryBot.create(:recurring_event)
         put :update, params: { id: recurring_event.to_param, recurring_event: valid_attributes }, session: valid_session
         expect(response).to redirect_to(recurring_event)
+        expect(assigns(:recurring_event)).to be_a(RecurringEvent)
       end
     end
 
@@ -125,6 +132,7 @@ RSpec.describe RecurringEventsController, type: :controller do
         recurring_event = FactoryBot.create(:recurring_event)
         put :update, params: { id: recurring_event.to_param, recurring_event: invalid_attributes }, session: valid_session
         expect(response).to be_successful
+        expect(assigns(:recurring_event).attributes.with_indifferent_access).to include(invalid_attributes)
       end
     end
   end

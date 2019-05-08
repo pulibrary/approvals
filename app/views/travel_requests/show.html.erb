@@ -1,4 +1,15 @@
 <p id="notice"><%= notice %></p>
 
+<p>   <strong>Creator:</strong><%= @travel_request.creator %></p>
+<p>   <strong>Start Date:</strong><%= @travel_request.start_date %></p>
+<p>   <strong>End Date:</strong><%= @travel_request.end_date %></p>
+<p>   <strong>Purpose:</strong><%= @travel_request.purpose %></p>
+<p>   <strong>Participation:</strong><%= @travel_request.participation %></p>
+<p>   <strong>Travel Category:</strong><%= @travel_request.travel_category %></p>
+<p>   <strong>Status:</strong><%= @travel_request.status %></p>
+<%=  render partial: "shared/request_note", collection: @travel_request.notes, as: :note %>
+<h2>Estimates</h2>
+<%=  render partial: "estimate", collection: @travel_request.estimates %>
+
 <%= link_to 'Edit', edit_travel_request_path(@travel_request) %> |
 <%= link_to 'Back', travel_requests_path %>

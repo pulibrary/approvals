@@ -10,11 +10,11 @@ RSpec.describe "approvals/edit", type: :view do
     render
 
     assert_select "form[action=?][method=?]", approval_path(approval), "post" do
-      assert_select "input[name=?]", "approval[approver_id]"
+      assert_select "input[name=?][value=?]", "approval[approver_id]", approval.approver_id.to_s
 
-      assert_select "input[name=?]", "approval[request_id]"
+      assert_select "input[name=?][value=?]", "approval[request_id]", approval.request_id.to_s
 
-      assert_select "input[name=?]", "approval[approved]"
+      assert_select "input[name=?][value=?]", "approval[approved]", approval.approved ? "1" : "0"
     end
   end
 end

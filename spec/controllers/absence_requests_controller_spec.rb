@@ -40,7 +40,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
   end
 
   let(:invalid_attributes) do
-    skip("Add a hash of attributes invalid for your model")
+    { request_type: "" }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -59,6 +59,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       FactoryBot.create(:absence_request)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
+      assert_equal AbsenceRequest.all, assigns(:absence_requests)
     end
   end
 
@@ -67,6 +68,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       absence_request = FactoryBot.create(:absence_request)
       get :show, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to be_successful
+      assert_equal absence_request, assigns(:absence_request)
     end
   end
 
@@ -74,6 +76,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
     it "returns a success response" do
       get :new, params: {}, session: valid_session
       expect(response).to be_successful
+      expect(assigns(:absence_request)).to be_a(AbsenceRequest)
     end
   end
 
@@ -82,6 +85,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       absence_request = FactoryBot.create(:absence_request)
       get :edit, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to be_successful
+      assert_equal absence_request, assigns(:absence_request)
     end
   end
 
@@ -96,6 +100,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       it "redirects to the created absence_request" do
         post :create, params: { absence_request: valid_attributes }, session: valid_session
         expect(response).to redirect_to(AbsenceRequest.last)
+        expect(assigns(:absence_request)).to eq(AbsenceRequest.last)
       end
     end
 
@@ -103,6 +108,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { absence_request: invalid_attributes }, session: valid_session
         expect(response).to be_successful
+        expect(assigns(:absence_request)).to be_a(AbsenceRequest)
       end
     end
   end
@@ -127,6 +133,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
         absence_request = FactoryBot.create(:absence_request)
         put :update, params: { id: absence_request.to_param, absence_request: nested_attributes }, session: valid_session
         expect(response).to redirect_to(absence_request)
+        expect(assigns(:absence_request).notes.first.attributes.with_indifferent_access).to include(nested_attributes[:notes_attributes].first)
       end
     end
 
@@ -141,6 +148,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
         absence_request = FactoryBot.create(:absence_request)
         put :update, params: { id: absence_request.to_param, absence_request: invalid_nested_attributes }, session: valid_session
         expect(response).to be_successful
+        expect(assigns(:absence_request).notes.first.attributes.with_indifferent_access).to include(invalid_nested_attributes[:notes_attributes].first)
       end
     end
   end

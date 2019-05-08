@@ -1,4 +1,11 @@
 <p id="notice"><%= notice %></p>
 
+<p>   <strong>Creator:</strong><%= @absence_request.creator %></p>
+<p>   <strong>Start Date:</strong><%= @absence_request.start_date %></p>
+<p>   <strong>End Date:</strong><%= @absence_request.end_date %></p>
+<p>   <strong>Absence Type:</strong><%= @absence_request.absence_type %></p>
+<p>   <strong>Status:</strong><%= @absence_request.status %></p>
+<%=  render partial: "shared/request_note", collection: @absence_request.notes, as: :note %>
+
 <%= link_to 'Edit', edit_absence_request_path(@absence_request) %> |
 <%= link_to 'Back', absence_requests_path %>

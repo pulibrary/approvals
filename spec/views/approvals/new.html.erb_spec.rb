@@ -1,12 +1,9 @@
 require "rails_helper"
 
 RSpec.describe "approvals/new", type: :view do
+  let(:approval) { Approval.new(approver: nil, request: nil, approved: false) }
   before do
-    assign(:approval, Approval.new(
-                        approver: nil,
-                        request: nil,
-                        approved: false
-    ))
+    assign(:approval, approval)
   end
 
   it "renders new approval form" do
@@ -17,7 +14,7 @@ RSpec.describe "approvals/new", type: :view do
 
       assert_select "input[name=?]", "approval[request_id]"
 
-      assert_select "input[name=?]", "approval[approved]"
+      assert_select "input[name=?][value=?]", "approval[approved]", approval.approved ? "1" : "0"
     end
   end
 end
