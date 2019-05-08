@@ -45,7 +45,7 @@ RSpec.describe TravelRequestsController, type: :controller do
   end
 
   let(:invalid_attributes) do
-    skip("Add a hash of attributes invalid for your model")
+    { participation: "" }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -64,6 +64,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       FactoryBot.create(:travel_request)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
+      assert_equal TravelRequest.all, assigns(:travel_requests)
     end
   end
 
@@ -72,6 +73,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       travel_request = FactoryBot.create(:travel_request)
       get :show, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to be_successful
+      assert_equal travel_request, assigns(:travel_request)
     end
   end
 
@@ -79,6 +81,7 @@ RSpec.describe TravelRequestsController, type: :controller do
     it "returns a success response" do
       get :new, params: {}, session: valid_session
       expect(response).to be_successful
+      expect(assigns(:travel_request)).to be_a(TravelRequest)
     end
   end
 
@@ -87,6 +90,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       travel_request = FactoryBot.create(:travel_request)
       get :edit, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to be_successful
+      assert_equal travel_request, assigns(:travel_request)
     end
   end
 
@@ -107,6 +111,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       it "redirects to the created travel_request" do
         post :create, params: { travel_request: valid_attributes }, session: valid_session
         expect(response).to redirect_to(TravelRequest.last)
+        assert_equal TravelRequest.last, assigns(:travel_request)
       end
     end
 
@@ -114,6 +119,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { travel_request: invalid_attributes }, session: valid_session
         expect(response).to be_successful
+        expect(assigns(:travel_request)).to be_a(TravelRequest)
       end
     end
   end
@@ -139,6 +145,7 @@ RSpec.describe TravelRequestsController, type: :controller do
         travel_request = FactoryBot.create(:travel_request)
         put :update, params: { id: travel_request.to_param, travel_request: nested_attributes }, session: valid_session
         expect(response).to redirect_to(travel_request)
+        expect(assigns(:travel_request)).to be_a(TravelRequest)
       end
     end
 
@@ -152,7 +159,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       it "returns a success response (i.e. to display the 'edit' template)" do
         travel_request = FactoryBot.create(:travel_request)
         put :update, params: { id: travel_request.to_param, travel_request: invalid_nested_attributes }, session: valid_session
-        expect(response).to be_successful
+        expect(assigns(:travel_request).notes.first.attributes.with_indifferent_access).to include(invalid_nested_attributes[:notes_attributes].first)
       end
     end
   end

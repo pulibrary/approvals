@@ -53,6 +53,7 @@ RSpec.describe StaffProfilesController, type: :controller do
       FactoryBot.create(:staff_profile)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
+      assert_equal StaffProfile.all, assigns(:staff_profiles)
     end
   end
 
@@ -61,6 +62,7 @@ RSpec.describe StaffProfilesController, type: :controller do
       staff_profile = FactoryBot.create(:staff_profile)
       get :show, params: { id: staff_profile.to_param }, session: valid_session
       expect(response).to be_successful
+      assert_equal staff_profile, assigns(:staff_profile)
     end
   end
 
@@ -68,6 +70,7 @@ RSpec.describe StaffProfilesController, type: :controller do
     it "returns a success response" do
       get :new, params: {}, session: valid_session
       expect(response).to be_successful
+      expect(assigns(:staff_profile)).to be_a(StaffProfile)
     end
   end
 
@@ -76,6 +79,7 @@ RSpec.describe StaffProfilesController, type: :controller do
       staff_profile = FactoryBot.create(:staff_profile)
       get :edit, params: { id: staff_profile.to_param }, session: valid_session
       expect(response).to be_successful
+      expect(assigns(:staff_profile)).to eq(staff_profile)
     end
   end
 
@@ -91,6 +95,7 @@ RSpec.describe StaffProfilesController, type: :controller do
       it "redirects to the created staff_profile" do
         post :create, params: { staff_profile: valid_attributes }, session: valid_session
         expect(response).to redirect_to(StaffProfile.last)
+        expect(assigns(:staff_profile)).to eq(StaffProfile.last)
       end
     end
 
@@ -98,6 +103,7 @@ RSpec.describe StaffProfilesController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { staff_profile: invalid_attributes }, session: valid_session
         expect(response).to be_successful
+        expect(assigns(:staff_profile)).to be_a(StaffProfile)
       end
     end
   end
@@ -119,6 +125,7 @@ RSpec.describe StaffProfilesController, type: :controller do
         staff_profile = FactoryBot.create(:staff_profile)
         put :update, params: { id: staff_profile.to_param, staff_profile: valid_attributes }, session: valid_session
         expect(response).to redirect_to(staff_profile)
+        expect(assigns(:staff_profile)).to be_a(StaffProfile)
       end
     end
 
@@ -127,6 +134,7 @@ RSpec.describe StaffProfilesController, type: :controller do
         staff_profile = FactoryBot.create(:staff_profile)
         put :update, params: { id: staff_profile.to_param, staff_profile: invalid_attributes }, session: valid_session
         expect(response).to be_successful
+        expect(assigns(:staff_profile).attributes.with_indifferent_access).to include(invalid_attributes)
       end
     end
   end

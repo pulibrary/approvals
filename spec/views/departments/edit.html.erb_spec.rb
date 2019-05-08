@@ -17,11 +17,11 @@ RSpec.describe "departments/edit", type: :view do
 
   it "renders the edit department form" do
     assert_select "form[action=?][method=?]", department_path(department), "post" do
-      assert_select "input[name=?]", "department[name]"
+      assert_select "input[name=?][value=?]", "department[name]", department.name
 
-      assert_select "input[name=?]", "department[head_id]"
+      assert_select "input[name=?][value=?]", "department[head_id]", department.head_id.to_s
 
-      assert_select "input[name=?]", "department[admin_assistant_id]"
+      assert_select "input[name=?][value=?]", "department[admin_assistant_id]", department.admin_assistant_id.to_s
     end
   end
 end

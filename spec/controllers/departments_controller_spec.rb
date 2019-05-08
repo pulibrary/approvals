@@ -38,9 +38,7 @@ RSpec.describe DepartmentsController, type: :controller do
   end
 
   let(:invalid_attributes) do
-    { head_id: nil,
-      admin_assistant_id: nil,
-      name: nil }
+    { name: "" }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -58,6 +56,7 @@ RSpec.describe DepartmentsController, type: :controller do
       FactoryBot.create(:department)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
+      assert_equal Department.all, assigns(:departments)
     end
   end
 
@@ -66,6 +65,7 @@ RSpec.describe DepartmentsController, type: :controller do
       department = FactoryBot.create(:department)
       get :show, params: { id: department.to_param }, session: valid_session
       expect(response).to be_successful
+      assert_equal department, assigns(:department)
     end
   end
 
@@ -73,6 +73,7 @@ RSpec.describe DepartmentsController, type: :controller do
     it "returns a success response" do
       get :new, params: {}, session: valid_session
       expect(response).to be_successful
+      expect(assigns(:department)).to be_a(Department)
     end
   end
 
@@ -81,6 +82,7 @@ RSpec.describe DepartmentsController, type: :controller do
       department = FactoryBot.create(:department)
       get :edit, params: { id: department.to_param }, session: valid_session
       expect(response).to be_successful
+      assert_equal department, assigns(:department)
     end
   end
 
@@ -94,7 +96,9 @@ RSpec.describe DepartmentsController, type: :controller do
 
       it "redirects to the created department" do
         post :create, params: { department: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(Department.last)
+        department = Department.last
+        expect(response).to redirect_to(department)
+        assert_equal department, assigns(:department)
       end
     end
 
@@ -102,6 +106,7 @@ RSpec.describe DepartmentsController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { department: invalid_attributes }, session: valid_session
         expect(response).to be_successful
+        expect(assigns(:department)).to be_a(Department)
       end
     end
   end
@@ -109,20 +114,21 @@ RSpec.describe DepartmentsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) do
-        skip("Add a hash of attributes valid for your model")
+        { name: "new name" }
       end
 
       it "updates the requested department" do
         department = FactoryBot.create(:department)
         put :update, params: { id: department.to_param, department: new_attributes }, session: valid_session
         department.reload
-        skip("Add assertions for updated state")
+        expect(department.name).to eq("new name")
       end
 
       it "redirects to the department" do
         department = FactoryBot.create(:department)
         put :update, params: { id: department.to_param, department: valid_attributes }, session: valid_session
         expect(response).to redirect_to(department)
+        expect(assigns(:department)).to be_a(Department)
       end
     end
 
@@ -131,6 +137,7 @@ RSpec.describe DepartmentsController, type: :controller do
         department = FactoryBot.create(:department)
         put :update, params: { id: department.to_param, department: invalid_attributes }, session: valid_session
         expect(response).to be_successful
+        expect(assigns(:department).attributes.with_indifferent_access).to include(invalid_attributes)
       end
     end
   end

@@ -62,6 +62,7 @@ RSpec.describe ApprovalsController, type: :controller do
       FactoryBot.create(:approval)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
+      assert_equal Approval.all, assigns(:approvals)
     end
   end
 
@@ -70,6 +71,7 @@ RSpec.describe ApprovalsController, type: :controller do
       approval = FactoryBot.create(:approval)
       get :show, params: { id: approval.to_param }, session: valid_session
       expect(response).to be_successful
+      assert_equal approval, assigns(:approval)
     end
   end
 
@@ -77,6 +79,7 @@ RSpec.describe ApprovalsController, type: :controller do
     it "returns a success response" do
       get :new, params: {}, session: valid_session
       expect(response).to be_successful
+      expect(assigns(:approval)).to be_an(Approval)
     end
   end
 
@@ -85,6 +88,7 @@ RSpec.describe ApprovalsController, type: :controller do
       approval = FactoryBot.create(:approval)
       get :edit, params: { id: approval.to_param }, session: valid_session
       expect(response).to be_successful
+      assert_equal approval, assigns(:approval)
     end
   end
 
@@ -99,6 +103,7 @@ RSpec.describe ApprovalsController, type: :controller do
       it "redirects to the created approval" do
         post :create, params: { approval: valid_attributes }, session: valid_session
         expect(response).to redirect_to(Approval.last)
+        expect(assigns(:approval)).to eq(Approval.last)
       end
     end
 
@@ -106,6 +111,7 @@ RSpec.describe ApprovalsController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { approval: invalid_attributes }, session: valid_session
         expect(response).to be_successful
+        expect(assigns(:approval)).to be_an(Approval)
       end
     end
   end
@@ -113,20 +119,23 @@ RSpec.describe ApprovalsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) do
-        skip("Add a hash of attributes valid for your model")
+        {
+          approved: true
+        }
       end
 
       it "updates the requested approval" do
         approval = FactoryBot.create(:approval)
         put :update, params: { id: approval.to_param, approval: new_attributes }, session: valid_session
         approval.reload
-        skip("Add assertions for updated state")
+        expect(approval.approved).to be_truthy
       end
 
       it "redirects to the approval" do
         approval = FactoryBot.create(:approval)
         put :update, params: { id: approval.to_param, approval: valid_attributes }, session: valid_session
         expect(response).to redirect_to(approval)
+        expect(assigns(:approval)).to be_an(Approval)
       end
     end
 
@@ -170,6 +179,7 @@ RSpec.describe ApprovalsController, type: :controller do
         approval = FactoryBot.create(:approval)
         put :update, params: { id: approval.to_param, approval: invalid_attributes }, session: valid_session
         expect(response).to be_successful
+        expect(assigns(:approval).attributes.with_indifferent_access).to include(invalid_attributes)
       end
     end
   end
