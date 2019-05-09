@@ -1,7 +1,8 @@
+---
 version: 2
 jobs:
   build:
-    parallelism: 1
+    working_directory: ~/project
     docker:
       - image: circleci/ruby:2.4.5-node-browsers
         environment:
@@ -18,6 +19,8 @@ jobs:
           POSTGRES_DB: approvals_test
           POSTGRES_PASSWORD: ""
     steps:
+      - attach_workspace:
+          at: '~/project'
       - checkout
 
       - run:
@@ -95,3 +98,32 @@ jobs:
       # Save test results for timing analysis
       - store_test_results:
           path: test_results
+
+      - persist_to_workspace:
+          root: '~/project'
+          paths: '*'
+
+  coverage_report:
+    working_directory: ~/project
+    docker:
+      - image: circleci/ruby:2.4.5-node-browsers
+    steps:
+      - attach_workspace:
+          at: '~/project'
+      - run: gem install simplecov
+      - run:
+          name: Inspect coverage report
+          command: |
+            RAILS_ENV=test ruby ./scripts/report_coverage.rb
+      - store_artifacts:
+          path: ~/project/coverage
+          destination: coverage
+
+workflows:
+  version: 2
+  build_accept:
+    jobs:
+      - build
+      - coverage_report:
+         requires:
+          - build
