@@ -106,7 +106,8 @@ jobs:
           name: Run rspec
           command: |
             bundle exec rspec --profile 10 \
-                              --out test_results/rspec.xml \
+                              --format RspecJunitFormatter \
+                              --out test_results/rspec/results.xml \
                               --format progress \
                               $(circleci tests glob "spec/**/*_spec.rb")
 
