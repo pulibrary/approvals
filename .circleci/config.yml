@@ -1,8 +1,7 @@
 ---
 version: 2.1
-jobs:
-  build:
-    working_directory: ~/project
+executors:
+  approvals-executor:
     docker:
       - image: circleci/ruby:2.4.5-node-browsers
         environment:
@@ -18,6 +17,11 @@ jobs:
           POSTGRES_USER: approvals
           POSTGRES_DB: approvals_test
           POSTGRES_PASSWORD: ""
+    working_directory: ~/project
+
+jobs:
+  build:
+    executor: approvals-executor
     steps:
       - attach_workspace:
           at: '~/project'
@@ -104,9 +108,7 @@ jobs:
           paths: '*'
 
   coverage_report:
-    working_directory: ~/project
-    docker:
-      - image: circleci/ruby:2.4.5-node-browsers
+    executor: approvals-executor
     steps:
       - attach_workspace:
           at: '~/project'
