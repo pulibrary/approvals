@@ -19,14 +19,10 @@ executors:
           POSTGRES_PASSWORD: ""
     working_directory: ~/project
 
-jobs:
-  build:
-    executor: approvals-executor
+commands:
+  setup-bundler:
+    description: "Install correct version of bundler and load from cache or bundle install"
     steps:
-      - attach_workspace:
-          at: '~/project'
-      - checkout
-
       - run:
           name: Configure Bundler
           command: |
@@ -54,6 +50,15 @@ jobs:
           key: approvals-bundle-v3-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
+
+jobs:
+  build:
+    executor: approvals-executor
+    steps:
+      - attach_workspace:
+          at: '~/project'
+      - checkout
+      - setup-bundler
 
       # Only necessary if app uses webpacker or yarn in some other way
       - restore_cache:
@@ -108,24 +113,7 @@ jobs:
     steps:
       - attach_workspace:
           at: '~/project'
-
-      - run:
-          name: Configure Bundler
-          command: |
-            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
-            source $BASH_ENV
-            gem install bundler
-
-      # Restore bundle cache
-      - restore_cache:
-          keys:
-            - approvals-bundle-v3-{{ checksum "Gemfile.lock" }}
-            - approvals-bundle-v3-
-
-      - run:
-          name: Bundle Install
-          command: bundle check || bundle install
-
+      - setup-bundler
       - run: bundle exec rubocop
 
   coverage_report:
