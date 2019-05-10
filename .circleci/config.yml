@@ -85,10 +85,6 @@ jobs:
             bin/rails db:create
             bin/rails db:structure:load
 
-      - run:
-          name: Run rubocop
-          command: bundle exec rubocop    
-
       # Run rspec
       - run:
           name: Run rspec
@@ -106,6 +102,31 @@ jobs:
       - persist_to_workspace:
           root: '~/project'
           paths: '*'
+
+  rubocop:
+    executor: approvals-executor
+    steps:
+      - attach_workspace:
+          at: '~/project'
+
+      - run:
+          name: Configure Bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+
+      # Restore bundle cache
+      - restore_cache:
+          keys:
+            - approvals-bundle-v3-{{ checksum "Gemfile.lock" }}
+            - approvals-bundle-v3-
+
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
+
+      - run: bundle exec rubocop
 
   coverage_report:
     executor: approvals-executor
@@ -125,6 +146,9 @@ workflows:
   build_accept:
     jobs:
       - build
+      - rubocop:
+         requires:
+          - build
       - coverage_report:
          requires:
           - build
