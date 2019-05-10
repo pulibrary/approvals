@@ -1,5 +1,5 @@
 ---
-version: 2
+version: 2.1
 jobs:
   build:
     working_directory: ~/project
@@ -120,7 +120,6 @@ jobs:
           destination: coverage
 
 workflows:
-  version: 2
   build_accept:
     jobs:
       - build
