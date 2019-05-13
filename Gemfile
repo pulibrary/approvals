@@ -67,6 +67,7 @@ group :test do
   gem "capybara", ">= 2.15"
   gem "factory_bot_rails", require: false
   gem "rails-controller-testing"
+  gem "rspec_junit_formatter"
   gem "simplecov", require: false
   gem "webdrivers", "~> 3.0"
 end

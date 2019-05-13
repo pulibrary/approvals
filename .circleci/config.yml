@@ -1,8 +1,7 @@
 ---
-version: 2
-jobs:
-  build:
-    working_directory: ~/project
+version: 2.1
+executors:
+  approvals-executor:
     docker:
       - image: circleci/ruby:2.4.5-node-browsers
         environment:
@@ -18,11 +17,12 @@ jobs:
           POSTGRES_USER: approvals
           POSTGRES_DB: approvals_test
           POSTGRES_PASSWORD: ""
-    steps:
-      - attach_workspace:
-          at: '~/project'
-      - checkout
+    working_directory: ~/project
 
+commands:
+  setup-bundler:
+    description: "Install correct version of bundler and load from cache or bundle install"
+    steps:
       - run:
           name: Configure Bundler
           command: |
@@ -51,6 +51,15 @@ jobs:
           paths:
             - vendor/bundle
 
+jobs:
+  build:
+    executor: approvals-executor
+    steps:
+      - attach_workspace:
+          at: '~/project'
+      - checkout
+      - setup-bundler
+
       # Only necessary if app uses webpacker or yarn in some other way
       - restore_cache:
           keys:
@@ -67,6 +76,17 @@ jobs:
           paths:
             - ~/.cache/yarn
 
+      - persist_to_workspace:
+          root: '~/project'
+          paths: '*'
+
+  test:
+    executor: approvals-executor
+    steps:
+      - attach_workspace:
+          at: '~/project'
+      - setup-bundler
+
       # ensure we have psql which we need for db:schema:load
       - run: sudo apt-get update
       - run: sudo apt-get install -y postgresql-client || true
@@ -81,16 +101,13 @@ jobs:
             bin/rails db:create
             bin/rails db:structure:load
 
-      - run:
-          name: Run rubocop
-          command: bundle exec rubocop    
-
       # Run rspec
       - run:
           name: Run rspec
           command: |
             bundle exec rspec --profile 10 \
-                              --out test_results/rspec.xml \
+                              --format RspecJunitFormatter \
+                              --out test_results/rspec/results.xml \
                               --format progress \
                               $(circleci tests glob "spec/**/*_spec.rb")
 
@@ -103,10 +120,16 @@ jobs:
           root: '~/project'
           paths: '*'
 
+  rubocop:
+    executor: approvals-executor
+    steps:
+      - attach_workspace:
+          at: '~/project'
+      - setup-bundler
+      - run: bundle exec rubocop
+
   coverage_report:
-    working_directory: ~/project
-    docker:
-      - image: circleci/ruby:2.4.5-node-browsers
+    executor: approvals-executor
     steps:
       - attach_workspace:
           at: '~/project'
@@ -120,10 +143,15 @@ jobs:
           destination: coverage
 
 workflows:
-  version: 2
   build_accept:
     jobs:
       - build
-      - coverage_report:
+      - rubocop:
          requires:
           - build
+      - test:
+         requires:
+          - build
+      - coverage_report:
+         requires:
+          - test
