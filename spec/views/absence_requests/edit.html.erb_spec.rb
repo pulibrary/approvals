@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "absence_requests/edit", type: :view do
   let(:absence_request) do
     FactoryBot.create(:absence_request, purpose: "my grand purpose",
-                                        absence_type: "vacation_monthly")
+                                        absence_type: "vacation")
   end
   before do
     assign(:absence_request, absence_request)
