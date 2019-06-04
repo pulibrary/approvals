@@ -42,7 +42,7 @@ class Request < ApplicationRecord
 
   enum absence_type: {
     consulting: "consulting",
-    vacation_monthly: "vacation_monthly",
+    vacation: "vacation",
     personal: "personal",
     sick: "sick",
     jury_duty: "jury_duty",

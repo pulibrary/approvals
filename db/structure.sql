@@ -9,6 +9,20 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
 -- Name: estimate_cost_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -33,7 +47,7 @@ CREATE TYPE public.estimate_cost_type AS ENUM (
 
 CREATE TYPE public.request_absence_type AS ENUM (
     'consulting',
-    'vacation_monthly',
+    'vacation',
     'personal',
     'sick',
     'jury_duty',
@@ -725,6 +739,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190502174401'),
 ('20190503140654'),
 ('20190503152336'),
-('20190506181109');
+('20190506181109'),
+('20190603185001');
 
 
