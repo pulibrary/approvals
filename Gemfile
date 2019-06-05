@@ -36,6 +36,8 @@ gem "jbuilder", "~> 2.5"
 gem "bootsnap", ">= 1.1.0", require: false
 
 gem "faker"
+gem "reform"
+gem "reform-rails"
 gem "webpacker", ">= 4.0.x"
 
 # Single sign on

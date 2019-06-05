@@ -6,7 +6,7 @@ RSpec.describe "absence_requests/edit", type: :view do
                                         absence_type: "vacation")
   end
   before do
-    assign(:absence_request, absence_request)
+    assign(:absence_request_change_set, AbsenceRequestChangeSet.new(absence_request))
   end
 
   it "renders the edit absence_request form" do
@@ -16,7 +16,7 @@ RSpec.describe "absence_requests/edit", type: :view do
       assert_select "input[name=?][value=?]", "absence_request[creator_id]", absence_request.creator_id.to_s
       assert_select "input[name=?][value=?]", "absence_request[start_date]", absence_request.start_date.to_s
       assert_select "input[name=?][value=?]", "absence_request[end_date]", absence_request.end_date.to_s
-      assert_select "input[name=?][value=?]", "absence_request[absence_type]", absence_request.absence_type
+      assert_select "input-select[name=?][value=?]", "absence_request[absence_type]", absence_request.absence_type
     end
   end
 end

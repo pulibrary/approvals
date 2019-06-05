@@ -1,5 +1,5 @@
 class AbsenceRequestsController < ApplicationController
-  before_action :set_absence_request, only: [:show, :edit, :update, :destroy]
+  before_action :set_absence_request, only: [:show, :destroy]
 
   # GET /absence_requests
   # GET /absence_requests.json
@@ -13,24 +13,26 @@ class AbsenceRequestsController < ApplicationController
 
   # GET /absence_requests/new
   def new
-    @absence_request = AbsenceRequest.new
+    @absence_request_change_set = absence_request_change_set
   end
 
   # GET /absence_requests/1/edit
-  def edit; end
+  def edit
+    @absence_request_change_set = absence_request_change_set
+  end
 
   # POST /absence_requests
   # POST /absence_requests.json
   def create
-    @absence_request = AbsenceRequest.new(absence_request_params)
-
     respond_to do |format|
-      if @absence_request.save
+      if absence_request_change_set.validate(processed_params) && absence_request_change_set.save
+        @absence_request = absence_request_change_set.model
         format.html { redirect_to @absence_request, notice: "Absence request was successfully created." }
         format.json { render :show, status: :created, location: @absence_request }
       else
+        copy_model_errors_to_change_set
         format.html { render :new }
-        format.json { render json: @absence_request.errors, status: :unprocessable_entity }
+        format.json { render json: absence_request_change_set.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -39,12 +41,14 @@ class AbsenceRequestsController < ApplicationController
   # PATCH/PUT /absence_requests/1.json
   def update
     respond_to do |format|
-      if @absence_request.update(absence_request_params)
+      if absence_request_change_set.validate(processed_params) && absence_request_change_set.save
+        @absence_request = absence_request_change_set.model
         format.html { redirect_to @absence_request, notice: "Absence request was successfully updated." }
         format.json { render :show, status: :ok, location: @absence_request }
       else
+        copy_model_errors_to_change_set
         format.html { render :edit }
-        format.json { render json: @absence_request.errors, status: :unprocessable_entity }
+        format.json { render json: absence_request_change_set.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -66,8 +70,40 @@ class AbsenceRequestsController < ApplicationController
       @absence_request = AbsenceRequest.find(params[:id])
     end
 
+    def absence_request_change_set
+      @absence_request_change_set ||=
+        if params[:id]
+          AbsenceRequestChangeSet.new(AbsenceRequest.find(params[:id]))
+        else
+          AbsenceRequestChangeSet.new(AbsenceRequest.new)
+        end
+    end
+
+    def copy_model_errors_to_change_set
+      absence_request_change_set.model.errors.each do |key, value|
+        @absence_request_change_set.errors.add(key, value)
+      end
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def absence_request_params
-      params.require(:absence_request).permit(:creator_id, :start_date, :end_date, :request_type, :absence_type, notes_attributes: [:creator_id, :content])
+      params.require(:absence_request).permit(:start_date, :end_date, :request_type, :absence_type, notes: [:content])
+    end
+
+    def processed_params
+      local = absence_request_params.merge(creator_id: current_staff_profile.id)
+      local[:notes] = process_notes(local[:notes])
+      local
+    end
+
+    def current_staff_profile
+      StaffProfile.find_by(user_id: current_user.id)
+    end
+
+    def process_notes(notes)
+      return notes unless notes
+      notes.map do |note_entry|
+        note_entry.merge(creator_id: current_staff_profile.id) if note_entry[:content].present?
+      end.compact
     end
 end

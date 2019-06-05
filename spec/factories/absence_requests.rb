@@ -6,6 +6,7 @@ FactoryBot.define do
     start_date { Time.zone.today }
     end_date { Time.zone.tomorrow }
     status { "pending" }
+    absence_type { "vacation" }
 
     trait :with_note do
       notes { [FactoryBot.build(:note)] }

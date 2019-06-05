@@ -24,14 +24,13 @@ require "rails_helper"
 # `rails-controller-testing` gem.
 
 RSpec.describe AbsenceRequestsController, type: :controller do
-  let(:creator) { FactoryBot.create(:staff_profile) }
+  let(:creator) { FactoryBot.create(:staff_profile, user: user) }
 
   # This should return the minimal set of attributes required to create a valid
   # AbsenceRequest. As you add validations to AbsenceRequest, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
     {
-      creator_id: creator.id,
       start_date: Time.zone.today,
       end_date: Time.zone.tomorrow,
       request_type: "AbsenceRequest",
@@ -40,7 +39,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
   end
 
   let(:invalid_attributes) do
-    { request_type: "" }
+    { absence_type: "bad_one" }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -51,7 +50,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
   let(:user) { FactoryBot.create :user }
 
   before do
-    sign_in user
+    sign_in creator.user
   end
 
   describe "GET #index" do
@@ -76,7 +75,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
     it "returns a success response" do
       get :new, params: {}, session: valid_session
       expect(response).to be_successful
-      expect(assigns(:absence_request)).to be_a(AbsenceRequest)
+      expect(assigns(:absence_request_change_set)).to be_a AbsenceRequestChangeSet
     end
   end
 
@@ -85,7 +84,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       absence_request = FactoryBot.create(:absence_request)
       get :edit, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to be_successful
-      assert_equal absence_request, assigns(:absence_request)
+      expect(assigns(:absence_request_change_set)).to be_a AbsenceRequestChangeSet
     end
   end
 
@@ -99,8 +98,18 @@ RSpec.describe AbsenceRequestsController, type: :controller do
 
       it "redirects to the created absence_request" do
         post :create, params: { absence_request: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(AbsenceRequest.last)
-        expect(assigns(:absence_request)).to eq(AbsenceRequest.last)
+        absence_request = AbsenceRequest.last
+        expect(response).to redirect_to(absence_request)
+        expect(assigns(:absence_request)).to eq(absence_request)
+        expect(absence_request.creator_id).to eq creator.id
+      end
+
+      it "returns json when requested" do
+        post :create, params: { absence_request: valid_attributes, format: :json }, session: valid_session
+        absence_request = AbsenceRequest.last
+        expect(response.media_type).to eq("application/json")
+        expect(assigns(:absence_request)).to eq(absence_request)
+        expect(absence_request.creator_id).to eq creator.id
       end
     end
 
@@ -108,47 +117,119 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { absence_request: invalid_attributes }, session: valid_session
         expect(response).to be_successful
-        expect(assigns(:absence_request)).to be_a(AbsenceRequest)
+        expect(assigns(:absence_request_change_set).errors.messages).to eq(absence_type: ["is not included in the list"])
+      end
+
+      it "returns json with errors" do
+        post :create, params: { absence_request: invalid_attributes, format: :json }, session: valid_session
+        expect(response).not_to be_successful
+        expect(response.media_type).to eq("application/json")
+        expect(response.body).to eq('{"absence_type":["is not included in the list"]}')
       end
     end
+
+    # rubocop:disable RSpec/AnyInstance
+    context "invalid save to database" do
+      before do
+        allow_any_instance_of(AbsenceRequest).to receive(:save).and_return(false)
+        bad_note = Note.new(creator_id: 123)
+        bad_note.save
+        allow_any_instance_of(AbsenceRequest).to receive(:errors).and_return(bad_note.errors)
+      end
+
+      it "returns a success response (i.e. to display the 'new' template)" do
+        post :create, params: { absence_request: valid_attributes }, session: valid_session
+        expect(response).to be_successful
+        expect(assigns(:absence_request_change_set).errors.messages).to eq(request: ["must exist"], creator: ["must exist"])
+      end
+
+      it "returns json with errors" do
+        post :create, params: { absence_request: valid_attributes, format: :json }, session: valid_session
+        expect(response).not_to be_successful
+        expect(response.media_type).to eq("application/json")
+        expect(response.body).to eq('{"request":["must exist"],"creator":["must exist"]}')
+      end
+    end
+    # rubocop:enable RSpec/AnyInstance
   end
 
   describe "PUT #update" do
+    let(:valid_attributes) { { absence_type: "sick" } }
+    let(:absence_request) { FactoryBot.create(:absence_request) }
+
     context "with valid nested attributes" do
       let(:nested_attributes) do
         {
-          notes_attributes: [{ creator_id: creator.id, content: "Important message" }]
+          notes: [{ content: "Important message" }]
         }
       end
 
-      it "updates the requested absence_request" do
-        absence_request = FactoryBot.create(:absence_request)
+      it "does not add a note if none is submitted" do
+        put :update, params: { id: absence_request.to_param, absence_request: valid_attributes }, session: valid_session
+        absence_request.reload
+        expect(absence_request.notes.count).to eq 0
+      end
+
+      it "adds a nested note" do
         put :update, params: { id: absence_request.to_param, absence_request: nested_attributes }, session: valid_session
         absence_request.reload
         expect(absence_request.notes.count).to eq 1
         expect(absence_request.notes.last.content).to eq "Important message"
       end
 
+      it "adds a nested note to note array which already had a note" do
+        absence_request = FactoryBot.create(:absence_request, :with_note)
+        put :update, params: { id: absence_request.to_param, absence_request: nested_attributes }, session: valid_session
+        absence_request.reload
+        expect(absence_request.notes.count).to eq 2
+        expect(absence_request.notes.last.content).to eq "Important message"
+      end
+
       it "redirects to the absence_request" do
-        absence_request = FactoryBot.create(:absence_request)
         put :update, params: { id: absence_request.to_param, absence_request: nested_attributes }, session: valid_session
         expect(response).to redirect_to(absence_request)
-        expect(assigns(:absence_request).notes.first.attributes.with_indifferent_access).to include(nested_attributes[:notes_attributes].first)
+        expect(assigns(:absence_request).notes.first.attributes.with_indifferent_access).to include(nested_attributes[:notes].first)
       end
     end
 
-    context "with invalid params" do
-      let(:invalid_nested_attributes) do
+    # rubocop:disable RSpec/AnyInstance
+    context "invalid save to database" do
+      before do
+        absence_request # make sure our item is created before we stub
+        allow_any_instance_of(AbsenceRequest).to receive(:save).and_return(false)
+        bad_note = Note.new(creator_id: 123)
+        bad_note.save
+        allow_any_instance_of(AbsenceRequest).to receive(:errors).and_return(bad_note.errors)
+      end
+
+      it "returns a success response (i.e. to display the 'new' template)" do
+        put :update, params: { id: absence_request.to_param, absence_request: valid_attributes }, session: valid_session
+        expect(response).to be_successful
+        expect(assigns(:absence_request_change_set).errors.messages).to eq(request: ["must exist"], creator: ["must exist"])
+      end
+
+      it "returns json with errors" do
+        put :update, params: { id: absence_request.to_param, absence_request: valid_attributes, format: :json }, session: valid_session
+        expect(response).not_to be_successful
+        expect(response.media_type).to eq("application/json")
+        expect(response.body).to eq('{"request":["must exist"],"creator":["must exist"]}')
+      end
+    end
+    # rubocop:enable RSpec/AnyInstance
+
+    context "with empty note content" do
+      let(:empty_note_attribute) do
         {
-          notes_attributes: [{ creator_id: user.id, content: "Important message" }]
+          notes: [{ content: nil }]
         }
       end
 
-      it "returns a success response (i.e. to display the 'edit' template)" do
+      it "redirects to the absence request" do
         absence_request = FactoryBot.create(:absence_request)
-        put :update, params: { id: absence_request.to_param, absence_request: invalid_nested_attributes }, session: valid_session
-        expect(response).to be_successful
-        expect(assigns(:absence_request).notes.first.attributes.with_indifferent_access).to include(invalid_nested_attributes[:notes_attributes].first)
+        expect do
+          put :update, params: { id: absence_request.to_param, absence_request: empty_note_attribute }, session: valid_session
+          expect(response).to redirect_to(absence_request)
+        end.to change(Note, :count).by(0)
       end
     end
   end
