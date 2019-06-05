@@ -1,12 +1,6 @@
 class AbsenceRequestsController < ApplicationController
   before_action :set_absence_request, only: [:show, :edit, :update, :destroy]
 
-  # GET /absence_requests
-  # GET /absence_requests.json
-  def index
-    @absence_requests = AbsenceRequest.all
-  end
-
   # GET /absence_requests/1
   # GET /absence_requests/1.json
   def show; end

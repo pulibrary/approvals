@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Requests</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Creator</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Absence Type</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @requests.each do |request| %>
+      <% if request.request_type == 'travel'
+           render 'travel_requests/index_detail', travel_request: request
+         else
+           render 'absence_requests/index_detail', absence_request: request
+         end %>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

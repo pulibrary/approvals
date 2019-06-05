@@ -54,15 +54,6 @@ RSpec.describe AbsenceRequestsController, type: :controller do
     sign_in user
   end
 
-  describe "GET #index" do
-    it "returns a success response" do
-      FactoryBot.create(:absence_request)
-      get :index, params: {}, session: valid_session
-      expect(response).to be_successful
-      assert_equal AbsenceRequest.all, assigns(:absence_requests)
-    end
-  end
-
   describe "GET #show" do
     it "returns a success response" do
       absence_request = FactoryBot.create(:absence_request)

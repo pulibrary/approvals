@@ -1,12 +1,6 @@
 class TravelRequestsController < ApplicationController
   before_action :set_travel_request, only: [:show, :edit, :update, :destroy]
 
-  # GET /travel_requests
-  # GET /travel_requests.json
-  def index
-    @travel_requests = TravelRequest.all
-  end
-
   # GET /travel_requests/1
   # GET /travel_requests/1.json
   def show; end
