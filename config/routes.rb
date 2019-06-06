@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   resources :staff_profiles
-  resources :approvals
+  resources :state_changes
   resources :departments
   root "welcome#index"
   get "welcome/index"

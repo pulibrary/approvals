@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>State Change:</strong>
+  <%= @state_change.approver %>
+</p>
+
+<p>
+  <strong>Request:</strong>
+  <%= @state_change.request %>
+</p>
+
+<p>
+  <strong>State Change:</strong>
+  <%= @state_change.action %>
+</p>
+
+<%= link_to 'Edit', edit_state_change_path(@state_change) %> |
+<%= link_to 'Back', state_changes_path %>

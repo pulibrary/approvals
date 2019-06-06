@@ -18,7 +18,7 @@ RSpec.describe RandomRequestGenerator, type: :model do
         expect(request.end_date).not_to be_blank
         expect(request.status).to eq("pending")
         expect(request.creator).to eq(creator)
-        expect(request.approvals).to be_blank
+        expect(request.state_changes).to be_blank
         expect(request.notes.count).to eq(1)
       end
     end
@@ -34,7 +34,7 @@ RSpec.describe RandomRequestGenerator, type: :model do
         expect(request.start_date).not_to be_blank
         expect(request.end_date).not_to be_blank
         expect(request.status).to eq("pending")
-        expect(request.approvals).to be_blank
+        expect(request.state_changes).to be_blank
       end
     end
   end
@@ -51,9 +51,9 @@ RSpec.describe RandomRequestGenerator, type: :model do
         expect(request.end_date).not_to be_blank
         expect(request.status).to eq("approved")
         expect(request.creator).to eq(creator)
-        expect(request.approvals.first.approver).to eq(creator.supervisor)
-        expect(request.approvals.count).to eq(2)
-        expect(request.approvals.last.approver).to eq(creator.department.head)
+        expect(request.state_changes.first.approver).to eq(creator.supervisor)
+        expect(request.state_changes.count).to eq(2)
+        expect(request.state_changes.last.approver).to eq(creator.department.head)
         expect(request.notes.count).to eq(1)
       end
     end
@@ -69,8 +69,8 @@ RSpec.describe RandomRequestGenerator, type: :model do
         expect(request.start_date).not_to be_blank
         expect(request.end_date).not_to be_blank
         expect(request.status).to eq("approved")
-        expect(request.approvals.first.approver).to eq(creator.supervisor)
-        expect(request.approvals.count).to eq(1)
+        expect(request.state_changes.first.approver).to eq(creator.supervisor)
+        expect(request.state_changes.count).to eq(1)
         expect(request.notes.count).to eq(1)
       end
     end
@@ -88,9 +88,9 @@ RSpec.describe RandomRequestGenerator, type: :model do
         expect(request.end_date).not_to be_blank
         expect(request.status).to eq("denied")
         expect(request.creator).to eq(creator)
-        expect(request.approvals.first.approver).to eq(creator.supervisor)
-        expect(request.approvals.first.approved).to be_falsey
-        expect(request.approvals.count).to eq(1)
+        expect(request.state_changes.first.approver).to eq(creator.supervisor)
+        expect(request.state_changes.first.action).to eq("denied")
+        expect(request.state_changes.count).to eq(1)
         expect(request.notes.count).to eq(2)
       end
     end
@@ -106,9 +106,9 @@ RSpec.describe RandomRequestGenerator, type: :model do
         expect(request.start_date).not_to be_blank
         expect(request.end_date).not_to be_blank
         expect(request.status).to eq("denied")
-        expect(request.approvals.first.approver).to eq(creator.supervisor)
-        expect(request.approvals.first.approved).to be_falsey
-        expect(request.approvals.count).to eq(1)
+        expect(request.state_changes.first.approver).to eq(creator.supervisor)
+        expect(request.state_changes.first.action).to eq("denied")
+        expect(request.state_changes.count).to eq(1)
         expect(request.notes.count).to eq(2)
       end
     end

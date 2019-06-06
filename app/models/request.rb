@@ -15,7 +15,7 @@ class Request < ApplicationRecord
   has_many :estimates
   accepts_nested_attributes_for :estimates
 
-  has_many :approvals
+  has_many :state_changes
 
   enum status: {
     pending: "pending",
