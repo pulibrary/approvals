@@ -41,14 +41,14 @@ class Request < ApplicationRecord
   }
 
   enum absence_type: {
-    consulting: "consulting",
     vacation: "vacation",
-    personal: "personal",
     sick: "sick",
-    jury_duty: "jury_duty",
-    death_in_family: "death_in_family",
+    personal: "personal",
     research_days: "research_days",
-    work_from_home: "work_from_home"
+    work_from_home: "work_from_home",
+    consulting: "consulting",
+    jury_duty: "jury_duty",
+    death_in_family: "death_in_family"
   }
 
   # use request_type as the single table inheritance flag

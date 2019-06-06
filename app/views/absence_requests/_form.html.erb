@@ -1,10 +1,10 @@
-<%= form_with(model: absence_request, local: true) do |form| %>
-  <% if absence_request.errors.any? %>
+<%= form_with(model: absence_request_change_set.model, local: true) do |form| %>
+  <% if absence_request_change_set.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(absence_request.errors.count, "error") %> prohibited this absence_request from being saved:</h2>
+      <h2><%= pluralize(absence_request_change_set.errors.count, "error") %> prohibited this absence_request_change_set from being saved:</h2>
 
       <ul>
-      <% absence_request.errors.full_messages.each do |message| %>
+      <% absence_request_change_set.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
@@ -26,10 +26,7 @@
     <%= form.text_field :end_date %>
   </div>
 
-  <div class="field">
-    <%= form.label :absence_type %>
-    <%= form.text_field :absence_type %>
-  </div>
+  <input-select label="Absence type" name="absence_request[absence_type]" id="absence_request_absence_type" value="<%= absence_request_change_set.absence_type %>" :options="<%= absence_request_change_set.absence_type_options %>"></input-select>
 
   <div class="actions">
     <%= form.submit %>
