@@ -14,11 +14,11 @@ RSpec.describe RequestsController, type: :controller do
     sign_in user
   end
 
-  describe "GET #index" do
+  describe "GET #my_requests" do
     it "returns a success response" do
       FactoryBot.create(:absence_request)
       FactoryBot.create(:travel_request)
-      get :index, params: {}, session: valid_session
+      get :my_requests, params: {}, session: valid_session
       expect(response).to be_successful
       expect(assigns(:requests)).to eq Request.all
     end
@@ -26,7 +26,7 @@ RSpec.describe RequestsController, type: :controller do
     it "returns a success response as json" do
       FactoryBot.create(:absence_request)
       FactoryBot.create(:travel_request)
-      get :index, params: { format: :json }, session: valid_session
+      get :my_requests, params: { format: :json }, session: valid_session
       expect(response).to be_successful
       expect(assigns(:requests)).to eq Request.all
     end

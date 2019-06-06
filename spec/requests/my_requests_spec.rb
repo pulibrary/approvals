@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe "Requests", type: :request do
-  describe "GET /requests" do
+RSpec.describe "My Requests", type: :request do
+  describe "GET /my_requests" do
     context "Signed in user" do
       let(:user) { FactoryBot.create :user }
       before do
@@ -12,14 +12,14 @@ RSpec.describe "Requests", type: :request do
         FactoryBot.create(:absence_request)
         FactoryBot.create(:travel_request)
 
-        get requests_path
+        get my_requests_path
         expect(response).to have_http_status(200)
       end
     end
 
     context "Public user" do
       it "fails to allow access to page" do
-        get requests_path
+        get my_requests_path
         expect(response).to have_http_status(302)
         expect(response).to redirect_to(new_user_session_path)
       end
