@@ -1,10 +1,11 @@
-<tr>
-  <td><%= absence_request.creator %>
-  <td><%= absence_request.start_date %>
-  <td><%= absence_request.end_date %>
-  <td><%= absence_request.absence_type %>
-  <td><%= absence_request.status %>
-  <td><%= link_to 'Show', absence_request %></td>
-  <td><%= link_to 'Edit', edit_absence_request_path(absence_request) %></td>
-  <td><%= link_to 'Destroy', absence_request, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-</tr>
+<%= link_to absence_request do %>
+  <card id="<%= absence_request.id %>" size="full-width">
+    <heading level="h2">Absence Request</heading>
+    <text-style variation="default">
+      <%= absence_request.creator %>
+      <%= absence_request.absence_type %>
+      <%= absence_request.start_date %>-<%= absence_request.end_date %>
+      <%= absence_request.status %>
+    </text-style>
+  </card>
+<% end %>

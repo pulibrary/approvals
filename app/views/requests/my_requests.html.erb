@@ -1,27 +1,23 @@
 <p id="notice"><%= notice %></p>
 
 <h1>My Requests</h1>
+<wrapper>
+  <dropdown-menu button-label="Status" :menu-items="[
+    {name: 'Pending', component: 'Pending', href: '/my_requests/'},
+    {name: 'Approved', component: 'Approved', href: '/my_requests?<%={ filters: {status: 'approved'}}.to_query%>'}
+  ]"/>
+</wrapper>
+<wrapper>
+ <% param_filters= params.permit(filters: [:status, :request_type])[:filters] || {} %>
+ <%= link_to "Approved", my_requests_path(params: { filters: {status: 'approved'}.merge(param_filters) }) %>
+ <%= link_to "Travel", my_requests_path(params: { filters: {request_type: 'travel'}.merge(param_filters)}) %>
+ <%= link_to "Clear Filters", my_requests_path %>
+</wrapper>
 
-<table>
-  <thead>
-    <tr>
-      <th>Creator</th>
-      <th>Start Date</th>
-      <th>End Date</th>
-      <th>Absence Type</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @requests.each do |request| %>
-      <% if request.request_type == 'travel'
-           render 'travel_requests/index_detail', travel_request: request
-         else
-           render 'absence_requests/index_detail', absence_request: request
-         end %>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
+<% @requests.each do |request| %>
+  <%= if request.request_type == 'TravelRequest'
+        render 'travel_requests/index_detail', travel_request: request
+      else
+        render 'absence_requests/index_detail', absence_request: request
+      end %>
+<% end %>
