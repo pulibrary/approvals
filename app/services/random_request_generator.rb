@@ -8,7 +8,7 @@ class RandomRequestGenerator
                                       event_requests_attributes: [{ recurring_event_id: RecurringEvent.first.id }],
                                       estimates_attributes: estimates, status: status,
                                       start_date: start_date, end_date: end_date)
-      request = generate_random_approvals(request)
+      request = generate_random_state_changes(request)
       generate_random_note(request, creator)
     end
 
@@ -17,19 +17,20 @@ class RandomRequestGenerator
       end_date = start_date + Random.rand(4..40).hours
       request = AbsenceRequest.create!(creator: creator, start_date: start_date, end_date: end_date,
                                        absence_type: Request.absence_types.keys[Random.rand(0..7)], status: status)
-      request = generate_random_approvals(request)
+      request = generate_random_state_changes(request)
       generate_random_note(request, creator)
     end
 
     private
 
-      def generate_random_approvals(request)
+      def generate_random_state_changes(request)
         return request if request.pending?
 
         supervisor_approved = request.approved?
-        Approval.create!(request: request, approver: request.creator.supervisor, approved: supervisor_approved)
-        if request.is_a?(TravelRequest) && request.approved?
-          Approval.create!(request: request, approver: request.creator.department.head, approved: request.approved?)
+        action = supervisor_approved ? "approved" : "denied"
+        StateChange.create!(request: request, approver: request.creator.supervisor, action: action)
+        if request.is_a?(TravelRequest) && supervisor_approved
+          StateChange.create!(request: request, approver: request.creator.department.head, action: action)
         elsif !supervisor_approved
           request = generate_random_note(request, request.creator.supervisor)
         end

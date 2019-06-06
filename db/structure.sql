@@ -58,6 +58,18 @@ CREATE TYPE public.request_absence_type AS ENUM (
 
 
 --
+-- Name: request_action; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.request_action AS ENUM (
+    'approved',
+    'denied',
+    'request_changes',
+    'canceled'
+);
+
+
+--
 -- Name: request_participation_category; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -98,39 +110,6 @@ CREATE TYPE public.request_travel_category AS ENUM (
 SET default_tablespace = '';
 
 SET default_with_oids = false;
-
---
--- Name: approvals; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.approvals (
-    id bigint NOT NULL,
-    approver_id bigint,
-    request_id bigint,
-    approved boolean,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: approvals_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.approvals_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: approvals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.approvals_id_seq OWNED BY public.approvals.id;
-
 
 --
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
@@ -399,6 +378,39 @@ ALTER SEQUENCE public.staff_profiles_id_seq OWNED BY public.staff_profiles.id;
 
 
 --
+-- Name: state_changes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.state_changes (
+    id bigint NOT NULL,
+    approver_id bigint,
+    request_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    action public.request_action
+);
+
+
+--
+-- Name: state_changes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.state_changes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: state_changes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.state_changes_id_seq OWNED BY public.state_changes.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -429,13 +441,6 @@ CREATE SEQUENCE public.users_id_seq
 --
 
 ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
-
-
---
--- Name: approvals id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.approvals ALTER COLUMN id SET DEFAULT nextval('public.approvals_id_seq'::regclass);
 
 
 --
@@ -488,18 +493,17 @@ ALTER TABLE ONLY public.staff_profiles ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
+-- Name: state_changes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.state_changes ALTER COLUMN id SET DEFAULT nextval('public.state_changes_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
-
-
---
--- Name: approvals approvals_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.approvals
-    ADD CONSTRAINT approvals_pkey PRIMARY KEY (id);
 
 
 --
@@ -575,18 +579,19 @@ ALTER TABLE ONLY public.staff_profiles
 
 
 --
+-- Name: state_changes state_changes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.state_changes
+    ADD CONSTRAINT state_changes_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
-
-
---
--- Name: index_approvals_on_request_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_approvals_on_request_id ON public.approvals USING btree (request_id);
 
 
 --
@@ -639,6 +644,13 @@ CREATE INDEX index_staff_profiles_on_user_id ON public.staff_profiles USING btre
 
 
 --
+-- Name: index_state_changes_on_request_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_state_changes_on_request_id ON public.state_changes USING btree (request_id);
+
+
+--
 -- Name: index_users_on_provider; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -676,10 +688,10 @@ ALTER TABLE ONLY public.estimates
 
 
 --
--- Name: approvals fk_rails_481f096ec0; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: state_changes fk_rails_481f096ec0; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.approvals
+ALTER TABLE ONLY public.state_changes
     ADD CONSTRAINT fk_rails_481f096ec0 FOREIGN KEY (request_id) REFERENCES public.requests(id);
 
 
@@ -740,6 +752,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190503140654'),
 ('20190503152336'),
 ('20190506181109'),
-('20190603185001');
+('20190603185001'),
+('20190606115402');
 
 
