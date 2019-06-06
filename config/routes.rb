@@ -18,5 +18,5 @@ Rails.application.routes.draw do
   resources :travel_requests, except: [:index]
   resources :absence_requests, except: [:index]
 
-  resources :requests, only: [:index]
+  get "my_requests", action: :my_requests, controller: "requests"
 end
