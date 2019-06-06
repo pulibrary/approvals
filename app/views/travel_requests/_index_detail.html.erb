@@ -1,12 +1,13 @@
-<tr>
-  <td><%= travel_request.creator %>
-  <td><%= travel_request.start_date %>
-  <td><%= travel_request.end_date %>
-  <td><%= travel_request.status %>
-  <td><%= travel_request.purpose %>
-  <td><%= travel_request.participation %>
-  <td><%= travel_request.travel_category %>
-  <td><%= link_to 'Show', travel_request %></td>
-  <td><%= link_to 'Edit', edit_travel_request_path(travel_request) %></td>
-  <td><%= link_to 'Destroy', travel_request, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-</tr>
+<%= link_to travel_request do %>
+  <card id="<%= travel_request.id %>" size="full-width">
+    <heading level="h2">Travel Request</heading>
+    <text-style variation="default">
+      <%= travel_request.creator %>
+      <%= travel_request.start_date %>-<%= travel_request.end_date %>
+      <%= travel_request.status %>
+      <%= travel_request.purpose %>
+      <%= travel_request.participation %>
+      <%= travel_request.travel_category %>
+    </text-style>
+  </card>
+<% end %>

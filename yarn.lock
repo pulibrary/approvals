@@ -3879,23 +3879,23 @@ lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
-lux-design-system@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/lux-design-system/-/lux-design-system-2.0.4.tgz#0f8cb0a36a02c66378b95c952a5a206bdacd0e6a"
-  integrity sha512-zdoEG0pwwBVyWbNNVSuIALELO4qLbEMkXx4QERkyr1da5SumzZ8qk3FxOUNtHdM0teLPoH9yRiTh2ETL0K+9JQ==
+lux-design-system@^2.1:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/lux-design-system/-/lux-design-system-2.1.0.tgz#a4d8b506d3856fbd5edea18be0eac7cb36d921fb"
+  integrity sha512-nB931k5DSZZbipUIZXitGcSVanUJVy9rNNEjnm1rb1wvrofLmOL72TSaocZYcgQH+oV6CRzQI4pKossO5fghag==
   dependencies:
     lodash "^4.17.11"
-    mini-css-extract-plugin "^0.4.3"
+    mini-css-extract-plugin "^0.4.5"
     openseadragon "^2.4.0"
-    postcss-import "^12.0.0"
+    postcss-import "^12.0.1"
     postcss-loader "^3.0.0"
     postcss-safe-parser "^4.0.1"
     postcss-url "^8.0.0"
     tinycolor2 "^1.4.1"
-    vue "^2.5.17"
+    vue "^2.5.18"
     vue-lodash "^2.0.0"
-    vue-meta "^1.5.5"
-    vue-router "^3.0.1"
+    vue-meta "^1.5.6"
+    vue-router "^3.0.2"
     vuedraggable "^2.16.0"
     vuex "^3.0.1"
     webfontloader "^1.6.28"
@@ -4060,7 +4060,7 @@ mimic-fn@^2.0.0:
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-2.1.0.tgz#7ed2c2ccccaf84d3ffcb7a69b57711fc2083401b"
   integrity sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==
 
-mini-css-extract-plugin@^0.4.3:
+mini-css-extract-plugin@^0.4.5:
   version "0.4.5"
   resolved "https://registry.yarnpkg.com/mini-css-extract-plugin/-/mini-css-extract-plugin-0.4.5.tgz#c99e9e78d54f3fa775633aee5933aeaa4e80719a"
   integrity sha512-dqBanNfktnp2hwL2YguV9Jh91PFX7gu7nRLs4TGsbAfAG6WOtlynFRYzwDwmmeSb5uIwHo9nx1ta0f7vAZVp2w==
@@ -5014,7 +5014,7 @@ postcss-image-set-function@^3.0.1:
     postcss "^7.0.2"
     postcss-values-parser "^2.0.0"
 
-postcss-import@^12.0.0, postcss-import@^12.0.1:
+postcss-import@^12.0.1:
   version "12.0.1"
   resolved "https://registry.yarnpkg.com/postcss-import/-/postcss-import-12.0.1.tgz#cf8c7ab0b5ccab5649024536e565f841928b7153"
   integrity sha512-3Gti33dmCjyKBgimqGxL3vcV8w9+bsHwO5UrBawp796+jdardbcFl4RP5w/76BwNL7aGzpKstIfF9I+kdE8pTw==
@@ -6867,7 +6867,7 @@ vue-lodash@^2.0.0:
   dependencies:
     lodash "^4.17.11"
 
-vue-meta@^1.5.5:
+vue-meta@^1.5.6:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/vue-meta/-/vue-meta-1.6.0.tgz#89b664f6011a207e098e8ba3b9d32e29c819b65d"
   integrity sha512-LLHejsOYbJiSEDSgZvjHB3fFY7lUxsDFLkuSqf5eBohEvhhddBTOHa3heoFTcI5sxsZSZt26uUzoLVe4CT6Y4A==
@@ -6877,7 +6877,7 @@ vue-meta@^1.5.5:
     lodash.uniqueid "^4.0.1"
     object-assign "^4.1.1"
 
-vue-router@^3.0.1:
+vue-router@^3.0.2:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.6.tgz#2e4f0f9cbb0b96d0205ab2690cfe588935136ac3"
   integrity sha512-Ox0ciFLswtSGRTHYhGvx2L44sVbTPNS+uD2kRISuo8B39Y79rOo0Kw0hzupTmiVtftQYCZl87mwldhh2L9Aquw==
@@ -6903,7 +6903,7 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^2.5.17, vue@^2.6.10:
+vue@^2.5.18, vue@^2.6.10:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
