@@ -12,9 +12,16 @@
   </head>
 
   <body>
-    <div class="lux">
-       <%= render 'shared/flash_messages' %>
-       <%= yield %>
+    <library-header app-name="Approvals" app-url="<%= root_url %>" class="lux">
+    <menu-bar type="links" :menu-items="[
+        {name: 'My Requests', component: 'My Requests', href: '/my_requests/'},
+      ]"/>
+    </library-header>
+    <div class="main-content">
+      <div class="lux">
+        <%= render 'shared/flash_messages' %>
+        <%= yield %>
+      </div>
     </div>
   </body>
 </html>
