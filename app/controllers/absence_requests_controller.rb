@@ -90,10 +90,6 @@ class AbsenceRequestsController < ApplicationController
       local
     end
 
-    def current_staff_profile
-      StaffProfile.find_by(user_id: current_user.id)
-    end
-
     def process_notes(notes)
       return notes unless notes
       notes.map do |note_entry|
