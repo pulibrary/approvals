@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   end
 
   resources :recurring_events
-  resources :travel_requests
-  resources :absence_requests
+  resources :travel_requests, except: [:index]
+  resources :absence_requests, except: [:index]
+
+  resources :requests, only: [:index]
 end

@@ -1,0 +1,10 @@
+<tr>
+  <td><%= absence_request.creator %>
+  <td><%= absence_request.start_date %>
+  <td><%= absence_request.end_date %>
+  <td><%= absence_request.absence_type %>
+  <td><%= absence_request.status %>
+  <td><%= link_to 'Show', absence_request %></td>
+  <td><%= link_to 'Edit', edit_absence_request_path(absence_request) %></td>
+  <td><%= link_to 'Destroy', absence_request, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+</tr>

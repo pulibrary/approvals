@@ -2,10 +2,6 @@ require "rails_helper"
 
 RSpec.describe TravelRequestsController, type: :routing do
   describe "routing" do
-    it "routes to #index" do
-      expect(get: "/travel_requests").to route_to("travel_requests#index")
-    end
-
     it "routes to #new" do
       expect(get: "/travel_requests/new").to route_to("travel_requests#new")
     end

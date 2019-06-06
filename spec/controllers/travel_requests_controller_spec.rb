@@ -59,15 +59,6 @@ RSpec.describe TravelRequestsController, type: :controller do
     sign_in user
   end
 
-  describe "GET #index" do
-    it "returns a success response" do
-      FactoryBot.create(:travel_request)
-      get :index, params: {}, session: valid_session
-      expect(response).to be_successful
-      assert_equal TravelRequest.all, assigns(:travel_requests)
-    end
-  end
-
   describe "GET #show" do
     it "returns a success response" do
       travel_request = FactoryBot.create(:travel_request)

@@ -2,10 +2,6 @@ require "rails_helper"
 
 RSpec.describe AbsenceRequestsController, type: :routing do
   describe "routing" do
-    it "routes to #index" do
-      expect(get: "/absence_requests").to route_to("absence_requests#index")
-    end
-
     it "routes to #new" do
       expect(get: "/absence_requests/new").to route_to("absence_requests#new")
     end
