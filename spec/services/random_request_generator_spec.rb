@@ -51,6 +51,7 @@ RSpec.describe RandomRequestGenerator, type: :model do
         expect(request.end_date).not_to be_blank
         expect(request.status).to eq("approved")
         expect(request.creator).to eq(creator)
+        expect(request.travel_category).not_to be_blank
         expect(request.state_changes.first.approver).to eq(creator.supervisor)
         expect(request.state_changes.count).to eq(2)
         expect(request.state_changes.last.approver).to eq(creator.department.head)
