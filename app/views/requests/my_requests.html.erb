@@ -2,16 +2,27 @@
 
 <h1>My Requests</h1>
 <wrapper>
-  <dropdown-menu button-label="Status" :menu-items="[
-    {name: 'Pending', component: 'Pending', href: '/my_requests/'},
-    {name: 'Approved', component: 'Approved', href: '/my_requests?<%={ filters: {status: 'approved'}}.to_query%>'}
-  ]"/>
+  <dropdown-menu type="links" id="status-menu" button-label="<%= @requests.current_status_filter_label %>" :menu-items="[
+    <% @requests.status_filter_urls.each do |key, url| %>
+       {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
+    <% end %>
+  ]"></dropdown-menu>
+  <dropdown-menu type="links" id="request-type-menu" button-label="<%= @requests.current_request_type_filter_label %>" :menu-items="[
+    {name: 'Absence', component: 'Absence', href: '<%= @requests.absence_filter_url %>'},
+    <% @requests.absence_filter_urls.each do |key, url| %>
+       {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
+    <% end %>
+    {name: 'Travel', component: 'Travel', href: '<%= @requests.travel_filter_url %>'},
+    <% @requests.travel_filter_urls.each do |key, url| %>
+       {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
+    <% end %>
+  ]"></dropdown-menu>
 </wrapper>
+
 <wrapper>
- <% param_filters= params.permit(filters: [:status, :request_type])[:filters] || {} %>
- <%= link_to "Approved", my_requests_path(params: { filters: {status: 'approved'}.merge(param_filters) }) %>
- <%= link_to "Travel", my_requests_path(params: { filters: {request_type: 'travel'}.merge(param_filters)}) %>
- <%= link_to "Clear Filters", my_requests_path %>
+  <% @requests.filter_removal_urls.each do |key, url| %>
+    <%= link_to key,url %>
+  <% end %>
 </wrapper>
 
 <% @requests.each do |request| %>

@@ -16,7 +16,7 @@ class RandomRequestGenerator
       start_date = Time.zone.now + Random.rand(-10...50).days
       end_date = start_date + Random.rand(4..40).hours
       request = AbsenceRequest.create!(creator: creator, start_date: start_date, end_date: end_date,
-                                       absence_type: Request.absence_types.keys[Random.rand(0..7)], status: status)
+                                       absence_type: Request.absence_types.keys.sample, status: status)
       request = generate_random_state_changes(request)
       generate_random_note(request, creator)
     end
@@ -31,6 +31,8 @@ class RandomRequestGenerator
         StateChange.create!(request: request, approver: request.creator.supervisor, action: action)
         if request.is_a?(TravelRequest) && supervisor_approved
           StateChange.create!(request: request, approver: request.creator.department.head, action: action)
+          request.travel_category = Request.travel_categories.keys.sample
+          request.save
         elsif !supervisor_approved
           request = generate_random_note(request, request.creator.supervisor)
         end
@@ -40,7 +42,7 @@ class RandomRequestGenerator
       def generate_random_estimates
         estimates = []
         1.upto(Random.rand(2...10)) do
-          estimates << { amount: Random.rand(10...1000), cost_type: Estimate.cost_types.keys[Random.rand(0..10)], recurrence: Random.rand(1...5) }
+          estimates << { amount: Random.rand(10...1000), cost_type: Estimate.cost_types.keys.sample, recurrence: Random.rand(1...5) }
         end
         estimates
       end
