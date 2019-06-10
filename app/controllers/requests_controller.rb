@@ -2,10 +2,14 @@ class RequestsController < ApplicationController
   # GET /my_requests
   # GET /my_requests.json
   def my_requests
-    @requests = RequestListDecorator.new(Request.where(my_request_filters), params: params)
+    @requests = RequestListDecorator.new(request_objects, params_hash: request_params.to_h)
   end
 
   private
+
+    def request_objects
+      @request_objects ||= Request.where(my_request_filters).order(my_request_order)
+    end
 
     def my_request_filters
       { creator: current_staff_profile }.merge(filters_hash)
@@ -19,7 +23,7 @@ class RequestsController < ApplicationController
     end
 
     def request_params
-      params.permit(filters: [:status, :request_type])
+      params.permit(:sort, filters: [:status, :request_type])
     end
 
     # These couple methods will likely be reused; consider making it into a class like
@@ -40,5 +44,13 @@ class RequestsController < ApplicationController
       else
         { absence_type: param_value }
       end
+    end
+
+    # sort_field can be any field, we use dates to start out with
+    # sort_direction can be "asc" or "desc"
+    def my_request_order
+      return {} unless params["sort"]
+      sort_field, _, sort_direction = params["sort"].rpartition("_")
+      { sort_field => sort_direction }
     end
 end

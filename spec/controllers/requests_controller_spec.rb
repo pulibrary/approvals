@@ -10,10 +10,11 @@ RSpec.describe RequestsController, type: :controller do
 
   let(:user) { FactoryBot.create :user }
   let(:staff_profile) { FactoryBot.create :staff_profile, user: user }
+
   let(:other_absence) { FactoryBot.create(:absence_request) }
   let(:other_travel) { FactoryBot.create(:travel_request) }
-  let(:my_absence) { FactoryBot.create(:absence_request, creator: staff_profile) }
-  let(:my_travel) { FactoryBot.create(:travel_request, creator: staff_profile) }
+  let(:my_absence) { FactoryBot.create(:absence_request, creator: staff_profile, start_date: Time.zone.today) }
+  let(:my_travel) { FactoryBot.create(:travel_request, creator: staff_profile, start_date: Time.zone.tomorrow) }
 
   before do
     sign_in user
@@ -71,6 +72,22 @@ RSpec.describe RequestsController, type: :controller do
       FactoryBot.create(:travel_request, creator: staff_profile, status: "approved", travel_category: "discretionary")
       get :my_requests, params: { filters: { request_type: "business", status: "approved" } }, session: valid_session
       expect(assigns(:requests)).to contain_exactly(my_business_travel)
+    end
+
+    it "orders by a sort parameter ascending" do
+      my_today_request = my_absence
+      my_tomorrow_request = my_travel
+      my_yesterday_request = FactoryBot.create(:travel_request, creator: staff_profile, start_date: Time.zone.yesterday)
+      get :my_requests, params: { sort: "start_date_asc" }, session: valid_session
+      expect(assigns(:requests).map(&:id)).to eq [my_yesterday_request, my_today_request, my_tomorrow_request].map(&:id)
+    end
+
+    it "orders by a sort parameter descending" do
+      my_today_request = my_absence
+      my_tomorrow_request = my_travel
+      my_yesterday_request = FactoryBot.create(:travel_request, creator: staff_profile, start_date: Time.zone.yesterday)
+      get :my_requests, params: { sort: "start_date_desc" }, session: valid_session
+      expect(assigns(:requests).map(&:id)).to eq [my_tomorrow_request, my_today_request, my_yesterday_request].map(&:id)
     end
   end
 end
