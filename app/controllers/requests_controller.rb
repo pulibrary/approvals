@@ -48,8 +48,9 @@ class RequestsController < ApplicationController
 
     # sort_field can be any field, we use dates to start out with
     # sort_direction can be "asc" or "desc"
+    # default is start date, descending
     def my_request_order
-      return {} unless params["sort"]
+      return { "start_date" => "desc" } unless params["sort"]
       sort_field, _, sort_direction = params["sort"].rpartition("_")
       { sort_field => sort_direction }
     end

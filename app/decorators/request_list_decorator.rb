@@ -34,6 +34,16 @@ class RequestListDecorator
     end
   end
 
+  # @returns [String] Label for the sort dropdown menu
+  def current_sort_label
+    sort = params_manager.params[:sort]
+    if sort.present?
+      "Sort: #{sort_options_table[sort]}"
+    else
+      "Sort: Start date - descending"
+    end
+  end
+
   # @returns [Hash] Labels and urls for the status dropdown menu
   def status_filter_urls
     Request.statuses.map do |key, value|
@@ -78,15 +88,19 @@ class RequestListDecorator
   # @returns [Hash] Labels and urls for sorting the results, while maintaining
   # currently applied filters
   def sort_urls
-    {
-      "Start date - ascending" => params_manager.url_with_sort(new_option: "start_date_asc"),
-      "Start date - descending" => params_manager.url_with_sort(new_option: "start_date_desc"),
-      "Date created - ascending" => params_manager.url_with_sort(new_option: "date_created_asc"),
-      "Date created - descending" => params_manager.url_with_sort(new_option: "date_created_desc"),
-      "Date modified - ascending" => params_manager.url_with_sort(new_option: "date_modified_asc"),
-      "Date modified - descending" => params_manager.url_with_sort(new_option: "date_modified_desc")
-    }
+    sort_options_table.map { |value, label| [label, params_manager.url_with_sort(new_option: value)] }.to_h
   end
+end
+
+def sort_options_table
+  {
+    "start_date_asc" => "Start date - ascending",
+    "start_date_desc" => "Start date - descending",
+    "created_at_asc" => "Date created - ascending",
+    "created_at_desc" => "Date created - descending",
+    "updated_at_asc" => "Date modified - ascending",
+    "updated_at_desc" => "Date modified - descending"
+  }
 end
 
 #

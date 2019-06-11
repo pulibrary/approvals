@@ -70,6 +70,7 @@ group :test do
   gem "rspec_junit_formatter"
   gem "selenium-webdriver"
   gem "simplecov", require: false
+  gem "timecop"
   gem "webdrivers", "~> 3.0"
 end
 

@@ -230,19 +230,19 @@ RSpec.describe RequestListDecorator, type: :model do
   describe "sort_urls" do
     let(:start_date_ascending) { "/my_requests?#{filters}sort=start_date_asc" }
     let(:start_date_descending) { "/my_requests?#{filters}sort=start_date_desc" }
-    let(:date_created_ascending) { "/my_requests?#{filters}sort=date_created_asc" }
-    let(:date_created_descending) { "/my_requests?#{filters}sort=date_created_desc" }
-    let(:date_modified_ascending) { "/my_requests?#{filters}sort=date_modified_asc" }
-    let(:date_modified_descending) { "/my_requests?#{filters}sort=date_modified_desc" }
+    let(:created_at_ascending) { "/my_requests?#{filters}sort=created_at_asc" }
+    let(:created_at_descending) { "/my_requests?#{filters}sort=created_at_desc" }
+    let(:updated_at_ascending) { "/my_requests?#{filters}sort=updated_at_asc" }
+    let(:updated_at_descending) { "/my_requests?#{filters}sort=updated_at_desc" }
     let(:filters) { "" }
     let(:sort_urls) do
       {
         "Start date - ascending" => start_date_ascending,
         "Start date - descending" => start_date_descending,
-        "Date created - ascending" => date_created_ascending,
-        "Date created - descending" => date_created_descending,
-        "Date modified - ascending" => date_modified_ascending,
-        "Date modified - descending" => date_modified_descending
+        "Date created - ascending" => created_at_ascending,
+        "Date created - descending" => created_at_descending,
+        "Date modified - ascending" => updated_at_ascending,
+        "Date modified - descending" => updated_at_descending
       }
     end
     it "returns a list of sort urls" do
@@ -255,6 +255,19 @@ RSpec.describe RequestListDecorator, type: :model do
 
       it "returns a list of sort urls that include the filters" do
         expect(request_list_decorator.sort_urls).to eq sort_urls
+      end
+    end
+  end
+
+  describe "current_sort_label" do
+    it "returns default when no sort is applied" do
+      expect(request_list_decorator.current_sort_label).to eq("Sort: Start date - descending")
+    end
+
+    context "when a sort param is provided" do
+      let(:params_hash) { { "sort" => "start_date_asc" } }
+      it "returns desired string" do
+        expect(request_list_decorator.current_sort_label).to eq("Sort: Start date - ascending")
       end
     end
   end
