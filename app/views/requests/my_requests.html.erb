@@ -7,6 +7,7 @@
        {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
     <% end %>
   ]"></dropdown-menu>
+
   <dropdown-menu type="links" id="request-type-menu" button-label="<%= @requests.current_request_type_filter_label %>" :menu-items="[
     {name: 'Absence', component: 'Absence', href: '<%= @requests.absence_filter_url %>'},
     <% @requests.absence_filter_urls.each do |key, url| %>
@@ -14,6 +15,12 @@
     <% end %>
     {name: 'Travel', component: 'Travel', href: '<%= @requests.travel_filter_url %>'},
     <% @requests.travel_filter_urls.each do |key, url| %>
+       {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
+    <% end %>
+  ]"></dropdown-menu>
+
+  <dropdown-menu type="links" id="sort-menu" button-label="Current Sort" :menu-items="[
+    <% @requests.sort_urls.each do |key, url| %>
        {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
     <% end %>
   ]"></dropdown-menu>

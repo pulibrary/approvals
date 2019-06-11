@@ -2,22 +2,22 @@ require "rails_helper"
 
 # rubocop:disable Metrics/BlockLength
 RSpec.describe RequestListDecorator, type: :model do
-  subject(:request_list_decorator) { described_class.new([FactoryBot.create(:absence_request)], params: params) }
-  let(:params) { ActionController::Parameters.new(param_hash) }
-  let(:empty_params) { ActionController::Parameters.new({}) }
-  let(:param_hash) { {} }
+  subject(:request_list_decorator) { described_class.new([FactoryBot.create(:absence_request)], params_hash: params_hash) }
+  let(:params_hash) { {} }
 
   describe "attributes relevant to absence requests" do
     it { is_expected.to respond_to :each }
     it { is_expected.to respond_to :to_a }
+    it { is_expected.to respond_to :map }
   end
 
   describe "#status_filter_urls" do
-    let(:pending_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=pending" }
-    let(:approved_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=approved" }
-    let(:denied_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=denied" }
-    let(:changes_requested_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=changes_requested" }
+    let(:pending_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=pending#{sort}" }
+    let(:approved_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=approved#{sort}" }
+    let(:denied_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=denied#{sort}" }
+    let(:changes_requested_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=changes_requested#{sort}" }
     let(:travel_filter) { "" }
+    let(:sort) { "" }
     let(:filters) do
       {
         "Pending" => pending_filter,
@@ -27,13 +27,13 @@ RSpec.describe RequestListDecorator, type: :model do
       }
     end
 
-    it "returns a list of status filter urls for display in the status filter dropdown menu" do
+    it "returns a list of status filter urls" do
       expect(request_list_decorator.status_filter_urls).to eq(filters)
     end
 
     context "a travel filter has been applied" do
       let(:travel_filter) { "filters%5Brequest_type%5D=travel&" }
-      let(:param_hash) { { "filters" => { "request_type" => "travel" } } }
+      let(:params_hash) { { "filters" => { "request_type" => "travel" } } }
 
       it "returns a list of status filter urls that include the travel filter" do
         expect(request_list_decorator.status_filter_urls).to eq(filters)
@@ -42,7 +42,26 @@ RSpec.describe RequestListDecorator, type: :model do
 
     context "a status and travel filter has been applied" do
       let(:travel_filter) { "filters%5Brequest_type%5D=travel&" }
-      let(:param_hash) { { "filters" => { "request_type" => "travel", "status" => "approved" } } }
+      let(:params_hash) { { "filters" => { "request_type" => "travel", "status" => "approved" } } }
+
+      it "returns a list of status filter urls that include the travel filter, but not the old status filter" do
+        expect(request_list_decorator.status_filter_urls).to eq(filters)
+      end
+    end
+
+    context "a sort has been applied" do
+      let(:sort) { "&sort=start_date_asc" }
+      let(:params_hash) { { "sort" => "start_date_asc" } }
+
+      it "returns a list of status filter urls that include the sort" do
+        expect(request_list_decorator.status_filter_urls).to eq(filters)
+      end
+    end
+
+    context "a sort has been applied, and a status and travel filter has been applied" do
+      let(:sort) { "&sort=start_date_asc" }
+      let(:travel_filter) { "filters%5Brequest_type%5D=travel&" }
+      let(:params_hash) { { "sort" => "start_date_asc", "filters" => { "request_type" => "travel", "status" => "approved" } } }
 
       it "returns a list of status filter urls that include the travel filter, but not the old status filter" do
         expect(request_list_decorator.status_filter_urls).to eq(filters)
@@ -86,7 +105,7 @@ RSpec.describe RequestListDecorator, type: :model do
 
     context "a status filter has been applied" do
       let(:status_filter) { "&filters%5Bstatus%5D=approved" }
-      let(:param_hash) { { "filters" => { "status" => "approved" } } }
+      let(:params_hash) { { "filters" => { "status" => "approved" } } }
 
       it "returns a list of absence filter urls that include the status filter" do
         expect(request_list_decorator.absence_filter_urls).to eq(filters)
@@ -95,7 +114,7 @@ RSpec.describe RequestListDecorator, type: :model do
 
     context "a status filter and travel filter has been applied" do
       let(:status_filter) { "&filters%5Bstatus%5D=approved" }
-      let(:param_hash) { { "filters" => { "request_type" => "travel", "status" => "approved" } } }
+      let(:params_hash) { { "filters" => { "request_type" => "travel", "status" => "approved" } } }
       it "returns a list of absence filter urls that include the status filter, but not the request type filter" do
         expect(request_list_decorator.absence_filter_urls).to eq(filters)
       end
@@ -128,7 +147,7 @@ RSpec.describe RequestListDecorator, type: :model do
 
     context "a status filter has been applied" do
       let(:status_filter) { "&filters%5Bstatus%5D=approved" }
-      let(:param_hash) { { "filters" => { "status" => "approved" } } }
+      let(:params_hash) { { "filters" => { "status" => "approved" } } }
 
       it "returns a list of travel filter urls that include the status filter" do
         expect(request_list_decorator.travel_filter_urls).to eq(filters)
@@ -137,7 +156,7 @@ RSpec.describe RequestListDecorator, type: :model do
 
     context "a status filter and request filter applied" do
       let(:status_filter) { "&filters%5Bstatus%5D=approved" }
-      let(:param_hash) { { "filters" => { "request_type" => "travel", "status" => "approved" } } }
+      let(:params_hash) { { "filters" => { "request_type" => "travel", "status" => "approved" } } }
 
       it "returns a list of travel filter urls that include the status filter, but not the request type filter" do
         expect(request_list_decorator.travel_filter_urls).to eq(filters)
@@ -151,25 +170,46 @@ RSpec.describe RequestListDecorator, type: :model do
     end
 
     context "approved filter applied" do
-      let(:param_hash) { { "filters" => { "status" => "approved" } } }
+      let(:params_hash) { { "filters" => { "status" => "approved" } } }
       it "returns a link to clear the approved status filter" do
         expect(request_list_decorator.filter_removal_urls).to eq("Status: Approved" => "/my_requests")
       end
     end
 
     context "travel filter applied" do
-      let(:param_hash) { { "filters" => { "request_type" => "travel" } } }
+      let(:params_hash) { { "filters" => { "request_type" => "travel" } } }
       it "returns a link to clear the approved status filter" do
         expect(request_list_decorator.filter_removal_urls).to eq("Request type: Travel" => "/my_requests")
       end
     end
 
     context "approved and travel filter applied" do
-      let(:param_hash) { { "filters" => { "status" => "approved", "request_type" => "travel" } } }
+      let(:params_hash) { { "filters" => { "status" => "approved", "request_type" => "travel" } } }
       it "returns a link to clear the approved status filter" do
         expect(request_list_decorator.filter_removal_urls).to eq(
           "Request type: Travel" => "/my_requests?filters%5Bstatus%5D=approved",
           "Status: Approved" => "/my_requests?filters%5Brequest_type%5D=travel"
+        )
+      end
+    end
+
+    context "sort applied" do
+      let(:params_hash) { { "sort" => "start_date_desc", "filters" => { "status" => "approved" } } }
+
+      it "returns a link that retains the sort while removing the filter" do
+        expect(request_list_decorator.filter_removal_urls).to eq("Status: Approved" => "/my_requests?sort=start_date_desc")
+      end
+    end
+
+    context "sort applied, approved and travel filter applied" do
+      let(:params_hash) { { "sort" => "start_date_desc", "filters" => { "status" => "approved", "request_type" => "travel" } } }
+
+      it "returns a link that retains the sort while removing the filter" do
+        expect(request_list_decorator.filter_removal_urls).to eq(
+          "Request type: Travel" =>
+            "/my_requests?filters%5Bstatus%5D=approved&sort=start_date_desc",
+          "Status: Approved" =>
+            "/my_requests?filters%5Brequest_type%5D=travel&sort=start_date_desc"
         )
       end
     end
@@ -184,6 +224,38 @@ RSpec.describe RequestListDecorator, type: :model do
   describe "current_request_type_filter_label" do
     it "returns default when no filter is applied" do
       expect(request_list_decorator.current_request_type_filter_label).to eq("Request type")
+    end
+  end
+
+  describe "sort_urls" do
+    let(:start_date_ascending) { "/my_requests?#{filters}sort=start_date_asc" }
+    let(:start_date_descending) { "/my_requests?#{filters}sort=start_date_desc" }
+    let(:date_created_ascending) { "/my_requests?#{filters}sort=date_created_asc" }
+    let(:date_created_descending) { "/my_requests?#{filters}sort=date_created_desc" }
+    let(:date_modified_ascending) { "/my_requests?#{filters}sort=date_modified_asc" }
+    let(:date_modified_descending) { "/my_requests?#{filters}sort=date_modified_desc" }
+    let(:filters) { "" }
+    let(:sort_urls) do
+      {
+        "Start date - ascending" => start_date_ascending,
+        "Start date - descending" => start_date_descending,
+        "Date created - ascending" => date_created_ascending,
+        "Date created - descending" => date_created_descending,
+        "Date modified - ascending" => date_modified_ascending,
+        "Date modified - descending" => date_modified_descending
+      }
+    end
+    it "returns a list of sort urls" do
+      expect(request_list_decorator.sort_urls).to eq sort_urls
+    end
+
+    context "we have have status and request type filters applied" do
+      let(:filters) { "filters%5Brequest_type%5D=business&filters%5Bstatus%5D=approved&" }
+      let(:params_hash) { { "filters" => { "request_type" => "business", "status" => "approved" } } }
+
+      it "returns a list of sort urls that include the filters" do
+        expect(request_list_decorator.sort_urls).to eq sort_urls
+      end
     end
   end
 end
