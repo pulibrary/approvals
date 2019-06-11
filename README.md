@@ -2,6 +2,8 @@
 
 This is an application that allows the library to create workflows that allow staff to seek approval for travel and leave. 
 
+[![CircleCI](https://circleci.com/gh/pulibrary/approvals.svg?style=svg)](https://circleci.com/gh/pulibrary/approvals)
+
 ## Ruby version
 
   2.4.4
