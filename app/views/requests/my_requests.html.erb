@@ -19,7 +19,7 @@
     <% end %>
   ]"></dropdown-menu>
 
-  <dropdown-menu type="links" id="sort-menu" button-label="Current Sort" :menu-items="[
+  <dropdown-menu type="links" id="sort-menu" button-label="<%= @requests.current_sort_label %>" :menu-items="[
     <% @requests.sort_urls.each do |key, url| %>
        {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
     <% end %>

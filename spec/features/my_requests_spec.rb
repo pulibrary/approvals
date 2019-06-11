@@ -43,13 +43,26 @@ RSpec.feature "My Requests", type: :feature, js: true do
     today_request = FactoryBot.create(:travel_request, creator: staff_profile, start_date: Time.zone.today)
 
     visit "/my_requests"
-    # date of event or absence (ascending, descending)
-    # date created (ascending, descending)
-    # date modified (ascending, descending)
-    select_drop_down(menu: "#sort-menu", item: "Start date - ascending")
+    expect(find("#sort-menu").text).to start_with "Sort: Start date - descending"
+    ids = page.all(:css, "article.lux-card").map { |element| element["id"].to_i }
+    expect(ids).to eq([tomorrow_request, today_request, yesterday_request].map(&:id))
 
+    select_drop_down(menu: "#sort-menu", item: "Start date - ascending")
+    expect(find("#sort-menu").text).to start_with "Sort: Start date - ascending"
     ids = page.all(:css, "article.lux-card").map { |element| element["id"].to_i }
     expect(ids).to eq([yesterday_request, today_request, tomorrow_request].map(&:id))
+
+    select_drop_down(menu: "#sort-menu", item: "Date created - descending")
+    expect(find("#sort-menu").text).to start_with "Sort: Date created - descending"
+
+    select_drop_down(menu: "#sort-menu", item: "Date created - ascending")
+    expect(find("#sort-menu").text).to start_with "Sort: Date created - ascending"
+
+    select_drop_down(menu: "#sort-menu", item: "Date modified - descending")
+    expect(find("#sort-menu").text).to start_with "Sort: Date modified - descending"
+
+    select_drop_down(menu: "#sort-menu", item: "Date modified - ascending")
+    expect(find("#sort-menu").text).to start_with "Sort: Date modified - ascending"
   end
 
   def select_drop_down(menu:, item:)
