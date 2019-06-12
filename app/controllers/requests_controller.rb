@@ -2,28 +2,34 @@ class RequestsController < ApplicationController
   # GET /my_requests
   # GET /my_requests.json
   def my_requests
-    @requests = RequestListDecorator.new(request_objects, params_hash: request_params.to_h)
+    @requests = RequestListDecorator.new(my_request_objects, params_hash: request_params.to_h)
   end
 
   private
 
-    def request_objects
-      @request_objects ||= Request.where(my_request_filters).order(my_request_order)
+    # all params for this controller
+    def request_params
+      params.permit(:query, :sort, filters: [:status, :request_type])
+    end
+
+    # objects to return to my_request action
+    def my_request_objects
+      Request
+        .where(my_request_filters)
+        .where_notes_contain(search_query: request_params[:query])
+        .order(my_request_order)
     end
 
     def my_request_filters
       { creator: current_staff_profile }.merge(filters_hash)
     end
 
+    # all filters from params
     def filters_hash
       return {} if request_params[:filters].blank?
 
       filters = request_params[:filters].to_hash
       map_request_type_filters(filters)
-    end
-
-    def request_params
-      params.permit(:sort, filters: [:status, :request_type])
     end
 
     # These couple methods will likely be reused; consider making it into a class like
@@ -34,6 +40,7 @@ class RequestsController < ApplicationController
       filters
     end
 
+    # translate a param into a property value
     def request_type_value(param_value)
       if param_value == "absence"
         { request_type: "AbsenceRequest" }

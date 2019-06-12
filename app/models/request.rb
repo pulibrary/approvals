@@ -17,6 +17,13 @@ class Request < ApplicationRecord
 
   has_many :state_changes
 
+  def self.where_notes_contain(search_query:)
+    # returning all which is the relation
+    return all if search_query.blank?
+
+    joins(:notes).where("notes.content like '%#{search_query}'")
+  end
+
   enum status: {
     pending: "pending",
     changes_requested: "changes_requested",

@@ -65,6 +65,32 @@ RSpec.feature "My Requests", type: :feature, js: true do
     expect(find("#sort-menu").text).to start_with "Sort: Date modified - ascending"
   end
 
+  scenario "I can search my requests" do
+    absence_request = FactoryBot.create(:absence_request, creator: staff_profile, status: :approved)
+    absence_request2 = FactoryBot.create(:absence_request, creator: staff_profile, status: :denied)
+    travel_request = FactoryBot.create(:travel_request, creator: staff_profile, status: :approved)
+    FactoryBot.create(:note, content: "elephants love balloons", request: absence_request)
+    FactoryBot.create(:note, content: "elephants love balloons", request: absence_request2)
+    FactoryBot.create(:note, content: "flamingoes are pink because of shrimp", request: travel_request)
+    visit "/my_requests"
+
+    # filter with no search query
+    select_drop_down(menu: "#status-menu", item: "Approved")
+    assert_selector "article.lux-card", count: 2
+
+    # search query clears the filter
+    fill_in "query", with: "balloons"
+    click_button "Search"
+
+    assert_selector "article.lux-card", count: 2
+    ids = page.all(:css, "article.lux-card").map { |element| element["id"].to_i }
+    expect(ids).to contain_exactly absence_request.id, absence_request2.id
+
+    # filtering on a search result retains search results
+    select_drop_down(menu: "#status-menu", item: "Approved")
+    assert_selector "article.lux-card", count: 1
+  end
+
   def select_drop_down(menu:, item:)
     find(menu).click
     within(menu) do
