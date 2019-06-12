@@ -32,4 +32,10 @@ RSpec.describe TravelRequest, type: :model do
       expect { travel_request.status = "invalid_status" }.to raise_error ArgumentError
     end
   end
+
+  describe "#id" do
+    it "id is greater than ten thousand" do
+      FactoryBot.create(:absence_request).id.should be > 10_000
+    end
+  end
 end
