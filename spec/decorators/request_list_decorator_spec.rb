@@ -5,10 +5,19 @@ RSpec.describe RequestListDecorator, type: :model do
   subject(:request_list_decorator) { described_class.new([FactoryBot.create(:absence_request)], params_hash: params_hash) }
   let(:params_hash) { {} }
 
-  describe "attributes relevant to absence requests" do
+  describe "attributes relevant to list" do
     it { is_expected.to respond_to :each }
     it { is_expected.to respond_to :to_a }
     it { is_expected.to respond_to :map }
+    it { is_expected.to respond_to :count }
+    it { is_expected.to respond_to :first }
+    it { is_expected.to respond_to :last }
+  end
+
+  describe "#first" do
+    it "returns AbsenceRequestDecorators for absence request objects" do
+      expect(request_list_decorator.first).to be_a AbsenceRequestDecorator
+    end
   end
 
   describe "#status_filter_urls" do

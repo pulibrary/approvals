@@ -3,7 +3,7 @@
 <h1>My Requests</h1>
 <wrapper>
   <%= form_tag(my_requests_path, method: :get) do %>
-    <%= text_field_tag "query", placeholder: "Search..."%>
+    <%= text_field_tag "query", nil, placeholder: "Search..."%>
     <%= submit_tag 'Search' %>
   <% end %>
   <dropdown-menu type="links" id="status-menu" button-label="<%= @requests.current_status_filter_label %>" :menu-items="[
