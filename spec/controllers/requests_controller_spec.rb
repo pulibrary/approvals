@@ -151,4 +151,18 @@ RSpec.describe RequestsController, type: :controller do
       end
     end
   end
+
+  describe "GET #my_requests with searching" do
+    it "retrieves a result" do
+      absence_request = FactoryBot.create(:absence_request, creator: staff_profile, status: :approved)
+      absence_request2 = FactoryBot.create(:absence_request, creator: staff_profile, status: :denied)
+      travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
+      FactoryBot.create(:note, content: "elephants love balloons", request: absence_request)
+      FactoryBot.create(:note, content: "elephants love balloons", request: absence_request2)
+      FactoryBot.create(:note, content: "flamingoes are pink because of shrimp", request: travel_request)
+
+      get :my_requests, params: { query: "balloons", filters: { status: :approved } }, session: valid_session
+      expect(assigns(:requests).count).to eq 1
+    end
+  end
 end

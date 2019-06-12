@@ -5,7 +5,7 @@
 class RequestListDecorator
   attr_reader :request_list, :params_manager
 
-  delegate :each, :to_a, :map, to: :request_list
+  delegate :each, :to_a, :map, :count, to: :request_list
 
   # @param [Array] list of request model objects
   # @param [Hash] params_hash current request paramters; filter and sort options
@@ -103,7 +103,6 @@ def sort_options_table
   }
 end
 
-#
 # This is a helper class to build the urls maintaining existing sort and filter options
 class ParamsManager
   attr_reader :params
