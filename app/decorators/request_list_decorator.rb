@@ -5,12 +5,18 @@
 class RequestListDecorator
   attr_reader :request_list, :params_manager
 
-  delegate :each, :to_a, :map, :count, to: :request_list
+  delegate :count, :each, :first, :last, :map, :to_a, to: :request_list
 
   # @param [Array] list of request model objects
   # @param [Hash] params_hash current request paramters; filter and sort options
   def initialize(request_list, params_hash: {})
-    @request_list = request_list
+    @request_list = request_list.map do |request|
+      if request.is_a?(TravelRequest)
+        request
+      else
+        AbsenceRequestDecorator.new(request)
+      end
+    end
     @params_manager = ParamsManager.new(params_hash.deep_symbolize_keys)
   end
 

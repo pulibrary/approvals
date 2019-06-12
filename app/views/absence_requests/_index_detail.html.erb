@@ -1,11 +1,21 @@
 <%= link_to absence_request do %>
-  <card id="<%= absence_request.id %>" size="full-width">
-    <heading level="h2">Absence Request</heading>
-    <text-style variation="default">
-      <%= absence_request.creator %>
-      <%= absence_request.absence_type %>
-      <%= absence_request.start_date %>-<%= absence_request.end_date %>
-      <%= absence_request.status %>
-    </text-style>
-  </card>
+<card id="<%= absence_request.id %>" cardUrl="<%= absence_request_path(absence_request)%>" size="full-width">
+  <card-media>
+    <lux-icon-base
+      width="50"
+      height="50"
+    ><<%= absence_request.absence_type_icon %> /></lux-icon-base>
+  </card-media>
+  <card-header>
+    <heading level="h2" size="h3"><%= absence_request.title %></heading>
+    <text-style><%= absence_request.formatted_start_date %> to <%= absence_request.formatted_end_date %></text-style>
+  </card-header>
+  <card-content>
+    <text-style type="span" variation="small"><lux-icon-base
+      width="14"
+      height="14"
+      icon-color="rgb(124, 181, 24)"
+    ><<%= absence_request.status_icon %>/></lux-icon-base><%= absence_request.status %> on Mon DD, YYYY</text-style>
+  </card-content>
+</card>
 <% end %>

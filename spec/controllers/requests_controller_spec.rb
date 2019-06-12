@@ -31,30 +31,32 @@ RSpec.describe RequestsController, type: :controller do
     it "returns a success response" do
       get :my_requests, params: {}, session: valid_session
       expect(response).to be_successful
-      expect(assigns(:requests)).to contain_exactly(my_absence, my_travel)
+      expect(assigns(:requests).first).to be_a AbsenceRequestDecorator
+      expect(assigns(:requests).last).to be_a TravelRequest
+      expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_absence, my_travel].map(&:id))
     end
 
     it "returns a success response as json" do
       get :my_requests, params: { format: :json }, session: valid_session
       expect(response).to be_successful
-      expect(assigns(:requests)).to contain_exactly(my_absence, my_travel)
+      expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_absence, my_travel].map(&:id))
     end
 
     it "accepts limit by status" do
       approved_absence = FactoryBot.create(:absence_request, status: "approved", creator: staff_profile)
       get :my_requests, params: { filters: { status: "approved" } }, session: valid_session
-      expect(assigns(:requests)).to contain_exactly(approved_absence)
+      expect(assigns(:requests).map(&:id)).to contain_exactly(approved_absence.id)
     end
 
     it "accepts limit by request type absence" do
       get :my_requests, params: { filters: { request_type: "absence" } }, session: valid_session
-      expect(assigns(:requests)).to contain_exactly(my_absence)
+      expect(assigns(:requests).map(&:id)).to contain_exactly(my_absence.id)
     end
 
     it "accepts limit by request type sick" do
       my_sick_absence = FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick")
       get :my_requests, params: { filters: { request_type: "sick" } }, session: valid_session
-      expect(assigns(:requests)).to contain_exactly(my_sick_absence)
+      expect(assigns(:requests).map(&:id)).to contain_exactly(my_sick_absence.id)
     end
 
     it "accepts limit by request type travel" do
