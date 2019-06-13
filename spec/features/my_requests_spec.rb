@@ -93,6 +93,13 @@ RSpec.feature "My Requests", type: :feature, js: true do
     assert_selector "article.lux-card", count: 1
   end
 
+  scenario "I can get to the page to add a new absence request" do
+    visit "/my_requests"
+
+    click_link("New leave request")
+    expect(page).to have_content "New Leave Request"
+  end
+
   def select_drop_down(menu:, item:)
     find(menu).click
     within(menu) do

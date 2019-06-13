@@ -19,6 +19,7 @@ import Vue from "vue/dist/vue.esm"
 import system from "lux-design-system"
 import "lux-design-system/dist/system/system.css"
 import "lux-design-system/dist/system/tokens/tokens.scss"
+import hoursCalculator from "../components/hoursCalculator.vue"
 
 Vue.use(system)
 
@@ -27,7 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
   var elements = document.getElementsByClassName("lux")
   for (var i = 0; i < elements.length; i++) {
     new Vue({
-      el: elements[i]
+      el: elements[i],
+      components: {
+        'hours-calculator': hoursCalculator
+      }
     })
   }
 })
