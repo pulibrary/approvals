@@ -312,7 +312,10 @@ CREATE TABLE public.requests (
     travel_category public.request_travel_category,
     absence_type public.request_absence_type,
     status public.request_status,
-    event_title character varying
+    event_title character varying,
+    start_time time without time zone,
+    end_time time without time zone,
+    hours_requested numeric
 );
 
 
@@ -760,6 +763,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190606115402'),
 ('20190612114950'),
 ('20190613143042'),
-('20190613150050');
+('20190613150050'),
+('20190613185106');
 
 

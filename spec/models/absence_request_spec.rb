@@ -11,6 +11,9 @@ RSpec.describe AbsenceRequest, type: :model do
     it { is_expected.to respond_to :request_type }
     it { is_expected.to respond_to :absence_type }
     it { is_expected.to respond_to :notes }
+    it { is_expected.to respond_to :start_time }
+    it { is_expected.to respond_to :end_time }
+    it { is_expected.to respond_to :hours_requested }
   end
 
   describe "#id" do
