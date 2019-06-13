@@ -27,7 +27,7 @@ namespace :approvals do
         RandomRequestGenerator.generate_travel_request(creator: staff_profile, status: status)
       end
       1.upto(Random.rand(6...24)) do
-        status = ["pending", "approved", "denied", "canceled", "cancelation pending", "reported"].sample
+        status = ["pending", "approved", "denied", "canceled", "pending_cancelation", "reported"].sample
         RandomRequestGenerator.generate_absence_request(creator: staff_profile, status: status)
       end
     end
