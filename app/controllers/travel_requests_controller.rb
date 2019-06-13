@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class TravelRequestsController < ApplicationController
   before_action :set_travel_request, only: [:show, :edit, :update, :destroy]
 

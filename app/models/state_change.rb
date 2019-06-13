@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class StateChange < ApplicationRecord
   belongs_to :approver, class_name: "StaffProfile", required: true
   belongs_to :request, required: true

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class StaffProfile < ApplicationRecord
   belongs_to :user, required: true
   belongs_to :department, required: true

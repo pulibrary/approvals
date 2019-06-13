@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class StaffProfilesController < ApplicationController
   before_action :set_staff_profile, only: [:show, :edit, :update, :destroy]
 

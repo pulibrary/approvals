@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AbsenceRequestDecorator < RequestDecorator
   delegate :absence_type, to: :absence_request
   attr_reader :absence_request

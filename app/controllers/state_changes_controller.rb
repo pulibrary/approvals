@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class StateChangesController < ApplicationController
   before_action :set_state_change, only: [:show, :edit, :update, :destroy]
 
