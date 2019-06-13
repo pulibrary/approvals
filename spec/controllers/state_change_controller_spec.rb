@@ -98,7 +98,7 @@ RSpec.describe StateChangesController, type: :controller do
     context "with valid params" do
       let(:new_attributes) do
         {
-          action: "request_changes"
+          action: "changes_requested"
         }
       end
 
@@ -106,7 +106,7 @@ RSpec.describe StateChangesController, type: :controller do
         state_change = FactoryBot.create(:state_change)
         put :update, params: { id: state_change.to_param, state_change: new_attributes }, session: valid_session
         state_change.reload
-        expect(state_change.action).to eq "request_changes"
+        expect(state_change.action).to eq "changes_requested"
       end
 
       it "redirects to the state_change" do

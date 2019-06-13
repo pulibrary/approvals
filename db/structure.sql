@@ -63,9 +63,10 @@ CREATE TYPE public.request_absence_type AS ENUM (
 
 CREATE TYPE public.request_action AS ENUM (
     'approved',
+    'canceled',
+    'changes_requested',
     'denied',
-    'request_changes',
-    'canceled'
+    'reported'
 );
 
 
@@ -764,6 +765,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190612114950'),
 ('20190613143042'),
 ('20190613150050'),
+('20190613173252'),
 ('20190613185106');
 
 

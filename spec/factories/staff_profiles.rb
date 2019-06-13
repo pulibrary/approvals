@@ -21,5 +21,12 @@ FactoryBot.define do
         profile.save
       end
     end
+
+    trait :as_department_head do
+      after(:create) do |profile, _evaluator|
+        profile.department = FactoryBot.create(:department, head: profile)
+        profile.save
+      end
+    end
   end
 end
