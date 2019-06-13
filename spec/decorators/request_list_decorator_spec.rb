@@ -21,18 +21,24 @@ RSpec.describe RequestListDecorator, type: :model do
   end
 
   describe "#status_filter_urls" do
-    let(:pending_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=pending#{sort}" }
     let(:approved_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=approved#{sort}" }
-    let(:denied_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=denied#{sort}" }
+    let(:canceled_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=canceled#{sort}" }
     let(:changes_requested_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=changes_requested#{sort}" }
+    let(:denied_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=denied#{sort}" }
+    let(:pending_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=pending#{sort}" }
+    let(:pending_cancelation_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=pending_cancelation#{sort}" }
+    let(:reported_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=reported#{sort}" }
     let(:travel_filter) { "" }
     let(:sort) { "" }
     let(:filters) do
       {
-        "Pending" => pending_filter,
         "Approved" => approved_filter,
+        "Changes requested" => changes_requested_filter,
+        "Canceled" => canceled_filter,
         "Denied" => denied_filter,
-        "Changes requested" => changes_requested_filter
+        "Pending" => pending_filter,
+        "Pending cancelation" => pending_cancelation_filter,
+        "Reported" => reported_filter
       }
     end
 

@@ -27,6 +27,18 @@ RSpec.describe TravelRequest, type: :model do
     it "set expected values" do
       travel_request.pending!
       expect(travel_request.pending?).to eq true
+      travel_request.approved!
+      expect(travel_request.approved?).to eq true
+      travel_request.denied!
+      expect(travel_request.denied?).to eq true
+      travel_request.changes_requested!
+      expect(travel_request.changes_requested?).to eq true
+      travel_request.canceled!
+      expect(travel_request.canceled?).to eq true
+      travel_request.reported!
+      expect(travel_request.reported?).to eq true
+      travel_request.pending_cancelation!
+      expect(travel_request.pending_cancelation?).to eq true
     end
     it "errors for invalid values" do
       expect { travel_request.status = "invalid_status" }.to raise_error ArgumentError

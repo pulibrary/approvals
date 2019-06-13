@@ -106,5 +106,12 @@ RSpec.describe TravelRequestDecorator, type: :model do
         expect(travel_request_decorator.status_icon).to eq "lux-icon-alert"
       end
     end
+
+    context "when travel has been canceled" do
+      let(:travel_request) { FactoryBot.create(:travel_request, status: :canceled) }
+      it "returns the correct lux icon" do
+        expect(travel_request_decorator.status_icon).to eq "lux-icon-alert"
+      end
+    end
   end
 end

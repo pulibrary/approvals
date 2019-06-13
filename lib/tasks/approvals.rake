@@ -21,12 +21,12 @@ namespace :approvals do
   task make_requests_for_everyone: :environment do
     StaffProfile.all.each do |staff_profile|
       next if staff_profile.supervisor.nil?
-      1.upto(Random.rand(4...15)) do
-        status = ["pending", "approved", "denied", "changes_requested"].sample
+      1.upto(Random.rand(5...20)) do
+        status = ["pending", "approved", "denied", "changes_requested", "canceled"].sample
         RandomRequestGenerator.generate_travel_request(creator: staff_profile, status: status)
       end
-      1.upto(Random.rand(3...15)) do
-        status = ["pending", "approved", "denied"].sample
+      1.upto(Random.rand(6...24)) do
+        status = ["pending", "approved", "denied", "canceled", "cancelation pending", "reported"].sample
         RandomRequestGenerator.generate_absence_request(creator: staff_profile, status: status)
       end
     end

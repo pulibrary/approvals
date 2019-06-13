@@ -26,9 +26,12 @@ class Request < ApplicationRecord
 
   enum status: {
     pending: "pending",
+    canceled: "canceled",
     changes_requested: "changes_requested",
     approved: "approved",
-    denied: "denied"
+    denied: "denied",
+    pending_cancelation: "pending_cancelation",
+    reported: "reported"
   }
 
   enum participation: {
