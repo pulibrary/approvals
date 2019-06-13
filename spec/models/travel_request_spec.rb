@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "rails_helper"
 
 RSpec.describe TravelRequest, type: :model do
@@ -14,6 +15,7 @@ RSpec.describe TravelRequest, type: :model do
     it { is_expected.to respond_to :travel_category }
     it { is_expected.to respond_to :notes }
     it { is_expected.to respond_to :estimates }
+    it { is_expected.to respond_to :event_title }
   end
 
   # This acts as a "master test" for all request types using this property
@@ -47,7 +49,7 @@ RSpec.describe TravelRequest, type: :model do
 
   describe "#id" do
     it "id is greater than ten thousand" do
-      expect(FactoryBot.create(:absence_request).id).to be > 10_000
+      expect(FactoryBot.create(:absence_request).id).to be >= 10_000
     end
   end
 end

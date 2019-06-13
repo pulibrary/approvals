@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RandomDirectReportsGenerator
   class << self
     def create_reports(supervisor:, number_of_people: 5)

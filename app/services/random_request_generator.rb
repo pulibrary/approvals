@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RandomRequestGenerator
   class << self
     def generate_travel_request(creator:, status: "pending")

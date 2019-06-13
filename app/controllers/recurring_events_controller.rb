@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RecurringEventsController < ApplicationController
   before_action :set_recurring_event, only: [:show, :edit, :update, :destroy]
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 #
 #  RequestListDecorator decorates a request list with the ability to create filter urls, which can be used to filter the results.
 #    This decorator supports the My Request page filter drop down menus in addition to supporting the display of the list of results.

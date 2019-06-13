@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class NoteChangeSet < Reform::Form
   property :creator_id
   property :content

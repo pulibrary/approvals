@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class TravelRequestsController < ApplicationController
   before_action :set_travel_request, only: [:show, :edit, :update, :destroy]
 
@@ -68,7 +69,7 @@ class TravelRequestsController < ApplicationController
         :end_date,
         :purpose,
         :participation,
-        event_requests_attributes: [:recurring_event_id],
+        event_requests_attributes: [:recurring_event_id, :start_date, :end_date, :location, :url],
         notes_attributes: [:creator_id, :content],
         estimates_attributes: [:amount, :recurrence, :type]
       )

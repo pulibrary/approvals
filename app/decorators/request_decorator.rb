@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RequestDecorator
   delegate :end_date, :id, :request_type, :start_date, :status, :to_model,
            to: :request

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # This is a base class for TravelRequest and AbsenceRequest and is not intended
 # to be created directly
 class Request < ApplicationRecord

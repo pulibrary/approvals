@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AbsenceRequestsController < ApplicationController
   before_action :set_absence_request, only: [:show, :destroy]
 

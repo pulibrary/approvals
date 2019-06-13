@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RequestsController < ApplicationController
   # GET /my_requests
   # GET /my_requests.json

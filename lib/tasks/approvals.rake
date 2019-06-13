@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 namespace :approvals do
   desc "add fake users to give [:netid] someone to supervise"
   task :make_me_a_supervisor, [:netid, :number] => [:environment] do |_t, args|
