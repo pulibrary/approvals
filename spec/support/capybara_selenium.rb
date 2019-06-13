@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require "capybara/rspec"
 require "selenium-webdriver"
+require "capybara-screenshot/rspec"
 
 Capybara.server = :puma, { Silent: true }
 Capybara.register_driver(:selenium) do |app|
