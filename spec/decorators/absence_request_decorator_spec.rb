@@ -11,6 +11,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     it { is_expected.to respond_to :end_date }
     it { is_expected.to respond_to :id }
     it { is_expected.to respond_to :request_type }
+    it { is_expected.to respond_to :state_changes }
     it { is_expected.to respond_to :status }
     it { is_expected.to respond_to :start_date }
     it { is_expected.to respond_to :to_model }
@@ -176,6 +177,16 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
       it "returns the correct lux icon" do
         expect(absence_request_decorator.status_icon).to eq "lux-icon-flower"
       end
+    end
+  end
+
+  describe "#latest_status" do
+    let(:absence_request) { FactoryBot.create(:absence_request, status: :canceled) }
+    let(:today) { Time.zone.now }
+    it "returns the last created status and date" do
+      FactoryBot.create :state_change, request: absence_request, action: :approved
+      FactoryBot.create :state_change, request: absence_request, action: :canceled
+      expect(absence_request_decorator.latest_status).to eq "Canceled on #{today.strftime('%b %-d, %Y')}"
     end
   end
 end
