@@ -1,5 +1,6 @@
 require "rails_helper"
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe AbsenceRequestDecorator, type: :model do
   subject(:absence_request_decorator) { described_class.new(absence_request) }
   let(:absence_request) { FactoryBot.create(:absence_request, absence_type: :vacation) }
@@ -123,7 +124,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
 
   describe "#formatted_end_date" do
     let(:absence_request) { FactoryBot.create(:absence_request, end_date: Time.zone.parse("2019-07-04 12:12")) }
-    it "returns a formated start date" do
+    it "returns a formated end date" do
       expect(absence_request_decorator.formatted_end_date).to eq "Jul 4, 2019"
     end
   end
@@ -148,10 +149,31 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
       end
     end
 
-    context "when absence has been changes_requested" do
+    context "when absence has had changes_requested" do
       let(:absence_request) { FactoryBot.create(:absence_request, status: :changes_requested) }
       it "returns the correct lux icon" do
         expect(absence_request_decorator.status_icon).to eq "lux-icon-alert"
+      end
+    end
+
+    context "when absence has been canceled" do
+      let(:absence_request) { FactoryBot.create(:absence_request, status: :canceled) }
+      it "returns the correct lux icon" do
+        expect(absence_request_decorator.status_icon).to eq "lux-icon-alert"
+      end
+    end
+
+    context "when absence has been reported" do
+      let(:absence_request) { FactoryBot.create(:absence_request, status: :reported) }
+      it "returns the correct lux icon" do
+        expect(absence_request_decorator.status_icon).to eq "lux-icon-file"
+      end
+    end
+
+    context "when absence is pending cancelation" do
+      let(:absence_request) { FactoryBot.create(:absence_request, status: :pending_cancelation) }
+      it "returns the correct lux icon" do
+        expect(absence_request_decorator.status_icon).to eq "lux-icon-flower"
       end
     end
   end

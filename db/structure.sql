@@ -89,10 +89,13 @@ CREATE TYPE public.request_participation_category AS ENUM (
 --
 
 CREATE TYPE public.request_status AS ENUM (
-    'pending',
-    'changes_requested',
     'approved',
-    'denied'
+    'canceled',
+    'changes_requested',
+    'denied',
+    'pending',
+    'pending_cancelation',
+    'reported'
 );
 
 
@@ -754,6 +757,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190506181109'),
 ('20190603185001'),
 ('20190606115402'),
-('20190612114950');
+('20190612114950'),
+('20190613143042');
 
 
