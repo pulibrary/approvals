@@ -1,13 +1,21 @@
 <%= link_to travel_request do %>
-  <card id="<%= travel_request.id %>" size="full-width">
-    <heading level="h2">Travel Request</heading>
-    <text-style variation="default">
-      <%= travel_request.creator %>
-      <%= travel_request.start_date %>-<%= travel_request.end_date %>
-      <%= travel_request.status %>
-      <%= travel_request.purpose %>
-      <%= travel_request.participation %>
-      <%= travel_request.travel_category %>
-    </text-style>
+  <card id="<%= travel_request.id %>" cardUrl="<%= travel_request_path(travel_request)%>" size="full-width">
+    <card-media>
+      <lux-icon-base
+        width="50"
+        height="50"
+      ><<%= travel_request.travel_category_icon %> /></lux-icon-base>
+    </card-media>
+    <card-header>
+      <heading level="h2" size="h3"><%= travel_request.title %></heading>
+      <text-style><%= travel_request.formatted_start_date %> to <%= travel_request.formatted_end_date %></text-style>
+    </card-header>
+    <card-content>
+      <text-style type="span" variation="small"><lux-icon-base
+        width="14"
+        height="14"
+        icon-color="rgb(124, 181, 24)"
+      ><<%= travel_request.status_icon %>/></lux-icon-base><%= travel_request.status %> on Mon DD, YYYY</text-style>
+    </card-content>
   </card>
 <% end %>

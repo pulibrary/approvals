@@ -12,7 +12,7 @@ class RequestListDecorator
   def initialize(request_list, params_hash: {})
     @request_list = request_list.map do |request|
       if request.is_a?(TravelRequest)
-        request
+        TravelRequestDecorator.new(request)
       else
         AbsenceRequestDecorator.new(request)
       end
