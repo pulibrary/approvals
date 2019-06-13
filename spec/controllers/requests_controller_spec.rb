@@ -32,7 +32,7 @@ RSpec.describe RequestsController, type: :controller do
       get :my_requests, params: {}, session: valid_session
       expect(response).to be_successful
       expect(assigns(:requests).first).to be_a AbsenceRequestDecorator
-      expect(assigns(:requests).last).to be_a TravelRequest
+      expect(assigns(:requests).last).to be_a TravelRequestDecorator
       expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_absence, my_travel].map(&:id))
     end
 
@@ -61,20 +61,20 @@ RSpec.describe RequestsController, type: :controller do
 
     it "accepts limit by request type travel" do
       get :my_requests, params: { filters: { request_type: "travel" } }, session: valid_session
-      expect(assigns(:requests)).to contain_exactly(my_travel)
+      expect(assigns(:requests).map(&:id)).to contain_exactly(my_travel.id)
     end
 
     it "accepts limit by request type business" do
       my_business_travel = FactoryBot.create(:travel_request, creator: staff_profile, travel_category: "business")
       get :my_requests, params: { filters: { request_type: "business" } }, session: valid_session
-      expect(assigns(:requests)).to contain_exactly(my_business_travel)
+      expect(assigns(:requests).map(&:id)).to contain_exactly(my_business_travel.id)
     end
 
     it "accepts limit by status and request type" do
       my_business_travel = FactoryBot.create(:travel_request, creator: staff_profile, status: "approved", travel_category: "business")
       FactoryBot.create(:travel_request, creator: staff_profile, status: "approved", travel_category: "discretionary")
       get :my_requests, params: { filters: { request_type: "business", status: "approved" } }, session: valid_session
-      expect(assigns(:requests)).to contain_exactly(my_business_travel)
+      expect(assigns(:requests).map(&:id)).to contain_exactly(my_business_travel.id)
     end
   end
 
