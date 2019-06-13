@@ -311,7 +311,8 @@ CREATE TABLE public.requests (
     participation public.request_participation_category,
     travel_category public.request_travel_category,
     absence_type public.request_absence_type,
-    status public.request_status
+    status public.request_status,
+    event_title character varying
 );
 
 
@@ -758,6 +759,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190603185001'),
 ('20190606115402'),
 ('20190612114950'),
-('20190613143042');
+('20190613143042'),
+('20190613150050');
 
 

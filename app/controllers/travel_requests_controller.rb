@@ -68,7 +68,7 @@ class TravelRequestsController < ApplicationController
         :end_date,
         :purpose,
         :participation,
-        event_requests_attributes: [:recurring_event_id],
+        event_requests_attributes: [:recurring_event_id, :start_date, :end_date, :location, :url],
         notes_attributes: [:creator_id, :content],
         estimates_attributes: [:amount, :recurrence, :type]
       )

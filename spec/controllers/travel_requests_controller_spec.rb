@@ -24,7 +24,7 @@ require "rails_helper"
 # `rails-controller-testing` gem.
 
 RSpec.describe TravelRequestsController, type: :controller do
-  let(:recurring_event) { FactoryBot.create(:recurring_event) }
+  let(:recurring_event) { FactoryBot.create(:recurring_event, name: "Ice Capades") }
   let(:creator) { FactoryBot.create(:staff_profile) }
   let(:start_date) { Time.zone.today }
   let(:end_date) { Time.zone.tomorrow }
@@ -39,7 +39,11 @@ RSpec.describe TravelRequestsController, type: :controller do
       request_type: "TravelRequest",
       purpose: "Travel to campus for in-person meetings",
       participation: "member",
-      event_requests_attributes: [recurring_event_id: recurring_event.id],
+      event_requests_attributes: [
+        recurring_event_id: recurring_event.id,
+        location: "Mumbai",
+        start_date: Time.zone.today
+      ],
       travel_category: "business", # note this field is not available on the create form; only on approval.
     }
   end
@@ -97,6 +101,7 @@ RSpec.describe TravelRequestsController, type: :controller do
         expect(updated.purpose).to eq "Travel to campus for in-person meetings"
         expect(updated.participation).to eq "member"
         expect(updated.recurring_events.count).to eq 1
+        expect(updated.event_title).to eq "Ice Capades #{Time.zone.today.year}, Mumbai"
       end
 
       it "redirects to the created travel_request" do

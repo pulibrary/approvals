@@ -14,6 +14,7 @@ RSpec.describe TravelRequest, type: :model do
     it { is_expected.to respond_to :travel_category }
     it { is_expected.to respond_to :notes }
     it { is_expected.to respond_to :estimates }
+    it { is_expected.to respond_to :event_title }
   end
 
   # This acts as a "master test" for all request types using this property
