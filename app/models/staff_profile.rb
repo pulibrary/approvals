@@ -7,4 +7,8 @@ class StaffProfile < ApplicationRecord
   def to_s
     "#{surname}, #{given_name} (#{user.uid})"
   end
+
+  def department_head?
+    Department.where(head_id: id).count.positive?
+  end
 end
