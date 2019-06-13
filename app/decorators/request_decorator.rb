@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 class RequestDecorator
-  delegate :end_date, :id, :request_type, :start_date, :status, :to_model,
+  delegate :created_at, :end_date, :id, :request_type, :start_date, :status, :to_model, :state_changes,
            to: :request
   attr_reader :request
 
   def initialize(request)
     @request = request
+  end
+
+  def latest_status
+    "#{decorated_status} on #{date_of_status.strftime(date_format)}"
   end
 
   def status_icon
@@ -34,5 +38,21 @@ class RequestDecorator
 
     def date_format
       "%b %-d, %Y"
+    end
+
+    def decorated_status
+      if (status == "pending") && state_changes.count.positive?
+        "Pending further approval"
+      else
+        status.humanize
+      end
+    end
+
+    def date_of_status
+      if state_changes.empty?
+        created_at
+      else
+        state_changes.last.created_at
+      end
     end
 end

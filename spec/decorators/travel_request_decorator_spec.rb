@@ -9,6 +9,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
     it { is_expected.to respond_to :end_date }
     it { is_expected.to respond_to :id }
     it { is_expected.to respond_to :request_type }
+    it { is_expected.to respond_to :state_changes }
     it { is_expected.to respond_to :status }
     it { is_expected.to respond_to :start_date }
     it { is_expected.to respond_to :to_model }
@@ -112,6 +113,31 @@ RSpec.describe TravelRequestDecorator, type: :model do
       let(:travel_request) { FactoryBot.create(:travel_request, status: :canceled) }
       it "returns the correct lux icon" do
         expect(travel_request_decorator.status_icon).to eq "lux-icon-alert"
+      end
+    end
+  end
+
+  describe "#latest_status" do
+    let(:travel_request) { FactoryBot.create(:travel_request) }
+    let(:today) { Time.zone.now }
+    it "returns the status and the createddate" do
+      expect(travel_request_decorator.latest_status).to eq "Pending on #{today.strftime('%b %-d, %Y')}"
+    end
+
+    context "it has been approved and then canceled" do
+      let(:travel_request) { FactoryBot.create(:travel_request, status: :canceled) }
+      it "returns the last created status and date" do
+        FactoryBot.create :state_change, request: travel_request, action: :approved
+        FactoryBot.create :state_change, request: travel_request, action: :canceled
+        expect(travel_request_decorator.latest_status).to eq "Canceled on #{today.strftime('%b %-d, %Y')}"
+      end
+    end
+
+    context "approved but waiting on further approval" do
+      let(:travel_request) { FactoryBot.create(:travel_request, status: :pending) }
+      it "returns pending futher approval" do
+        FactoryBot.create :state_change, request: travel_request, action: :approved
+        expect(travel_request_decorator.latest_status).to eq "Pending further approval on #{today.strftime('%b %-d, %Y')}"
       end
     end
   end
