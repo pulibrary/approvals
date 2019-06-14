@@ -18,7 +18,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
   describe "#travel_category_icon" do
     context "when travel_category is None" do
       it "returns the correct lux icon" do
-        expect(travel_request_decorator.travel_category_icon).to eq "lux-icon-clock"
+        expect(travel_request_decorator.travel_category_icon).to eq "lux-icon-globe"
       end
     end
     context "when travel_category is Business" do
@@ -30,13 +30,13 @@ RSpec.describe TravelRequestDecorator, type: :model do
     context "when travel_category is professional development" do
       let(:travel_request) { FactoryBot.create(:travel_request, travel_category: :professional_development) }
       it "returns the correct lux icon" do
-        expect(travel_request_decorator.travel_category_icon).to eq "lux-icon-picture"
+        expect(travel_request_decorator.travel_category_icon).to eq "lux-icon-globe"
       end
     end
     context "when travel_category is discretionary" do
       let(:travel_request) { FactoryBot.create(:travel_request, travel_category: :discretionary) }
       it "returns the correct lux icon" do
-        expect(travel_request_decorator.travel_category_icon).to eq "lux-icon-relax"
+        expect(travel_request_decorator.travel_category_icon).to eq "lux-icon-globe"
       end
     end
   end
