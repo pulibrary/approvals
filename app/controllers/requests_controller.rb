@@ -17,7 +17,7 @@ class RequestsController < ApplicationController
     def my_request_objects
       Request
         .where(my_request_filters)
-        .where_notes_contain(search_query: request_params[:query])
+        .where_contains_text(search_query: request_params[:query])
         .order(my_request_order)
     end
 
