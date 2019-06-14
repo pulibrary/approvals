@@ -38,19 +38,19 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     context "when absence_type is research_days" do
       let(:absence_request) { FactoryBot.create(:absence_request, absence_type: :research_days) }
       it "returns research_days icon" do
-        expect(absence_request_decorator.absence_type_icon).to eq "lux-icon-file"
+        expect(absence_request_decorator.absence_type_icon).to eq "lux-icon-research"
       end
     end
     context "when absence_type is work_from_home" do
       let(:absence_request) { FactoryBot.create(:absence_request, absence_type: :work_from_home) }
       it "returns work_from_home icon" do
-        expect(absence_request_decorator.absence_type_icon).to eq "lux-icon-clock"
+        expect(absence_request_decorator.absence_type_icon).to eq "lux-icon-user-home"
       end
     end
     context "when absence_type is consulting" do
       let(:absence_request) { FactoryBot.create(:absence_request, absence_type: :consulting) }
       it "returns consulting icon" do
-        expect(absence_request_decorator.absence_type_icon).to eq "lux-icon-clock"
+        expect(absence_request_decorator.absence_type_icon).to eq "lux-icon-consulting"
       end
     end
     context "when absence_type is jury_duty" do

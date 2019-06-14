@@ -83,6 +83,7 @@ RSpec.feature "My Requests", type: :feature, js: true do
     fill_in "query", with: "balloons"
     click_button "search"
 
+    expect(find("#query").value).to eq "balloons"
     assert_selector "article.lux-card", count: 2
     ids = page.all(:css, "article.lux-card").map { |element| element["id"].to_i }
     expect(ids).to contain_exactly absence_request.id, absence_request2.id
