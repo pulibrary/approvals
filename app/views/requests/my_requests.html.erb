@@ -1,18 +1,18 @@
 <p id="notice"><%= notice %></p>
 
 <h1>My Requests</h1>
-<wrapper flexContainer>
+<wrapper :flex-container=true>
   <grid-item columns="lg-5 sm-12">
   <%= form_tag(my_requests_path, method: :get) do %>
     <search-box>
-      <input-text id="query" name="query" hideLabel placeholder="Search..." size="medium"></input-text>
-      <input-button type="submit" id="search" variation="icon" size="medium" icon="search" hideLabel></input-button>
+      <input-text id="query" name="query" value="<%=params[:query]%>" :hide-label=true label="search" placeholder="Search..." size="medium"></input-text>
+      <input-button type="submit" id="search" variation="icon" size="medium" icon="search" aria-label="submit search"></input-button>
     </search-box>
   <% end %>
   </grid-item>
 
-  <grid-item columns="lg-2"><spacer></spacer></grid-item>
-  <grid-item columns="lg-5 sm-12">
+  <!--grid-item columns="lg-1"><spacer></spacer></grid-item-->
+  <grid-item columns="lg-7 sm-12">
   <dropdown-menu type="links" id="status-menu" button-label="<%= @requests.current_status_filter_label %>" :menu-items="[
     <% @requests.status_filter_urls.each do |key, url| %>
        {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
@@ -40,7 +40,14 @@
 
 <wrapper>
   <% @requests.filter_removal_urls.each do |key, url| %>
-    <%= link_to key,url %>
+    <%= link_to url do %>
+      <text-style variation="default">
+        <%= key %>
+        <lux-icon-base icon-name="denied" width="16" height="16">
+          <lux-icon-denied></lux-icon-denied>
+        </lux-icon-base>
+    </text-style>
+    <% end %>
   <% end %>
 </wrapper>
 
