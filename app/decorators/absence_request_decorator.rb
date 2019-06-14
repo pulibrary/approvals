@@ -13,9 +13,9 @@ class AbsenceRequestDecorator < RequestDecorator
       "vacation" => "lux-icon-vacation",
       "sick" => "lux-icon-hospital",
       "personal" => "lux-icon-relax",
-      "research_days" => "lux-icon-file",
-      "work_from_home" => "lux-icon-clock",
-      "consulting" => "lux-icon-clock",
+      "research_days" => "lux-icon-research",
+      "work_from_home" => "lux-icon-user-home",
+      "consulting" => "lux-icon-consulting",
       "jury_duty" => "lux-icon-scales",
       "death_in_family" => "lux-icon-flower"
     }
