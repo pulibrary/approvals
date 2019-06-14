@@ -2,11 +2,12 @@
 class RandomRequestGenerator
   class << self
     def generate_travel_request(creator:, status: "pending")
+      recurring_events = generate_random_recurring_events
       estimates = generate_random_estimates
       start_date = Time.zone.now + Random.rand(1...500).days
       end_date = start_date + Random.rand(1..10).days
       request = TravelRequest.create!(creator: creator,
-                                      event_requests_attributes: [{ recurring_event_id: RecurringEvent.first.id }],
+                                      event_requests_attributes: [event_requests_attributes(recurring_events: recurring_events)],
                                       estimates_attributes: estimates, status: status,
                                       start_date: start_date, end_date: end_date)
       request = generate_random_state_changes(request)
@@ -23,6 +24,25 @@ class RandomRequestGenerator
     end
 
     private
+
+      def event_requests_attributes(recurring_events:)
+        event = recurring_events[Random.rand(0..recurring_events.count - 1)]
+        {
+          recurring_event_id: event.id,
+          location: Faker::Address.city,
+          url: "http://#{event.name.parameterize}_#{Faker::Address.city}.org",
+          start_date: Time.zone.now + Random.rand(1...500).days
+        }
+      end
+
+      def generate_random_recurring_events
+        1.upto(Random.rand(20...100)) do
+          name = Faker::Hacker.noun + Faker::Hacker.ingverb
+          RecurringEvent.create(name: name.titleize, url: "http://#{name.parameterize}.org",
+                                description: Faker::Hacker.say_something_smart)
+        end
+        RecurringEvent.all
+      end
 
       def generate_random_state_changes(request)
         return request if request.pending?

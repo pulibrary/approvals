@@ -42,32 +42,6 @@ RSpec.describe TravelRequestDecorator, type: :model do
     end
   end
 
-  describe "#title" do
-    context "when travel_category is empty" do
-      it "returns appropriate title" do
-        expect(travel_request_decorator.title).to eq "Uncategorized travel"
-      end
-    end
-    context "when travel_category is business" do
-      let(:travel_request) { FactoryBot.create(:travel_request, travel_category: :business) }
-      it "returns appropriate title" do
-        expect(travel_request_decorator.title).to eq "Business"
-      end
-    end
-    context "when travel_category is professional development" do
-      let(:travel_request) { FactoryBot.create(:travel_request, travel_category: :professional_development) }
-      it "returns appropriate title" do
-        expect(travel_request_decorator.title).to eq "Professional development"
-      end
-    end
-    context "when travel_category is discretionary" do
-      let(:travel_request) { FactoryBot.create(:travel_request, travel_category: :discretionary) }
-      it "returns appropriate title" do
-        expect(travel_request_decorator.title).to eq "Discretionary"
-      end
-    end
-  end
-
   describe "#formatted_start_date" do
     let(:travel_request) { FactoryBot.create(:travel_request, start_date: Time.zone.parse("2019-07-04 12:12")) }
     it "returns a formated start date" do
@@ -88,7 +62,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
       expect(travel_request_decorator.status_icon).to eq "lux-icon-clock"
     end
 
-    context "when travel has been apporved" do
+    context "when travel has been approved" do
       let(:travel_request) { FactoryBot.create(:travel_request, status: :approved) }
       it "returns the correct lux icon" do
         expect(travel_request_decorator.status_icon).to eq "lux-icon-approved"
