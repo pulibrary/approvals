@@ -8,14 +8,8 @@ class TravelRequestDecorator < RequestDecorator
     @travel_request = travel_request
   end
 
-  # TODO: this mapping is being blocked by #216
   def travel_category_icon
-    icon_map = {
-      "business" => "lux-icon-globe",
-      "professional_development" => "lux-icon-picture",
-      "discretionary" => "lux-icon-relax"
-    }
-    icon_map[travel_category] || "lux-icon-clock"
+    "lux-icon-globe"
   end
 
   # TODO: this title is being blocked by #207
