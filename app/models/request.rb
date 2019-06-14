@@ -22,7 +22,11 @@ class Request < ApplicationRecord
     # returning all which is the relation
     return all if search_query.blank?
 
-    joins(:notes).where("notes.content like '%#{search_query}'")
+    # escapes the punctuation within the query
+    query = connection.quote("%#{search_query}%")
+
+    # ilike is a case insensitive like
+    joins(:notes).where("notes.content ilike #{query}")
   end
 
   enum status: {
