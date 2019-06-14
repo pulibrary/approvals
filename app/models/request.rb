@@ -18,15 +18,19 @@ class Request < ApplicationRecord
 
   has_many :state_changes
 
-  def self.where_notes_contain(search_query:)
+  def self.where_contains_text(search_query:)
     # returning all which is the relation
     return all if search_query.blank?
+
+    # search by id
+    id_results = Request.where(id: search_query)
+    return id_results if id_results.count.positive?
 
     # escapes the punctuation within the query
     query = connection.quote("%#{search_query}%")
 
     # ilike is a case insensitive like
-    joins(:notes).where("notes.content ilike #{query}")
+    joins(:notes).where("notes.content ilike #{query} or event_title ilike #{query}").distinct
   end
 
   enum status: {
