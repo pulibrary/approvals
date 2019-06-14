@@ -314,8 +314,8 @@ CREATE TABLE public.requests (
     absence_type public.request_absence_type,
     status public.request_status,
     event_title character varying,
-    start_time time without time zone,
-    end_time time without time zone,
+    start_time character varying,
+    end_time character varying,
     hours_requested numeric
 );
 
@@ -766,6 +766,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190613143042'),
 ('20190613150050'),
 ('20190613173252'),
-('20190613185106');
+('20190613185106'),
+('20190614132041');
 
 
