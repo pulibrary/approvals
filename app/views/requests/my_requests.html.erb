@@ -1,11 +1,18 @@
 <p id="notice"><%= notice %></p>
 
 <h1>My Requests</h1>
-<wrapper>
+<wrapper flexContainer>
+  <grid-item columns="lg-5 sm-12">
   <%= form_tag(my_requests_path, method: :get) do %>
-    <%= text_field_tag "query", nil, placeholder: "Search..."%>
-    <%= submit_tag 'Search' %>
+    <search-box>
+      <input-text id="query" name="query" hideLabel placeholder="Search..." size="medium"></input-text>
+      <input-button type="submit" id="search" variation="icon" size="medium" icon="search" hideLabel></input-button>
+    </search-box>
   <% end %>
+  </grid-item>
+
+  <grid-item columns="lg-2"><spacer></spacer></grid-item>
+  <grid-item columns="lg-5 sm-12">
   <dropdown-menu type="links" id="status-menu" button-label="<%= @requests.current_status_filter_label %>" :menu-items="[
     <% @requests.status_filter_urls.each do |key, url| %>
        {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
@@ -28,6 +35,7 @@
        {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
     <% end %>
   ]"></dropdown-menu>
+  </grid-item>
 </wrapper>
 
 <wrapper>

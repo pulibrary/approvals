@@ -81,7 +81,7 @@ RSpec.feature "My Requests", type: :feature, js: true do
 
     # search query clears the filter
     fill_in "query", with: "balloons"
-    click_button "Search"
+    click_button "search"
 
     assert_selector "article.lux-card", count: 2
     ids = page.all(:css, "article.lux-card").map { |element| element["id"].to_i }
