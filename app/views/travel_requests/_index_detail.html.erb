@@ -1,5 +1,4 @@
-<%= link_to travel_request do %>
-  <card id="<%= travel_request.id %>" cardUrl="<%= travel_request_path(travel_request)%>" size="full-width">
+  <card id="<%= travel_request.id %>" size="full-width">
     <card-media>
       <lux-icon-base
         width="50"
@@ -7,15 +6,13 @@
       ><<%= travel_request.travel_category_icon %> /></lux-icon-base>
     </card-media>
     <card-header>
-      <heading level="h2" size="h3"><%= travel_request.event_title %></heading>
+      <heading level="h2" size="h3"><hyperlink href="<%= travel_request_path(travel_request.to_model)%>"></hyperlink><%= travel_request.event_title %></heading>
       <text-style><%= travel_request.formatted_start_date %> to <%= travel_request.formatted_end_date %></text-style>
     </card-header>
     <card-content>
       <text-style type="span" variation="small"><lux-icon-base
         width="14"
         height="14"
-        icon-color="rgb(124, 181, 24)"
       ><<%= travel_request.status_icon %>/></lux-icon-base><%= travel_request.latest_status %></text-style>
     </card-content>
   </card>
-<% end %>
