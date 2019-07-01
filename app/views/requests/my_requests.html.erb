@@ -1,41 +1,44 @@
 <p id="notice"><%= notice %></p>
 
-<h1>My Requests</h1>
-<wrapper :flex-container=true>
-  <grid-item columns="lg-5 sm-12">
-  <%= form_tag(my_requests_path, method: :get) do %>
-    <search-box>
-      <input-text id="query" name="query" value="<%=params[:query]%>" :hide-label=true label="search" placeholder="Search..." size="medium"></input-text>
-      <input-button type="submit" id="search" variation="icon" size="medium" icon="search" aria-label="submit search"></input-button>
-    </search-box>
-  <% end %>
-  </grid-item>
+<wrapper>
+  <heading level="h1" size="h2">My Requests</heading>
+</wrapper>
+<wrapper>
+  <grid-container>
+    <grid-item columns="lg-5 sm-12">
+    <%= form_tag(my_requests_path, method: :get) do %>
+      <search-box>
+        <input-text id="query" name="query" value="<%=params[:query]%>" :hide-label=true label="search" placeholder="Search..." size="medium"></input-text>
+        <input-button type="submit" id="search" variation="icon" size="medium" icon="search" aria-label="submit search"></input-button>
+      </search-box>
+    <% end %>
+    </grid-item>
 
-  <!--grid-item columns="lg-1"><spacer></spacer></grid-item-->
-  <grid-item columns="lg-7 sm-12">
-  <dropdown-menu type="links" id="status-menu" button-label="<%= @requests.current_status_filter_label %>" :menu-items="[
-    <% @requests.status_filter_urls.each do |key, url| %>
-       {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
-    <% end %>
-  ]"></dropdown-menu>
+    <grid-item columns="lg-7 sm-12 auto" :offset=true>
+    <dropdown-menu type="links" id="status-menu" button-label="<%= @requests.current_status_filter_label %>" :menu-items="[
+      <% @requests.status_filter_urls.each do |key, url| %>
+        {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
+      <% end %>
+    ]"></dropdown-menu>
 
-  <dropdown-menu type="links" id="request-type-menu" button-label="<%= @requests.current_request_type_filter_label %>" :menu-items="[
-    {name: 'Absence', component: 'Absence', href: '<%= @requests.absence_filter_url %>'},
-    <% @requests.absence_filter_urls.each do |key, url| %>
-       {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
-    <% end %>
-    {name: 'Travel', component: 'Travel', href: '<%= @requests.travel_filter_url %>'},
-    <% @requests.travel_filter_urls.each do |key, url| %>
-       {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
-    <% end %>
-  ]"></dropdown-menu>
+    <dropdown-menu type="links" id="request-type-menu" button-label="<%= @requests.current_request_type_filter_label %>" :menu-items="[
+      {name: 'Absence', component: 'Absence', href: '<%= @requests.absence_filter_url %>'},
+      <% @requests.absence_filter_urls.each do |key, url| %>
+        {name: '<%= key %>', component: '<%= key %>', parent: 'Absence', href: '<%= url %>'},
+      <% end %>
+      {name: 'Travel', component: 'Travel', href: '<%= @requests.travel_filter_url %>'},
+      <% @requests.travel_filter_urls.each do |key, url| %>
+        {name: '<%= key %>', component: '<%= key %>', parent: 'Travel', href: '<%= url %>'},
+      <% end %>
+    ]"></dropdown-menu>
 
-  <dropdown-menu type="links" id="sort-menu" button-label="<%= @requests.current_sort_label %>" :menu-items="[
-    <% @requests.sort_urls.each do |key, url| %>
-       {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
-    <% end %>
-  ]"></dropdown-menu>
-  </grid-item>
+    <dropdown-menu type="links" id="sort-menu" button-label="<%= @requests.current_sort_label %>" :menu-items="[
+      <% @requests.sort_urls.each do |key, url| %>
+        {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
+      <% end %>
+    ]"></dropdown-menu>
+    </grid-item>
+  </grid-container>
 </wrapper>
 
 <wrapper>
@@ -51,10 +54,12 @@
   <% end %>
 </wrapper>
 
-<% @requests.each do |request| %>
-  <%= if request.request_type == 'TravelRequest'
-        render 'travel_requests/index_detail', travel_request: request
-      else
-        render 'absence_requests/index_detail', absence_request: request
-      end %>
-<% end %>
+<wrapper>
+  <% @requests.each do |request| %>
+    <%= if request.request_type == 'TravelRequest'
+          render 'travel_requests/index_detail', travel_request: request
+        else
+          render 'absence_requests/index_detail', absence_request: request
+        end %>
+  <% end %>
+</wrapper>
