@@ -26,7 +26,7 @@ require "rails_helper"
 
 RSpec.describe TravelRequestsController, type: :controller do
   let(:recurring_event) { FactoryBot.create(:recurring_event, name: "Ice Capades") }
-  let(:creator) { FactoryBot.create(:staff_profile) }
+  let(:creator) { FactoryBot.create(:staff_profile, user: user) }
   let(:start_date) { Time.zone.today }
   let(:end_date) { Time.zone.tomorrow }
   # This should return the minimal set of attributes required to create a valid
@@ -40,7 +40,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       request_type: "TravelRequest",
       purpose: "Travel to campus for in-person meetings",
       participation: "member",
-      event_requests_attributes: [
+      event_requests: [
         recurring_event_id: recurring_event.id,
         location: "Mumbai",
         start_date: Time.zone.today
@@ -62,6 +62,7 @@ RSpec.describe TravelRequestsController, type: :controller do
 
   before do
     sign_in user
+    creator # call this now so the staff profile for the signed in user is always created
   end
 
   describe "GET #show" do
@@ -77,7 +78,9 @@ RSpec.describe TravelRequestsController, type: :controller do
     it "returns a success response" do
       get :new, params: {}, session: valid_session
       expect(response).to be_successful
-      expect(assigns(:travel_request)).to be_a(TravelRequest)
+      travel_request_change_set = assigns(:travel_request_change_set)
+      expect(travel_request_change_set).to be_a(TravelRequestChangeSet)
+      expect(travel_request_change_set.event_requests[0].model.start_date).to eq(Time.zone.today.to_date)
     end
   end
 
@@ -86,7 +89,8 @@ RSpec.describe TravelRequestsController, type: :controller do
       travel_request = FactoryBot.create(:travel_request)
       get :edit, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to be_successful
-      assert_equal travel_request, assigns(:travel_request)
+      expect(assigns(:travel_request_change_set)).to be_a(TravelRequestChangeSet)
+      assert_equal travel_request, assigns(:travel_request_change_set).model
     end
   end
 
@@ -116,17 +120,19 @@ RSpec.describe TravelRequestsController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { travel_request: invalid_attributes }, session: valid_session
         expect(response).to be_successful
-        expect(assigns(:travel_request)).to be_a(TravelRequest)
+        expect(assigns(:travel_request_change_set)).to be_a(TravelRequestChangeSet)
       end
     end
   end
 
   describe "PUT #update" do
     context "with valid nested attributes" do
+      let(:recurring_event) { FactoryBot.create :recurring_event }
       let(:nested_attributes) do
         {
-          notes_attributes: [{ creator_id: creator.id, content: "Important message" }],
-          estimates_attributes: [amount: 200.20, recurrence: 3, cost_type: "lodging"]
+          notes: [{ creator_id: creator.id, content: "Important message" }],
+          estimates: [amount: 200.20, recurrence: 3, cost_type: "lodging"],
+          event_requests: [{ start_date: start_date, location: "Paris", recurring_event_id: recurring_event.id }]
         }
       end
 
@@ -136,6 +142,9 @@ RSpec.describe TravelRequestsController, type: :controller do
         travel_request.reload
         expect(travel_request.notes.last.content).to eq "Important message"
         expect(travel_request.estimates.last.amount).to eq 200.20
+        expect(travel_request.event_requests.count).to eq 2
+        expect(travel_request.event_requests.last.start_date).to eq start_date
+        expect(travel_request.event_requests.last.location).to eq "Paris"
       end
 
       it "redirects to the travel_request" do
@@ -146,17 +155,33 @@ RSpec.describe TravelRequestsController, type: :controller do
       end
     end
 
-    context "with invalid params" do
+    context "with invalid note params" do
       let(:invalid_nested_attributes) do
         {
-          notes_attributes: [{ creator_id: user.id, content: "Important message" }]
+          notes: [{ content: nil }]
+        }
+      end
+
+      it "returns a success response (i.e. to display the 'edit' template)" do
+        travel_request = FactoryBot.create(:travel_request)
+        expect do
+          put :update, params: { id: travel_request.to_param, travel_request: invalid_nested_attributes }, session: valid_session
+          expect(response).to redirect_to(travel_request)
+        end.to change(Note, :count).by(0)
+      end
+    end
+
+    context "with invalid event_request params" do
+      let(:invalid_nested_attributes) do
+        {
+          event_requests: [{ recurring_event_id: recurring_event.id }]
         }
       end
 
       it "returns a success response (i.e. to display the 'edit' template)" do
         travel_request = FactoryBot.create(:travel_request)
         put :update, params: { id: travel_request.to_param, travel_request: invalid_nested_attributes }, session: valid_session
-        expect(assigns(:travel_request).notes.first.attributes.with_indifferent_access).to include(invalid_nested_attributes[:notes_attributes].first)
+        expect(assigns(:travel_request_change_set).event_requests.last.recurring_event_id).to eq recurring_event.id.to_s
       end
     end
   end

@@ -8,7 +8,7 @@ RSpec.describe "travel_requests/edit", type: :view do
                                        travel_category: "business")
   end
   before do
-    @travel_request = assign(:travel_request, travel_request)
+    assign(:travel_request_change_set, TravelRequestChangeSet.new(travel_request))
   end
 
   it "renders the edit travel_request form" do
@@ -20,6 +20,9 @@ RSpec.describe "travel_requests/edit", type: :view do
       assert_select "input[name=?][value=?]", "travel_request[end_date]", travel_request.end_date.to_s
       assert_select "input[name=?][value=?]", "travel_request[purpose]", travel_request.purpose
       assert_select "input[name=?][value=?]", "travel_request[participation]", travel_request.participation
+      assert_select "input[name=?][value=?]", "travel_request[event_requests_attributes][0][start_date]", travel_request.event_requests[0].start_date.to_s
+      assert_select "input[name=?][value=?]", "travel_request[event_requests_attributes][0][location]", travel_request.event_requests[0].location
+      assert_select "input[name=?][value=?]", "travel_request[event_requests_attributes][0][recurring_event_id]", travel_request.event_requests[0].recurring_event.id.to_s
     end
   end
 end
