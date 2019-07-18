@@ -14,7 +14,7 @@ RSpec.describe RequestsController, type: :controller do
 
   let(:other_absence) { FactoryBot.create(:absence_request) }
   let(:other_travel) { FactoryBot.create(:travel_request) }
-  let(:my_absence) { FactoryBot.create(:absence_request, creator: staff_profile) }
+  let(:my_absence) { FactoryBot.create(:absence_request, creator: staff_profile, start_date: Time.zone.tomorrow) }
   let(:my_travel) { FactoryBot.create(:travel_request, creator: staff_profile) }
 
   before do
