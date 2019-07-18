@@ -165,8 +165,8 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
       end
     end
 
-    context "when absence has been reported" do
-      let(:absence_request) { FactoryBot.create(:absence_request, status: :reported) }
+    context "when absence has been recorded" do
+      let(:absence_request) { FactoryBot.create(:absence_request, status: :recorded) }
       it "returns the correct lux icon" do
         expect(absence_request_decorator.status_icon).to eq "lux-icon-file"
       end

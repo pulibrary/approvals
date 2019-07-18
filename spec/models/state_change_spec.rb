@@ -33,15 +33,15 @@ RSpec.describe StateChange, type: :model do
         end
       end
 
-      context "when stage changes to reported" do
-        let(:action) { "reported" }
-        it "sets the request status to reported when saved" do
+      context "when stage changes to recorded" do
+        let(:action) { "recorded" }
+        it "sets the request status to recorded when saved" do
           state_change
-          expect(request.reload.status).to eq("reported")
+          expect(request.reload.status).to eq("recorded")
         end
       end
 
-      context "when stage changes to canceled and it was not already reported" do
+      context "when stage changes to canceled and it was not already recorded" do
         let(:action) { "canceled" }
         it "sets the request status to canceled when saved" do
           state_change
@@ -49,9 +49,9 @@ RSpec.describe StateChange, type: :model do
         end
       end
 
-      context "when stage changes to canceled and it was already reported" do
+      context "when stage changes to canceled and it was already recorded" do
         let(:action) { "canceled" }
-        let(:request) { FactoryBot.create :absence_request, status: "reported" }
+        let(:request) { FactoryBot.create :absence_request, status: "recorded" }
 
         it "sets the request status to pending_cancelation when saved" do
           state_change
