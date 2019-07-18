@@ -40,7 +40,7 @@ class Request < ApplicationRecord
     approved: "approved",
     denied: "denied",
     pending_cancelation: "pending_cancelation",
-    reported: "reported"
+    recorded: "recorded"
   }
 
   enum participation: {

@@ -20,7 +20,7 @@ class RequestDecorator
       "changes_requested" => "lux-icon-alert",
       # TODO: these do not exist yet
       "canceled" => "lux-icon-alert",
-      "reported" => "lux-icon-file",
+      "recorded" => "lux-icon-file",
       "pending_cancelation" => "lux-icon-flower"
     }
     icon_map[status]

@@ -5,6 +5,7 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
@@ -66,7 +67,7 @@ CREATE TYPE public.request_action AS ENUM (
     'canceled',
     'changes_requested',
     'denied',
-    'reported'
+    'recorded'
 );
 
 
@@ -96,7 +97,7 @@ CREATE TYPE public.request_status AS ENUM (
     'denied',
     'pending',
     'pending_cancelation',
-    'reported'
+    'recorded'
 );
 
 
@@ -767,6 +768,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190613150050'),
 ('20190613173252'),
 ('20190613185106'),
-('20190614132041');
+('20190614132041'),
+('20190718132916');
 
 

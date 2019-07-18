@@ -35,8 +35,8 @@ RSpec.describe Request, type: :model do
       expect(travel_request.changes_requested?).to eq true
       travel_request.canceled!
       expect(travel_request.canceled?).to eq true
-      travel_request.reported!
-      expect(travel_request.reported?).to eq true
+      travel_request.recorded!
+      expect(travel_request.recorded?).to eq true
       travel_request.pending_cancelation!
       expect(travel_request.pending_cancelation?).to eq true
     end

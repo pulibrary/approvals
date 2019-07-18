@@ -28,7 +28,7 @@ RSpec.describe RequestListDecorator, type: :model do
     let(:denied_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=denied#{sort}" }
     let(:pending_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=pending#{sort}" }
     let(:pending_cancelation_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=pending_cancelation#{sort}" }
-    let(:reported_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=reported#{sort}" }
+    let(:recorded_filter) { "/my_requests?#{travel_filter}filters%5Bstatus%5D=recorded#{sort}" }
     let(:travel_filter) { "" }
     let(:sort) { "" }
     let(:filters) do
@@ -39,7 +39,7 @@ RSpec.describe RequestListDecorator, type: :model do
         "Denied" => denied_filter,
         "Pending" => pending_filter,
         "Pending cancelation" => pending_cancelation_filter,
-        "Reported" => reported_filter
+        "Recorded" => recorded_filter
       }
     end
 

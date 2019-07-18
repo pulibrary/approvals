@@ -14,7 +14,7 @@ class StateChange < ApplicationRecord
     end
 
     def new_status
-      if (request.status == "reported") && (action == "canceled")
+      if (request.status == "recorded") && (action == "canceled")
         "pending_cancelation"
       elsif request.is_a?(TravelRequest) && (action == "approved") && !approver.department_head?
         "pending"
