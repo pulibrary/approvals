@@ -79,7 +79,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
     context "when travel has been changes_requested" do
       let(:travel_request) { FactoryBot.create(:travel_request, status: :changes_requested) }
       it "returns the correct lux icon" do
-        expect(travel_request_decorator.status_icon).to eq "lux-icon-alert"
+        expect(travel_request_decorator.status_icon).to eq "lux-icon-refresh"
       end
     end
 
