@@ -12,7 +12,7 @@
   </head>
 
   <body>
-    <library-header app-name="Approvals" app-url="<%= root_url %>" class="lux">
+    <library-header app-name="Approvals" app-url="<%= HomeURL.for(current_user: current_user) %>" class="lux">
     <menu-bar type="links" :menu-items="[
         {name: 'My Requests', component: 'My Requests', href: '/my_requests/'},
       ]"/>
