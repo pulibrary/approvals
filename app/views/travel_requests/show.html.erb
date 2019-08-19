@@ -1,15 +1,85 @@
 <p id="notice"><%= notice %></p>
-
-<p>   <strong>Creator:</strong><%= @travel_request.creator %></p>
-<p>   <strong>Start Date:</strong><%= @travel_request.start_date %></p>
-<p>   <strong>End Date:</strong><%= @travel_request.end_date %></p>
-<p>   <strong>Purpose:</strong><%= @travel_request.purpose %></p>
-<p>   <strong>Participation:</strong><%= @travel_request.participation %></p>
-<p>   <strong>Travel Category:</strong><%= @travel_request.travel_category %></p>
-<p>   <strong>Status:</strong><%= @travel_request.status %></p>
-<%=  render partial: "shared/request_note", collection: @travel_request.notes, as: :note %>
-<h2>Estimates</h2>
-<%=  render partial: "estimate", collection: @travel_request.estimates %>
+<wrapper>
+  <grid-container>
+    <grid-item columns="lg-10 sm-6">
+      <heading level="h1" size="h2">
+        <%= @travel_request.creator %>
+        <%= case @travel_request.status
+        when 'denied'
+            " will not attend "
+          when 'approved'
+            " will attend "
+          else
+            " wants to attend "
+          end
+        %>
+        <%= @travel_request.event_title %>
+      </heading>
+      <heading level="h2" size="h3">
+        From <%= @travel_request.start_date %> to <%= @travel_request.end_date %> in ???
+      </heading>
+    </grid-item>
+    <grid-item columns="lg-2 sm-6 auto">
+      <card size="small" id="trip-id">
+        <heading level="h2"><%= @travel_request.id %></heading>
+        <text-style variation="default">Trip ID</text-style>
+      </card>
+    </grid-item>
+  </grid-container>
+  <grid-container>
+    <grid-item columns="lg-3 sm-12">
+      <heading level="h3" size="h5">
+        Level of Participation
+      </heading>
+      <text-style variation="default"><%= @travel_request.participation.blank? ? 'Unknown' : @travel_request.participation %></text-style>
+      <heading level="h3" size="h5">
+        Travel Type
+      </heading>
+      <text-style variation="default"><%= @travel_request.travel_category.blank? ? 'Unknown' : @travel_request.travel_category %></text-style>
+      <heading level="h3" size="h5">
+        Purpose
+      </heading>
+      <text-style variation="default"><%= @travel_request.purpose.blank? ? 'Unknown' : @travel_request.purpose %></text-style>
+    </grid-item>
+    <grid-item columns="lg-3 sm-12">
+      <heading level="h3" size="h5">
+        Others who requested to go
+      </heading>
+    </grid-item>
+    <grid-item columns="lg-6 sm-12">
+      <heading level="h3" size="h5">
+        Absent team members
+      </heading>
+    </grid-item>
+  </grid-container>
+  <grid-container>
+    <grid-item columns="lg-3 sm-12">
+      <heading level="h4" size="h6">
+        Notes
+      </heading>
+      <%=  render partial: "shared/request_note", collection: @travel_request.notes, as: :note %>
+    </grid-item>
+    <grid-item columns="lg-9 sm-12">
+      <heading level="h2" size="h3">
+        Anticipated Expenses
+      </heading>
+      <table>
+        <thead>
+          <tr>
+            <th>Expense Type</th>
+            <th>Note</th>
+            <th>Occurrences</th>
+            <th>Cost per Occurrence</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%=  render partial: "estimate", collection: @travel_request.estimates %>
+        </tbody>
+      </table>
+    </grid-item>
+  </grid-container>
 
 <%= link_to 'Edit', edit_travel_request_path(@travel_request) %> |
 <%= link_to 'Back', travel_requests_path %>
+</wrapper>
