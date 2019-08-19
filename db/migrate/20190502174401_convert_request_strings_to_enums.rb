@@ -1,3 +1,5 @@
+# This migration will cause loss of data in the request table due to
+#  the fact that columns are being removed
 class ConvertRequestStringsToEnums < ActiveRecord::Migration[5.2]
   def up
     remove_column :requests, :participation, :string

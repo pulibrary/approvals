@@ -1,3 +1,5 @@
+# This migration will cause loss of data in the requests table due to
+#  the fact that columns are being removed
 class UpdateRequestStatuses < ActiveRecord::Migration[5.2]
   def up
     remove_column :requests, :status, :request_status

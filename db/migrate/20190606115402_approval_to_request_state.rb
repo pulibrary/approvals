@@ -1,3 +1,5 @@
+# This migration will cause loss of data in the state_changes table due to
+#  the fact that columns are being removed
 class ApprovalToRequestState < ActiveRecord::Migration[5.2]
   def up
     rename_table :approvals, :state_changes
