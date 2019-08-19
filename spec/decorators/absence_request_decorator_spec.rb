@@ -154,7 +154,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     context "when absence has had changes_requested" do
       let(:absence_request) { FactoryBot.create(:absence_request, status: :changes_requested) }
       it "returns the correct lux icon" do
-        expect(absence_request_decorator.status_icon).to eq "lux-icon-alert"
+        expect(absence_request_decorator.status_icon).to eq "lux-icon-refresh"
       end
     end
 
@@ -168,14 +168,14 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     context "when absence has been recorded" do
       let(:absence_request) { FactoryBot.create(:absence_request, status: :recorded) }
       it "returns the correct lux icon" do
-        expect(absence_request_decorator.status_icon).to eq "lux-icon-file"
+        expect(absence_request_decorator.status_icon).to eq "lux-icon-reported"
       end
     end
 
     context "when absence is pending cancelation" do
       let(:absence_request) { FactoryBot.create(:absence_request, status: :pending_cancelation) }
       it "returns the correct lux icon" do
-        expect(absence_request_decorator.status_icon).to eq "lux-icon-flower"
+        expect(absence_request_decorator.status_icon).to eq "lux-icon-remove"
       end
     end
   end

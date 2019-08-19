@@ -17,11 +17,10 @@ class RequestDecorator
       "pending" => "lux-icon-clock",
       "approved" => "lux-icon-approved",
       "denied" => "lux-icon-denied",
-      "changes_requested" => "lux-icon-alert",
-      # TODO: these do not exist yet
+      "changes_requested" => "lux-icon-refresh",
       "canceled" => "lux-icon-alert",
-      "recorded" => "lux-icon-file",
-      "pending_cancelation" => "lux-icon-flower"
+      "recorded" => "lux-icon-reported",
+      "pending_cancelation" => "lux-icon-remove"
     }
     icon_map[status]
   end
