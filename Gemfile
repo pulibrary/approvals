@@ -51,6 +51,7 @@ group :development, :test do
 end
 
 group :development do
+  gem "capistrano-passenger"
   gem "capistrano-rails", "~> 1.1.6"
   gem "foreman"
   gem "listen", ">= 3.0.5", "< 3.2"
