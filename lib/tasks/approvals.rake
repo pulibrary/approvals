@@ -34,4 +34,18 @@ namespace :approvals do
 
     puts "#{TravelRequest.count} TravelRequests generated and #{AbsenceRequest.count} AbsenceRequests generated for #{StaffProfile.count} Staff"
   end
+
+  desc "process the staff list"
+  task process_staff_report: :environment do
+    file = File.open(Rails.application.config.staff_report_location, encoding: "UTF-16")
+    report = file.read
+    StaffReportProcessor.process(data: report)
+    Department.all.each do |department|
+      puts department.name
+      puts "    Head: #{department.head}"
+      StaffProfile.where(department: department).order(:surname).each do |profile|
+        puts "      #{profile}"
+      end
+    end
+  end
 end

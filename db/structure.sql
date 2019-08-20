@@ -138,7 +138,8 @@ CREATE TABLE public.departments (
     head_id bigint,
     admin_assistant_id bigint,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    number character varying
 );
 
 
@@ -769,6 +770,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190613173252'),
 ('20190613185106'),
 ('20190614132041'),
-('20190718132916');
+('20190718132916'),
+('20190826190425');
 
 
