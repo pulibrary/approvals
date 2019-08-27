@@ -14,6 +14,17 @@ RSpec.describe StaffProfile, type: :model do
   it { is_expected.to respond_to :surname }
   it { is_expected.to respond_to :email }
 
+  describe "#find_by_uid" do
+    it "returns the staff_profile" do
+      profile = FactoryBot.create(:staff_profile)
+      expect(StaffProfile.find_by(uid: profile.user.uid)).to eq(profile)
+    end
+
+    it "returns nil for a non existant uid" do
+      expect(StaffProfile.find_by(uid: "blah")).to eq(nil)
+    end
+  end
+
   describe "#department_head?" do
     it "returns false for a regular employee" do
       expect(staff_profile.department_head?).to be_falsey
