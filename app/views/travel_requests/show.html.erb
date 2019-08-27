@@ -3,7 +3,7 @@
   <grid-container>
     <grid-item columns="lg-10 sm-6">
       <heading level="h1" size="h2">
-        <%= @travel_request.creator %>
+        <%= @travel_request.creator.given_name %>
         <%= case @travel_request.status
         when 'denied'
             " will not attend "
@@ -16,7 +16,7 @@
         <%= @travel_request.event_title %>
       </heading>
       <heading level="h2" size="h3">
-        From <%= @travel_request.start_date %> to <%= @travel_request.end_date %> in ???
+        From <%= @travel_request.start_date %> to <%= @travel_request.end_date %> in <%= @travel_request.event_requests[0].location %>
       </heading>
     </grid-item>
     <grid-item columns="lg-2 sm-6 auto">
@@ -28,58 +28,42 @@
   </grid-container>
   <grid-container>
     <grid-item columns="lg-3 sm-12">
-      <heading level="h3" size="h5">
+      <heading level="h3" size="h4">
         Level of Participation
       </heading>
       <text-style variation="default"><%= @travel_request.participation.blank? ? 'Unknown' : @travel_request.participation %></text-style>
-      <heading level="h3" size="h5">
+      <heading level="h3" size="h4">
         Travel Type
       </heading>
       <text-style variation="default"><%= @travel_request.travel_category.blank? ? 'Unknown' : @travel_request.travel_category %></text-style>
-      <heading level="h3" size="h5">
+      <heading level="h3" size="h4">
         Purpose
       </heading>
       <text-style variation="default"><%= @travel_request.purpose.blank? ? 'Unknown' : @travel_request.purpose %></text-style>
     </grid-item>
-    <grid-item columns="lg-3 sm-12">
-      <heading level="h3" size="h5">
+    <grid-item columns="lg-5 sm-12">
+      <heading level="h3" size="h4">
         Others who requested to go
       </heading>
     </grid-item>
-    <grid-item columns="lg-6 sm-12">
-      <heading level="h3" size="h5">
+    <grid-item columns="lg-4 sm-12">
+      <heading level="h3" size="h4">
         Absent team members
       </heading>
     </grid-item>
   </grid-container>
   <grid-container>
     <grid-item columns="lg-3 sm-12">
-      <heading level="h4" size="h6">
-        Notes
-      </heading>
       <%=  render partial: "shared/request_note", collection: @travel_request.notes, as: :note %>
     </grid-item>
-    <grid-item columns="lg-9 sm-12">
-      <heading level="h2" size="h3">
-        Anticipated Expenses
-      </heading>
-      <table>
-        <thead>
-          <tr>
-            <th>Expense Type</th>
-            <th>Note</th>
-            <th>Occurrences</th>
-            <th>Cost per Occurrence</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <%=  render partial: "estimate", collection: @travel_request.estimates %>
-        </tbody>
-      </table>
+    <grid-item columns="lg-9 sm-12" :offset="true">
+      <data-table caption="Anticipated Expenses"
+        :columns="<%= @travel_request.estimate_fields_json %>"
+        :json-data="<%= @travel_request.estimates_json %>">
+      </data-table>
     </grid-item>
   </grid-container>
 
-<%= link_to 'Edit', edit_travel_request_path(@travel_request) %> |
-<%= link_to 'Back', travel_requests_path %>
+  <hyperlink href="<%= edit_travel_request_path(@travel_request) %>" variation="button solid">Edit</hyperlink>
+  <hyperlink href="<%= travel_requests_path %>" variation="button solid">Back</hyperlink>
 </wrapper>

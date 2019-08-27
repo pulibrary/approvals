@@ -4,7 +4,9 @@ class TravelRequestsController < ApplicationController
 
   # GET /travel_requests/1
   # GET /travel_requests/1.json
-  def show; end
+  def show
+    @travel_request = TravelRequestDecorator.new(@travel_request)
+  end
 
   # GET /travel_requests/new
   def new
