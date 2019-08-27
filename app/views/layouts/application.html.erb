@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Approvals</title>
+    <title>Leave and Travel Requests</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -12,7 +12,7 @@
   </head>
 
   <body>
-    <library-header app-name="Approvals" app-url="<%= HomeURL.for(current_user: current_user) %>" class="lux">
+    <library-header app-name="Leave and Travel Requests" app-url="<%= HomeURL.for(current_user: current_user) %>" class="lux">
     <menu-bar type="links" :menu-items="[
         {name: 'My Requests', component: 'My Requests', href: '/my_requests/'},
       ]"/>
