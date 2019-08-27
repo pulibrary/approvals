@@ -172,8 +172,7 @@ CREATE TABLE public.estimates (
     recurrence integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    cost_type public.estimate_cost_type,
-    description character varying
+    cost_type public.estimate_cost_type
 );
 
 
@@ -770,7 +769,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190613173252'),
 ('20190613185106'),
 ('20190614132041'),
-('20190718132916'),
-('20190827172900');
+('20190718132916');
 
 
