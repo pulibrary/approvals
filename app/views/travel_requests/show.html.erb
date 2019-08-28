@@ -4,15 +4,7 @@
     <grid-item columns="lg-10 sm-6">
       <heading level="h1" size="h2">
         <%= @travel_request.creator.given_name %>
-        <%= case @travel_request.status
-        when 'denied'
-            " will not attend "
-          when 'approved'
-            " will attend "
-          else
-            " wants to attend "
-          end
-        %>
+        <%= @travel_request.attendance %>
         <%= @travel_request.event_title %>
       </heading>
       <heading level="h2" size="h3">

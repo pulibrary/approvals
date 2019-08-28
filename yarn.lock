@@ -3938,10 +3938,10 @@ lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
-lux-design-system@^2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/lux-design-system/-/lux-design-system-2.4.1.tgz#c4aaa63e87580ebde76c63b447ed314985e05d50"
-  integrity sha512-XQbvnzP76W/BK1QwLKZy+AB126iFpbSTnGEv/qdnk5QpLlq2AS2N9Zcf9X256ohu3lsXJ6LMJhyXoP36TiJE3g==
+lux-design-system@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/lux-design-system/-/lux-design-system-2.4.2.tgz#db44cdb445798a74cbec4a57eb641a1c368d0ab7"
+  integrity sha512-sM/ucB/8LT8QAv/WUnHVfTymyGeuX7jZSQhanol1wBW3bL0tGvL0+fsj6EArD4gnVDsqYj9PZL7Ym5Q0z504BA==
   dependencies:
     lodash "^4.17.11"
     mini-css-extract-plugin "^0.4.5"

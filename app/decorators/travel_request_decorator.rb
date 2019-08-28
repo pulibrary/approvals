@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class TravelRequestDecorator < RequestDecorator
   delegate :participation, :purpose, :travel_category, :event_title, :creator,
-           :event_requests, :notes, :estimates, to: :travel_request
+           :event_requests, :notes, :estimates, :status, to: :travel_request
   attr_reader :travel_request
 
   def initialize(travel_request)
@@ -44,5 +44,16 @@ class TravelRequestDecorator < RequestDecorator
 
   def travel_category_icon
     "lux-icon-globe"
+  end
+
+  def attendance
+    case status
+    when 'denied'
+        " will not attend "
+      when 'approved'
+        " will attend "
+      else
+        " wants to attend "
+      end
   end
 end
