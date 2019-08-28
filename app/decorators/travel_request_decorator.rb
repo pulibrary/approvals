@@ -13,23 +13,17 @@ class TravelRequestDecorator < RequestDecorator
     estimate_list = []
     grand_total = 0
     estimates.each do |estimate|
-      estimate_list.append({
-        cost_type: estimate.cost_type,
-        note: '',
-        recurrence: estimate.recurrence,
-        amount: sprintf('%.2f', estimate.amount),
-        total: sprintf('%.2f', estimate.recurrence * estimate.amount)
-      })
-      grand_total = grand_total + estimate.recurrence * estimate.amount
+      estimate_list.append(estimate_to_hash(estimate: estimate))
+      grand_total += estimate.recurrence * estimate.amount
     end
 
-    estimate_list.append({
-      cost_type: '',
-      note: '',
-      recurrence: '',
-      amount: 'Total:',
-      total: sprintf('%.2f', grand_total)
-      })
+    estimate_list.append(
+      cost_type: "",
+      note: "",
+      recurrence: "",
+      amount: "Total:",
+      total: format("%.2f", grand_total)
+    )
 
     estimate_list.to_json
   end
@@ -56,4 +50,13 @@ class TravelRequestDecorator < RequestDecorator
         " wants to attend "
       end
   end
+  private
+
+    def estimate_to_hash(estimate:)
+      { cost_type: estimate.cost_type,
+        note: "",
+        recurrence: estimate.recurrence,
+        amount: format("%.2f", estimate.amount),
+        total: format("%.2f", estimate.recurrence * estimate.amount) }
+    end
 end

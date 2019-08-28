@@ -70,7 +70,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       travel_request = FactoryBot.create(:travel_request)
       get :show, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to be_successful
-      assert_equal travel_request, assigns(:travel_request)
+      assert_equal travel_request, assigns(:travel_request).to_model
     end
   end
 
