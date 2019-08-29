@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class RequestDecorator
   delegate :created_at, :end_date, :id, :request_type, :start_date, :status, :to_model, :state_changes,
-           to: :request
+           :creator, :notes, to: :request
   attr_reader :request
 
   def initialize(request)
@@ -31,6 +31,27 @@ class RequestDecorator
 
   def formatted_end_date
     end_date.strftime(date_format)
+  end
+
+  def absent_staff
+    AbsentStaff.list(start_date: start_date, end_date: end_date).uniq - [creator]
+  end
+
+  def attendance
+    case status
+    when "denied"
+      "will not "
+    when "approved"
+      "will "
+    when "canceled"
+      "does not want to "
+    else
+      "wants to "
+    end + attendance_verb
+  end
+
+  def requestor_status
+    "#{creator.given_name} #{attendance} #{event_title}"
   end
 
   private

@@ -4,7 +4,9 @@ class AbsenceRequestsController < ApplicationController
 
   # GET /absence_requests/1
   # GET /absence_requests/1.json
-  def show; end
+  def show
+    @absence_request = AbsenceRequestDecorator.new(@absence_request)
+  end
 
   # GET /absence_requests/new
   def new

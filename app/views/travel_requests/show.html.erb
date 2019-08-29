@@ -37,9 +37,8 @@
       </heading>
     </grid-item>
     <grid-item columns="lg-4 sm-12">
-      <heading level="h3" size="h4">
-        Absent team members
-      </heading>
+      <text-style variation="strong">Team members absent during this time period</text-style>
+      <%=  render partial: "shared/absent_staff", collection: @travel_request.absent_staff, as: :staff %>
     </grid-item>
   </grid-container>
   <grid-container>
