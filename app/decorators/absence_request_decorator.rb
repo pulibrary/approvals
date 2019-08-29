@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class AbsenceRequestDecorator < RequestDecorator
-  delegate :absence_type, to: :absence_request
+  delegate :absence_type, :hours_requested, to: :absence_request
   attr_reader :absence_request
 
   def initialize(absence_request)
@@ -34,5 +34,16 @@ class AbsenceRequestDecorator < RequestDecorator
       "death_in_family" => "death in the family leave"
     }
     title_map[absence_type].titleize
+  end
+  alias event_title title
+
+  def attendance_verb
+    "take"
+  end
+
+  def attendance
+    clause = super
+    clause += " a" if absence_type == "vacation"
+    clause
   end
 end

@@ -14,6 +14,11 @@ RSpec.describe TravelRequestDecorator, type: :model do
     it { is_expected.to respond_to :start_date }
     it { is_expected.to respond_to :to_model }
     it { is_expected.to respond_to :travel_category }
+    it { is_expected.to respond_to :creator }
+    it { is_expected.to respond_to :notes }
+    it { is_expected.to respond_to :event_requests }
+    it { is_expected.to respond_to :estimates }
+    it { is_expected.to respond_to :event_title }
   end
 
   describe "#travel_category_icon" do

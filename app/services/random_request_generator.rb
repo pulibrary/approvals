@@ -16,9 +16,13 @@ class RandomRequestGenerator
 
     def generate_absence_request(creator:, status: "pending")
       start_date = Time.zone.now + Random.rand(-10...50).days
-      end_date = start_date + Random.rand(4..40).hours
+      hours_to_end = Random.rand(4..120)
+      end_date = start_date + hours_to_end.hours
+      hours_requested = [(hours_to_end % 24), 7.25].min + # partial day up to 7.25
+                        (hours_to_end / 24).to_i * 7.25 # whole days
       request = AbsenceRequest.create!(creator: creator, start_date: start_date, end_date: end_date,
-                                       absence_type: Request.absence_types.keys.sample, status: status)
+                                       absence_type: Request.absence_types.keys.sample, status: status,
+                                       hours_requested: hours_requested)
       request = generate_random_state_changes(request)
       generate_random_note(request, creator)
     end

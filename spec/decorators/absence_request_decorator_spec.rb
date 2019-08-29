@@ -15,6 +15,10 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     it { is_expected.to respond_to :status }
     it { is_expected.to respond_to :start_date }
     it { is_expected.to respond_to :to_model }
+    it { is_expected.to respond_to :absent_staff }
+    it { is_expected.to respond_to :creator }
+    it { is_expected.to respond_to :notes }
+    it { is_expected.to respond_to :event_title }
   end
 
   describe "#absence_type_icon" do

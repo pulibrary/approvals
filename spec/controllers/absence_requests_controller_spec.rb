@@ -59,7 +59,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       absence_request = FactoryBot.create(:absence_request)
       get :show, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to be_successful
-      assert_equal absence_request, assigns(:absence_request)
+      assert_equal absence_request, assigns(:absence_request).request
     end
   end
 
