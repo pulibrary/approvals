@@ -27,3 +27,4 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/controllers/travel_requests_controller_spec.rb'
     - 'spec/controllers/absence_requests_controller_spec.rb'
+    - 'spec/decorators/travel_request_decorator_spec.rb'

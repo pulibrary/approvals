@@ -1,2 +1,3 @@
-<p><%= "#{note.creator} at #{note.created_at}"%></p>
-<p><%= note.content %></p>
+<text-style variation="strong">Note from <%= note.creator %></text-style>
+<text-style><%= note.content %></text-style>
+<text-style variation="strong">Submitted|Approved|Denied at <%= note.created_at %></text-style>

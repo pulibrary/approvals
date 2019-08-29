@@ -115,4 +115,61 @@ RSpec.describe TravelRequestDecorator, type: :model do
       end
     end
   end
+
+  describe "#estimates_json" do
+    it "returns json data" do
+      expect(travel_request_decorator.estimates_json).to eq '[{"cost_type":"","note":"","recurrence":"","amount":"Total:","total":"0.00"}]'
+    end
+
+    context "with estimate" do
+      let(:travel_request) { FactoryBot.create(:travel_request, :with_note_and_estimate) }
+      it "returns json data" do
+        expect(travel_request_decorator.estimates_json).to eq(
+          '[{"cost_type":"lodging","note":"","recurrence":3,"amount":"50.00","total":"150.00"},' \
+          '{"cost_type":"","note":"","recurrence":"","amount":"Total:","total":"150.00"}]'
+        )
+      end
+    end
+  end
+
+  describe "#requestor_status" do
+    let(:staff_profile) { FactoryBot.create(:staff_profile, given_name: "Jane") }
+    let(:travel_request) do
+      FactoryBot.create(:travel_request, status: :pending,
+                                         creator: staff_profile)
+    end
+    it "returns json data" do
+      expect(travel_request_decorator.requestor_status).to eq "Jane wants to attend #{travel_request.event_title}"
+    end
+
+    context "denied request" do
+      let(:travel_request) do
+        FactoryBot.create(:travel_request, status: :denied,
+                                           creator: staff_profile)
+      end
+      it "returns json data" do
+        expect(travel_request_decorator.requestor_status).to eq "Jane will not attend #{travel_request.event_title}"
+      end
+    end
+
+    context "canceled request" do
+      let(:travel_request) do
+        FactoryBot.create(:travel_request, status: :approved,
+                                           creator: staff_profile)
+      end
+      it "returns json data" do
+        expect(travel_request_decorator.requestor_status).to eq "Jane will attend #{travel_request.event_title}"
+      end
+    end
+
+    context "canceled request" do
+      let(:travel_request) do
+        FactoryBot.create(:travel_request, status: :canceled,
+                                           creator: staff_profile)
+      end
+      it "returns json data" do
+        expect(travel_request_decorator.requestor_status).to eq "Jane does not want to attend #{travel_request.event_title}"
+      end
+    end
+  end
 end
