@@ -42,14 +42,21 @@ class TravelRequestDecorator < RequestDecorator
 
   def attendance
     case status
-    when 'denied'
-        " will not attend "
-      when 'approved'
-        " will attend "
-      else
-        " wants to attend "
-      end
+    when "denied"
+      "will not attend"
+    when "approved"
+      "will attend"
+    when "canceled"
+      "does not want to attend"
+    else
+      "wants to attend"
+    end
   end
+
+  def requestor_status
+    "#{creator.given_name} #{attendance} #{event_title}"
+  end
+
   private
 
     def estimate_to_hash(estimate:)

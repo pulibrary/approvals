@@ -131,4 +131,45 @@ RSpec.describe TravelRequestDecorator, type: :model do
       end
     end
   end
+
+  describe "#requestor_status" do
+    let(:staff_profile) { FactoryBot.create(:staff_profile, given_name: "Jane") }
+    let(:travel_request) do
+      FactoryBot.create(:travel_request, status: :pending,
+                                         creator: staff_profile)
+    end
+    it "returns json data" do
+      expect(travel_request_decorator.requestor_status).to eq "Jane wants to attend #{travel_request.event_title}"
+    end
+
+    context "denied request" do
+      let(:travel_request) do
+        FactoryBot.create(:travel_request, status: :denied,
+                                           creator: staff_profile)
+      end
+      it "returns json data" do
+        expect(travel_request_decorator.requestor_status).to eq "Jane will not attend #{travel_request.event_title}"
+      end
+    end
+
+    context "canceled request" do
+      let(:travel_request) do
+        FactoryBot.create(:travel_request, status: :approved,
+                                           creator: staff_profile)
+      end
+      it "returns json data" do
+        expect(travel_request_decorator.requestor_status).to eq "Jane will attend #{travel_request.event_title}"
+      end
+    end
+
+    context "canceled request" do
+      let(:travel_request) do
+        FactoryBot.create(:travel_request, status: :canceled,
+                                           creator: staff_profile)
+      end
+      it "returns json data" do
+        expect(travel_request_decorator.requestor_status).to eq "Jane does not want to attend #{travel_request.event_title}"
+      end
+    end
+  end
 end
