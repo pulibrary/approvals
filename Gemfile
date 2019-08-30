@@ -37,6 +37,7 @@ gem "faker"
 gem "reform"
 gem "reform-rails"
 gem "webpacker", ">= 4.0.x"
+gem "whenever", require: false
 
 # Single sign on
 gem "devise"
