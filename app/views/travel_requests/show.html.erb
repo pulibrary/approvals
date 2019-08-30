@@ -43,7 +43,7 @@
   </grid-container>
   <grid-container>
     <grid-item columns="lg-3 sm-12">
-      <%=  render partial: "shared/request_note", collection: @travel_request.notes, as: :note %>
+      <%=  render partial: "shared/request_note", collection: @travel_request.notes_and_changes, as: :note %>
     </grid-item>
     <grid-item columns="lg-9 sm-12" :offset="true">
       <data-table caption="Anticipated Expenses"

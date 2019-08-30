@@ -16,7 +16,7 @@
         <%= @absence_request.hours_requested%> Hours
 
       </heading>
-      <%=  render partial: "shared/request_note", collection: @absence_request.notes, as: :note %>
+      <%=  render partial: "shared/request_note", collection: @absence_request.notes_and_changes, as: :note %>
     </grid-item>
     <grid-item columns="lg-9 sm-12" :offset="true">
       <text-style variation="strong">Team members absent during this time period</text-style>

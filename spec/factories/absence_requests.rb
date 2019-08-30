@@ -9,7 +9,7 @@ FactoryBot.define do
     absence_type { "vacation" }
 
     trait :with_note do
-      notes { [FactoryBot.build(:note)] }
+      notes { [FactoryBot.build(:note, creator: creator)] }
 
       after(:create) do |request, _evaluator|
         request.notes.first.request_id = request.id

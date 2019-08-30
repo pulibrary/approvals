@@ -28,6 +28,10 @@ class StaffProfile < ApplicationRecord
     "#{surname}, #{given_name} (#{user.uid})"
   end
 
+  def full_name
+    "#{given_name} #{surname}"
+  end
+
   def department_head?
     Department.where(head_id: id).count.positive?
   end
