@@ -54,6 +54,20 @@ class RequestDecorator
     "#{creator.given_name} #{attendance} #{event_title}"
   end
 
+  def notes_and_changes
+    both = notes.to_a
+    both.concat(state_changes.to_a)
+    both = both.sort_by(&:created_at)
+    both.map do |item|
+      title = title_of_item(item)
+      content = item.content if item.is_a? Note
+      {
+        title: title,
+        content: content
+      }
+    end
+  end
+
   private
 
     def date_format
@@ -73,6 +87,14 @@ class RequestDecorator
         created_at
       else
         state_changes.last.created_at
+      end
+    end
+
+    def title_of_item(item)
+      if item.is_a? Note
+        "Notes from #{item.creator.full_name}"
+      else
+        "#{item.action.titleize} by #{item.approver.full_name} on #{item.created_at.strftime(date_format)}"
       end
     end
 end

@@ -10,7 +10,7 @@ FactoryBot.define do
 
     trait :with_note_and_estimate do
       estimates { [FactoryBot.build(:estimate)] }
-      notes { [FactoryBot.build(:note)] }
+      notes { [FactoryBot.build(:note, creator: creator)] }
 
       after(:create) do |request, _evaluator|
         request.estimates.each do |estimate|

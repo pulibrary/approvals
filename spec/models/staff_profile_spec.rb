@@ -37,4 +37,11 @@ RSpec.describe StaffProfile, type: :model do
       end
     end
   end
+
+  describe "#full_name" do
+    it "returns the staff_profile" do
+      profile = FactoryBot.create(:staff_profile, given_name: "Jane", surname: "Doe")
+      expect(profile.full_name).to eq("Jane Doe")
+    end
+  end
 end

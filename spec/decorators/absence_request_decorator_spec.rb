@@ -193,4 +193,28 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
       expect(absence_request_decorator.latest_status).to eq "Canceled on #{today.strftime('%b %-d, %Y')}"
     end
   end
+
+  describe "#notes_and_changes" do
+    let(:department_head) { FactoryBot.create(:staff_profile, :as_department_head, given_name: "Department", surname: "Head") }
+    let(:supervisor) { FactoryBot.create(:staff_profile, given_name: "Sally", surname: "Supervisor", department: department_head.department, supervisor: department_head) }
+    let(:staff) { FactoryBot.create(:staff_profile, given_name: "Staff", surname: "Person", department: department_head.department, supervisor: supervisor) }
+    let(:absence_request) do
+      request = FactoryBot.create(:absence_request, creator: staff)
+      request.notes << FactoryBot.build(:note, content: "Please approve", creator: staff)
+      StateChange.create!(request: request, approver: supervisor, action: "approved")
+      request.notes << FactoryBot.build(:note, content: "looks good", creator: supervisor)
+      request.save
+      StateChange.create!(request: request, approver: department_head, action: "approved")
+      request
+    end
+
+    it "returns the combined data" do
+      expect(absence_request_decorator.notes_and_changes).to eq([
+                                                                  { title: "Notes from Staff Person", content: "Please approve" },
+                                                                  { title: "Approved by Sally Supervisor on #{Time.zone.now.strftime('%b %-d, %Y')}", content: nil },
+                                                                  { title: "Notes from Sally Supervisor", content: "looks good" },
+                                                                  { title: "Approved by Department Head on #{Time.zone.now.strftime('%b %-d, %Y')}", content: nil }
+                                                                ])
+    end
+  end
 end

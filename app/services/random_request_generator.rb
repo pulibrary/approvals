@@ -10,8 +10,8 @@ class RandomRequestGenerator
                                       event_requests_attributes: [event_requests_attributes(recurring_events: recurring_events)],
                                       estimates_attributes: estimates, status: status,
                                       start_date: start_date, end_date: end_date)
-      request = generate_random_state_changes(request)
-      generate_random_note(request, creator)
+      request = generate_random_note(request, creator)
+      generate_random_state_changes(request)
     end
 
     def generate_absence_request(creator:, status: "pending")
@@ -23,8 +23,8 @@ class RandomRequestGenerator
       request = AbsenceRequest.create!(creator: creator, start_date: start_date, end_date: end_date,
                                        absence_type: Request.absence_types.keys.sample, status: status,
                                        hours_requested: hours_requested)
-      request = generate_random_state_changes(request)
-      generate_random_note(request, creator)
+      request = generate_random_note(request, creator)
+      generate_random_state_changes(request)
     end
 
     private
