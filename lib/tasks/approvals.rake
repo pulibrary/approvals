@@ -18,18 +18,19 @@ namespace :approvals do
     puts "We made you a department head with #{number_of_people} direct reports, who have 5 reports each"
   end
 
+  desc "add requests for [:netid] user"
+  task :make_requests_for_user, [:netid] => [:environment] do |_t, args|
+    netid = args[:netid]
+    staff_profile = StaffProfile.find_by(uid: netid)
+    make_requests(staff_profile: staff_profile)
+    puts "We made #{staff_profile} #{TravelRequest.where(creator: staff_profile).count} Travel Requests and #{AbsenceRequest.where(creator: staff_profile).count} Absence Requests"
+  end
+
   desc "add requests for every user in the system"
   task make_requests_for_everyone: :environment do
     StaffProfile.all.each do |staff_profile|
       next if staff_profile.supervisor.nil?
-      1.upto(Random.rand(5...20)) do
-        status = ["pending", "approved", "denied", "changes_requested", "canceled"].sample
-        RandomRequestGenerator.generate_travel_request(creator: staff_profile, status: status)
-      end
-      1.upto(Random.rand(6...24)) do
-        status = ["pending", "approved", "denied", "canceled", "pending_cancelation", "recorded"].sample
-        RandomRequestGenerator.generate_absence_request(creator: staff_profile, status: status)
-      end
+      make_requests(staff_profile: staff_profile)
     end
 
     puts "#{TravelRequest.count} TravelRequests generated and #{AbsenceRequest.count} AbsenceRequests generated for #{StaffProfile.count} Staff"
@@ -46,6 +47,17 @@ namespace :approvals do
       StaffProfile.where(department: department).order(:surname).each do |profile|
         puts "      #{profile}"
       end
+    end
+  end
+
+  def make_requests(staff_profile:)
+    1.upto(Random.rand(5...20)) do
+      status = ["pending", "approved", "denied", "changes_requested", "canceled"].sample
+      RandomRequestGenerator.generate_travel_request(creator: staff_profile, status: status)
+    end
+    1.upto(Random.rand(6...24)) do
+      status = ["pending", "approved", "denied", "canceled", "pending_cancelation", "recorded"].sample
+      RandomRequestGenerator.generate_absence_request(creator: staff_profile, status: status)
     end
   end
 end
