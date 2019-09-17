@@ -56,9 +56,9 @@ RSpec.describe RandomRequestGenerator, type: :model do
         expect(request.status).to eq("approved")
         expect(request.creator).to eq(creator)
         expect(request.travel_category).not_to be_blank
-        expect(request.state_changes.first.approver).to eq(creator.supervisor)
+        expect(request.state_changes.first.agent).to eq(creator.supervisor)
         expect(request.state_changes.count).to eq(2)
-        expect(request.state_changes.last.approver).to eq(creator.department.head)
+        expect(request.state_changes.last.agent).to eq(creator.department.head)
         expect(request.notes.count).to eq(1)
       end
     end
@@ -74,7 +74,7 @@ RSpec.describe RandomRequestGenerator, type: :model do
         expect(request.start_date).not_to be_blank
         expect(request.end_date).not_to be_blank
         expect(request.status).to eq("approved")
-        expect(request.state_changes.first.approver).to eq(creator.supervisor)
+        expect(request.state_changes.first.agent).to eq(creator.supervisor)
         expect(request.state_changes.count).to eq(1)
         expect(request.notes.count).to eq(1)
       end
@@ -93,7 +93,7 @@ RSpec.describe RandomRequestGenerator, type: :model do
         expect(request.end_date).not_to be_blank
         expect(request.status).to eq("denied")
         expect(request.creator).to eq(creator)
-        expect(request.state_changes.first.approver).to eq(creator.supervisor)
+        expect(request.state_changes.first.agent).to eq(creator.supervisor)
         expect(request.state_changes.first.action).to eq("denied")
         expect(request.state_changes.count).to eq(1)
         expect(request.notes.count).to eq(2)
@@ -111,7 +111,7 @@ RSpec.describe RandomRequestGenerator, type: :model do
         expect(request.start_date).not_to be_blank
         expect(request.end_date).not_to be_blank
         expect(request.status).to eq("denied")
-        expect(request.state_changes.first.approver).to eq(creator.supervisor)
+        expect(request.state_changes.first.agent).to eq(creator.supervisor)
         expect(request.state_changes.first.action).to eq("denied")
         expect(request.state_changes.count).to eq(1)
         expect(request.notes.count).to eq(2)

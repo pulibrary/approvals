@@ -2,11 +2,17 @@
 
 FactoryBot.define do
   factory :absence_request do
-    creator { FactoryBot.create(:staff_profile) }
+    creator { FactoryBot.create(:staff_profile, :with_supervisor) }
     start_date { Time.zone.today }
     end_date { Time.zone.tomorrow }
-    status { "pending" }
+    transient do
+      action { nil }
+    end
     absence_type { "vacation" }
+
+    after(:build) do |request, evaluator|
+      fire_event_safely(request: request, action: evaluator.action, agent: request.creator.supervisor) unless evaluator.action.blank?
+    end
 
     trait :with_note do
       notes { [FactoryBot.build(:note, creator: creator)] }

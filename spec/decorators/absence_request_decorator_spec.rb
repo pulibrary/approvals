@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 require "rails_helper"
-
-# rubocop:disable Metrics/BlockLength
 RSpec.describe AbsenceRequestDecorator, type: :model do
   subject(:absence_request_decorator) { described_class.new(absence_request) }
   let(:absence_request) { FactoryBot.create(:absence_request, absence_type: :vacation) }
@@ -142,42 +140,35 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     end
 
     context "when absence has been apporved" do
-      let(:absence_request) { FactoryBot.create(:absence_request, status: :approved) }
+      let(:absence_request) { FactoryBot.create(:absence_request, action: :approve) }
       it "returns the correct lux icon" do
         expect(absence_request_decorator.status_icon).to eq "lux-icon-approved"
       end
     end
 
     context "when absence has been denied" do
-      let(:absence_request) { FactoryBot.create(:absence_request, status: :denied) }
+      let(:absence_request) { FactoryBot.create(:absence_request, action: :deny) }
       it "returns the correct lux icon" do
         expect(absence_request_decorator.status_icon).to eq "lux-icon-denied"
       end
     end
 
-    context "when absence has had changes_requested" do
-      let(:absence_request) { FactoryBot.create(:absence_request, status: :changes_requested) }
-      it "returns the correct lux icon" do
-        expect(absence_request_decorator.status_icon).to eq "lux-icon-refresh"
-      end
-    end
-
     context "when absence has been canceled" do
-      let(:absence_request) { FactoryBot.create(:absence_request, status: :canceled) }
+      let(:absence_request) { FactoryBot.create(:absence_request, action: :cancel) }
       it "returns the correct lux icon" do
         expect(absence_request_decorator.status_icon).to eq "lux-icon-alert"
       end
     end
 
     context "when absence has been recorded" do
-      let(:absence_request) { FactoryBot.create(:absence_request, status: :recorded) }
+      let(:absence_request) { FactoryBot.create(:absence_request, action: :record) }
       it "returns the correct lux icon" do
         expect(absence_request_decorator.status_icon).to eq "lux-icon-reported"
       end
     end
 
     context "when absence is pending cancelation" do
-      let(:absence_request) { FactoryBot.create(:absence_request, status: :pending_cancelation) }
+      let(:absence_request) { FactoryBot.create(:absence_request, action: :pending_cancel) }
       it "returns the correct lux icon" do
         expect(absence_request_decorator.status_icon).to eq "lux-icon-remove"
       end
@@ -185,11 +176,13 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
   end
 
   describe "#latest_status" do
-    let(:absence_request) { FactoryBot.create(:absence_request, status: :canceled) }
+    let(:creator) { FactoryBot.create(:staff_profile, :with_supervisor) }
+    let(:supervisor) { creator.supervisor }
+    let(:absence_request) { FactoryBot.create(:absence_request, creator: creator) }
     let(:today) { Time.zone.now }
     it "returns the last created status and date" do
-      FactoryBot.create :state_change, request: absence_request, action: :approved
-      FactoryBot.create :state_change, request: absence_request, action: :canceled
+      absence_request.approve!(agent: supervisor)
+      absence_request.cancel!(agent: absence_request.creator)
       expect(absence_request_decorator.latest_status).to eq "Canceled on #{today.strftime('%b %-d, %Y')}"
     end
   end
@@ -201,19 +194,16 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     let(:absence_request) do
       request = FactoryBot.create(:absence_request, creator: staff)
       request.notes << FactoryBot.build(:note, content: "Please approve", creator: staff)
-      StateChange.create!(request: request, approver: supervisor, action: "approved")
       request.notes << FactoryBot.build(:note, content: "looks good", creator: supervisor)
-      request.save
-      StateChange.create!(request: request, approver: department_head, action: "approved")
+      request.approve(agent: supervisor)
       request
     end
 
     it "returns the combined data" do
       expect(absence_request_decorator.notes_and_changes).to eq([
                                                                   { title: "Notes from Staff Person", content: "Please approve" },
-                                                                  { title: "Approved by Sally Supervisor on #{Time.zone.now.strftime('%b %-d, %Y')}", content: nil },
                                                                   { title: "Notes from Sally Supervisor", content: "looks good" },
-                                                                  { title: "Approved by Department Head on #{Time.zone.now.strftime('%b %-d, %Y')}", content: nil }
+                                                                  { title: "Approved by Sally Supervisor on #{Time.zone.now.strftime('%b %-d, %Y')}", content: nil }
                                                                 ])
     end
   end

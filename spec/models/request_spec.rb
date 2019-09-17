@@ -23,32 +23,43 @@ RSpec.describe Request, type: :model do
   # so test here on the model. Maybe replace with other controller tests
   # when we work that ticket.
   describe "status enum" do
-    subject(:travel_request) { FactoryBot.build(:travel_request) }
+    let(:staff_profile) { FactoryBot.create(:staff_profile, :with_department) }
+    let(:travel_request) { FactoryBot.build(:travel_request, creator: staff_profile) }
+    let(:absence_request) { FactoryBot.build(:absence_request, creator: staff_profile) }
     it "set expected values" do
-      travel_request.pending!
       expect(travel_request.pending?).to eq true
-      travel_request.approved!
-      expect(travel_request.approved?).to eq true
-      travel_request.denied!
-      expect(travel_request.denied?).to eq true
-      travel_request.changes_requested!
+      travel_request.change_request(agent: staff_profile.department.head)
       expect(travel_request.changes_requested?).to eq true
-      travel_request.canceled!
+      travel_request.fix_requested_changes(agent: absence_request.creator)
+      expect(travel_request.pending?).to eq true
+      travel_request.approve(agent: staff_profile.department.head)
+      expect(travel_request.approved?).to eq true
+      travel_request.cancel(agent: absence_request.creator)
       expect(travel_request.canceled?).to eq true
-      travel_request.recorded!
-      expect(travel_request.recorded?).to eq true
-      travel_request.pending_cancelation!
-      expect(travel_request.pending_cancelation?).to eq true
+    end
+
+    it "can be denied" do
+      travel_request.deny(agent: staff_profile.department.head)
+      expect(travel_request.denied?).to eq true
+    end
+
+    it "transitions through stages for absence" do
+      absence_request.approve(agent: staff_profile.department.head)
+      expect(absence_request.approved?).to eq true
+      absence_request.record(agent: staff_profile.department.head)
+      expect(absence_request.recorded?).to eq true
+      absence_request.pending_cancel(agent: absence_request.creator)
+      expect(absence_request.pending_cancelation?).to eq true
     end
     it "errors for invalid values" do
-      expect { travel_request.status = "invalid_status" }.to raise_error ArgumentError
+      expect { travel_request.status = "invalid_status" }.to raise_error AASM::NoDirectAssignmentError
     end
   end
 
   describe "#where_contains_text" do
-    let(:absence_request) { FactoryBot.create(:absence_request, status: :approved) }
-    let(:absence_request2) { FactoryBot.create(:absence_request, status: :denied) }
-    let(:travel_request) { FactoryBot.create(:travel_request, status: :approved) }
+    let(:absence_request) { FactoryBot.create(:absence_request, action: :approve) }
+    let(:absence_request2) { FactoryBot.create(:absence_request, action: :deny) }
+    let(:travel_request) { FactoryBot.create(:travel_request, action: :approve) }
 
     before do
       FactoryBot.create(:note, content: "elephants love balloons", request: absence_request)

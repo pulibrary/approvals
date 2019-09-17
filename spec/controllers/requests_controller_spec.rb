@@ -2,15 +2,13 @@
 require "rails_helper"
 
 RSpec.describe RequestsController, type: :controller do
-  let(:creator) { FactoryBot.create(:staff_profile) }
-
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # AbsenceRequestsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
   let(:user) { FactoryBot.create :user }
-  let(:staff_profile) { FactoryBot.create :staff_profile, user: user }
+  let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, user: user }
 
   let(:other_absence) { FactoryBot.create(:absence_request) }
   let(:other_travel) { FactoryBot.create(:travel_request) }
@@ -44,7 +42,7 @@ RSpec.describe RequestsController, type: :controller do
     end
 
     it "accepts limit by status" do
-      approved_absence = FactoryBot.create(:absence_request, status: "approved", creator: staff_profile)
+      approved_absence = FactoryBot.create(:absence_request, action: :approve, creator: staff_profile)
       get :my_requests, params: { filters: { status: "approved" } }, session: valid_session
       expect(assigns(:requests).map(&:id)).to contain_exactly(approved_absence.id)
     end
@@ -72,8 +70,8 @@ RSpec.describe RequestsController, type: :controller do
     end
 
     it "accepts limit by status and request type" do
-      my_business_travel = FactoryBot.create(:travel_request, creator: staff_profile, status: "approved", travel_category: "business")
-      FactoryBot.create(:travel_request, creator: staff_profile, status: "approved", travel_category: "discretionary")
+      my_business_travel = FactoryBot.create(:travel_request, creator: staff_profile, action: "approve", travel_category: "business")
+      FactoryBot.create(:travel_request, creator: staff_profile, action: "approve", travel_category: "discretionary")
       get :my_requests, params: { filters: { request_type: "business", status: "approved" } }, session: valid_session
       expect(assigns(:requests).map(&:id)).to contain_exactly(my_business_travel.id)
     end
@@ -107,14 +105,11 @@ RSpec.describe RequestsController, type: :controller do
       today
       tomorrow
       Timecop.freeze(yesterday) do
-        r2.status = "approved"
-        r2.save
+        r2.approve!(agent: staff_profile.department.head)
       end
-      r3.status = "approved"
-      r3.save
+      r3.approve!(agent: staff_profile.department.head)
       Timecop.freeze(tomorrow) do
-        r1.status = "approved"
-        r1.save
+        r1.approve!(agent: staff_profile.department.head)
       end
     end
 
@@ -157,8 +152,8 @@ RSpec.describe RequestsController, type: :controller do
 
   describe "GET #my_requests with searching" do
     it "retrieves a result" do
-      absence_request = FactoryBot.create(:absence_request, creator: staff_profile, status: :approved)
-      absence_request2 = FactoryBot.create(:absence_request, creator: staff_profile, status: :denied)
+      absence_request = FactoryBot.create(:absence_request, creator: staff_profile, action: :approve)
+      absence_request2 = FactoryBot.create(:absence_request, creator: staff_profile, action: :deny)
       travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
       FactoryBot.create(:note, content: "elephants love balloons", request: absence_request)
       FactoryBot.create(:note, content: "elephants love balloons", request: absence_request2)

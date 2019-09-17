@@ -3,7 +3,7 @@ require "rails_helper"
 
 RSpec.describe StateChangesController, type: :controller do
   let(:event_request) { FactoryBot.create(:event_request) }
-  let(:approver) { FactoryBot.create(:staff_profile) }
+  let(:agent) { FactoryBot.create(:staff_profile) }
   let(:travel_request) { FactoryBot.create(:travel_request) }
 
   # This should return the minimal set of attributes required to create a valid
@@ -11,7 +11,7 @@ RSpec.describe StateChangesController, type: :controller do
   # adjust the attributes here as well.
   let(:valid_attributes) do
     {
-      approver_id: approver.id,
+      agent_id: agent.id,
       request_id: travel_request.id,
       action: "approved"
     }
@@ -19,7 +19,7 @@ RSpec.describe StateChangesController, type: :controller do
 
   let(:invalid_attributes) do
     {
-      approver_id: nil,
+      agent_id: nil,
       request_id: nil,
       action: "bad"
     }
@@ -125,8 +125,8 @@ RSpec.describe StateChangesController, type: :controller do
             id: travel_request.id,
             travel_category: "business",
             notes_attributes: [{
-              creator_id: approver.id,
-              content: "Approver message"
+              creator_id: agent.id,
+              content: "agent message"
             }],
             event_requests_attributes: [{
               id: travel_request.event_requests.last.id,
@@ -141,7 +141,7 @@ RSpec.describe StateChangesController, type: :controller do
         put :update, params: { id: state_change.to_param, state_change: nested_attributes }, session: valid_session
         state_change.reload
         expect(state_change.request.travel_category).to eq "business"
-        expect(state_change.request.notes.last.content).to eq "Approver message"
+        expect(state_change.request.notes.last.content).to eq "agent message"
         expect(state_change.request.event_requests.first.recurring_event_id).to eq new_recurring_event.id
       end
 

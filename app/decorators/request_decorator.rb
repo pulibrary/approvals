@@ -94,7 +94,7 @@ class RequestDecorator
       if item.is_a? Note
         "Notes from #{item.creator.full_name}"
       else
-        "#{item.action.titleize} by #{item.approver.full_name} on #{item.created_at.strftime(date_format)}"
+        "#{item.action.titleize} by #{item.agent.full_name} on #{item.created_at.strftime(date_format)}"
       end
     end
 end

@@ -9,7 +9,7 @@ RSpec.describe "state_changes/show", type: :view do
 
   it "renders attributes in <p>" do
     render
-    expect(rendered).to include(state_change.approver.to_s)
+    expect(rendered).to include(state_change.agent.to_s)
     expect(rendered).to include(state_change.request.to_s)
     expect(rendered).to include(state_change.action.to_s)
   end

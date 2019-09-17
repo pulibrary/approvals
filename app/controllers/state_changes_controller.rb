@@ -69,7 +69,7 @@ class StateChangesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def state_change_params
-      params.require(:state_change).permit(:approver_id, :request_id, :action,
+      params.require(:state_change).permit(:agent_id, :request_id, :action,
                                            request_attributes: [
                                              :id,
                                              :travel_category,

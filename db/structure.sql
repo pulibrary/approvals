@@ -10,20 +10,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
---
 -- Name: estimate_cost_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -67,7 +53,9 @@ CREATE TYPE public.request_action AS ENUM (
     'canceled',
     'changes_requested',
     'denied',
-    'recorded'
+    'recorded',
+    'pending_cancelation',
+    'pending'
 );
 
 
@@ -394,7 +382,7 @@ ALTER SEQUENCE public.staff_profiles_id_seq OWNED BY public.staff_profiles.id;
 
 CREATE TABLE public.state_changes (
     id bigint NOT NULL,
-    approver_id bigint,
+    agent_id bigint,
     request_id bigint,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -773,6 +761,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190614132041'),
 ('20190718132916'),
 ('20190826190425'),
-('20190827172900');
+('20190827172900'),
+('20190918150741');
 
 

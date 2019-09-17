@@ -68,28 +68,28 @@ RSpec.describe TravelRequestDecorator, type: :model do
     end
 
     context "when travel has been approved" do
-      let(:travel_request) { FactoryBot.create(:travel_request, status: :approved) }
+      let(:travel_request) { FactoryBot.create(:travel_request, action: :approve) }
       it "returns the correct lux icon" do
         expect(travel_request_decorator.status_icon).to eq "lux-icon-approved"
       end
     end
 
     context "when travel has been denied" do
-      let(:travel_request) { FactoryBot.create(:travel_request, status: :denied) }
+      let(:travel_request) { FactoryBot.create(:travel_request, action: :deny) }
       it "returns the correct lux icon" do
         expect(travel_request_decorator.status_icon).to eq "lux-icon-denied"
       end
     end
 
     context "when travel has been changes_requested" do
-      let(:travel_request) { FactoryBot.create(:travel_request, status: :changes_requested) }
+      let(:travel_request) { FactoryBot.create(:travel_request, action: :change_request) }
       it "returns the correct lux icon" do
         expect(travel_request_decorator.status_icon).to eq "lux-icon-refresh"
       end
     end
 
     context "when travel has been canceled" do
-      let(:travel_request) { FactoryBot.create(:travel_request, status: :canceled) }
+      let(:travel_request) { FactoryBot.create(:travel_request, action: :cancel) }
       it "returns the correct lux icon" do
         expect(travel_request_decorator.status_icon).to eq "lux-icon-alert"
       end
@@ -104,18 +104,18 @@ RSpec.describe TravelRequestDecorator, type: :model do
     end
 
     context "it has been approved and then canceled" do
-      let(:travel_request) { FactoryBot.create(:travel_request, status: :canceled) }
+      let(:travel_request) { FactoryBot.create(:travel_request, action: :approve) }
       it "returns the last created status and date" do
-        FactoryBot.create :state_change, request: travel_request, action: :approved
-        FactoryBot.create :state_change, request: travel_request, action: :canceled
+        travel_request.cancel!(agent: travel_request.creator)
         expect(travel_request_decorator.latest_status).to eq "Canceled on #{today.strftime('%b %-d, %Y')}"
       end
     end
 
     context "approved but waiting on further approval" do
-      let(:travel_request) { FactoryBot.create(:travel_request, status: :pending) }
+      let(:creator) { FactoryBot.create :staff_profile, :with_supervisor }
+      let(:travel_request) { FactoryBot.create(:travel_request, creator: creator) }
       it "returns pending futher approval" do
-        FactoryBot.create :state_change, request: travel_request, action: :approved
+        travel_request.approve!(agent: travel_request.creator.supervisor)
         expect(travel_request_decorator.latest_status).to eq "Pending further approval on #{today.strftime('%b %-d, %Y')}"
       end
     end
@@ -138,10 +138,9 @@ RSpec.describe TravelRequestDecorator, type: :model do
   end
 
   describe "#requestor_status" do
-    let(:staff_profile) { FactoryBot.create(:staff_profile, given_name: "Jane") }
+    let(:staff_profile) { FactoryBot.create(:staff_profile, :with_department, given_name: "Jane") }
     let(:travel_request) do
-      FactoryBot.create(:travel_request, status: :pending,
-                                         creator: staff_profile)
+      FactoryBot.create(:travel_request, creator: staff_profile)
     end
     it "returns json data" do
       expect(travel_request_decorator.requestor_status).to eq "Jane wants to attend #{travel_request.event_title}"
@@ -149,8 +148,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
 
     context "denied request" do
       let(:travel_request) do
-        FactoryBot.create(:travel_request, status: :denied,
-                                           creator: staff_profile)
+        FactoryBot.create(:travel_request, action: :deny, creator: staff_profile)
       end
       it "returns json data" do
         expect(travel_request_decorator.requestor_status).to eq "Jane will not attend #{travel_request.event_title}"
@@ -159,8 +157,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
 
     context "canceled request" do
       let(:travel_request) do
-        FactoryBot.create(:travel_request, status: :approved,
-                                           creator: staff_profile)
+        FactoryBot.create(:travel_request, action: :approve, creator: staff_profile)
       end
       it "returns json data" do
         expect(travel_request_decorator.requestor_status).to eq "Jane will attend #{travel_request.event_title}"
@@ -169,8 +166,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
 
     context "canceled request" do
       let(:travel_request) do
-        FactoryBot.create(:travel_request, status: :canceled,
-                                           creator: staff_profile)
+        FactoryBot.create(:travel_request, action: :cancel, creator: staff_profile)
       end
       it "returns json data" do
         expect(travel_request_decorator.requestor_status).to eq "Jane does not want to attend #{travel_request.event_title}"
@@ -185,10 +181,9 @@ RSpec.describe TravelRequestDecorator, type: :model do
     let(:travel_request) do
       request = FactoryBot.create(:travel_request, creator: staff)
       request.notes << FactoryBot.build(:note, content: "Please approve", creator: staff)
-      StateChange.create!(request: request, approver: supervisor, action: "approved")
+      request.approve(agent: supervisor)
       request.notes << FactoryBot.build(:note, content: "looks good", creator: supervisor)
-      request.save
-      StateChange.create!(request: request, approver: department_head, action: "approved")
+      request.approve(agent: department_head)
       request
     end
 
