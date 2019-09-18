@@ -1,64 +1,56 @@
+
 <%= form_with(model: travel_request_change_set.model, local: true) do |form| %>
-  <% if travel_request_change_set.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(travel_request_change_set.errors.count, "error") %> prohibited this travel_request from being saved:</h2>
+<% if travel_request_change_set.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(travel_request_change_set.errors.count, "error") %> prohibited this travel_request from being saved:</h2>
 
-      <ul>
-      <% travel_request_change_set.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+    <ul>
+    <% travel_request_change_set.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+<grid-container>
+  <grid-item columns="lg-3 sm-6">
+    <%# # TODO This should really be creating fields like: params[:travel_request][:event_requests]{:id, :recurring_event_id, :start_date, :end_date, :location, :url}
+        # wanted to see the validations sbhow up on the screen, but did not want to put any effort into the form %>
+    <%= form.fields_for :event_requests do |ff| %>
+      <%= ff.hidden_field :id %>
+        <input-text label="Recurring Event" type="text" name="travel_request[participation]"
+          id="recurring_event_id" width="expand"></input-text>
+
+        <date-picker id="eventDates" name="event_dates" label="Event Dates" mode="range"
+          :disabled-dates="
+            [{
+              start: null,
+            end: new Date(<%= Date.current.year %>, <%= Date.current.month - 1 %>, <%= Date.current.day %>)
+            }]"></date-picker>
+        <input-text label="Location" type="text" name="travel_request[location]"
+        id="travel_request_location" width="expand"></input-text>
+    <% end %>
+  </grid-item>
+  <grid-item columns="lg-3 sm-6">
+      <input-text label="Participation" type="text" name="travel_request[participation]"
+      id="travel_request_participation" width="expand"></input-text>
+      <date-picker id="travelDates" name="travel_dates" label="Travel Dates" mode="range"
+        :disabled-dates="
+          [{
+            start: null,
+          end: new Date(<%= Date.current.year %>, <%= Date.current.month - 1 %>, <%= Date.current.day %>)
+          }]"></date-picker>
+      <input-text label="Purpose" type="text" name="travel_request[purpose]"
+      id="travel_request_purpose" width="expand"></input-text>
+  </grid-item>
+  <grid-item columns="lg-6 sm-12">
+    <input-text id="notes" name="notes"
+      helper="Specify any unique circumstances (request for time off, desire to stay additional nights, etc.)"
+      label="Notes to approvers" width="expand" type="textarea"></input-text>
+  </grid-item>
+  <grid-item columns="lg-3 sm-12 auto">
+    <div class="actions">
+      <input-button type="submit" variation="solid" block>Create Travel Request</input-button>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :creator_id %>
-    <%= form.text_field :creator_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :start_date %>
-    <%= form.text_field :start_date %>
-  </div>
-
-  <div class="field">
-    <%= form.label :end_date %>
-    <%= form.text_field :end_date %>
-  </div>
-
-  <div class="field">
-    <%= form.label :purpose %>
-    <%= form.text_field :purpose %>
-  </div>
-
-  <div class="field">
-    <%= form.label :participation %>
-    <%= form.text_field :participation %>
-  </div>
-
-  <%# # TODO This should really be creating fields like: params[:travel_request][:event_requests]{:id, :recurring_event_id, :start_date, :end_date, :location, :url}
-      # wanted to see the validations sbhow up on the screen, but did not want to put any effort into the form %>
-  <%= form.fields_for :event_requests do |ff| %>
-    <%= ff.hidden_field :id %>
-    <div class="field">
-      <%= ff.label :start_date %>
-      <%= ff.text_field :start_date %>
-    </div>
-    <div class="field">
-      <%= ff.label :end_date %>
-      <%= ff.text_field :end_date %>
-    </div>
-    <div class="field">
-      <%= ff.label :loction %>
-      <%= ff.text_field :location %>
-    </div>
-    <div class="field">
-      <%= ff.label :recurring_event_id %>
-      <%= ff.text_field :recurring_event_id %>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  </grid-item>
+</grid-container>
 <% end %>
