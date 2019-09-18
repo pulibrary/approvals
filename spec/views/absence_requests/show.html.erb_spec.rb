@@ -16,5 +16,7 @@ RSpec.describe "absence_requests/show", type: :view do
     expect(rendered).to match(/Sally wants to take a Vacation/)
     expect(rendered).to include("Notes from Sally Smith")
     expect(rendered).to include(absence_request.notes.first.content)
+    expect(rendered).to have_selector("hyperlink[href=\"#{edit_absence_request_path(absence_request.id)}\"]", text: "Edit")
+    expect(rendered).to have_selector("hyperlink[href=\"#{my_requests_path}\"]", text: "Back")
   end
 end
