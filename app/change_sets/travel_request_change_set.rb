@@ -14,4 +14,12 @@ class TravelRequestChangeSet < Reform::Form
   validates :travel_category, inclusion: { in: Request.travel_categories.keys, allow_blank: true }
   validates :creator_id, presence: true
   validates :event_requests, presence: true
+
+  def travel_category_options
+    # turn key, value into label, key
+    strings = model.class.travel_categories.map do |key, value|
+      "{label: '#{value.humanize}', value: '#{key}'}"
+    end
+    "[#{strings.join(',')}]"
+  end
 end

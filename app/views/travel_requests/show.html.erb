@@ -23,10 +23,6 @@
       </heading>
       <text-style variation="default"><%= @travel_request.participation.blank? ? 'Unknown' : @travel_request.participation %></text-style>
       <heading level="h3" size="h4">
-        Travel Type
-      </heading>
-      <text-style variation="default"><%= @travel_request.travel_category.blank? ? 'Unknown' : @travel_request.travel_category %></text-style>
-      <heading level="h3" size="h4">
         Purpose
       </heading>
       <text-style variation="default"><%= @travel_request.purpose.blank? ? 'Unknown' : @travel_request.purpose %></text-style>
@@ -37,7 +33,9 @@
       </heading>
     </grid-item>
     <grid-item columns="lg-4 sm-12">
-      <text-style variation="strong">Team members absent during this time period</text-style>
+      <heading level="h3" size="h4">
+        Team members absent during this time period
+      </heading>
       <%=  render partial: "shared/absent_staff", collection: @travel_request.absent_staff, as: :staff %>
     </grid-item>
   </grid-container>

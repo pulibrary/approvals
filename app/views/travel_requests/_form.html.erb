@@ -17,30 +17,44 @@
         # wanted to see the validations sbhow up on the screen, but did not want to put any effort into the form %>
     <%= form.fields_for :event_requests do |ff| %>
       <%= ff.hidden_field :id %>
-        <input-text label="Recurring Event" type="text" name="travel_request[participation]"
-          id="recurring_event_id" width="expand"></input-text>
-
-        <date-picker id="eventDates" name="event_dates" label="Event Dates" mode="range"
+        <input-data-list
+            id="travel_request_event_requests_attributes_0_recurring_event_id"
+            name="travel_request[event_requests_attributes][0][recurring_event_id]"
+            label="Recurring Event"
+            value="1"
+            :list="[
+              { value: 'Code4Lib', label: 'Code4Lib Annual Conference' },
+              { value: 'ALA', label: 'American Library Association Annual' },
+              { value: 'DLF', label: 'Digital Library Federation' },
+              { value: 'SAA', label: 'Society of American Archivists Annual Conference' },
+              { value: 'Access', label: 'Access Annual Conference' }
+            ]">
+          </input-data-list>
+        <date-picker id="travel_request_event_requests_attributes_0_start_date"
+          name="travel_request[event_requests_attributes][0][start_date]"
+          label="Event Dates" mode="range"
           :disabled-dates="
             [{
               start: null,
             end: new Date(<%= Date.current.year %>, <%= Date.current.month - 1 %>, <%= Date.current.day %>)
             }]"></date-picker>
-        <input-text label="Location" type="text" name="travel_request[location]"
-        id="travel_request_location" width="expand"></input-text>
+        <input-text label="Location" type="text" name="travel_request[event_requests_attributes][0][location]"
+        id="travel_request_event_requests_attributes_0_location" width="expand"></input-text>
     <% end %>
   </grid-item>
   <grid-item columns="lg-3 sm-6">
       <input-text label="Participation" type="text" name="travel_request[participation]"
       id="travel_request_participation" width="expand"></input-text>
-      <date-picker id="travelDates" name="travel_dates" label="Travel Dates" mode="range"
+      <date-picker id="travel_request_start_date" label="Travel Dates" mode="range"
+        name="travel_request[start_date]"
         :disabled-dates="
           [{
             start: null,
           end: new Date(<%= Date.current.year %>, <%= Date.current.month - 1 %>, <%= Date.current.day %>)
           }]"></date-picker>
-      <input-text label="Purpose" type="text" name="travel_request[purpose]"
-      id="travel_request_purpose" width="expand"></input-text>
+      <input-select label="Purpose" id="travel_request_purpose" width="expand"
+        name="travel_request[purpose]" value="<%= travel_request_change_set.travel_category %>"
+        :options="<%= travel_request_change_set.travel_category_options %>"></input-select>
   </grid-item>
   <grid-item columns="lg-6 sm-12">
     <input-text id="notes" name="notes"
