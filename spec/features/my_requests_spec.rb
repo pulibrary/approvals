@@ -3,7 +3,7 @@ require "rails_helper"
 
 RSpec.feature "My Requests", type: :feature, js: true do
   let(:user) { FactoryBot.create :user }
-  let(:staff_profile) { FactoryBot.create :staff_profile, user: user }
+  let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, user: user }
 
   before do
     sign_in user
@@ -11,12 +11,12 @@ RSpec.feature "My Requests", type: :feature, js: true do
 
   scenario "I can filter my requests" do
     FactoryBot.create(:absence_request, creator: staff_profile)
-    FactoryBot.create(:absence_request, creator: staff_profile, status: "approved")
+    FactoryBot.create(:absence_request, creator: staff_profile, action: "approve")
     FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick")
-    FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick", status: "approved")
+    FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick", action: "approve")
     FactoryBot.create(:travel_request, creator: staff_profile)
-    FactoryBot.create(:travel_request, creator: staff_profile, status: "approved")
-    FactoryBot.create(:travel_request, creator: staff_profile, status: "approved", travel_category: "professional_development")
+    FactoryBot.create(:travel_request, creator: staff_profile, action: "approve")
+    FactoryBot.create(:travel_request, creator: staff_profile, action: "approve", travel_category: "professional_development")
 
     visit "/my_requests"
     assert_selector "article.lux-card", count: Request.count
@@ -67,9 +67,9 @@ RSpec.feature "My Requests", type: :feature, js: true do
   end
 
   scenario "I can search my requests" do
-    absence_request = FactoryBot.create(:absence_request, creator: staff_profile, status: :approved)
-    absence_request2 = FactoryBot.create(:absence_request, creator: staff_profile, status: :denied)
-    travel_request = FactoryBot.create(:travel_request, creator: staff_profile, status: :approved)
+    absence_request = FactoryBot.create(:absence_request, creator: staff_profile, action: :approve)
+    absence_request2 = FactoryBot.create(:absence_request, creator: staff_profile, action: :deny)
+    travel_request = FactoryBot.create(:travel_request, creator: staff_profile, action: :approve)
     FactoryBot.create(:note, content: "elephants love balloons", request: absence_request)
     FactoryBot.create(:note, content: "elephants love balloons", request: absence_request2)
     FactoryBot.create(:note, content: "flamingoes are pink because of shrimp", request: travel_request)

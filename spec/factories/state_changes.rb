@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :state_change do
     request { FactoryBot.create(:travel_request) }
-    approver { FactoryBot.create(:staff_profile) }
+    agent { FactoryBot.create(:staff_profile) }
     action "approved"
   end
 end

@@ -8,10 +8,10 @@ class RandomRequestGenerator
       end_date = start_date + Random.rand(1..10).days
       request = TravelRequest.create!(creator: creator,
                                       event_requests_attributes: [event_requests_attributes(recurring_events: recurring_events)],
-                                      estimates_attributes: estimates, status: status,
+                                      estimates_attributes: estimates,
                                       start_date: start_date, end_date: end_date)
       request = generate_random_note(request, creator)
-      generate_random_state_changes(request)
+      generate_random_state_changes(request, status)
     end
 
     def generate_absence_request(creator:, status: "pending")
@@ -21,10 +21,10 @@ class RandomRequestGenerator
       hours_requested = [(hours_to_end % 24), 7.25].min + # partial day up to 7.25
                         (hours_to_end / 24).to_i * 7.25 # whole days
       request = AbsenceRequest.create!(creator: creator, start_date: start_date, end_date: end_date,
-                                       absence_type: Request.absence_types.keys.sample, status: status,
+                                       absence_type: Request.absence_types.keys.sample,
                                        hours_requested: hours_requested)
       request = generate_random_note(request, creator)
-      generate_random_state_changes(request)
+      generate_random_state_changes(request, status)
     end
 
     private
@@ -48,19 +48,19 @@ class RandomRequestGenerator
         RecurringEvent.all
       end
 
-      def generate_random_state_changes(request)
-        return request if request.pending?
+      def generate_random_state_changes(request, status)
+        return if status == "pending"
 
-        supervisor_approved = request.approved?
-        action = supervisor_approved ? "approved" : "denied"
-        StateChange.create!(request: request, approver: request.creator.supervisor, action: action)
+        supervisor_approved = status == "approved"
+        action = supervisor_approved ? "approve" : "deny"
+        request.aasm.fire(action, agent: request.creator.supervisor)
         if request.is_a?(TravelRequest) && supervisor_approved
-          StateChange.create!(request: request, approver: request.creator.department.head, action: action)
+          request.aasm.fire(action, agent: request.creator.department.head)
           request.travel_category = Request.travel_categories.keys.sample
-          request.save
         elsif !supervisor_approved
           request = generate_random_note(request, request.creator.supervisor)
         end
+        request.save
         request
       end
 

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 require "rails_helper"
-
-# rubocop:disable Metrics/BlockLength
 RSpec.describe RequestListDecorator, type: :model do
   subject(:request_list_decorator) { described_class.new([FactoryBot.create(:absence_request)], params_hash: params_hash) }
   let(:params_hash) { {} }

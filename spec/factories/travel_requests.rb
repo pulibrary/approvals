@@ -2,11 +2,17 @@
 
 FactoryBot.define do
   factory :travel_request do
-    creator { FactoryBot.create(:staff_profile) }
+    creator { FactoryBot.create(:staff_profile, :with_department) }
     event_requests { [FactoryBot.build(:event_request)] }
     start_date { Time.zone.today }
     end_date { Time.zone.tomorrow }
-    status { "pending" }
+    transient do
+      action { nil }
+    end
+
+    after(:build) do |request, evaluator|
+      fire_event_safely(request: request, action: evaluator.action, agent: request.creator.department.head) unless evaluator.action.blank?
+    end
 
     trait :with_note_and_estimate do
       estimates { [FactoryBot.build(:estimate)] }
