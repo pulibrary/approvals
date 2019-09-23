@@ -2,7 +2,7 @@
   <grid-item columns="lg-12 sm-12">
     <!--<date-picker id="absence_request_start_date" name="absence_request[start_date]" label="Start Date" mode="range"></date-picker>-->
     
-    <input-text id="bar" name="value" label="Date range" value="9/2/2019 - 9/12/2019" @inputblur="setHours($event)"></input-text>
+    <input-text id="absence_request_date" name="value" label="Date range" value="9/2/2019 - 9/12/2019" @inputblur="setHours($event)"></input-text>
 
     <input type="hidden" id="absence_request_start_date" name="absence_request[start_date]" :value="startDate">
     <input type="hidden" id="absence_request_end_date" name="absence_request[end_date]" :value="endDate">
