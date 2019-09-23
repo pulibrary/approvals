@@ -27,7 +27,8 @@
     </grid-item>-->
 
     <hours-calculator start-date="<%= absence_request_change_set.start_date_js %>"
-                      end-date="<%= absence_request_change_set.end_date_js %>" 
+                      end-date="<%= absence_request_change_set.end_date_js %>"
+                      hours-requested="<%= absence_request_change_set.hours_requested %>"
                       :holidays="<%=absence_request_change_set.holidays %>" 
                       hours-per-day=<%= absence_request_change_set.hours_per_day%>>
     </hours-calculator>

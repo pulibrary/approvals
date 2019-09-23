@@ -3,14 +3,14 @@ class AbsenceRequestChangeSet < Reform::Form
   property :creator_id
   property :absence_type
   property :hours_requested
-  property :start_date, presence: true, populator: ->(options) { populate_date(field: "start_date", options: options) }
-  property :end_date, presence: true, populator: ->(options) { populate_date(field: "end_date", options: options) }
+  property :start_date, populator: ->(options) { populate_date(field: "start_date", options: options) }
+  property :end_date, populator: ->(options) { populate_date(field: "end_date", options: options) }
   property :start_time, default: Time.zone.parse("8:45 AM")
   property :end_time, default: Time.zone.parse("5:00 PM")
   collection :notes, form: NoteChangeSet, populator: NoteChangeSet::NotePopulator
 
   validates :absence_type, inclusion: { in: Request.absence_types.keys }
-  validates :creator_id, presence: true
+  validates :creator_id, :hours_requested, :start_date, :end_date, presence: true
 
   def absence_type_options
     # turn key, value into label, key
@@ -43,24 +43,26 @@ class AbsenceRequestChangeSet < Reform::Form
   end
 
   def start_date_js
-    return '' if start_date.blank?
+    return "" if start_date.blank?
 
     start_date.strftime("%m/%d/%Y")
   end
 
   def end_date_js
-    return '' if start_date.blank?
+    return "" if start_date.blank?
 
     end_date.strftime("%m/%d/%Y")
   end
 
   def populate_date(field:, options:)
     data = options[:doc][field]
-    date_format = if data.include?('/')
-                      "%m/%d/%Y"
-                   else
-                      "%Y-%m-%d"
-                   end 
-    self.send("#{field}=".to_sym, Date.strptime(data, date_format)) 
+    return false if data.blank?
+
+    date_format = if data.include?("/")
+                    "%m/%d/%Y"
+                  else
+                    "%Y-%m-%d"
+                  end
+    send("#{field}=".to_sym, Date.strptime(data, date_format))
   end
 end

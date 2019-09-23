@@ -22,7 +22,6 @@ class TravelRequest < Request
 
     # Redefined the approve event to allow only department heads the ability to make the final approval
     event :approve do
-      transitions from: :approved, to: :approved
       transitions from: :pending, to: :approved, guard: :only_department_head
       transitions from: :pending, to: :pending, guard: :only_supervisor
     end

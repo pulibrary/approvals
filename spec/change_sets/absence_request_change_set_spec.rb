@@ -149,7 +149,7 @@ RSpec.describe AbsenceRequestChangeSet, type: :model do
 
   describe "#validate" do
     context "with valid params" do
-      let(:valid_params) { { absence_type: "vacation", creator_id: 1 } }
+      let(:valid_params) { { absence_type: "vacation", creator_id: 1, hours_requested: 8, start_date: Time.zone.now.to_date.to_s, end_date: Time.zone.tomorrow.to_date.to_s } }
 
       it "is valid" do
         expect(absence_request.validate(valid_params)).to be_truthy
@@ -160,7 +160,10 @@ RSpec.describe AbsenceRequestChangeSet, type: :model do
       let(:errors) do
         {
           absence_type: ["is not included in the list"],
-          creator_id: ["can't be blank"]
+          creator_id: ["can't be blank"],
+          end_date: ["can't be blank"],
+          hours_requested: ["can't be blank"],
+          start_date: ["can't be blank"]
         }
       end
 

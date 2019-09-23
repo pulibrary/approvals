@@ -35,7 +35,8 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       start_date: Time.zone.today,
       end_date: Time.zone.tomorrow,
       request_type: "AbsenceRequest",
-      absence_type: "vacation"
+      absence_type: "vacation",
+      hours_requested: 16
     }
   end
 
@@ -109,14 +110,17 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { absence_request: invalid_attributes }, session: valid_session
         expect(response).to be_successful
-        expect(assigns(:absence_request_change_set).errors.messages).to eq(absence_type: ["is not included in the list"])
+        expect(assigns(:absence_request_change_set).errors.messages).to eq(absence_type: ["is not included in the list"],
+                                                                           end_date: ["can't be blank"],
+                                                                           hours_requested: ["can't be blank"],
+                                                                           start_date: ["can't be blank"])
       end
 
       it "returns json with errors" do
         post :create, params: { absence_request: invalid_attributes, format: :json }, session: valid_session
         expect(response).not_to be_successful
         expect(response.media_type).to eq("application/json")
-        expect(response.body).to eq('{"absence_type":["is not included in the list"]}')
+        expect(response.body).to eq('{"absence_type":["is not included in the list"],"hours_requested":["can\'t be blank"],"start_date":["can\'t be blank"],"end_date":["can\'t be blank"]}')
       end
     end
 
