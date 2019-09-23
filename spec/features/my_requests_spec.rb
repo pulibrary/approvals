@@ -3,7 +3,7 @@ require "rails_helper"
 
 RSpec.feature "My Requests", type: :feature, js: true do
   let(:user) { FactoryBot.create :user }
-  let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, user: user }
+  let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, :with_supervisor, user: user }
 
   before do
     sign_in user
@@ -94,6 +94,8 @@ RSpec.feature "My Requests", type: :feature, js: true do
   end
 
   scenario "I can get to the page to add a new absence request" do
+    staff_profile
+
     visit "/my_requests"
 
     click_link("New leave request")
