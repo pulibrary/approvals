@@ -26,9 +26,11 @@
       <date-picker id="absence_request_end_date" name="absence_request[end_date]" label="End Date" mode="single"></date-picker>
     </grid-item>-->
 
-    <grid-item columns="lg-12 sm-12">
-      <hours-calculator :holidays="<%=absence_request_change_set.holidays %>" hours-per-day=<%= absence_request_change_set.hours_per_day%>></hours-calculator>
-    </grid-item>
+    <hours-calculator start-date="<%= absence_request_change_set.start_date_js %>"
+                      end-date="<%= absence_request_change_set.end_date_js %>" 
+                      :holidays="<%=absence_request_change_set.holidays %>" 
+                      hours-per-day=<%= absence_request_change_set.hours_per_day%>>
+    </hours-calculator>
 
     <grid-item columns="lg-6 sm-12">
       <input-text id="foe" name="value" label="Comments" type="textarea" width="expand"></input-text>

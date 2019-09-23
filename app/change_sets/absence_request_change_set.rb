@@ -2,8 +2,9 @@
 class AbsenceRequestChangeSet < Reform::Form
   property :creator_id
   property :absence_type
-  property :start_date
-  property :end_date
+  property :hours_requested
+  property :start_date, populator: ->(options) { self.start_date = Date.strptime(options[:doc]["start_date"], "%m/%d/%Y") }
+  property :end_date, populator: ->(options) { self.end_date = Date.strptime(options[:doc]["end_date"], "%m/%d/%Y") }
   property :start_time, default: Time.zone.parse("8:45 AM")
   property :end_time, default: Time.zone.parse("5:00 PM")
   collection :notes, form: NoteChangeSet, populator: NoteChangeSet::NotePopulator
@@ -39,5 +40,17 @@ class AbsenceRequestChangeSet < Reform::Form
 
   def hours_per_day
     8
+  end
+
+  def start_date_js
+    return '' if start_date.blank?
+
+    start_date.strftime("%m/%d/%Y")
+  end
+
+  def end_date_js
+    return '' if start_date.blank?
+
+    end_date.strftime("%m/%d/%Y")
   end
 end

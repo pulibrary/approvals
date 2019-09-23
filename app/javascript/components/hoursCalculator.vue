@@ -1,11 +1,14 @@
 <template>
-  <div id="app">
+  <grid-item columns="lg-12 sm-12">
     <!--<date-picker id="absence_request_start_date" name="absence_request[start_date]" label="Start Date" mode="range"></date-picker>-->
     
     <input-text id="bar" name="value" label="Date range" value="9/2/2019 - 9/12/2019" @inputblur="setHours($event)"></input-text>
 
-    <input-text id="foo" name="value" label="Total hours requested" placeholder="111 hours" :value="th"></input-text>
-  </div>
+    <input type="hidden" id="absence_request_start_date" name="absence_request[start_date]" :value="startDate">
+    <input type="hidden" id="absence_request_end_date" name="absence_request[end_date]" :value="endDate">
+
+    <input-text id="absence_request_hours_requested" name="absence_request[hours_requested]" label="Total hours requested" placeholder="111 hours" :value="hoursRequested" required></input-text>
+  </grid-item>
 </template>
 
 <script>
@@ -13,24 +16,32 @@ export default {
   name: "hoursCalculator",
   data: function () {
     return {
-      th: ""
+      hoursRequested: "",
+      startDate: this.startDate,
+      endDate: this.endDate
     }
   },
   props: { 
     holidays: {
      type: Array,
     }, 
-    hoursPerDay: {}
+    hoursPerDay: {},
+    name: {},
+    startDate: {},
+    endDate: {}
   },
   methods: {
     setHours(event) {
-      this.th = calculateTotalHours( event.value); 
+      this.hoursRequested = this.calculateTotalHours( event.value); 
     },
     calculateTotalHours(date_range) {
       var range = date_range.split(' - ');
 
-      var start_date = new Date(range[0]);
-      var end_date = new Date(range[1]);
+      this.startDate = range[0];
+      this.endDate = range[1];
+
+      var start_date = new Date(this.startDate);
+      var end_date = new Date(this.endDate);
 
       var date_array = this.getDates(start_date, end_date);
 

@@ -84,7 +84,7 @@ class AbsenceRequestsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def absence_request_params
-      params.require(:absence_request).permit(:start_date, :end_date, :request_type, :absence_type, notes: [:content])
+      params.require(:absence_request).permit(:start_date, :end_date, :request_type, :absence_type, :hours_requested, notes: [:content])
     end
 
     def processed_params
