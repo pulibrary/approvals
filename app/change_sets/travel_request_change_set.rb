@@ -39,10 +39,10 @@ class TravelRequestChangeSet < Reform::Form
     date_range_js(event_requests[0].start_date, event_requests[0].end_date)
   end
 
-  def event_name
+  def event_id
     return "" if event_requests.empty? || event_requests[0].recurring_event.blank?
 
-    event_requests[0].recurring_event.name
+    event_requests[0].recurring_event.id
   end
 
   def recurring_event_list

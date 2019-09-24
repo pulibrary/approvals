@@ -19,7 +19,11 @@ class EventRequestChangeSet < Reform::Form
   end
 
   EventRequestPopulator = lambda { |collection:, **|
-    collection.append(EventRequest.new)
+    if collection.empty?
+      collection.append(EventRequest.new)
+    else
+      collection.first
+    end
   }
 
   EventRequestPrepopulator = lambda { |**|
@@ -28,7 +32,7 @@ class EventRequestChangeSet < Reform::Form
 
   def recurring_event
     return nil if recurring_event_id.blank?
-    
+
     ::RecurringEvent.find_by(id: recurring_event_id.to_i)
   end
     

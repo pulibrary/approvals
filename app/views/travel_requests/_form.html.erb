@@ -21,7 +21,7 @@
             id="travel_request_event_requests_attributes_0_recurring_event_id"
             name="travel_request[event_requests_attributes][0][recurring_event_id]"
             label="Recurring Event"
-            value="<%= travel_request_change_set.event_name %>"
+            value="<%= travel_request_change_set.event_id %>"
             :list="<%= travel_request_change_set.recurring_event_list %>">
           </input-data-list>
         <date-picker label="Event Dates" mode="range"
@@ -42,7 +42,7 @@
   <grid-item columns="lg-3 sm-6">
       <input-select label="Participation" name="travel_request[participation]"
           id="travel_request_participation" width="expand"
-          value="<%= travel_request_change_set.purpose %>"
+          value="<%= travel_request_change_set.participation %>"
           :options="<%= travel_request_change_set.participation_options %>"></input-select>
       <date-picker label="Travel Dates" mode="range"
         name="travel_request[travel_dates]" id="travel_request_travel_dates"
