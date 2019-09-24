@@ -38,3 +38,6 @@ yarn-debug.log*
 .yarn-integrity
 
 coverage
+
+.yalc/
+yalc.lock

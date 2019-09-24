@@ -43,15 +43,13 @@ class AbsenceRequestChangeSet < Reform::Form
   end
 
   def start_date_js
-    return "" if start_date.blank?
-
-    start_date.strftime("%m/%d/%Y")
+    lstart_date = start_date || Time.zone.today
+    lstart_date.strftime("%m/%d/%Y")
   end
 
   def end_date_js
-    return "" if start_date.blank?
-
-    end_date.strftime("%m/%d/%Y")
+    lend_date = end_date || Time.zone.today
+    lend_date.strftime("%m/%d/%Y")
   end
 
   def populate_date(field:, options:)
