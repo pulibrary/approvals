@@ -1,13 +1,20 @@
 <template>
   <grid-item columns="lg-12 sm-12">
-    <!--<date-picker id="absence_request_start_date" name="absence_request[start_date]" label="Start Date" mode="range"></date-picker>-->
-    
-    <input-text id="absence_request_date" name="value" label="Date range" placeholder="9/2/2019 - 9/12/2019" :value="dateRange" @inputblur="setHours($event)"></input-text>
 
-    <input type="hidden" id="absence_request_start_date" name="absence_request[start_date]" :value="startDate">
-    <input type="hidden" id="absence_request_end_date" name="absence_request[end_date]" :value="endDate">
+    <date-picker id="absence_request_date"
+      name="absence_request[start_date]"
+      label="Date range"
+      mode="range"
+      placeholder="9/2/2019 - 9/12/2019"
+      @updateInput="setHours($event)"
+      :defaultDates="defaultDates">
+      </date-picker>
 
-    <input-text id="absence_request_hours_requested" name="absence_request[hours_requested]" label="Total hours requested" placeholder="111 hours" :value="hoursRequested" required></input-text>
+
+    <input type="hidden" id="absence_request_start_date" name="absence_request[start_date]" :value="localStartDate">
+    <input type="hidden" id="absence_request_end_date" name="absence_request[end_date]" :value="localEndDate">
+
+    <input-text id="absence_request_hours_requested" name="absence_request[hours_requested]" label="Total hours requested" placeholder="111 hours" :value="localHoursReqested" required></input-text>
   </grid-item>
 </template>
 
@@ -16,16 +23,16 @@ export default {
   name: "hoursCalculator",
   data: function () {
     return {
-      hoursRequested: this.hoursRequested,
-      startDate: this.startDate,
-      endDate: this.endDate,
-      dateRange: (this.startDate ? this.startDate+' - '+this.endDate : this.startDate)
+      localHoursReqested: this.hoursRequested,
+      localStartDate: this.startDate,
+      localEndDate: this.endDate,
+      defaultDates: { start: new Date(this.startDate), end: new Date(this.endDate) }
     }
   },
-  props: { 
+  props: {
     holidays: {
      type: Array,
-    }, 
+    },
     hoursPerDay: {},
     name: {},
     startDate: {},
@@ -33,18 +40,19 @@ export default {
     hoursRequested: { }
   },
   methods: {
-    setHours(event) {
-      this.hoursRequested = this.calculateTotalHours( event.value); 
+    setHours(date_range) {
+      this.localHoursReqested = this.calculateTotalHours(date_range);
     },
     calculateTotalHours(date_range) {
       var range = date_range.split(' - ');
 
-      this.startDate = range[0];
-      this.endDate = range[1];
+      this.localStartDate = range[0];
+      this.localEndDate = range[1];
 
-      var start_date = new Date(this.startDate);
-      var end_date = new Date(this.endDate);
-
+      var start_date = new Date(this.localStartDate);
+      var end_date = new Date(this.localEndDate);
+      // console.log(date_range)
+      // console.log(range[0])
       var date_array = this.getDates(start_date, end_date);
 
       var filtered = date_array.filter(this.isWorkday);

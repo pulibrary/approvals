@@ -12,7 +12,7 @@ describe("HoursCalculator.vue", () => {
         hoursPerDay: 8,
         holidays: ['2019-12-25','2019-12-26','2019-09-11']
       },
-      stubs: ["input-text"]
+      stubs: ["input-text", "date-picker", "grid-item"]
     })
   })
 
