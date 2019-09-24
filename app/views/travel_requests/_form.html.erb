@@ -21,40 +21,43 @@
             id="travel_request_event_requests_attributes_0_recurring_event_id"
             name="travel_request[event_requests_attributes][0][recurring_event_id]"
             label="Recurring Event"
-            value="1"
-            :list="[
-              { value: 'Code4Lib', label: 'Code4Lib Annual Conference' },
-              { value: 'ALA', label: 'American Library Association Annual' },
-              { value: 'DLF', label: 'Digital Library Federation' },
-              { value: 'SAA', label: 'Society of American Archivists Annual Conference' },
-              { value: 'Access', label: 'Access Annual Conference' }
-            ]">
+            value="<%= travel_request_change_set.event_name %>"
+            :list="<%= travel_request_change_set.recurring_event_list %>">
           </input-data-list>
-        <date-picker id="travel_request_event_requests_attributes_0_start_date"
-          name="travel_request[event_requests_attributes][0][start_date]"
-          label="Event Dates" mode="range"
+        <date-picker label="Event Dates" mode="range"
+          id="travel_request_event_requests_attributes_0_event_dates"
+          name="travel_request[event_requests_attributes][0][event_dates]"
           :disabled-dates="
             [{
               start: null,
             end: new Date(<%= Date.current.year %>, <%= Date.current.month - 1 %>, <%= Date.current.day %>)
-            }]"></date-picker>
+            }]"
+          :default-dates="<%=travel_request_change_set.event_dates_js%>"
+        ></date-picker>
         <input-text label="Location" type="text" name="travel_request[event_requests_attributes][0][location]"
-        id="travel_request_event_requests_attributes_0_location" width="expand"></input-text>
+              id="travel_request_event_requests_attributes_0_location" width="expand" value="<%= travel_request_change_set.model.event_requests[0].location %>">
+        </input-text>
     <% end %>
   </grid-item>
   <grid-item columns="lg-3 sm-6">
-      <input-text label="Participation" type="text" name="travel_request[participation]"
-      id="travel_request_participation" width="expand"></input-text>
-      <date-picker id="travel_request_start_date" label="Travel Dates" mode="range"
-        name="travel_request[start_date]"
+      <input-select label="Participation" name="travel_request[participation]"
+          id="travel_request_participation" width="expand"
+          value="<%= travel_request_change_set.purpose %>"
+          :options="<%= travel_request_change_set.participation_options %>"></input-select>
+      <date-picker label="Travel Dates" mode="range"
+        name="travel_request[travel_dates]" id="travel_request_travel_dates"
         :disabled-dates="
           [{
             start: null,
           end: new Date(<%= Date.current.year %>, <%= Date.current.month - 1 %>, <%= Date.current.day %>)
-          }]"></date-picker>
-      <input-select label="Purpose" id="travel_request_purpose" width="expand"
+          }]"
+        :default-dates="<%=travel_request_change_set.travel_dates_js%>"
+
+      >
+      </date-picker>
+      <!-- <input-select label="Purpose" id="travel_request_purpose" width="expand"
         name="travel_request[purpose]" value="<%= travel_request_change_set.travel_category %>"
-        :options="<%= travel_request_change_set.travel_category_options %>"></input-select>
+        :options="<%= travel_request_change_set.travel_category_options %>"></input-select> -->
   </grid-item>
   <grid-item columns="lg-6 sm-12">
     <input-text id="notes" name="notes"
@@ -63,7 +66,7 @@
   </grid-item>
   <grid-item columns="lg-3 sm-12 auto">
     <div class="actions">
-      <input-button type="submit" variation="solid" block>Create Travel Request</input-button>
+      <input-button type="submit" variation="solid" block>Apply Changes</input-button>
     </div>
   </grid-item>
 </grid-container>
