@@ -5,6 +5,7 @@ FactoryBot.define do
     creator { FactoryBot.create(:staff_profile, :with_supervisor) }
     start_date { Time.zone.today }
     end_date { Time.zone.tomorrow }
+    hours_requested { 8 }
     transient do
       action { nil }
     end

@@ -1,6 +1,10 @@
-<h1>Editing Absence Request</h1>
+<wrapper>
+  <grid-container>
+    <grid-item columns="lg-12 sm-12">
+      <heading level="h1" size="h2">Edit Leave Request</heading>
+    </grid-item>
+  </grid-container>
+  
+  <%= render 'form', absence_request_change_set: @absence_request_change_set %>
 
-<%= render 'form', absence_request_change_set: @absence_request_change_set %>
-
-<%= link_to 'Show', @absence_request_change_set.model %> |
-<%= link_to 'Back', absence_requests_path %>
+</wrapper>

@@ -101,7 +101,12 @@ jobs:
             bin/rails db:create
             bin/rails db:structure:load
 
-      # Run rspec
+      # Run yarn test
+      - run:
+          name: Run jest tests
+          command: yarn test
+
+          # Run rspec
       - run:
           name: Run rspec
           command: |

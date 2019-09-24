@@ -84,7 +84,7 @@ class AbsenceRequestsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def absence_request_params
-      params.require(:absence_request).permit(:start_date, :end_date, :request_type, :absence_type, notes: [:content])
+      params.require(:absence_request).permit(:start_date, :end_date, :request_type, :absence_type, :hours_requested, notes: [:content])
     end
 
     def processed_params
@@ -95,7 +95,7 @@ class AbsenceRequestsController < ApplicationController
 
     def process_notes(notes)
       return notes unless notes
-      notes.map do |note_entry|
+      Array(notes).map do |note_entry|
         note_entry.merge(creator_id: current_staff_profile.id) if note_entry[:content].present?
       end.compact
     end

@@ -54,13 +54,18 @@ class RandomRequestGenerator
         supervisor_approved = status == "approved"
         action = supervisor_approved ? "approve" : "deny"
         request.aasm.fire(action, agent: request.creator.supervisor)
-        if request.is_a?(TravelRequest) && supervisor_approved
-          request.aasm.fire(action, agent: request.creator.department.head)
-          request.travel_category = Request.travel_categories.keys.sample
-        elsif !supervisor_approved
-          request = generate_random_note(request, request.creator.supervisor)
-        end
+        request = travel_state_change(request, supervisor_approved, action)
+
+        request = generate_random_note(request, request.creator.supervisor) unless supervisor_approved
         request.save
+        request
+      end
+
+      def travel_state_change(request, supervisor_approved, action)
+        return request unless request.is_a?(TravelRequest)
+
+        request.aasm.fire(action, agent: request.creator.department.head) if supervisor_approved && (request.creator.supervisor != request.creator.department.head)
+        request.travel_category = Request.travel_categories.keys.sample
         request
       end
 

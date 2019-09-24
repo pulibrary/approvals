@@ -1,6 +1,6 @@
 # This migration will cause loss of data in the requests table due to
 #  the fact that columns are being removed
-class AddPendingCanceltaionToStateChange < ActiveRecord::Migration[5.2]
+class AddPendingCancelationToStateChange < ActiveRecord::Migration[5.2]
   def up
     remove_column :state_changes, :action, :boolean
     execute <<-SQL

@@ -3,7 +3,7 @@ require "rails_helper"
 
 RSpec.feature "My Requests", type: :feature, js: true do
   let(:user) { FactoryBot.create :user }
-  let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, user: user }
+  let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, :with_supervisor, user: user }
 
   before do
     sign_in user
@@ -91,6 +91,15 @@ RSpec.feature "My Requests", type: :feature, js: true do
     # filtering on a search result retains search results
     select_drop_down(menu: "#status-menu", item: "Approved")
     assert_selector "article.lux-card", count: 1
+  end
+
+  scenario "I can get to the page to add a new absence request" do
+    staff_profile
+
+    visit "/my_requests"
+
+    click_link("New leave request")
+    expect(page).to have_content "New Leave Request"
   end
 
   def select_drop_down(menu:, item:)
