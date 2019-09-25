@@ -107,6 +107,16 @@ class TravelRequestsController < ApplicationController
     # TODO: remove this when the form gets done correctly
     def clean_params
       params[:travel_request][:event_requests] = [params[:travel_request][:event_requests_attributes]["0"]] if params[:travel_request][:event_requests_attributes].present?
+
+      parse_date(params[:travel_request][:event_requests][0], :event_dates) if params[:travel_request][:event_requests].present?
+      parse_date(params[:travel_request], :travel_dates)
+    end
+
+    def parse_date(hash, field)
+      return if hash.blank? || hash[field].blank?
+      dates = hash[field].split(" - ")
+      hash[:start_date] = Date.strptime(dates[0], "%m/%d/%Y")
+      hash[:end_date] = Date.strptime(dates[1], "%m/%d/%Y")
     end
 
     def processed_params
