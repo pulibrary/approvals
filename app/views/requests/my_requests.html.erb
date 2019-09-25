@@ -48,16 +48,11 @@
 </wrapper>
 
 <wrapper>
-  <% @requests.filter_removal_urls.each do |key, url| %>
-    <%= link_to url do %>
-      <text-style variation="default">
-        <%= key %>
-        <lux-icon-base icon-name="denied" width="16" height="16">
-          <lux-icon-denied></lux-icon-denied>
-        </lux-icon-base>
-    </text-style>
+  <tag type="filter" :tag-items="[
+    <% @requests.filter_removal_urls.each do |key, url| %>
+    {name: '<%= key %>', href: '<%= url %>'},
     <% end %>
-  <% end %>
+  ]"></tag>
 </wrapper>
 
 <wrapper>
