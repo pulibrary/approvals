@@ -127,7 +127,7 @@ RSpec.describe TravelRequestsController, type: :controller do
 
   describe "PUT #update" do
     context "with valid nested attributes" do
-      let(:recurring_event) { FactoryBot.create :recurring_event }
+      let(:recurring_event) { FactoryBot.create :recurring_event, name: "Conference" }
       let(:nested_attributes) do
         {
           notes: [{ creator_id: creator.id, content: "Important message" }],
@@ -142,9 +142,10 @@ RSpec.describe TravelRequestsController, type: :controller do
         travel_request.reload
         expect(travel_request.notes.last.content).to eq "Important message"
         expect(travel_request.estimates.last.amount).to eq 200.20
-        expect(travel_request.event_requests.count).to eq 2
-        expect(travel_request.event_requests.last.start_date).to eq start_date
-        expect(travel_request.event_requests.last.location).to eq "Paris"
+        expect(travel_request.event_requests.count).to eq 1
+        expect(travel_request.event_requests[0].recurring_event.name).to eq "Conference"
+        expect(travel_request.event_requests[0].start_date).to eq start_date
+        expect(travel_request.event_requests[0].location).to eq "Paris"
       end
 
       it "redirects to the travel_request" do

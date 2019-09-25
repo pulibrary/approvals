@@ -46,21 +46,22 @@ class TravelRequestChangeSet < Reform::Form
   end
 
   def recurring_event_list
-    values = RecurringEvent.all.map do |event|
+    @values ||= RecurringEvent.all.limit(50).map do |event|
       "{ value: '#{event.id}', label: '#{event.name}' }"
-    end.join(',')
-    "[#{values}]"
-  
-  # "[
-  #             { value: 'Code4Lib', label: 'Code4Lib Annual Conference' },
-  #             { value: 'ALA', label: 'American Library Association Annual' },
-  #             { value: 'DLF', label: 'Digital Library Federation' },
-  #             { value: 'SAA', label: 'Society of American Archivists Annual Conference' },
-  #             { value: 'Access', label: 'Access Annual Conference' }
-  # ]"
+    end.join(",")
+    "[#{@values}]"
+
+    # "[
+    #             { value: 'Code4Lib', label: 'Code4Lib Annual Conference' },
+    #             { value: 'ALA', label: 'American Library Association Annual' },
+    #             { value: 'DLF', label: 'Digital Library Federation' },
+    #             { value: 'SAA', label: 'Society of American Archivists Annual Conference' },
+    #             { value: 'Access', label: 'Access Annual Conference' }
+    # ]"
   end
 
   private
+
     def date_range_js(start_date, end_date)
       "{ start: new Date('#{format_date_js(start_date)}'), end: new Date('#{format_date_js(end_date)}') }"
     end

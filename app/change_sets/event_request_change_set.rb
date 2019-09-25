@@ -35,6 +35,4 @@ class EventRequestChangeSet < Reform::Form
 
     ::RecurringEvent.find_by(id: recurring_event_id.to_i)
   end
-    
-
 end

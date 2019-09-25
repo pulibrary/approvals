@@ -107,24 +107,16 @@ class TravelRequestsController < ApplicationController
     # TODO: remove this when the form gets done correctly
     def clean_params
       params[:travel_request][:event_requests] = [params[:travel_request][:event_requests_attributes]["0"]] if params[:travel_request][:event_requests_attributes].present?
-      
-      if params[:travel_request][:event_requests].present? && params[:travel_request][:event_requests][0][:event_dates].present?
-        event_dates = parse_date(params[:travel_request][:event_requests][0][:event_dates])
-        params[:travel_request][:event_requests][0][:start_date] = event_dates[:start_date]
-        params[:travel_request][:event_requests][0][:end_date] = event_dates[:end_date]
-      end
-      if params[:travel_request][:travel_dates].present?
-        travel_dates = parse_date(params[:travel_request][:travel_dates])
-        params[:travel_request][:start_date] = travel_dates[:start_date]
-        params[:travel_request][:end_date] = travel_dates[:end_date]
-      end
+
+      parse_date(params[:travel_request][:event_requests][0], :event_dates) if params[:travel_request][:event_requests].present?
+      parse_date(params[:travel_request], :travel_dates)
     end
 
-    def parse_date(field)
-      dates = field.split(' - ')
-      start_date = Date.strptime(dates[0],'%m/%d/%Y')
-      end_date = Date.strptime(dates[1],'%m/%d/%Y')
-      {start_date: start_date, end_date: end_date}
+    def parse_date(hash, field)
+      return if hash.blank? || hash[field].blank?
+      dates = hash[field].split(" - ")
+      hash[:start_date] = Date.strptime(dates[0], "%m/%d/%Y")
+      hash[:end_date] = Date.strptime(dates[1], "%m/%d/%Y")
     end
 
     def processed_params
