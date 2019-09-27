@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-<wrapper>
+<wrapper :max-width=1440>
   <grid-container>
     <grid-item columns="lg-10 sm-6">
       <heading level="h1" size="h2">
@@ -13,6 +13,10 @@
       <card size="small" id="trip-id">
         <heading level="h2"><%= @travel_request.id %></heading>
         <text-style variation="default">Trip ID</text-style>
+        <tag type="tag" :tag-items="[
+        {name: '<%= @travel_request.latest_status %>', color: '<%= @travel_request.status_color %>', icon: '<%= @travel_request.status_icon %>'}
+        ]"
+        horizontal="center"></tag>
       </card>
     </grid-item>
   </grid-container>

@@ -10,9 +10,13 @@
       <text-style><%= travel_request.formatted_start_date %> to <%= travel_request.formatted_end_date %></text-style>
     </card-header>
     <card-content>
+      <tag type="tag" :tag-items="[
+        {name: '<%= travel_request.latest_status %>', color: '<%= travel_request.status_color %>', icon: '<%= travel_request.status_icon %>'}
+        ]"
+        horizontal="end"></tag>
       <text-style type="span" variation="small"><lux-icon-base
         width="14"
         height="14"
-      ><<%= travel_request.status_icon %>/></lux-icon-base><%= travel_request.latest_status %></text-style>
+      ><<%= travel_request.status_icon %>/></lux-icon-base><%= travel_request.latest_status_date %></text-style>
     </card-content>
   </card>

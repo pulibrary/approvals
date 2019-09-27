@@ -10,9 +10,10 @@
     <text-style><%= absence_request.formatted_start_date %> to <%= absence_request.formatted_end_date %></text-style>
   </card-header>
   <card-content>
-    <text-style type="span" variation="small"><lux-icon-base
-      width="14"
-      height="14"
-    ><<%= absence_request.status_icon %>/></lux-icon-base><%= absence_request.latest_status %></text-style>
+    <tag type="tag" :tag-items="[
+      {name: '<%= absence_request.latest_status %>', color: '<%= absence_request.status_color %>', icon: '<%= absence_request.status_icon %>'}
+      ]"
+      horizontal="end"></tag>
+    <text-style type="span" variation="small"><%= absence_request.latest_status_date %></text-style>
   </card-content>
 </card>

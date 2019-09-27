@@ -27,3 +27,12 @@
    height: calc(100vh - 88px);
    text-align: center;
  }
+
+ .lux-card-content .small,
+ .lux-card-header .default {
+   color: gray;
+ }
+
+ .lux-card-content .lux-tag .lux-tag-item {
+   margin: 0;
+ }
