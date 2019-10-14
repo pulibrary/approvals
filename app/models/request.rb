@@ -72,4 +72,10 @@ class Request < ApplicationRecord
 
   # use request_type as the single table inheritance flag
   self.inheritance_column = "request_type"
+
+  private
+
+    def raise_invalid_argument(property_name:)
+      raise ActiveModel::UnknownAttributeError.new(self, property_name)
+    end
 end
