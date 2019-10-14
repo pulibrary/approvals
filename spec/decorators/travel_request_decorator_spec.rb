@@ -196,4 +196,44 @@ RSpec.describe TravelRequestDecorator, type: :model do
                                                                ])
     end
   end
+
+  describe "#event_attendees" do
+    let(:staff_profile) { FactoryBot.create(:staff_profile, :with_department, given_name: "Jane") }
+    let(:staff_profile2) { FactoryBot.create(:staff_profile, :with_department, given_name: "Joe") }
+    let(:travel_request) do
+      FactoryBot.create(:travel_request, creator: staff_profile)
+    end
+    let(:travel_request2) do
+      FactoryBot.create(:travel_request, event_requests: travel_request.event_requests, creator: staff_profile2)
+    end
+
+    it "returns others who want to attend the same event" do
+      travel_request2
+      expect(travel_request_decorator.event_attendees).to eq([staff_profile2])
+    end
+
+    it "returns no one wants to attend the same event" do
+      expect(travel_request_decorator.event_attendees).to eq(["No others attending"])
+    end
+  end
+
+  describe "#absent_staff" do
+    let(:staff_profile) { FactoryBot.create(:staff_profile, :with_department, given_name: "Jane") }
+    let(:staff_profile2) { FactoryBot.create(:staff_profile, supervisor: staff_profile.supervisor, department: staff_profile.department, given_name: "Joe") }
+    let(:travel_request) do
+      FactoryBot.create(:travel_request, creator: staff_profile)
+    end
+    let(:absence_request) do
+      FactoryBot.create(:absence_request, creator: staff_profile2)
+    end
+
+    it "returns others who will be absent during the event time frame" do
+      absence_request
+      expect(travel_request_decorator.absent_staff).to eq([staff_profile2])
+    end
+
+    it "returns that no one wil be absent during the event" do
+      expect(travel_request_decorator.absent_staff).to eq(["No team members absent"])
+    end
+  end
 end

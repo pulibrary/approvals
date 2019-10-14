@@ -31,6 +31,7 @@
       <heading level="h3" size="h4">
         Others who requested to go
       </heading>
+      <%=  render partial: "other_staff", collection: @travel_request.event_attendees, as: :staff %>
     </grid-item>
     <grid-item columns="lg-4 sm-12">
       <heading level="h3" size="h4">
