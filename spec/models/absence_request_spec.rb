@@ -2,7 +2,9 @@
 require "rails_helper"
 
 RSpec.describe AbsenceRequest, type: :model do
-  subject(:absence_request) { described_class.new }
+  subject(:absence_request) { described_class.new creator: creator }
+  let(:creator_user) { FactoryBot.create :user, uid: "ssmith" }
+  let(:creator) { FactoryBot.create :staff_profile, given_name: "Sally", surname: "Smith", user: creator_user }
   let(:user) { FactoryBot.create :staff_profile, :with_department }
   describe "attributes relevant to absence requests" do
     it { is_expected.to respond_to :absence_type }
@@ -25,6 +27,12 @@ RSpec.describe AbsenceRequest, type: :model do
   describe "#status" do
     it "has a default of pending" do
       expect(absence_request.status).to eq("pending")
+    end
+  end
+
+  describe "#to_s" do
+    it "has a default of pending" do
+      expect(absence_request.to_s).to eq("Smith, Sally (ssmith) Absence")
     end
   end
 

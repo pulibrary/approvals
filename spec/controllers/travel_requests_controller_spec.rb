@@ -43,7 +43,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       event_requests: [
         recurring_event_id: recurring_event.id,
         location: "Mumbai",
-        start_date: Time.zone.today
+        event_dates: "#{Time.zone.yesterday.strftime('%m/%d/%Y')} - #{Time.zone.today.strftime('%m/%d/%Y')}"
       ],
       travel_category: "business", # note this field is not available on the create form; only on approval.
     }
@@ -153,6 +153,31 @@ RSpec.describe TravelRequestsController, type: :controller do
         put :update, params: { id: travel_request.to_param, travel_request: nested_attributes }, session: valid_session
         expect(response).to redirect_to(travel_request)
         expect(assigns(:travel_request)).to be_a(TravelRequest)
+      end
+
+      # rubocop:disable RSpec/AnyInstance
+      context "invalid save to database" do
+        let(:travel_request) { FactoryBot.create(:travel_request) }
+        before do
+          travel_request
+          allow_any_instance_of(TravelRequest).to receive(:save).and_return(false)
+          bad_note = Note.new(creator_id: 123)
+          bad_note.save
+          allow_any_instance_of(TravelRequest).to receive(:errors).and_return(bad_note.errors)
+        end
+
+        it "returns a success response (i.e. to display the 'new' template)" do
+          put :update, params: { id: travel_request.to_param, travel_request: valid_attributes }, session: valid_session
+          expect(response).to be_successful
+          expect(assigns(:travel_request_change_set).errors.messages).to eq(request: ["must exist"], creator: ["must exist"])
+        end
+
+        it "returns json with errors" do
+          put :update, params: { id: travel_request.to_param, travel_request: valid_attributes, format: :json }, session: valid_session
+          expect(response).not_to be_successful
+          expect(response.media_type).to eq("application/json")
+          expect(response.body).to eq('{"request":["must exist"],"creator":["must exist"]}')
+        end
       end
     end
 
