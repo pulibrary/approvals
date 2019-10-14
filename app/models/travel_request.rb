@@ -31,4 +31,45 @@ class TravelRequest < Request
       transitions from: [:pending, :approved, :changes_requested], to: :canceled, guard: :only_creator
     end
   end
+
+  ##########  Invalid Attributes ###########
+  # Because we are using single table inheritance there are a number of fields in a Request
+  # that are only valid for a absence request.
+  # The methods below force an invalid attribute error if someone tries to access them
+
+  # absence_type is not a valid property of a TravelRequest
+  def absence_type=(*_args)
+    raise_invalid_argument(property_name: :absence_type)
+  end
+
+  def absence_type
+    raise_invalid_argument(property_name: :absence_type)
+  end
+
+  # hours_requested is not a valid property of a TravelRequest
+  def hours_requested=(*_args)
+    raise_invalid_argument(property_name: :hours_requested)
+  end
+
+  def hours_requested
+    raise_invalid_argument(property_name: :hours_requested)
+  end
+
+  # end_time is not a valid property of a TravelRequest
+  def end_time=(*_args)
+    raise_invalid_argument(property_name: :end_time)
+  end
+
+  def end_time
+    raise_invalid_argument(property_name: :end_time)
+  end
+
+  # start_time is not a valid property of a TravelRequest
+  def start_time=(*_args)
+    raise_invalid_argument(property_name: :start_time)
+  end
+
+  def start_time
+    raise_invalid_argument(property_name: :start_time)
+  end
 end
