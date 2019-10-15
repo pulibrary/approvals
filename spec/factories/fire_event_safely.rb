@@ -8,6 +8,9 @@ def fire_event_safely(request:, action:, agent:)
     request.record(agent: agent)
   elsif action == :cancel
     agent = request.creator
+  elsif action == :fix_requested_changes
+    request.change_request(agent: agent)
+    agent = request.creator
   end
 
   request.aasm.fire(action, agent: agent)
