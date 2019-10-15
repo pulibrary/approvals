@@ -214,4 +214,56 @@ RSpec.describe AbsenceRequest, type: :model do
       end
     end
   end
+
+  context "invalid attributes" do
+    it "can not assign participation" do
+      expect { absence_request.participation = "presenter" }.to raise_error ActiveModel::UnknownAttributeError
+    end
+    it "can not request participation" do
+      expect { absence_request.participation }.to raise_error ActiveModel::UnknownAttributeError
+    end
+    it "can assing participation in new" do
+      expect { AbsenceRequest.new(participation: "presenter") }.to raise_error ActiveModel::UnknownAttributeError
+    end
+
+    it "can not assign purpose" do
+      expect { absence_request.purpose = "My grand purpose" }.to raise_error ActiveModel::UnknownAttributeError
+    end
+    it "can not request purpose" do
+      expect { absence_request.purpose }.to raise_error ActiveModel::UnknownAttributeError
+    end
+    it "can assing purpose in new" do
+      expect { AbsenceRequest.new(purpose: "My grand purpose") }.to raise_error ActiveModel::UnknownAttributeError
+    end
+
+    it "can not assign estimates" do
+      expect { absence_request.estimates = [Estimate.new] }.to raise_error ActiveModel::UnknownAttributeError
+    end
+    it "can not request estimates" do
+      expect { absence_request.estimates }.to raise_error ActiveModel::UnknownAttributeError
+    end
+    it "can assing estimates in new" do
+      expect { AbsenceRequest.new(estimates: [Estimate.new]) }.to raise_error ActiveModel::UnknownAttributeError
+    end
+
+    it "can not assign event_requests" do
+      expect { absence_request.event_requests = [EventRequest.new] }.to raise_error ActiveModel::UnknownAttributeError
+    end
+    it "can not request event_requests" do
+      expect { absence_request.event_requests }.to raise_error ActiveModel::UnknownAttributeError
+    end
+    it "can assing event_requests in new" do
+      expect { AbsenceRequest.new(event_requests: [EventRequest.new]) }.to raise_error ActiveModel::UnknownAttributeError
+    end
+
+    it "can not assign travel_category" do
+      expect { absence_request.travel_category = "business" }.to raise_error ActiveModel::UnknownAttributeError
+    end
+    it "can not request travel_category" do
+      expect { absence_request.travel_category }.to raise_error ActiveModel::UnknownAttributeError
+    end
+    it "can assing travel_category in new" do
+      expect { AbsenceRequest.new(travel_category: "business") }.to raise_error ActiveModel::UnknownAttributeError
+    end
+  end
 end
