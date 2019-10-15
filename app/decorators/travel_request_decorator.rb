@@ -44,7 +44,21 @@ class TravelRequestDecorator < RequestDecorator
     "attend"
   end
 
+  def event_attendees
+    @attendees ||= list_event_attendees
+    @attendees << "No others attending" if @attendees.blank?
+    @attendees
+  end
+
   private
+
+    def list_event_attendees
+      attendees = []
+      event_requests.each do |event_request|
+        attendees.concat EventAttendees.list(recurring_event: event_request.recurring_event, event_start_date: start_date).uniq - [creator]
+      end
+      attendees
+    end
 
     def estimate_to_hash(estimate:)
       { cost_type: estimate.cost_type,
