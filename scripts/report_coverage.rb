@@ -5,7 +5,7 @@ require "simplecov"
 class SimpleCovHelper
   def self.report_coverage(base_dir: "./coverage")
     SimpleCov.configure do
-      minimum_coverage(90)
+      minimum_coverage(98)
     end
     new(base_dir: base_dir).inspect_results
   end

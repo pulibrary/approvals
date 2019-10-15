@@ -131,6 +131,14 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       expect(response).to redirect_to(absence_request)
       expect(assigns(:absence_request)).to eq(absence_request)
     end
+
+    it "Does not allow review after denied" do
+      staff_profile = FactoryBot.create :staff_profile, supervisor: creator
+      absence_request = FactoryBot.create(:absence_request, creator: staff_profile, action: "deny")
+      get :review, params: { id: absence_request.to_param }, session: valid_session
+      expect(response).to redirect_to(absence_request)
+      expect(assigns(:absence_request)).to eq(absence_request)
+    end
   end
 
   describe "Put #approve" do
