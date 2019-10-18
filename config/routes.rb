@@ -25,4 +25,5 @@ Rails.application.routes.draw do
   end
 
   get "my_requests", action: :my_requests, controller: "requests"
+  get "my_approval_requests", action: :my_approval_requests, controller: "requests"
 end
