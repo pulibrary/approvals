@@ -7,6 +7,10 @@
       <heading level="h2" size="h3">
         From <%= @absence_request.start_date %> to <%= @absence_request.end_date %>
       </heading>
+
+      <tag type="tag" :tag-items="[
+        {name: '<%= @absence_request.latest_status %>', color: '<%= @absence_request.status_color %>', icon: '<%= @absence_request.status_icon %>'}
+        ]"></tag>
     </grid-item>
   </grid-container>
   <grid-container>

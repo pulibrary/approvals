@@ -9,11 +9,11 @@ class RequestDecorator
   end
 
   def latest_status
-    "#{decorated_status}"
+    decorated_status.to_s
   end
 
   def latest_status_date
-    "Last Updated on #{date_of_status.strftime(date_format)}"
+    "Updated on #{date_of_status.strftime(date_format)}"
   end
 
   def status_color

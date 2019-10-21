@@ -55,12 +55,16 @@
   ]"></tag>
 </wrapper>
 
-<wrapper :max-width=1440>
-  <% @requests.each do |request| %>
-    <%= if request.request_type == 'TravelRequest'
-          render 'travel_requests/index_detail', travel_request: request
-        else
-          render 'absence_requests/index_detail', absence_request: request
-        end %>
-  <% end %>
+<wrapper :max-width=1440 class="my-request">
+<grid-container>
+    <grid-item columns="lg-12 sm-12">
+      <% @requests.each do |request| %>
+        <%= if request.request_type == 'TravelRequest'
+              render 'travel_requests/index_detail', travel_request: request
+            else
+              render 'absence_requests/index_detail', absence_request: request
+            end %>
+      <% end %>
+    </grid-item>
+  </grid-container>
 </wrapper>

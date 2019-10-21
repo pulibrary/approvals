@@ -136,41 +136,41 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
   describe "#status_icon" do
     let(:absence_request) { FactoryBot.create(:absence_request) }
     it "returns the correct lux icon" do
-      expect(absence_request_decorator.status_icon).to eq "lux-icon-clock"
+      expect(absence_request_decorator.status_icon).to eq "clock"
     end
 
     context "when absence has been apporved" do
       let(:absence_request) { FactoryBot.create(:absence_request, action: :approve) }
       it "returns the correct lux icon" do
-        expect(absence_request_decorator.status_icon).to eq "lux-icon-approved"
+        expect(absence_request_decorator.status_icon).to eq "approved"
       end
     end
 
     context "when absence has been denied" do
       let(:absence_request) { FactoryBot.create(:absence_request, action: :deny) }
       it "returns the correct lux icon" do
-        expect(absence_request_decorator.status_icon).to eq "lux-icon-denied"
+        expect(absence_request_decorator.status_icon).to eq "denied"
       end
     end
 
     context "when absence has been canceled" do
       let(:absence_request) { FactoryBot.create(:absence_request, action: :cancel) }
       it "returns the correct lux icon" do
-        expect(absence_request_decorator.status_icon).to eq "lux-icon-alert"
+        expect(absence_request_decorator.status_icon).to eq "alert"
       end
     end
 
     context "when absence has been recorded" do
       let(:absence_request) { FactoryBot.create(:absence_request, action: :record) }
       it "returns the correct lux icon" do
-        expect(absence_request_decorator.status_icon).to eq "lux-icon-reported"
+        expect(absence_request_decorator.status_icon).to eq "reported"
       end
     end
 
     context "when absence is pending cancelation" do
       let(:absence_request) { FactoryBot.create(:absence_request, action: :pending_cancel) }
       it "returns the correct lux icon" do
-        expect(absence_request_decorator.status_icon).to eq "lux-icon-remove"
+        expect(absence_request_decorator.status_icon).to eq "remove"
       end
     end
   end
@@ -183,7 +183,8 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     it "returns the last created status and date" do
       absence_request.approve!(agent: supervisor)
       absence_request.cancel!(agent: absence_request.creator)
-      expect(absence_request_decorator.latest_status).to eq "Canceled on #{today.strftime('%b %-d, %Y')}"
+      expect(absence_request_decorator.latest_status).to eq "Canceled"
+      expect(absence_request_decorator.latest_status_date).to eq "Updated on #{today.strftime('%b %-d, %Y')}"
     end
   end
 
