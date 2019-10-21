@@ -5,11 +5,11 @@ class StaffReportProcessor
   class << self
     LIBRARY_DEAN_UID = "ajarvis"
 
-    def process(data:)
+    def process(data:, ldap_service_class: Ldap)
       manager_hash = {}
       csv = CSV.new(data, col_sep: "\t", headers: true)
       csv.each do |row|
-        manager_hash = process_staff_entry(staff_entry: row, manager_hash: manager_hash)
+        manager_hash = process_staff_entry(staff_entry: row, manager_hash: manager_hash, ldap_service_class: ldap_service_class)
       end
       connect_staff_to_managers(manager_hash: manager_hash)
       connect_managers_to_department(manager_hash: manager_hash)
@@ -18,13 +18,13 @@ class StaffReportProcessor
 
     private
 
-    def process_staff_entry(staff_entry:, manager_hash:)
+    def process_staff_entry(staff_entry:, manager_hash:, ldap_service_class:)
       net_id = staff_entry["Net ID"]
       user = create_user(net_id: net_id)
       department_name = staff_entry["Department Name"]
       department_number = staff_entry["Department Number"]
       department = create_department(name: department_name, number: department_number)
-      create_staff_profile(user: user, department: department, staff_entry: staff_entry)
+      create_staff_profile(user: user, department: department, staff_entry: staff_entry, ldap_service_class: ldap_service_class)
       manager_net_id = staff_entry["Manager Net ID"]
       manager_hash[manager_net_id] = Array(manager_hash[manager_net_id]) << net_id
       manager_hash
@@ -44,17 +44,35 @@ class StaffReportProcessor
       Department.create(name: name, number: number)
     end
 
-    def create_staff_profile(user:, department:, staff_entry:)
+    def create_staff_profile(user:, department:, staff_entry:, ldap_service_class:)
       biweekly = staff_entry["Paid"] == "Biw"
       given_name = "#{staff_entry['First Name']} #{staff_entry['Middle Name']}".strip
       surname = staff_entry["Last Name"]
       email = "#{user.uid}@princeton.edu"
+      location = find_location(net_id: user.uid, ldap_service_class: ldap_service_class)
 
-      staff_profile = StaffProfile.where(user_id: user.id)
-      return staff_profile[0] unless staff_profile.empty?
+      staff_profile = StaffProfile.where(user_id: user.id).first
+      staff_profile ||= StaffProfile.new
+      staff_profile.update_attributes(user: user, department: department, biweekly: biweekly,
+                                      given_name: given_name, surname: surname, email: email, location: location)
+      staff_profile.save
+    end
 
-      StaffProfile.create(user: user, department: department, biweekly: biweekly,
-                          given_name: given_name, surname: surname, email: email)
+    def find_location(net_id:, ldap_service_class:)
+      ldap_info = ldap_service_class.find_by_netid(net_id)
+      building = if ldap_info[:address].blank?
+                   Rails.logger.warn("Netid without address: #{net_id}")
+                   "Blank"
+                 else
+                   ldap_info[:address].split("$").first
+                 end
+
+      location = Location.where(building: building)
+      if location.blank?
+        Rails.logger.warn("No location found for #{building}.  Creating a new one!")
+        location = [Location.create!(building: building)]
+      end
+      location.first
     end
 
     def connect_staff_to_managers(manager_hash:)

@@ -222,6 +222,38 @@ ALTER SEQUENCE public.event_requests_id_seq OWNED BY public.event_requests.id;
 
 
 --
+-- Name: locations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.locations (
+    id bigint NOT NULL,
+    building character varying,
+    admin_assistant_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: locations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.locations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: locations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.locations_id_seq OWNED BY public.locations.id;
+
+
+--
 -- Name: notes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -353,7 +385,11 @@ CREATE TABLE public.staff_profiles (
     email character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    supervisor_id bigint
+    supervisor_id bigint,
+    location_id bigint,
+    vacation_balance numeric,
+    sick_balance numeric,
+    personal_balance numeric
 );
 
 
@@ -464,6 +500,13 @@ ALTER TABLE ONLY public.event_requests ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
+-- Name: locations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.locations ALTER COLUMN id SET DEFAULT nextval('public.locations_id_seq'::regclass);
+
+
+--
 -- Name: notes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -535,6 +578,14 @@ ALTER TABLE ONLY public.estimates
 
 ALTER TABLE ONLY public.event_requests
     ADD CONSTRAINT event_requests_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: locations locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.locations
+    ADD CONSTRAINT locations_pkey PRIMARY KEY (id);
 
 
 --
@@ -629,6 +680,13 @@ CREATE INDEX index_staff_profiles_on_department_id ON public.staff_profiles USIN
 
 
 --
+-- Name: index_staff_profiles_on_location_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_staff_profiles_on_location_id ON public.staff_profiles USING btree (location_id);
+
+
+--
 -- Name: index_staff_profiles_on_supervisor_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -703,6 +761,14 @@ ALTER TABLE ONLY public.staff_profiles
 
 
 --
+-- Name: staff_profiles fk_rails_767875b248; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.staff_profiles
+    ADD CONSTRAINT fk_rails_767875b248 FOREIGN KEY (location_id) REFERENCES public.locations(id);
+
+
+--
 -- Name: staff_profiles fk_rails_873ad824ec; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -762,6 +828,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190718132916'),
 ('20190826190425'),
 ('20190827172900'),
-('20190918150741');
+('20190918150741'),
+('20191021131520'),
+('20191021193122');
 
 

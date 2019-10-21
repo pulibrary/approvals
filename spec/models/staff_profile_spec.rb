@@ -13,6 +13,10 @@ RSpec.describe StaffProfile, type: :model do
   it { is_expected.to respond_to :given_name }
   it { is_expected.to respond_to :surname }
   it { is_expected.to respond_to :email }
+  it { is_expected.to respond_to :location }
+  it { is_expected.to respond_to :vacation_balance }
+  it { is_expected.to respond_to :sick_balance }
+  it { is_expected.to respond_to :personal_balance }
 
   describe "#find_by_uid" do
     it "returns the staff_profile" do
