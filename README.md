@@ -61,6 +61,12 @@ This is an application that allows the library to create workflows that allow st
      
 ## How to run the test suite
 
+### Percy (Visual Regressions)
+
+[![This project is using Percy.io for visual regression testing.](https://percy.io/static/images/percy-badge.svg)](https://percy.io/Princeton-University-Library/approvals)
+
+See: [Documentation](https://docs.percy.io/docs/capybara)
+
 ## Deployment instructions
 
 

@@ -106,11 +106,11 @@ jobs:
           name: Run jest tests
           command: yarn test
 
-          # Run rspec
+      # Run rspec with percy
       - run:
           name: Run rspec
           command: |
-            bundle exec rspec --profile 10 \
+            yarn percy exec -- bundle exec rspec --profile 10 \
                               --format RspecJunitFormatter \
                               --out test_results/rspec/results.xml \
                               --format progress \
