@@ -19,6 +19,7 @@ RSpec.feature "My Requests", type: :feature, js: true do
     FactoryBot.create(:travel_request, creator: staff_profile, action: "approve", travel_category: "professional_development")
 
     visit "/my_requests"
+    Percy.snapshot(page, name: "My Requests", widths: [375, 768, 1440])
     assert_selector "article.lux-card", count: Request.count
 
     select_drop_down(menu: "#status-menu", item: "Approved")
@@ -100,6 +101,7 @@ RSpec.feature "My Requests", type: :feature, js: true do
 
     click_link("New leave request")
     expect(page).to have_content "New Leave Request"
+    Percy.snapshot(page, name: "New Leave Requests", widths: [375, 768, 1440])
   end
 
   def select_drop_down(menu:, item:)
