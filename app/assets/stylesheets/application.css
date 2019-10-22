@@ -23,7 +23,42 @@
    background-color: #f9f8f4;
  }
 
+ .main-content {
+   padding-top: 1rem;
+ }
+
  .stretch-height {
    height: calc(100vh - 88px);
    text-align: center;
+ }
+
+ .lux-card-content .small,
+ .lux-card-header .default {
+   color: rgb(65, 70, 78);
+ }
+
+ .lux-card-media {
+   flex-basis: 85px;
+ }
+
+ .lux-card-header {
+   flex-basis: calc(100% - 90px);
+ }
+
+ .lux-card-content .lux-tag .lux-tag-item {
+   margin: 0;
+ }
+
+ 
+ @media (max-width: 599px) {
+  .my-request .full-width .lux-card-content {
+    margin-left: 90px;
+    padding: 0 0 1rem;
+    width: 100%;
+  }
+
+  .my-request .lux-tag.end {
+    float: left;
+    margin-right: 1rem;
+  }
  }

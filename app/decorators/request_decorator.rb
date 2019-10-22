@@ -9,18 +9,35 @@ class RequestDecorator
   end
 
   def latest_status
-    "#{decorated_status} on #{date_of_status.strftime(date_format)}"
+    decorated_status.to_s
+  end
+
+  def latest_status_date
+    "Updated on #{date_of_status.strftime(date_format)}"
+  end
+
+  def status_color
+    color_map = {
+      "pending" => "yellow",
+      "approved" => "green",
+      "denied" => "red",
+      "changes_requested" => "yellow",
+      "canceled" => "gray",
+      "recorded" => "green",
+      "pending_cancelation" => "yellow"
+    }
+    color_map[status]
   end
 
   def status_icon
     icon_map = {
-      "pending" => "lux-icon-clock",
-      "approved" => "lux-icon-approved",
-      "denied" => "lux-icon-denied",
-      "changes_requested" => "lux-icon-refresh",
-      "canceled" => "lux-icon-alert",
-      "recorded" => "lux-icon-reported",
-      "pending_cancelation" => "lux-icon-remove"
+      "pending" => "clock",
+      "approved" => "approved",
+      "denied" => "denied",
+      "changes_requested" => "refresh",
+      "canceled" => "alert",
+      "recorded" => "reported",
+      "pending_cancelation" => "remove"
     }
     icon_map[status]
   end

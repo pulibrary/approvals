@@ -64,34 +64,34 @@ RSpec.describe TravelRequestDecorator, type: :model do
   describe "#status_icon" do
     let(:travel_request) { FactoryBot.create(:travel_request) }
     it "returns the correct lux icon" do
-      expect(travel_request_decorator.status_icon).to eq "lux-icon-clock"
+      expect(travel_request_decorator.status_icon).to eq "clock"
     end
 
     context "when travel has been approved" do
       let(:travel_request) { FactoryBot.create(:travel_request, action: :approve) }
       it "returns the correct lux icon" do
-        expect(travel_request_decorator.status_icon).to eq "lux-icon-approved"
+        expect(travel_request_decorator.status_icon).to eq "approved"
       end
     end
 
     context "when travel has been denied" do
       let(:travel_request) { FactoryBot.create(:travel_request, action: :deny) }
       it "returns the correct lux icon" do
-        expect(travel_request_decorator.status_icon).to eq "lux-icon-denied"
+        expect(travel_request_decorator.status_icon).to eq "denied"
       end
     end
 
     context "when travel has been changes_requested" do
       let(:travel_request) { FactoryBot.create(:travel_request, action: :change_request) }
       it "returns the correct lux icon" do
-        expect(travel_request_decorator.status_icon).to eq "lux-icon-refresh"
+        expect(travel_request_decorator.status_icon).to eq "refresh"
       end
     end
 
     context "when travel has been canceled" do
       let(:travel_request) { FactoryBot.create(:travel_request, action: :cancel) }
       it "returns the correct lux icon" do
-        expect(travel_request_decorator.status_icon).to eq "lux-icon-alert"
+        expect(travel_request_decorator.status_icon).to eq "alert"
       end
     end
   end
@@ -100,14 +100,16 @@ RSpec.describe TravelRequestDecorator, type: :model do
     let(:travel_request) { FactoryBot.create(:travel_request) }
     let(:today) { Time.zone.now }
     it "returns the status and the createddate" do
-      expect(travel_request_decorator.latest_status).to eq "Pending on #{today.strftime('%b %-d, %Y')}"
+      expect(travel_request_decorator.latest_status).to eq "Pending"
+      expect(travel_request_decorator.latest_status_date).to eq "Updated on #{today.strftime('%b %-d, %Y')}"
     end
 
     context "it has been approved and then canceled" do
       let(:travel_request) { FactoryBot.create(:travel_request, action: :approve) }
       it "returns the last created status and date" do
         travel_request.cancel!(agent: travel_request.creator)
-        expect(travel_request_decorator.latest_status).to eq "Canceled on #{today.strftime('%b %-d, %Y')}"
+        expect(travel_request_decorator.latest_status).to eq "Canceled"
+        expect(travel_request_decorator.latest_status_date).to eq "Updated on #{today.strftime('%b %-d, %Y')}"
       end
     end
 
@@ -116,7 +118,8 @@ RSpec.describe TravelRequestDecorator, type: :model do
       let(:travel_request) { FactoryBot.create(:travel_request, creator: creator) }
       it "returns pending futher approval" do
         travel_request.approve!(agent: travel_request.creator.supervisor)
-        expect(travel_request_decorator.latest_status).to eq "Pending further approval on #{today.strftime('%b %-d, %Y')}"
+        expect(travel_request_decorator.latest_status).to eq "Pending further approval"
+        expect(travel_request_decorator.latest_status_date).to eq "Updated on #{today.strftime('%b %-d, %Y')}"
       end
     end
   end
