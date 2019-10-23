@@ -9,21 +9,29 @@
     </grid-item>
     <grid-item columns="lg-12 sm-12" v-for="expense in expenseData">
       <grid-container>
-        <grid-item columns="lg-2 sm-12">
+        <grid-item :vertical="center" columns="lg-1 sm-12">
+          <input-button class="button-delete-row" type="button" variation="text"
+            @button-clicked="deleteExpense(expense)">
+            <lux-icon-base width="25" height="25" icon-name="denied" icon-color="red">
+              <lux-icon-denied></lux-icon-denied>
+            </lux-icon-base>
+          </input-button>
           <input type="hidden" name="travel_request[estimates][][id]" :value="expense.id"/>
+        </grid-item>
+        <grid-item columns="lg-2 sm-12">
           <input-select label="Expense Type" name="travel_request[estimates][][cost_type]"
               id="travel_request_estimates_cost_type"
               :value="expense.cost_type" width="expand"
               :options="cost_types" required=true></input-select>
         </grid-item>
-        <grid-item columns="lg-2 sm-12">
+        <grid-item columns="lg-1 sm-12">
           <input-text label="Occurrences" name="travel_request[estimates][][recurrence]"
               id="travel_request_estimates_recurrence"
               @input="updateRecurrence($event, expense)"
               :value="expense.recurrence" width="expand" required=true></input-text>
         </grid-item>
         <grid-item columns="lg-2 sm-12">
-          <input-text label="Cost per Occurrence" name="travel_request[estimates][][amount]"
+          <input-text label="Cost" name="travel_request[estimates][][amount]"
               id="travel_request_estimates_amount"
               @input="updateAmount($event, expense)"
               :value="expense.amount" width="expand" required=true></input-text>
@@ -64,6 +72,10 @@ export default {
     addExpense() {
       this.expenseData.push({ id: null, cost_type: null, recurrence: 1, amount: 0, description: '' })
     },
+    deleteExpense(expense) {
+      let foundIndex = this.expenseData.findIndex(x => x.id == expense.id)
+      this.expenseData.splice(foundIndex, 1)
+    },
     setTotal(expense) {
       return (expense.amount * expense.recurrence).toFixed(2)
     },
@@ -85,4 +97,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>
