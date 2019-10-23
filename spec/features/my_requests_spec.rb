@@ -10,16 +10,16 @@ RSpec.feature "My Requests", type: :feature, js: true do
   end
 
   scenario "I can filter my requests" do
-    FactoryBot.create(:absence_request, creator: staff_profile)
-    FactoryBot.create(:absence_request, creator: staff_profile, action: "approve")
-    FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick")
-    FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick", action: "approve")
-    FactoryBot.create(:travel_request, creator: staff_profile)
-    FactoryBot.create(:travel_request, creator: staff_profile, action: "approve")
-    FactoryBot.create(:travel_request, creator: staff_profile, action: "approve", travel_category: "professional_development")
+    FactoryBot.create(:absence_request, creator: staff_profile, start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
+    FactoryBot.create(:absence_request, creator: staff_profile, action: "approve", start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
+    FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick", start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
+    FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick", action: "approve", start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
+    FactoryBot.create(:travel_request, creator: staff_profile, start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
+    FactoryBot.create(:travel_request, creator: staff_profile, action: "approve", start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
+    FactoryBot.create(:travel_request, creator: staff_profile, action: "approve", travel_category: "professional_development", start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
 
     visit "/my_requests"
-    Percy.snapshot(page, name: "My Requests", widths: [375, 768, 1440])
+    Percy.snapshot(page, name: "My Requests - Show", widths: [375, 768, 1440])
     assert_selector "article.lux-card", count: Request.count
 
     select_drop_down(menu: "#status-menu", item: "Approved")
@@ -101,7 +101,6 @@ RSpec.feature "My Requests", type: :feature, js: true do
 
     click_link("New leave request")
     expect(page).to have_content "New Leave Request"
-    Percy.snapshot(page, name: "New Leave Requests", widths: [375, 768, 1440])
   end
 
   def select_drop_down(menu:, item:)
