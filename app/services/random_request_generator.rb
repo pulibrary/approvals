@@ -64,7 +64,7 @@ class RandomRequestGenerator
       def travel_state_change(request, supervisor_approved, action)
         return request unless request.is_a?(TravelRequest)
 
-        request.aasm.fire(action, agent: request.creator.department.head) if supervisor_approved && (request.creator.supervisor != request.creator.department.head)
+        request.aasm.fire(action, agent: request.creator.department.head) if supervisor_approved && (request.status != "approved")
         request.travel_category = Request.travel_categories.keys.sample
         request
       end

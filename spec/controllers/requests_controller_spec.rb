@@ -77,6 +77,39 @@ RSpec.describe RequestsController, type: :controller do
     end
   end
 
+  describe "GET #my_approval_requests" do
+    let(:profile) { FactoryBot.create :staff_profile, supervisor: staff_profile }
+    let(:approval_absence) { FactoryBot.create(:absence_request, creator: profile, start_date: Time.zone.tomorrow) }
+    let(:approval_travel) { FactoryBot.create(:travel_request, creator: profile) }
+    before do
+      # create all the requests
+      other_absence
+      other_travel
+      my_absence
+      my_travel
+      approval_absence
+      approval_travel
+    end
+    it "returns a success response" do
+      get :my_approval_requests, params: {}, session: valid_session
+      expect(response).to be_successful
+      expect(assigns(:requests).first).to be_a AbsenceRequestDecorator
+      expect(assigns(:requests).last).to be_a TravelRequestDecorator
+      expect(assigns(:requests).map(&:id)).to contain_exactly(*[approval_absence, approval_travel].map(&:id))
+    end
+
+    it "returns a success response as json" do
+      get :my_approval_requests, params: { format: :json }, session: valid_session
+      expect(response).to be_successful
+      expect(assigns(:requests).map(&:id)).to contain_exactly(*[approval_absence, approval_travel].map(&:id))
+    end
+
+    it "accepts limit by request type absence" do
+      get :my_approval_requests, params: { filters: { request_type: "absence" } }, session: valid_session
+      expect(assigns(:requests).map(&:id)).to contain_exactly(approval_absence.id)
+    end
+  end
+
   describe "GET #my_requests with sort params" do
     let(:yesterday) { Time.zone.yesterday }
     let(:today) { Time.zone.today }
