@@ -5,8 +5,8 @@ FactoryBot.define do
     user { FactoryBot.create(:user) }
     department { FactoryBot.create(:department) }
     biweekly { false }
-    given_name { "Pat#{srand}" }
-    surname { "Doe#{srand}" }
+    sequence(:given_name) { |n| "Pat#{n}" }
+    sequence(:surname) { |n| "Doe#{n}" }
 
     trait :with_supervisor do
       after(:create) do |profile, _evaluator|

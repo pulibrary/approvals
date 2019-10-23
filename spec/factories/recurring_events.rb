@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :recurring_event do
-    name { "event_#{srand}" }
+    sequence(:name) { |n| "Event #{n}" }
     description { "description of #{name}" }
     url { "www.#{name}.com" }
   end

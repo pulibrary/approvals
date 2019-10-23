@@ -14,13 +14,14 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
     visit "/absence_requests/new"
     find("#absence_request_absence_type option[value='sick']").select_option
 
-    today = Time.zone.today
-    tomorrow = Time.zone.tomorrow
+    today = Date.parse("2019-10-21")
+    tomorrow = Date.parse("2019-10-23")
     js_date_format = "%m/%d/%Y"
     fill_in "absence_request_date", with: "#{today.strftime(js_date_format)} - #{tomorrow.strftime(js_date_format)}"
+    Percy.snapshot(page, name: "Leave Request - New", widths: [375, 768, 1440])
     click_on "Apply Changes"
 
     expect(page).to have_content "Sally wants to take Sick Leave\nFrom #{today} to #{tomorrow}"
-    Percy.snapshot(page, name: "New Leave Request Submission", widths: [375, 768, 1440])
+    Percy.snapshot(page, name: "Leave Request - Show", widths: [375, 768, 1440])
   end
 end
