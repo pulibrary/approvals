@@ -10,8 +10,8 @@ describe("travelEstimateForm.vue", () => {
       localVue,
       propsData: {
         expenses: [
-          {"id":484,"cost_type":"registration","amount":"50.0","recurrence":1,"description":""},
-          {"id":363,"cost_type":"meals","amount":"193.0","recurrence":2,"description":"Foo!"}
+          {"id":484,"cost_type":"registration","amount":"50.0","recurrence":2,"description":""},
+          {"id":363,"cost_type":"meals","amount":"193.0","recurrence":1,"description":"Foo!"}
         ],
         cost_types: [
           {label: 'Ground transportation', value: 'ground_transportation'},
@@ -24,12 +24,38 @@ describe("travelEstimateForm.vue", () => {
           {label: 'Train', value: 'train'}
         ]
       },
-      stubs: ["input-text", "input-select", "input-button", "lux-icon-denied", "lux-icon-refresh", "lux-icon-base", "grid-container", "grid-item"]
+      stubs: [
+        "input-text",
+        "input-select",
+        "input-button",
+        "lux-icon-denied",
+        "lux-icon-refresh",
+        "lux-icon-base",
+        "grid-container",
+        "grid-item",
+        "text-style",
+      ]
     })
   })
 
   it("has the proper number of expense line items", () => {
     expect(wrapper.vm.expenseData.length).toBe(2)
   })
+
+  it("calculates the line item expense correctly", () => {
+    expect(wrapper.vm.setLineItemTotal(wrapper.vm.expenseData[0])).toBe('100.00')
+  })
+
+  it("calculates the total expenses correctly", () => {
+    expect(wrapper.vm.expensesTotal()).toBe('293.00')
+  })
+  //
+  // it("adds an expense line", () => {
+  //
+  // })
+  //
+  // it("converts the expense amount to a number with two decimal places", () => {
+  //
+  // })
 
 })

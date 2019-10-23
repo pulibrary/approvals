@@ -43,7 +43,7 @@
         </grid-item>
         <grid-item columns="lg-2 sm-12">
           <input-text label="Total"
-              :value="setTotal(expense)" width="expand" disabled=true></input-text>
+              :value="setLineItemTotal(expense)" width="expand" disabled=true></input-text>
         </grid-item>
       </grid-container>
     </grid-item>
@@ -85,7 +85,7 @@ export default {
       let foundIndex = this.expenseData.findIndex(x => x.id == expense.id)
       this.expenseData.splice(foundIndex, 1)
     },
-    setTotal(expense) {
+    setLineItemTotal(expense) {
       return (expense.amount * expense.recurrence).toFixed(2)
     },
     expensesTotal() {
