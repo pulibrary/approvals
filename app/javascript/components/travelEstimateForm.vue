@@ -1,6 +1,6 @@
 <template>
   <grid-container>
-    <grid-item columns="lg-12 sm-12" :offset="true">
+    <grid-item columns="lg-12 sm-12 auto" :offset="true">
       <input-button type="button" variation="text"
         @button-clicked="addExpense()">
         <lux-icon-base width="12" height="12" icon-name="refresh">
@@ -47,6 +47,15 @@
         </grid-item>
       </grid-container>
     </grid-item>
+    <grid-item columns="lg-12 sm-12">
+      <hr/>
+    </grid-item>
+    <grid-item columns="lg-10 sm-12 auto" :offset="true">
+      <text-style variation="strong">Total:</text-style>
+    </grid-item>
+    <grid-item columns="lg-2 sm-12">
+      <text-style variation="strong">${{ expensesTotal() }}</text-style>
+    </grid-item>
   </grid-container>
 </template>
 
@@ -78,6 +87,14 @@ export default {
     },
     setTotal(expense) {
       return (expense.amount * expense.recurrence).toFixed(2)
+    },
+    expensesTotal() {
+      let total = 0
+      let len = this.expenseData.length
+      for (let i = 0; i < len; i++) {
+        total = total + (this.expenseData[i].amount * this.expenseData[i].recurrence)
+      }
+      return total.toFixed(2)
     },
     updateRecurrence(inputVal, expense) {
       let foundIndex = this.expenseData.findIndex(x => x.id == expense.id)
