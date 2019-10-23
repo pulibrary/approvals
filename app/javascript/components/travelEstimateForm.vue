@@ -10,27 +10,28 @@
     <grid-item columns="lg-12 sm-12" v-for="expense in expenseData">
       <grid-container>
         <grid-item columns="lg-2 sm-12">
-          <input-select label="Expense Type" name="travel_request[estimates][cost_type]"
+          <input type="hidden" name="travel_request[estimates][][id]" :value="expense.id"/>
+          <input-select label="Expense Type" name="travel_request[estimates][][cost_type]"
               id="travel_request_estimates_cost_type"
               :value="expense.cost_type" width="expand"
               :options="cost_types" required=true></input-select>
         </grid-item>
         <grid-item columns="lg-2 sm-12">
-          <input-text label="Occurrences" name="travel_request[estimates][recurrence]"
+          <input-text label="Occurrences" name="travel_request[estimates][][recurrence]"
               id="travel_request_estimates_recurrence"
               @input="updateRecurrence($event, expense)"
               :value="expense.recurrence" width="expand" required=true></input-text>
         </grid-item>
         <grid-item columns="lg-2 sm-12">
-          <input-text label="Cost per Occurrence" name="travel_request[estimates][amount]"
+          <input-text label="Cost per Occurrence" name="travel_request[estimates][][amount]"
               id="travel_request_estimates_amount"
               @input="updateAmount($event, expense)"
               :value="expense.amount" width="expand" required=true></input-text>
         </grid-item>
         <grid-item columns="lg-4 sm-12">
-          <input-text label="Note" name="travel_request[estimates][description]"
+          <input-text label="Note" name="travel_request[estimates][][description]"
               id="travel_request_estimates_description"
-              :value="expense.description" width="expand" required=true></input-text>
+              :value="expense.description" width="expand"></input-text>
         </grid-item>
         <grid-item columns="lg-2 sm-12">
           <input-text label="Total"
@@ -52,7 +53,7 @@ export default {
   props: {
     expenses: {
      type: Array,
-     default: [{ cost_type: null, recurrence: 1, amount: 0, description: '' }]
+     default: [{ id: null, cost_type: null, recurrence: 1, amount: 0, description: '' }]
     },
     cost_types: {
      type: Array,
@@ -61,7 +62,7 @@ export default {
   },
   methods: {
     addExpense() {
-      this.expenseData.push({ cost_type: null, recurrence: 1, amount: 0, description: '' })
+      this.expenseData.push({ id: null, cost_type: null, recurrence: 1, amount: 0, description: '' })
     },
     setTotal(expense) {
       return (expense.amount * expense.recurrence).toFixed(2)

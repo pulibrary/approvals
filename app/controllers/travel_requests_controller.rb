@@ -100,7 +100,7 @@ class TravelRequestsController < ApplicationController
         :travel_category,
         event_requests: [:id, :recurring_event_id, :start_date, :end_date, :location, :url],
         notes: [:creator_id, :content],
-        estimates: [:amount, :recurrence, :type]
+        estimates: [:id, :amount, :recurrence, :cost_type, :description]
       )
     end
 
