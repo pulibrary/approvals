@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :user do
-    sequence(:uid) { "uid#{srand}" }
+    sequence(:uid) { |n| "uid#{n}" }
     provider "cas"
   end
 end
