@@ -15,6 +15,14 @@ class TravelRequestChangeSet < Reform::Form
   validates :creator_id, presence: true
   validates :event_requests, presence: true
 
+  def estimate_cost_options
+    # turn key, value into label, key
+    strings = Estimate.cost_types.map do |key, value|
+      "{label: '#{value.humanize}', value: '#{key}'}"
+    end
+    "[#{strings.join(',')}]"
+  end
+
   def travel_category_options
     # turn key, value into label, key
     strings = model.class.travel_categories.map do |key, value|
@@ -29,6 +37,18 @@ class TravelRequestChangeSet < Reform::Form
       "{label: '#{value.humanize}', value: '#{key}'}"
     end
     "[#{strings.join(',')}]"
+  end
+
+  def estimates_json
+    estimates.map do |estimate|
+      {
+        id: estimate.id,
+        cost_type: estimate.cost_type,
+        amount: estimate.amount,
+        recurrence: estimate.recurrence,
+        description: estimate.description
+      }
+    end.to_json
   end
 
   def travel_dates_js

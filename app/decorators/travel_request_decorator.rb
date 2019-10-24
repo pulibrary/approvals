@@ -62,7 +62,7 @@ class TravelRequestDecorator < RequestDecorator
 
     def estimate_to_hash(estimate:)
       { cost_type: estimate.cost_type,
-        note: "",
+        note: estimate.description || "",
         recurrence: estimate.recurrence,
         amount: format("%.2f", estimate.amount),
         total: format("%.2f", estimate.recurrence * estimate.amount) }

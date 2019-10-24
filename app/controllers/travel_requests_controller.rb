@@ -44,7 +44,7 @@ class TravelRequestsController < ApplicationController
   # PATCH/PUT /travel_requests/1.json
   def update
     respond_to do |format|
-      if travel_request_change_set.validate(processed_params) && travel_request_change_set.save
+      if travel_request_change_set.validate(processed_params) && remove_estimates && travel_request_change_set.save
         @travel_request = travel_request_change_set.model
         format.html { redirect_to @travel_request, notice: "Travel request was successfully updated." }
         format.json { render :show, status: :ok, location: @travel_request }
@@ -100,8 +100,17 @@ class TravelRequestsController < ApplicationController
         :travel_category,
         event_requests: [:id, :recurring_event_id, :start_date, :end_date, :location, :url],
         notes: [:creator_id, :content],
-        estimates: [:amount, :recurrence, :type]
+        estimates: [:id, :amount, :recurrence, :cost_type, :description]
       )
+    end
+
+    def remove_estimates
+      return true if params[:travel_request][:estimates].blank?
+      params_estimate_ids = params[:travel_request][:estimates].map { |estimate| estimate[:id] }
+      @travel_request.estimates.each do |estimate|
+        estimate.destroy if params_estimate_ids.exclude? estimate.id.to_s
+      end
+      true
     end
 
     # TODO: remove this when the form gets done correctly

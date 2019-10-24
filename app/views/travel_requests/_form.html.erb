@@ -58,16 +58,25 @@
       <input-text label="Purpose" id="travel_request_purpose" width="expand" required=true
         name="travel_request[purpose]" value="<%= travel_request_change_set.purpose %>"
         helper="Specify the reason this trip is necissary for your job"
-        :options="<%= travel_request_change_set.travel_category_options %>"></input-select> 
-      <!-- <input-select label="Travel Category" id="travel_request_travel_category" width="expand"
-        name="travel_request[travel_cateogry]" value="<%= travel_request_change_set.travel_category %>"
-        :options="<%= travel_request_change_set.travel_category_options %>"></input-select> -->
+        :options="<%= travel_request_change_set.travel_category_options %>"></input-text>
   </grid-item>
   <grid-item columns="lg-6 sm-12">
     <input-text id="notes" name="notes"
       helper="Specify any unique circumstances (request for time off, desire to stay additional nights, etc.)"
       label="Notes to approvers (optional)" width="expand" type="textarea"></input-text>
   </grid-item>
+  <grid-item columns="lg-12 sm-12">
+    <heading level="h1" size="h2">Anticipated Expenses</heading>
+  </grid-item>
+</grid-container>
+  <!--
+    Travel Estimate Form -->
+  <travel-estimate-form
+    :expenses="<%= travel_request_change_set.estimates_json %>"
+    :cost_types="<%= travel_request_change_set.estimate_cost_options %>">
+  </travel-estimate-form>
+
+<grid-container>
   <grid-item columns="lg-3 sm-12 auto">
     <div class="actions">
       <input-button type="submit" variation="solid" block>Apply Changes</input-button>
