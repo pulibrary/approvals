@@ -1,72 +1,25 @@
 # frozen_string_literal: true
-class TravelRequestsController < ApplicationController
+class TravelRequestsController < CommonRequestController
   before_action :set_travel_request, only: [:show, :update, :destroy]
 
-  # GET /travel_requests/1
-  # GET /travel_requests/1.json
-  def show
-    @request = TravelRequestDecorator.new(@request)
-  end
-
-  # GET /travel_requests/new
-  def new
-    # the sync is required since the form currently runs off of the change set model
-    # prepopulate creates a default unsaved request event
-    request_change_set.prepopulate!.sync
-  end
-
-  # GET /travel_requests/1/edit
-  def edit
-    @request_change_set = request_change_set
-  end
-
-  # POST /travel_requests
-  # POST /travel_requests.json
-  def create
-    @request_change_set = request_change_set
-
-    respond_to do |format|
-      if request_change_set.validate(processed_params) && request_change_set.save
-        @request = request_change_set.model
-        format.html { redirect_to @request, notice: "Travel request was successfully created." }
-        format.json { render :show, status: :created, location: @request }
-      else
-        # the sync is required since the form currently runs off of the change set model
-        request_change_set.sync
-        copy_model_errors_to_change_set
-        format.html { render :new }
-        format.json { render json: request_change_set.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /travel_requests/1
-  # PATCH/PUT /travel_requests/1.json
-  def update
-    respond_to do |format|
-      if request_change_set.validate(processed_params) && remove_estimates && request_change_set.save
-        @request = request_change_set.model
-        format.html { redirect_to @request, notice: "Travel request was successfully updated." }
-        format.json { render :show, status: :ok, location: @request }
-      else
-        copy_model_errors_to_change_set
-        format.html { render :edit }
-        format.json { render json: request_change_set.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /travel_requests/1
-  # DELETE /travel_requests/1.json
-  def destroy
-    @request.destroy
-    respond_to do |format|
-      format.html { redirect_to travel_requests_url, notice: "Travel request was successfully destroyed." }
-      format.json { head :no_content }
-    end
+  # PATCH/PUT
+  def change_request
+    supervisor_action(action: :change_request)
   end
 
   private
+
+    def request_decorator_class
+      TravelRequestDecorator
+    end
+
+    def can_edit?
+      @request_change_set.model.pending? || request_change_set.model.changes_requested?
+    end
+
+    def list_url
+      travel_requests_url
+    end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_travel_request
@@ -80,12 +33,6 @@ class TravelRequestsController < ApplicationController
         else
           TravelRequestChangeSet.new(TravelRequest.new)
         end
-    end
-
-    def copy_model_errors_to_change_set
-      request_change_set.model.errors.each do |key, value|
-        @request_change_set.errors.add(key, value)
-      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
@@ -104,13 +51,17 @@ class TravelRequestsController < ApplicationController
       )
     end
 
+    def handle_nested_deletes
+      remove_estimates
+      super
+    end
+
     def remove_estimates
-      return true if params[:travel_request][:estimates].blank?
+      return if params[:travel_request][:estimates].blank?
       params_estimate_ids = params[:travel_request][:estimates].map { |estimate| estimate[:id] }
       @request.estimates.each do |estimate|
         estimate.destroy if params_estimate_ids.exclude? estimate.id.to_s
       end
-      true
     end
 
     # TODO: remove this when the form gets done correctly

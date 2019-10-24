@@ -231,9 +231,9 @@ RSpec.describe AbsenceRequestsController, type: :controller do
         post :create, params: { absence_request: invalid_attributes }, session: valid_session
         expect(response).to be_successful
         expect(assigns(:request_change_set).errors.messages).to eq(absence_type: ["is not included in the list"],
-                                                                           end_date: ["can't be blank"],
-                                                                           hours_requested: ["can't be blank"],
-                                                                           start_date: ["can't be blank"])
+                                                                   end_date: ["can't be blank"],
+                                                                   hours_requested: ["can't be blank"],
+                                                                   start_date: ["can't be blank"])
       end
 
       it "returns json with errors" do
