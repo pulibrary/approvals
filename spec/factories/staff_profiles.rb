@@ -7,6 +7,7 @@ FactoryBot.define do
     biweekly { false }
     sequence(:given_name) { |n| "Pat#{n}" }
     sequence(:surname) { |n| "Doe#{n}" }
+    location { FactoryBot.create(:location) }
 
     trait :with_supervisor do
       after(:create) do |profile, _evaluator|

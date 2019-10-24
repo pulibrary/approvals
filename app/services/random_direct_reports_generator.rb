@@ -23,12 +23,13 @@ class RandomDirectReportsGenerator
         begin
           index = Random.rand(1...50_000)
           user = User.create!(uid: "uid#{index}")
+          location = Location.create!(building: Faker::Address.community)
         rescue ActiveRecord::RecordNotUnique
           retry
         end
         StaffProfile.create!(given_name: Faker::Name.first_name, surname: Faker::Name.last_name,
                              department: supervisor.department, biweekly: false,
-                             user: user, email: "#{user.uid}@princeton.edu",
+                             user: user, email: "#{user.uid}@princeton.edu", location: location,
                              supervisor: supervisor)
       end
   end

@@ -32,7 +32,8 @@ RSpec.describe StaffProfilesController, type: :controller do
     { department_id: FactoryBot.create(:department).id,
       user_id: FactoryBot.create(:user).id,
       supervisor_id: FactoryBot.create(:staff_profile).id,
-      biweekly: false }
+      biweekly: false,
+      location_id: FactoryBot.create(:location).id }
   end
 
   let(:invalid_attributes) do

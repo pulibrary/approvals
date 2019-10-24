@@ -110,7 +110,7 @@ jobs:
       - run:
           name: Run rspec
           command: |
-            yarn percy exec -- bundle exec rspec --profile 10 \
+            yarn percy exec -- bundle exec rspec --tag \~no_ci --profile 10 \
                               --format RspecJunitFormatter \
                               --out test_results/rspec/results.xml \
                               --format progress \
