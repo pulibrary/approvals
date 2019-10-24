@@ -10,8 +10,8 @@ describe("travelEstimateForm.vue", () => {
       localVue,
       propsData: {
         expenses: [
-          {"id":484,"cost_type":"registration","amount":"50.0","recurrence":2,"description":""},
-          {"id":363,"cost_type":"meals","amount":"193.0","recurrence":1,"description":"Foo!"}
+          {"id":1,"cost_type":"registration","amount":"50.0","recurrence":2,"description":""},
+          {"id":2,"cost_type":"meals","amount":"193.0","recurrence":1,"description":"Foo!"}
         ],
         cost_types: [
           {label: 'Ground transportation', value: 'ground_transportation'},
@@ -49,13 +49,20 @@ describe("travelEstimateForm.vue", () => {
   it("calculates the total expenses correctly", () => {
     expect(wrapper.vm.expensesTotal()).toBe('293.00')
   })
-  //
-  // it("adds an expense line", () => {
-  //
-  // })
-  //
-  // it("converts the expense amount to a number with two decimal places", () => {
-  //
-  // })
+
+  it("adds an expense line", () => {
+    wrapper.vm.addExpense()
+    expect(wrapper.vm.expenseData.length).toBe(3)
+  })
+
+  it("deletes the appropriate expense line", () => {
+    let id = wrapper.vm.expenseData[0].id
+    wrapper.vm.deleteExpense(wrapper.vm.expenseData[0])
+    expect(wrapper.vm.expenseData.length).toBe(1)
+    let emptyArray = wrapper.vm.expenseData.filter(expense => {
+      return expense.id === 1
+    })
+    expect(emptyArray.length).toBe(0)
+  })
 
 })

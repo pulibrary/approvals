@@ -1,7 +1,7 @@
 <template>
   <grid-container>
     <grid-item columns="lg-12 sm-12 auto" :offset="true">
-      <input-button type="button" variation="text"
+      <input-button type="button" id="add-expense-button" variation="text"
         @button-clicked="addExpense()">
         <lux-icon-base width="12" height="12" icon-name="refresh">
           <lux-icon-refresh></lux-icon-refresh>
@@ -54,7 +54,7 @@
       <text-style variation="strong">Total:</text-style>
     </grid-item>
     <grid-item columns="lg-2 sm-12">
-      <text-style variation="strong">${{ expensesTotal() }}</text-style>
+      <text-style id="expenses-total" variation="strong">${{ expensesTotal() }}</text-style>
     </grid-item>
   </grid-container>
 </template>
