@@ -5,47 +5,47 @@ class AbsenceRequestsController < ApplicationController
   # GET /absence_requests/1
   # GET /absence_requests/1.json
   def show
-    @absence_request = AbsenceRequestDecorator.new(@absence_request)
+    @request = AbsenceRequestDecorator.new(@request)
   end
 
   # GET /absence_requests/new
   def new
-    @absence_request_change_set = absence_request_change_set
+    @request_change_set = request_change_set
   end
 
   # GET /absence_requests/1/edit
   def edit
-    @absence_request_change_set = absence_request_change_set
+    @request_change_set = request_change_set
 
     # render the default
-    return if @absence_request_change_set.model.pending?
+    return if @request_change_set.model.pending?
 
     # handle the error
     respond_to do |format|
-      @absence_request = absence_request_change_set.model
-      format.html { redirect_to @absence_request, notice: "Absence can not be edited after it has been #{@absence_request_change_set.model.status}." }
-      format.json { render :show, status: :invalid_edit, location: @absence_request }
+      @request = request_change_set.model
+      format.html { redirect_to @request, notice: "Absence can not be edited after it has been #{@request.status}." }
+      format.json { render :show, status: :invalid_edit, location: @request }
     end
   end
 
   # GET /absence_requests/1/review
   def review
-    @absence_request_change_set = absence_request_change_set
-    allowed_to_review = @absence_request_change_set.model.only_supervisor(agent: current_staff_profile)
+    @request_change_set = request_change_set
+    allowed_to_review = @request_change_set.model.only_supervisor(agent: current_staff_profile)
 
     # render the default
-    return if @absence_request_change_set.model.pending? && allowed_to_review
+    return if @request_change_set.model.pending? && allowed_to_review
 
     # handle the error
     respond_to do |format|
-      @absence_request = absence_request_change_set.model
+      @request = request_change_set.model
       message = if !allowed_to_review
                   "You are not allowed access to review this absence"
                 else
-                  "Absence can not be reviewed after it has been #{@absence_request_change_set.model.status}."
+                  "Absence can not be reviewed after it has been #{@request_change_set.model.status}."
                 end
-      format.html { redirect_to @absence_request, notice: message }
-      format.json { render :show, status: :invalid_edit, location: @absence_request }
+      format.html { redirect_to @request, notice: message }
+      format.json { render :show, status: :invalid_edit, location: @request }
     end
   end
 
@@ -53,14 +53,14 @@ class AbsenceRequestsController < ApplicationController
   # POST /absence_requests.json
   def create
     respond_to do |format|
-      if absence_request_change_set.validate(processed_params) && absence_request_change_set.save
-        @absence_request = absence_request_change_set.model
-        format.html { redirect_to @absence_request, notice: "Absence request was successfully created." }
-        format.json { render :show, status: :created, location: @absence_request }
+      if request_change_set.validate(processed_params) && request_change_set.save
+        @request = request_change_set.model
+        format.html { redirect_to @request, notice: "Absence request was successfully created." }
+        format.json { render :show, status: :created, location: @request }
       else
         copy_model_errors_to_change_set
         format.html { render :new }
-        format.json { render json: absence_request_change_set.errors, status: :unprocessable_entity }
+        format.json { render json: request_change_set.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -69,14 +69,14 @@ class AbsenceRequestsController < ApplicationController
   # PATCH/PUT /absence_requests/1.json
   def update
     respond_to do |format|
-      if absence_request_change_set.validate(processed_params) && absence_request_change_set.save
-        @absence_request = absence_request_change_set.model
-        format.html { redirect_to @absence_request, notice: "Absence request was successfully updated." }
-        format.json { render :show, status: :ok, location: @absence_request }
+      if request_change_set.validate(processed_params) && request_change_set.save
+        @request = request_change_set.model
+        format.html { redirect_to @request, notice: "Absence request was successfully updated." }
+        format.json { render :show, status: :ok, location: @request }
       else
         copy_model_errors_to_change_set
         format.html { render :edit }
-        format.json { render json: absence_request_change_set.errors, status: :unprocessable_entity }
+        format.json { render json: request_change_set.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -96,7 +96,7 @@ class AbsenceRequestsController < ApplicationController
   # DELETE /absence_requests/1
   # DELETE /absence_requests/1.json
   def destroy
-    @absence_request.destroy
+    @request.destroy
     respond_to do |format|
       format.html { redirect_to absence_requests_url, notice: "Absence request was successfully destroyed." }
       format.json { head :no_content }
@@ -107,11 +107,11 @@ class AbsenceRequestsController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_absence_request
-      @absence_request = AbsenceRequest.find(params[:id])
+      @request = AbsenceRequest.find(params[:id])
     end
 
-    def absence_request_change_set
-      @absence_request_change_set ||=
+    def request_change_set
+      @request_change_set ||=
         if params[:id]
           AbsenceRequestChangeSet.new(AbsenceRequest.find(params[:id]))
         else
@@ -120,8 +120,8 @@ class AbsenceRequestsController < ApplicationController
     end
 
     def copy_model_errors_to_change_set
-      absence_request_change_set.model.errors.each do |key, value|
-        @absence_request_change_set.errors.add(key, value)
+      request_change_set.model.errors.each do |key, value|
+        @request_change_set.errors.add(key, value)
       end
     end
 
@@ -147,28 +147,28 @@ class AbsenceRequestsController < ApplicationController
       allowed_to_change = can_change?(action: action)
       return unless allowed_to_change
 
-      absence_request_change_set.model.aasm.fire(action, agent: current_staff_profile) if allowed_to_change
+      request_change_set.model.aasm.fire(action, agent: current_staff_profile) if allowed_to_change
       respond_to do |format|
-        if allowed_to_change && absence_request_change_set.validate(processed_params) && absence_request_change_set.save
-          @absence_request = absence_request_change_set.model
-          format.html { redirect_to @absence_request, notice: "Absence request was successfully #{@absence_request.status}." }
-          format.json { render :show, status: :ok, location: @absence_request }
+        if allowed_to_change && request_change_set.validate(processed_params) && request_change_set.save
+          @request = request_change_set.model
+          format.html { redirect_to @request, notice: "Absence request was successfully #{@request.status}." }
+          format.json { render :show, status: :ok, location: @request }
         else
           copy_model_errors_to_change_set
           format.html { render :review }
-          format.json { render json: absence_request_change_set.errors, status: :unprocessable_entity }
+          format.json { render json: request_change_set.errors, status: :unprocessable_entity }
         end
       end
     end
 
     def can_change?(action:)
-      allowed_to_change = absence_request_change_set.model.only_supervisor(agent: current_staff_profile)
+      allowed_to_change = request_change_set.model.only_supervisor(agent: current_staff_profile)
       return allowed_to_change if allowed_to_change
 
       respond_to do |format|
-        @absence_request = absence_request_change_set.model
-        format.html { redirect_to @absence_request, notice: "You are not allowed access to #{action} this absence" }
-        format.json { render :show, status: :invalid_review, location: @absence_request }
+        @request = request_change_set.model
+        format.html { redirect_to @request, notice: "You are not allowed access to #{action} this absence" }
+        format.json { render :show, status: :invalid_review, location: @request }
       end
       allowed_to_change
     end

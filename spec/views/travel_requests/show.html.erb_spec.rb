@@ -5,7 +5,7 @@ RSpec.describe "travel_requests/show", type: :view do
   let(:creator) { FactoryBot.create(:staff_profile, :with_supervisor, given_name: "Sally", surname: "Smith") }
   let(:travel_request) { FactoryBot.create(:travel_request, :with_note_and_estimate, creator: creator) }
   before do
-    @travel_request = assign(:travel_request, TravelRequestDecorator.new(travel_request))
+    @request = assign(:request, TravelRequestDecorator.new(travel_request))
   end
 
   it "renders attributes in <p>" do

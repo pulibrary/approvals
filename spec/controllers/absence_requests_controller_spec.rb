@@ -60,7 +60,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       absence_request = FactoryBot.create(:absence_request)
       get :show, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to be_successful
-      assert_equal absence_request, assigns(:absence_request).request
+      assert_equal absence_request, assigns(:request).request
     end
   end
 
@@ -68,7 +68,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
     it "returns a success response" do
       get :new, params: {}, session: valid_session
       expect(response).to be_successful
-      expect(assigns(:absence_request_change_set)).to be_a AbsenceRequestChangeSet
+      expect(assigns(:request_change_set)).to be_a AbsenceRequestChangeSet
     end
   end
 
@@ -77,42 +77,42 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       absence_request = FactoryBot.create(:absence_request)
       get :edit, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to be_successful
-      expect(assigns(:absence_request_change_set)).to be_a AbsenceRequestChangeSet
+      expect(assigns(:request_change_set)).to be_a AbsenceRequestChangeSet
     end
 
     it "can not edit an approved request" do
       absence_request = FactoryBot.create(:absence_request, action: "approve")
       get :edit, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_request)
-      expect(assigns(:absence_request)).to eq(absence_request)
+      expect(assigns(:request)).to eq(absence_request)
     end
 
     it "can not edit a denied request" do
       absence_request = FactoryBot.create(:absence_request, action: "deny")
       get :edit, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_request)
-      expect(assigns(:absence_request)).to eq(absence_request)
+      expect(assigns(:request)).to eq(absence_request)
     end
 
     it "can not edit a recorded request" do
       absence_request = FactoryBot.create(:absence_request, action: "record")
       get :edit, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_request)
-      expect(assigns(:absence_request)).to eq(absence_request)
+      expect(assigns(:request)).to eq(absence_request)
     end
 
     it "can not edit a canceled request" do
       absence_request = FactoryBot.create(:absence_request, action: "cancel")
       get :edit, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_request)
-      expect(assigns(:absence_request)).to eq(absence_request)
+      expect(assigns(:request)).to eq(absence_request)
     end
 
     it "can not edit a pending cancelation request" do
       absence_request = FactoryBot.create(:absence_request, action: "pending_cancel")
       get :edit, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_request)
-      expect(assigns(:absence_request)).to eq(absence_request)
+      expect(assigns(:request)).to eq(absence_request)
     end
   end
 
@@ -122,14 +122,14 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
       get :review, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to be_successful
-      expect(assigns(:absence_request_change_set)).to be_a AbsenceRequestChangeSet
+      expect(assigns(:request_change_set)).to be_a AbsenceRequestChangeSet
     end
 
     it "does not allow the creator to review" do
       absence_request = FactoryBot.create(:absence_request, creator: creator)
       get :review, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_request)
-      expect(assigns(:absence_request)).to eq(absence_request)
+      expect(assigns(:request)).to eq(absence_request)
     end
 
     it "Does not allow review after denied" do
@@ -137,7 +137,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       absence_request = FactoryBot.create(:absence_request, creator: staff_profile, action: "deny")
       get :review, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_request)
-      expect(assigns(:absence_request)).to eq(absence_request)
+      expect(assigns(:request)).to eq(absence_request)
     end
   end
 
@@ -157,7 +157,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       notes = { notes: [{ content: "Important message" }] }
       put :approve, params: { id: absence_request.to_param, absence_request: notes }, session: valid_session
       expect(response).to redirect_to(absence_request)
-      expect(assigns(:absence_request)).to eq(absence_request)
+      expect(assigns(:request)).to eq(absence_request)
     end
 
     context "with invalid params" do
@@ -166,7 +166,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
         absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
         put :approve, params: { id: absence_request.to_param, absence_request: invalid_attributes }, session: valid_session
         expect(response).to be_successful
-        expect(assigns(:absence_request_change_set).errors.messages).to eq(absence_type: ["is not included in the list"])
+        expect(assigns(:request_change_set).errors.messages).to eq(absence_type: ["is not included in the list"])
       end
     end
   end
@@ -187,7 +187,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       notes = { notes: [{ content: "Important message" }] }
       put :deny, params: { id: absence_request.to_param, absence_request: notes }, session: valid_session
       expect(response).to redirect_to(absence_request)
-      expect(assigns(:absence_request)).to eq(absence_request)
+      expect(assigns(:request)).to eq(absence_request)
     end
 
     context "with invalid params" do
@@ -196,7 +196,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
         absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
         put :deny, params: { id: absence_request.to_param, absence_request: invalid_attributes }, session: valid_session
         expect(response).to be_successful
-        expect(assigns(:absence_request_change_set).errors.messages).to eq(absence_type: ["is not included in the list"])
+        expect(assigns(:request_change_set).errors.messages).to eq(absence_type: ["is not included in the list"])
       end
     end
   end
@@ -213,7 +213,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
         post :create, params: { absence_request: valid_attributes }, session: valid_session
         absence_request = AbsenceRequest.last
         expect(response).to redirect_to(absence_request)
-        expect(assigns(:absence_request)).to eq(absence_request)
+        expect(assigns(:request)).to eq(absence_request)
         expect(absence_request.creator_id).to eq creator.id
       end
 
@@ -221,7 +221,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
         post :create, params: { absence_request: valid_attributes, format: :json }, session: valid_session
         absence_request = AbsenceRequest.last
         expect(response.media_type).to eq("application/json")
-        expect(assigns(:absence_request)).to eq(absence_request)
+        expect(assigns(:request)).to eq(absence_request)
         expect(absence_request.creator_id).to eq creator.id
       end
     end
@@ -230,7 +230,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { absence_request: invalid_attributes }, session: valid_session
         expect(response).to be_successful
-        expect(assigns(:absence_request_change_set).errors.messages).to eq(absence_type: ["is not included in the list"],
+        expect(assigns(:request_change_set).errors.messages).to eq(absence_type: ["is not included in the list"],
                                                                            end_date: ["can't be blank"],
                                                                            hours_requested: ["can't be blank"],
                                                                            start_date: ["can't be blank"])
@@ -256,7 +256,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { absence_request: valid_attributes }, session: valid_session
         expect(response).to be_successful
-        expect(assigns(:absence_request_change_set).errors.messages).to eq(request: ["must exist"], creator: ["must exist"])
+        expect(assigns(:request_change_set).errors.messages).to eq(request: ["must exist"], creator: ["must exist"])
       end
 
       it "returns json with errors" do
@@ -304,7 +304,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       it "redirects to the absence_request" do
         put :update, params: { id: absence_request.to_param, absence_request: nested_attributes }, session: valid_session
         expect(response).to redirect_to(absence_request)
-        expect(assigns(:absence_request).notes.first.attributes.with_indifferent_access).to include(nested_attributes[:notes].first)
+        expect(assigns(:request).notes.first.attributes.with_indifferent_access).to include(nested_attributes[:notes].first)
       end
     end
 
@@ -321,7 +321,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         put :update, params: { id: absence_request.to_param, absence_request: valid_attributes }, session: valid_session
         expect(response).to be_successful
-        expect(assigns(:absence_request_change_set).errors.messages).to eq(request: ["must exist"], creator: ["must exist"])
+        expect(assigns(:request_change_set).errors.messages).to eq(request: ["must exist"], creator: ["must exist"])
       end
 
       it "returns json with errors" do

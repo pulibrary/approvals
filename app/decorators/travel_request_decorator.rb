@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 class TravelRequestDecorator < RequestDecorator
   delegate :participation, :purpose, :travel_category, :event_title,
-           :event_requests, :estimates, :status, to: :travel_request
+           :event_requests, :estimates, :status, to: :request
   attr_reader :travel_request
 
   def initialize(travel_request)
     super(travel_request)
-    @travel_request = travel_request
+    @request = travel_request
   end
 
   def estimates_json

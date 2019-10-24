@@ -5,37 +5,37 @@ class TravelRequestsController < ApplicationController
   # GET /travel_requests/1
   # GET /travel_requests/1.json
   def show
-    @travel_request = TravelRequestDecorator.new(@travel_request)
+    @request = TravelRequestDecorator.new(@request)
   end
 
   # GET /travel_requests/new
   def new
     # the sync is required since the form currently runs off of the change set model
     # prepopulate creates a default unsaved request event
-    travel_request_change_set.prepopulate!.sync
+    request_change_set.prepopulate!.sync
   end
 
   # GET /travel_requests/1/edit
   def edit
-    @travel_request_change_set = travel_request_change_set
+    @request_change_set = request_change_set
   end
 
   # POST /travel_requests
   # POST /travel_requests.json
   def create
-    @travel_request_change_set = travel_request_change_set
+    @request_change_set = request_change_set
 
     respond_to do |format|
-      if travel_request_change_set.validate(processed_params) && travel_request_change_set.save
-        @travel_request = travel_request_change_set.model
-        format.html { redirect_to @travel_request, notice: "Travel request was successfully created." }
-        format.json { render :show, status: :created, location: @travel_request }
+      if request_change_set.validate(processed_params) && request_change_set.save
+        @request = request_change_set.model
+        format.html { redirect_to @request, notice: "Travel request was successfully created." }
+        format.json { render :show, status: :created, location: @request }
       else
         # the sync is required since the form currently runs off of the change set model
-        travel_request_change_set.sync
+        request_change_set.sync
         copy_model_errors_to_change_set
         format.html { render :new }
-        format.json { render json: travel_request_change_set.errors, status: :unprocessable_entity }
+        format.json { render json: request_change_set.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -44,14 +44,14 @@ class TravelRequestsController < ApplicationController
   # PATCH/PUT /travel_requests/1.json
   def update
     respond_to do |format|
-      if travel_request_change_set.validate(processed_params) && remove_estimates && travel_request_change_set.save
-        @travel_request = travel_request_change_set.model
-        format.html { redirect_to @travel_request, notice: "Travel request was successfully updated." }
-        format.json { render :show, status: :ok, location: @travel_request }
+      if request_change_set.validate(processed_params) && remove_estimates && request_change_set.save
+        @request = request_change_set.model
+        format.html { redirect_to @request, notice: "Travel request was successfully updated." }
+        format.json { render :show, status: :ok, location: @request }
       else
         copy_model_errors_to_change_set
         format.html { render :edit }
-        format.json { render json: travel_request_change_set.errors, status: :unprocessable_entity }
+        format.json { render json: request_change_set.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -59,7 +59,7 @@ class TravelRequestsController < ApplicationController
   # DELETE /travel_requests/1
   # DELETE /travel_requests/1.json
   def destroy
-    @travel_request.destroy
+    @request.destroy
     respond_to do |format|
       format.html { redirect_to travel_requests_url, notice: "Travel request was successfully destroyed." }
       format.json { head :no_content }
@@ -70,11 +70,11 @@ class TravelRequestsController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_travel_request
-      @travel_request = TravelRequest.find(params[:id])
+      @request = TravelRequest.find(params[:id])
     end
 
-    def travel_request_change_set
-      @travel_request_change_set ||=
+    def request_change_set
+      @request_change_set ||=
         if params[:id]
           TravelRequestChangeSet.new(TravelRequest.find(params[:id]))
         else
@@ -83,8 +83,8 @@ class TravelRequestsController < ApplicationController
     end
 
     def copy_model_errors_to_change_set
-      travel_request_change_set.model.errors.each do |key, value|
-        @travel_request_change_set.errors.add(key, value)
+      request_change_set.model.errors.each do |key, value|
+        @request_change_set.errors.add(key, value)
       end
     end
 
@@ -107,7 +107,7 @@ class TravelRequestsController < ApplicationController
     def remove_estimates
       return true if params[:travel_request][:estimates].blank?
       params_estimate_ids = params[:travel_request][:estimates].map { |estimate| estimate[:id] }
-      @travel_request.estimates.each do |estimate|
+      @request.estimates.each do |estimate|
         estimate.destroy if params_estimate_ids.exclude? estimate.id.to_s
       end
       true

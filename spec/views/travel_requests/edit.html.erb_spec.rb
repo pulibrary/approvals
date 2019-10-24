@@ -8,7 +8,7 @@ RSpec.describe "travel_requests/edit", type: :view do
                                        travel_category: "business")
   end
   before do
-    assign(:travel_request_change_set, TravelRequestChangeSet.new(travel_request))
+    assign(:request_change_set, TravelRequestChangeSet.new(travel_request))
   end
 
   it "renders the edit travel_request form" do

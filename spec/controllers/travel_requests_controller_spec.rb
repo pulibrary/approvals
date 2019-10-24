@@ -70,7 +70,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       travel_request = FactoryBot.create(:travel_request)
       get :show, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to be_successful
-      assert_equal travel_request, assigns(:travel_request).to_model
+      assert_equal travel_request, assigns(:request).to_model
     end
   end
 
@@ -78,9 +78,9 @@ RSpec.describe TravelRequestsController, type: :controller do
     it "returns a success response" do
       get :new, params: {}, session: valid_session
       expect(response).to be_successful
-      travel_request_change_set = assigns(:travel_request_change_set)
-      expect(travel_request_change_set).to be_a(TravelRequestChangeSet)
-      expect(travel_request_change_set.event_requests[0].model.start_date).to eq(Time.zone.today.to_date)
+      request_change_set = assigns(:request_change_set)
+      expect(request_change_set).to be_a(TravelRequestChangeSet)
+      expect(request_change_set.event_requests[0].model.start_date).to eq(Time.zone.today.to_date)
     end
   end
 
@@ -89,8 +89,8 @@ RSpec.describe TravelRequestsController, type: :controller do
       travel_request = FactoryBot.create(:travel_request)
       get :edit, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to be_successful
-      expect(assigns(:travel_request_change_set)).to be_a(TravelRequestChangeSet)
-      assert_equal travel_request, assigns(:travel_request_change_set).model
+      expect(assigns(:request_change_set)).to be_a(TravelRequestChangeSet)
+      assert_equal travel_request, assigns(:request_change_set).model
     end
   end
 
@@ -112,7 +112,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       it "redirects to the created travel_request" do
         post :create, params: { travel_request: valid_attributes }, session: valid_session
         expect(response).to redirect_to(TravelRequest.last)
-        assert_equal TravelRequest.last, assigns(:travel_request)
+        assert_equal TravelRequest.last, assigns(:request)
       end
     end
 
@@ -120,7 +120,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { travel_request: invalid_attributes }, session: valid_session
         expect(response).to be_successful
-        expect(assigns(:travel_request_change_set)).to be_a(TravelRequestChangeSet)
+        expect(assigns(:request_change_set)).to be_a(TravelRequestChangeSet)
       end
     end
   end
@@ -152,7 +152,7 @@ RSpec.describe TravelRequestsController, type: :controller do
         travel_request = FactoryBot.create(:travel_request)
         put :update, params: { id: travel_request.to_param, travel_request: nested_attributes }, session: valid_session
         expect(response).to redirect_to(travel_request)
-        expect(assigns(:travel_request)).to be_a(TravelRequest)
+        expect(assigns(:request)).to be_a(TravelRequest)
       end
 
       # rubocop:disable RSpec/AnyInstance
@@ -169,7 +169,7 @@ RSpec.describe TravelRequestsController, type: :controller do
         it "returns a success response (i.e. to display the 'new' template)" do
           put :update, params: { id: travel_request.to_param, travel_request: valid_attributes }, session: valid_session
           expect(response).to be_successful
-          expect(assigns(:travel_request_change_set).errors.messages).to eq(request: ["must exist"], creator: ["must exist"])
+          expect(assigns(:request_change_set).errors.messages).to eq(request: ["must exist"], creator: ["must exist"])
         end
 
         it "returns json with errors" do
@@ -207,7 +207,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       it "returns a success response (i.e. to display the 'edit' template)" do
         travel_request = FactoryBot.create(:travel_request)
         put :update, params: { id: travel_request.to_param, travel_request: invalid_nested_attributes }, session: valid_session
-        expect(assigns(:travel_request_change_set).event_requests.last.recurring_event_id).to eq recurring_event.id.to_s
+        expect(assigns(:request_change_set).event_requests.last.recurring_event_id).to eq recurring_event.id.to_s
       end
     end
   end
