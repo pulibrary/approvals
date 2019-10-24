@@ -8,7 +8,7 @@ class EstimateChangeSet < Reform::Form
 
   EstimatePopulator = lambda { |collection:, fragment:, **|
     if fragment[:id].present?
-      estimate = collection.find { |x| x.id.to_s == (fragment["id"] || fragment[:id]) }
+      collection.find { |x| x.id.to_s == (fragment["id"] || fragment[:id]) }
     else
       collection.append(Estimate.new)
     end

@@ -13,3 +13,4 @@ RSpec/ExampleLength:
 Metrics/ClassLength:
   Exclude:
     - 'app/controllers/absence_requests_controller.rb'
+    - 'app/controllers/travel_requests_controller.rb'

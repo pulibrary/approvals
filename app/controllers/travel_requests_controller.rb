@@ -105,13 +105,12 @@ class TravelRequestsController < ApplicationController
     end
 
     def remove_estimates
+      return true if params[:travel_request][:estimates].blank?
       params_estimate_ids = params[:travel_request][:estimates].map { |estimate| estimate[:id] }
       @travel_request.estimates.each do |estimate|
-        if params_estimate_ids.exclude? estimate.id.to_s
-          estimate.destroy
-        end
+        estimate.destroy if params_estimate_ids.exclude? estimate.id.to_s
       end
-      return true
+      true
     end
 
     # TODO: remove this when the form gets done correctly
