@@ -14,6 +14,7 @@ class StaffReportProcessor
       connect_staff_to_managers(manager_hash: manager_hash)
       connect_managers_to_department(manager_hash: manager_hash)
       process_department_overrides
+      set_vacant_supervisors_to_department_head
     end
 
     private
@@ -21,9 +22,7 @@ class StaffReportProcessor
     def process_staff_entry(staff_entry:, manager_hash:, ldap_service_class:)
       net_id = staff_entry["Net ID"]
       user = create_user(net_id: net_id)
-      department_name = staff_entry["Department Name"]
-      department_number = staff_entry["Department Number"]
-      department = create_department(name: department_name, number: department_number)
+      department = create_department(name: staff_entry["Department Name"], number: staff_entry["Department Number"])
       create_staff_profile(user: user, department: department, staff_entry: staff_entry, ldap_service_class: ldap_service_class)
       manager_net_id = staff_entry["Manager Net ID"]
       manager_hash[manager_net_id] = Array(manager_hash[manager_net_id]) << net_id
@@ -108,6 +107,14 @@ class StaffReportProcessor
           manager_profile.department.head = manager_profile
           manager_profile.department.save
         end
+      end
+    end
+
+    def set_vacant_supervisors_to_department_head
+      library_dean = StaffProfile.find_by(uid: LIBRARY_DEAN_UID)
+      StaffProfile.where.not(id: library_dean).where(supervisor: nil).each do |profile|
+        profile.supervisor = profile.department.head
+        profile.save
       end
     end
   end
