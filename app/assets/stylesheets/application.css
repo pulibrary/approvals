@@ -49,6 +49,9 @@
    margin: 0;
  }
 
+ .lux-tag.filter {
+   margin: 0 14px;
+ }
  
  @media (max-width: 599px) {
   .my-request .full-width .lux-card-content {

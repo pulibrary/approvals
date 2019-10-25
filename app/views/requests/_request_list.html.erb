@@ -3,8 +3,8 @@
     <grid-item columns="lg-5 sm-12">
     <%= form_tag(my_requests_path, method: :get) do %>
       <search-box>
-        <input-text id="query" name="query" value="<%=params[:query]%>" :hide-label=true label="search" placeholder="Search..." size="medium"></input-text>
-        <input-button type="submit" id="search" variation="icon" size="medium" icon="search" aria-label="submit search"></input-button>
+        <input-text id="query" name="query" value="<%=params[:query]%>" :hide-label=true label="search" placeholder="Search..."></input-text>
+        <input-button type="submit" id="search" variation="icon" icon="search" aria-label="submit search"></input-button>
       </search-box>
     <% end %>
     </grid-item>
