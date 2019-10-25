@@ -10,7 +10,7 @@ class RequestListDecorator
 
   # @param [Array] list of request model objects
   # @param [Hash] params_hash current request paramters; filter and sort options
-  def initialize(request_list, params_hash: {})
+  def initialize(request_list, params_hash: {}, params_manager_class: ParamsManager)
     @request_list = request_list.map do |request|
       if request.is_a?(TravelRequest)
         TravelRequestDecorator.new(request)
@@ -18,7 +18,7 @@ class RequestListDecorator
         AbsenceRequestDecorator.new(request)
       end
     end
-    @params_manager = ParamsManager.new(params_hash.deep_symbolize_keys)
+    @params_manager = params_manager_class.new(params_hash.deep_symbolize_keys)
   end
 
   # @returns [String] Label for the status dropdown menu
@@ -97,56 +97,15 @@ class RequestListDecorator
   def sort_urls
     sort_options_table.map { |value, label| [label, params_manager.url_with_sort(new_option: value)] }.to_h
   end
-end
 
-def sort_options_table
-  {
-    "start_date_asc" => "Start date - ascending",
-    "start_date_desc" => "Start date - descending",
-    "created_at_asc" => "Date created - ascending",
-    "created_at_desc" => "Date created - descending",
-    "updated_at_asc" => "Date modified - ascending",
-    "updated_at_desc" => "Date modified - descending"
-  }
-end
-
-# This is a helper class to build the urls maintaining existing sort and filter options
-class ParamsManager
-  attr_reader :params
-
-  def initialize(params)
-    @params = params
+  def sort_options_table
+    {
+      "start_date_asc" => "Start date - ascending",
+      "start_date_desc" => "Start date - descending",
+      "created_at_asc" => "Date created - ascending",
+      "created_at_desc" => "Date created - descending",
+      "updated_at_asc" => "Date modified - ascending",
+      "updated_at_desc" => "Date modified - descending"
+    }
   end
-
-  def url_with_filter(field:, new_option:)
-    new_params = existing_params
-    new_params[:filters] = filter_params.merge(field => new_option)
-    build_url(new_params)
-  end
-
-  def url_with_sort(new_option:)
-    new_params = existing_params
-    new_params[:sort] = new_option
-    build_url(new_params)
-  end
-
-  def url_to_remove_filter(field:)
-    new_params = existing_params
-    new_params[:filters] = filter_params.except(field)
-    build_url(new_params)
-  end
-
-  def filter_params
-    @filter_params ||= existing_params[:filters] || {}
-  end
-
-  private
-
-    def existing_params
-      params.deep_dup
-    end
-
-    def build_url(params)
-      Rails.application.routes.url_helpers.my_requests_path(params: params)
-    end
 end

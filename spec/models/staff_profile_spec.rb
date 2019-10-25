@@ -42,6 +42,19 @@ RSpec.describe StaffProfile, type: :model do
     end
   end
 
+  describe "#supervisor?" do
+    it "returns false for a regular employee" do
+      expect(staff_profile.supervisor?).to be_falsey
+    end
+
+    context "when it is a supervisor" do
+      it "returns true for a department head" do
+        FactoryBot.create :staff_profile, supervisor: staff_profile
+        expect(staff_profile.supervisor?).to be_truthy
+      end
+    end
+  end
+
   describe "#full_name" do
     it "returns the staff_profile" do
       profile = FactoryBot.create(:staff_profile, given_name: "Jane", surname: "Doe")

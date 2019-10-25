@@ -23,7 +23,7 @@ class StaffProfile < ApplicationRecord
 
         user.staff_profile
       end
-    end
+  end
 
   def to_s
     "#{surname}, #{given_name} (#{user.uid})"
@@ -35,5 +35,9 @@ class StaffProfile < ApplicationRecord
 
   def department_head?
     Department.where(head_id: id).count.positive?
+  end
+
+  def supervisor?
+    StaffProfile.where(supervisor: id).count.positive?
   end
 end

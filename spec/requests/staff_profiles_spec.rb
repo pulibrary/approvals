@@ -5,7 +5,9 @@ RSpec.describe "StaffProfiles", type: :request do
   describe "GET /staff_profiles" do
     context "As a logged in User" do
       let(:user) { FactoryBot.create :user }
+      let(:staff_profile) { FactoryBot.create :staff_profile, user: user }
       before do
+        staff_profile
         sign_in user
       end
 

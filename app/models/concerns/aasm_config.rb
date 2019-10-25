@@ -54,9 +54,10 @@ module AasmConfig
 
   private
 
-    def in_supervisor_chain(supervisor:, agent:)
+    def in_supervisor_chain(supervisor:, agent:, previous_supervisor: "no one")
       return false if supervisor.blank?
-
-      agent == supervisor || in_supervisor_chain(supervisor: supervisor.supervisor, agent: agent)
+      # we have a really strange loop in the data where  Bogus, Ian (ibogus) is  Gibbons, Michael P. (mgibbons) supervisor and  Gibbons, Michael P. (mgibbons) is  Bogus, Ian (ibogus) supervisor
+      return false if previous_supervisor == supervisor.supervisor
+      agent == supervisor || in_supervisor_chain(supervisor: supervisor.supervisor, agent: agent, previous_supervisor: supervisor)
     end
 end

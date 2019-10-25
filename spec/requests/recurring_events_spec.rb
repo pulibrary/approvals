@@ -5,7 +5,9 @@ RSpec.describe "RecurringEvents", type: :request do
   describe "GET /recurring_events" do
     context "Signed in user" do
       let(:user) { FactoryBot.create :user }
+      let(:staff_profile) { FactoryBot.create :staff_profile, user: user }
       before do
+        staff_profile
         sign_in user
       end
 
