@@ -4,7 +4,7 @@
       <input-button type="button" id="add-expense-button" variation="text"
         @button-clicked="addExpense()">
         <lux-icon-base width="12" height="12" icon-name="Add Expense">
-          <lux-icon-refresh></lux-icon-refresh>
+          <lux-icon-add></lux-icon-add>
         </lux-icon-base> Add Expense</input-button>
     </grid-item>
     <grid-item columns="lg-12 sm-12" v-for="expense in expenseData" v-bind:key="expense.id">
