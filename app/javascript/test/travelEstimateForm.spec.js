@@ -29,7 +29,7 @@ describe("travelEstimateForm.vue", () => {
         "input-select",
         "input-button",
         "lux-icon-denied",
-        "lux-icon-refresh",
+        "lux-icon-add",
         "lux-icon-base",
         "grid-container",
         "grid-item",
