@@ -65,9 +65,15 @@ class TravelRequestChangeSet < Reform::Form
     event_requests[0].recurring_event.id
   end
 
+  def event_name
+    return "" if event_requests.empty? || event_requests[0].recurring_event.blank?
+
+    event_requests[0].recurring_event.name
+  end
+
   def recurring_event_list
     @values ||= RecurringEvent.all.limit(50).map do |event|
-      "{ value: '#{event.id}', label: '#{event.name}' }"
+      "{ id: '#{event.id}', label: '#{event.name}' }"
     end.join(",")
     "[#{@values}]"
 
