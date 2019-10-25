@@ -19,7 +19,9 @@
     </library-header>
     <div class="main-content">
       <div class="lux">
-        <%= render 'shared/flash_messages' %>
+        <wrapper :max-width=1400>
+          <%= render 'shared/flash_messages' %> 
+        </wrapper>
         <%= yield %>
       </div>
     </div>
