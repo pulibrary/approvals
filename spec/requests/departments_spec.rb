@@ -4,7 +4,9 @@ require "rails_helper"
 RSpec.describe "Departments", type: :request do
   context "As a logged in User" do
     let(:user) { FactoryBot.create :user }
+    let(:staff_profile) { FactoryBot.create :staff_profile, user: user }
     before do
+      staff_profile
       sign_in user
     end
 

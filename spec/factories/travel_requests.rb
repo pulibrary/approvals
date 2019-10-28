@@ -6,6 +6,8 @@ FactoryBot.define do
     event_requests { [FactoryBot.build(:event_request)] }
     start_date { Time.zone.today }
     end_date { Time.zone.tomorrow }
+    purpose { "My grand purpose" }
+    participation { "other" }
     transient do
       action { nil }
     end

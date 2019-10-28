@@ -15,7 +15,16 @@ Rails.application.routes.draw do
   end
 
   resources :recurring_events
-  resources :travel_requests, except: [:index]
+
+  resources :travel_requests, except: [:index] do
+    member do
+      get "review"
+      put "approve"
+      put "deny"
+      put "change_request"
+    end
+  end
+
   resources :absence_requests, except: [:index] do
     member do
       get "review"

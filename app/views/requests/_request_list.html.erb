@@ -1,21 +1,23 @@
 <wrapper :max-width=1440>
   <grid-container>
     <grid-item columns="lg-5 sm-12">
-    <%= form_tag(my_requests_path, method: :get) do %>
+    <%= form_tag(search_path, method: :get) do %>
       <search-box>
-        <input-text id="query" name="query" value="<%=params[:query]%>" :hide-label=true label="search" placeholder="Search..." size="medium"></input-text>
-        <input-button type="submit" id="search" variation="icon" size="medium" icon="search" aria-label="submit search"></input-button>
+        <input-text id="query" name="query" value="<%=params[:query]%>" :hide-label=true label="search" placeholder="Search..."></input-text>
+        <input-button type="submit" id="search" variation="icon" icon="search" aria-label="submit search"></input-button>
       </search-box>
     <% end %>
     </grid-item>
 
     <grid-item columns="lg-7 sm-12 auto" :offset=true>
-    <dropdown-menu type="links" id="status-menu" button-label="<%= @requests.current_status_filter_label %>" :menu-items="[
-      <% @requests.status_filter_urls.each do |key, url| %>
-        {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
-      <% end %>
-    ]"></dropdown-menu>
-
+    <% if show_status %>
+      <dropdown-menu type="links" id="status-menu" button-label="<%= @requests.current_status_filter_label %>" :menu-items="[
+        <% @requests.status_filter_urls.each do |key, url| %>
+          {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
+        <% end %>
+      ]"></dropdown-menu>
+    <% end %>
+    
     <dropdown-menu type="links" id="request-type-menu" button-label="<%= @requests.current_request_type_filter_label %>" :menu-items="[
       {name: 'Absence', component: 'Absence', href: '<%= @requests.absence_filter_url %>'},
       <% @requests.absence_filter_urls.each do |key, url| %>

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require "rails_helper"
 
-RSpec.describe "My Requests", type: :request do
-  describe "GET /my_requests" do
+RSpec.describe "Home Page", type: :request do
+  describe "GET /" do
     context "Signed in user" do
       let(:user) { FactoryBot.create :user }
       let(:staff_profile) { FactoryBot.create :staff_profile, user: user }
@@ -15,16 +15,15 @@ RSpec.describe "My Requests", type: :request do
         FactoryBot.create(:absence_request)
         FactoryBot.create(:travel_request)
 
-        get my_requests_path
+        get root_path
         expect(response).to have_http_status(200)
       end
     end
 
     context "Public user" do
-      it "fails to allow access to page" do
-        get my_requests_path
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to(new_user_session_path)
+      it "allows access to home page" do
+        get root_path
+        expect(response).to have_http_status(200)
       end
     end
   end

@@ -10,7 +10,3 @@
 # Configuration parameters: Max.
 RSpec/ExampleLength:
   Enabled: false
-Metrics/ClassLength:
-  Exclude:
-    - 'app/controllers/absence_requests_controller.rb'
-    - 'app/controllers/travel_requests_controller.rb'

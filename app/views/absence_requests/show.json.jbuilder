@@ -1,2 +1,2 @@
 # frozen_string_literal: true
-json.partial! "absence_requests/absence_request", absence_request: @absence_request
+json.partial! "absence_requests/absence_request", absence_request: @request

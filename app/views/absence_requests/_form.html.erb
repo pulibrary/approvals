@@ -1,12 +1,12 @@
-  <%= form_with(model: absence_request_change_set.model, local: true) do |form| %>
+  <%= form_with(model: request_change_set.model, local: true) do |form| %>
     <grid-container>
-    <% if absence_request_change_set.errors.any? %>
+    <% if request_change_set.errors.any? %>
       <grid-item columns="lg-12">
         <alert status="error">
-          <h2><%= pluralize(absence_request_change_set.errors.count, "error") %> prohibited this absence_request_change_set from being saved:</h2>
+          <h2><%= pluralize(request_change_set.errors.count, "error") %> prohibited this request_change_set from being saved:</h2>
 
           <ul>
-          <% absence_request_change_set.errors.full_messages.each do |message| %>
+          <% request_change_set.errors.full_messages.each do |message| %>
             <li><%= message %></li>
           <% end %>
           </ul>
@@ -17,24 +17,21 @@
 
     <grid-item columns="lg-12">
       <input-select label="Absence type" name="absence_request[absence_type]" id="absence_request_absence_type" 
-                    value="<%= absence_request_change_set.absence_type %>" 
-                    :options="<%= absence_request_change_set.absence_type_options %>"
+                    value="<%= request_change_set.absence_type %>" 
+                    :options="<%= request_change_set.absence_type_options %>"
                     required=true
       ></input-select>
-    </grid-item>
-    <grid-item columns="lg-12 sm-12">
-      
     </grid-item>
 
     <!--<grid-item columns="lg-12 sm-12">
       <date-picker id="absence_request_end_date" name="absence_request[end_date]" label="End Date" mode="single"></date-picker>
     </grid-item>-->
 
-    <hours-calculator start-date="<%= absence_request_change_set.start_date_js %>"
-                      end-date="<%= absence_request_change_set.end_date_js %>"
-                      hours-requested="<%= absence_request_change_set.hours_requested %>"
-                      :holidays="<%=absence_request_change_set.holidays %>" 
-                      hours-per-day=<%= absence_request_change_set.hours_per_day%>>
+    <hours-calculator start-date="<%= request_change_set.start_date_js %>"
+                      end-date="<%= request_change_set.end_date_js %>"
+                      hours-requested="<%= request_change_set.hours_requested %>"
+                      :holidays="<%=request_change_set.holidays %>" 
+                      hours-per-day=<%= request_change_set.hours_per_day%>>
     </hours-calculator>
 
     <grid-item columns="lg-6 sm-12">
@@ -43,7 +40,7 @@
     </grid-item>
 
     <grid-item columns="lg-12 sm-12">
-    <text-style variation="emphasis">This request will be submitted to: <%= absence_request_change_set.supervisor(current_staff_profile) %></text-style>
+    <text-style variation="emphasis">This request will be submitted to: <%= request_change_set.supervisor(current_staff_profile) %></text-style>
       <input-button type="submit" variation="solid">Apply Changes</input-button>
     </grid-item>
     </grid-container>

@@ -2,14 +2,14 @@
   <grid-container>
     <grid-item columns="lg-12 sm-12">
       <heading level="h1" size="h2">
-        <%= @absence_request.requestor_status %>
+        <%= @request.requestor_status %>
       </heading>
       <heading level="h2" size="h3">
-        From <%= @absence_request.start_date %> to <%= @absence_request.end_date %>
+        From <%= @request.start_date %> to <%= @request.end_date %>
       </heading>
 
       <tag type="tag" :tag-items="[
-        {name: '<%= @absence_request.latest_status %>', color: '<%= @absence_request.status_color %>', icon: '<%= @absence_request.status_icon %>'}
+        {name: '<%= @request.latest_status %>', color: '<%= @request.status_color %>', icon: '<%= @request.status_icon %>'}
         ]"></tag>
     </grid-item>
   </grid-container>
@@ -17,16 +17,20 @@
     <grid-item columns="lg-3 sm-12">
       <text-style>Total Hours Requested</text-style>
       <heading level="h3" size="h4">
-        <%= @absence_request.hours_requested%> Hours
+        <%= @request.hours_requested%> Hours
 
       </heading>
-      <%=  render partial: "shared/request_note", collection: @absence_request.notes_and_changes, as: :note %>
+      <%=  render partial: "shared/request_note", collection: @request.notes_and_changes, as: :note %>
     </grid-item>
     <grid-item columns="lg-9 sm-12" :offset="true">
       <text-style variation="strong">Team members absent during this time period</text-style>
-        <%=  render partial: "shared/absent_staff", collection: @absence_request.absent_staff, as: :staff %>
+        <%=  render partial: "shared/absent_staff", collection: @request.absent_staff, as: :staff %>
     </grid-item>
   </grid-container>
-  <hyperlink href="<%= edit_absence_request_path(@absence_request.request) %>" variation="button solid">Edit</hyperlink>
-  <hyperlink href="<%= my_requests_path %>" variation="button solid">Back</hyperlink>
+  <grid-container>
+    <grid-item>
+      <hyperlink href="<%= edit_absence_request_path(@request.request) %>" variation="button solid">Edit</hyperlink>
+      <hyperlink href="<%= my_requests_path %>" variation="button solid">Back</hyperlink>
+    </grid-item>
+  </gird-container>
 </wrapper>

@@ -7,7 +7,7 @@ class RequestsController < ApplicationController
   end
 
   def my_approval_requests
-    @requests = RequestListDecorator.new(my_approval_request_objects, params_hash: request_params.to_h)
+    @requests = RequestListDecorator.new(my_approval_request_objects, params_hash: request_params.to_h, params_manager_class: ::ApprovalsParamsManager)
   end
 
   private

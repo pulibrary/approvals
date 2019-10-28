@@ -52,6 +52,50 @@ set :linked_dirs, %w{tmp/pids tmp/sockets}
 # set :keep_releases, 5
 set :passenger_restart_with_touch, true
 
+namespace :approvals do
+
+  desc 'reset the database and reseed'
+  task :reset do
+    on roles(:app) do
+      within current_path do
+        with :rails_env => fetch(:rails_env) do
+          execute :rake, 'db:drop db:create db:migrate'
+          # we process the locations twice when the database is empty, since there is a chicken and egg situation
+          #  The location needs to exist to attche an AA to it, but the AA must exist to attach it to a location.
+          #  The location processing just ignores an AA that does not exists, so if we run it once the locations 
+          #  exists to connect with the new people.  If we run it again after the people exists it connects the AAs.
+          execute :rake, 'approvals:load_locations'
+          execute :rake, 'approvals:process_staff_report'
+          execute :rake, 'approvals:load_locations'
+          execute :rake, 'approvals:make_requests_for_everyone'
+        end
+      end
+    end 
+  end
+
+  desc 'Process the staff report now'
+  task :process_staff_report do
+    on roles(:app) do
+      within current_path do
+        with :rails_env => fetch(:rails_env) do
+          execute :rake, 'approvals:process_staff_report'
+        end
+      end
+    end 
+  end
+
+  desc 'Make Requests for everyone this can take a very long time'
+  task :make_requests_for_everyone do
+    on roles(:app) do
+      within current_path do
+        with :rails_env => fetch(:rails_env) do
+          execute :rake, 'approvals:make_requests_for_everyone'
+        end 
+      end 
+    end 
+  end
+end
+
 namespace :deploy do
   desc 'Restart application'
   task :restart do
