@@ -16,7 +16,7 @@ RSpec.describe StaffReportProcessor, type: :model do
           netid: net_id
         }
       end
-  end
+    end
   end
 
   describe "#process" do
@@ -56,7 +56,7 @@ RSpec.describe StaffReportProcessor, type: :model do
       expect(library_main_department.head).to eq(dean_profile)
     end
 
-    it "updates a user if thier information changes" do
+    it "updates a user if their information changes" do
       user = FactoryBot.create(:user, uid: "testi")
       staff_profile = FactoryBot.create :staff_profile, user: user
       expect do
@@ -72,6 +72,25 @@ RSpec.describe StaffReportProcessor, type: :model do
       supervisor_profile = StaffProfile.find_by(uid: "imanager")
       expect(staff_profile.supervisor).to eq(supervisor_profile)
       expect(staff_profile.department.head).to eq(supervisor_profile)
+    end
+
+    context "vacant supervisor" do
+      let(:user_line2) { "90009\tTest Department\tPUHRS\t99999998\ttest2\tTest\tI\tam2\tBiw\tR=BenElig\t000000000\tLibrary Office Assistant II\tVacant\t" }
+
+      it "connects a user and the department head" do
+        expect do
+          StaffReportProcessor.process(data: "#{heading_line}\n#{user_line}\n#{user_line2}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass)
+        end.to change(User, :count).by(4).and(
+          change(StaffProfile, :count).by(4)
+        ).and(
+          change(Department, :count).by(2)
+        ).and(
+          change(Location, :count).by(1)
+        )
+        user_profile = StaffProfile.find_by(uid: "test2")
+        supervisor_profile = StaffProfile.find_by(uid: "imanager")
+        expect(user_profile.supervisor).to eq(supervisor_profile)
+      end
     end
   end
 end
