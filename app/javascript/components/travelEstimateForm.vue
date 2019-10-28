@@ -3,16 +3,16 @@
     <grid-item columns="lg-12 sm-12 auto" :offset="true">
       <input-button type="button" id="add-expense-button" variation="text"
         @button-clicked="addExpense()">
-        <lux-icon-base width="12" height="12" icon-name="refresh">
-          <lux-icon-refresh></lux-icon-refresh>
+        <lux-icon-base width="12" height="12" icon-name="Add Expense">
+          <lux-icon-add></lux-icon-add>
         </lux-icon-base> Add Expense</input-button>
     </grid-item>
-    <grid-item columns="lg-12 sm-12" v-for="expense in expenseData">
+    <grid-item columns="lg-12 sm-12" v-for="expense in expenseData" v-bind:key="expense.id">
       <grid-container>
         <grid-item :vertical="center" columns="lg-1 sm-12">
           <input-button class="button-delete-row" type="button" variation="text"
             @button-clicked="deleteExpense(expense)">
-            <lux-icon-base width="25" height="25" icon-name="denied" icon-color="red">
+            <lux-icon-base width="25" height="25" icon-name="Delete Expense Line Item" icon-color="red">
               <lux-icon-denied></lux-icon-denied>
             </lux-icon-base>
           </input-button>

@@ -17,13 +17,13 @@
         # wanted to see the validations sbhow up on the screen, but did not want to put any effort into the form %>
     <%= form.fields_for :event_requests do |ff| %>
       <%= ff.hidden_field :id %>
-        <input-data-list required=true
-            id="travel_request_event_requests_attributes_0_recurring_event_id"
-            name="travel_request[event_requests_attributes][0][recurring_event_id]"
-            label="Recurring Event"
-            value="<%= request_change_set.event_id %>"
-            :list="<%= request_change_set.recurring_event_list %>">
-          </input-data-list>
+        <input-autocomplete required=true
+          id="travel_request_event_requests_attributes_0_recurring_event_id"
+          name="travel_request[event_requests_attributes][0][recurring_event_id]"
+          label="Recurring Event"
+          default-value="<%= request_change_set.event_name %>"
+          :items="<%= request_change_set.recurring_event_list %>"
+        ></input-autocomplete>
         <date-picker label="Event Dates" mode="range" width="expand" required=true
           id="travel_request_event_requests_attributes_0_event_dates"
           name="travel_request[event_requests_attributes][0][event_dates]"
