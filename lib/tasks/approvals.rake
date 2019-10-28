@@ -50,6 +50,11 @@ namespace :approvals do
     end
   end
 
+  desc "Load locations"
+  task load_locations: :environment do
+    LocationLoader.load
+  end
+
   def make_requests(staff_profile:)
     1.upto(Random.rand(5...20)) do
       status = ["pending", "approved", "denied", "changes_requested", "canceled"].sample
