@@ -7,11 +7,19 @@ RSpec.describe StaffReportProcessor, type: :model do
   let(:manager_line) { "90009\tTest Department\tPUHRS\t99999991\timanager\tManager\tI\tam\tBiw\tR=BenElig\t000000000\tManager II\tLibrary, Dean of\tajarvis" }
   let(:dean_line) { "41000\tTest Department\tPUHRS\t99999991\tajarvis\tJarvis\tAnn\t\tBiw\tR=BenElig\t000000000\tManager II\tLibrary, Dean of\tomanager" }
 
+  # rubocop:disable RSpec/InstanceVariable
   class FakeLdapClass
     class << self
       def find_by_netid(net_id)
+        @count ||= 0
+        @count += 1
+        address = if @count > 1
+                    "Firestone Library$Test Department"
+                  else
+                    ""
+                  end
         {
-          address: "Firestone Library$Test Department",
+          address: address,
           department: "Library - Test Department",
           netid: net_id
         }
