@@ -6,7 +6,9 @@ RSpec.describe TravelRequestChangeSet, type: :model do
   let(:recurring_event) { FactoryBot.create :recurring_event }
   let(:travel_request_errors) do
     {
-      creator_id: ["can't be blank"]
+      creator_id: ["can't be blank"],
+      participation: ["is not included in the list"],
+      purpose: ["can't be blank"]
     }
   end
 
@@ -24,7 +26,7 @@ RSpec.describe TravelRequestChangeSet, type: :model do
     context "with valid params" do
       let(:valid_params) do
         {
-          travel_category: "business", creator_id: 1,
+          travel_category: "business", creator_id: 1, purpose: "my grand purpose", participation: "presenter",
           event_requests: [recurring_event_id: recurring_event.id, start_date: Time.zone.now, location: "Kalamazoo"]
         }
       end

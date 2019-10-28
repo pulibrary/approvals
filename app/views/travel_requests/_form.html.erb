@@ -1,11 +1,11 @@
 
-<%= form_with(model: travel_request_change_set.model, local: true) do |form| %>
-<% if travel_request_change_set.errors.any? %>
+<%= form_with(model: request_change_set.model, local: true) do |form| %>
+<% if request_change_set.errors.any? %>
   <div id="error_explanation">
-    <h2><%= pluralize(travel_request_change_set.errors.count, "error") %> prohibited this travel_request from being saved:</h2>
+    <h2><%= pluralize(request_change_set.errors.count, "error") %> prohibited this travel_request from being saved:</h2>
 
     <ul>
-    <% travel_request_change_set.errors.full_messages.each do |message| %>
+    <% request_change_set.errors.full_messages.each do |message| %>
       <li><%= message %></li>
     <% end %>
     </ul>
@@ -21,8 +21,8 @@
             id="travel_request_event_requests_attributes_0_recurring_event_id"
             name="travel_request[event_requests_attributes][0][recurring_event_id]"
             label="Recurring Event"
-            value="<%= travel_request_change_set.event_id %>"
-            :list="<%= travel_request_change_set.recurring_event_list %>">
+            value="<%= request_change_set.event_id %>"
+            :list="<%= request_change_set.recurring_event_list %>">
           </input-data-list>
         <date-picker label="Event Dates" mode="range" width="expand" required=true
           id="travel_request_event_requests_attributes_0_event_dates"
@@ -32,18 +32,18 @@
               start: null,
             end: new Date(<%= Date.current.year %>, <%= Date.current.month - 1 %>, <%= Date.current.day %>)
             }]"
-          :default-dates="<%=travel_request_change_set.event_dates_js%>"
+          :default-dates="<%=request_change_set.event_dates_js%>"
         ></date-picker>
         <input-text label="Location" type="text" name="travel_request[event_requests_attributes][0][location]" required=true
-              id="travel_request_event_requests_attributes_0_location" width="expand" value="<%= travel_request_change_set.model.event_requests[0].location %>">
+              id="travel_request_event_requests_attributes_0_location" width="expand" value="<%= request_change_set.model.event_requests[0].location %>">
         </input-text>
     <% end %>
   </grid-item>
   <grid-item columns="lg-3 sm-6">
       <input-select label="Participation" name="travel_request[participation]"
           id="travel_request_participation" width="expand"
-          value="<%= travel_request_change_set.participation %>"
-          :options="<%= travel_request_change_set.participation_options %>" required=true></input-select>
+          value="<%= request_change_set.participation %>"
+          :options="<%= request_change_set.participation_options %>" required=true></input-select>
       <date-picker label="Travel Dates" mode="range" width="expand"
         name="travel_request[travel_dates]" id="travel_request_travel_dates"
         :disabled-dates="
@@ -51,14 +51,14 @@
             start: null,
           end: new Date(<%= Date.current.year %>, <%= Date.current.month - 1 %>, <%= Date.current.day %>)
           }]"
-        :default-dates="<%=travel_request_change_set.travel_dates_js%>"
+        :default-dates="<%=request_change_set.travel_dates_js%>"
 
       >
       </date-picker>
       <input-text label="Purpose" id="travel_request_purpose" width="expand" required=true
-        name="travel_request[purpose]" value="<%= travel_request_change_set.purpose %>"
+        name="travel_request[purpose]" value="<%= request_change_set.purpose %>"
         helper="Specify the reason this trip is necissary for your job"
-        :options="<%= travel_request_change_set.travel_category_options %>"></input-text>
+        :options="<%= request_change_set.travel_category_options %>"></input-text>
   </grid-item>
   <grid-item columns="lg-6 sm-12">
     <input-text id="notes" name="notes"
@@ -72,8 +72,8 @@
   <!--
     Travel Estimate Form -->
   <travel-estimate-form
-    :expenses="<%= travel_request_change_set.estimates_json %>"
-    :cost_types="<%= travel_request_change_set.estimate_cost_options %>">
+    :expenses="<%= request_change_set.estimates_json %>"
+    :cost_types="<%= request_change_set.estimate_cost_options %>">
   </travel-estimate-form>
 
 <grid-container>
