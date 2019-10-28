@@ -221,6 +221,29 @@ RSpec.describe TravelRequestsController, type: :controller do
         expect(travel_request.event_requests[0].location).to eq "Paris"
       end
 
+      context "with estimate that will be updated" do
+        let(:recurring_event) { FactoryBot.create :recurring_event, name: "Conference" }
+        let(:travel_request) { FactoryBot.create(:travel_request, :with_note_and_estimate) }
+        let(:nested_attributes) do
+          {
+            notes: [{ creator_id: creator.id, content: "Important message" }],
+            estimates: [id: travel_request.estimates[0].id, amount: 200.20, recurrence: 3, cost_type: "lodging"],
+            event_requests: [{ start_date: start_date, location: "Paris", recurring_event_id: recurring_event.id }]
+          }
+        end
+
+        it "updates the requested travel_request" do
+          put :update, params: { id: travel_request.to_param, travel_request: nested_attributes }, session: valid_session
+          travel_request.reload
+          expect(travel_request.notes.last.content).to eq "Important message"
+          expect(travel_request.estimates.last.amount).to eq 200.20
+          expect(travel_request.event_requests.count).to eq 1
+          expect(travel_request.event_requests[0].recurring_event.name).to eq "Conference"
+          expect(travel_request.event_requests[0].start_date).to eq start_date
+          expect(travel_request.event_requests[0].location).to eq "Paris"
+        end
+      end
+
       it "redirects to the travel_request" do
         travel_request = FactoryBot.create(:travel_request)
         put :update, params: { id: travel_request.to_param, travel_request: nested_attributes }, session: valid_session
