@@ -9,5 +9,7 @@ RSpec.describe StateChange, type: :model do
     it { is_expected.to respond_to :request }
     it { is_expected.to respond_to :request_id }
     it { is_expected.to respond_to :action }
+    it { is_expected.to respond_to :delegate_id }
+    it { is_expected.to respond_to :delegate }
   end
 end

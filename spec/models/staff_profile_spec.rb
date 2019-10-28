@@ -17,6 +17,7 @@ RSpec.describe StaffProfile, type: :model do
   it { is_expected.to respond_to :vacation_balance }
   it { is_expected.to respond_to :sick_balance }
   it { is_expected.to respond_to :personal_balance }
+  it { is_expected.to respond_to :current_delegate }
 
   describe "#find_by_uid" do
     it "returns the staff_profile" do
@@ -59,6 +60,15 @@ RSpec.describe StaffProfile, type: :model do
     it "returns the staff_profile" do
       profile = FactoryBot.create(:staff_profile, given_name: "Jane", surname: "Doe")
       expect(profile.full_name).to eq("Jane Doe")
+    end
+  end
+
+  describe "#delegate" do
+    it "sets the delegate" do
+      profile = FactoryBot.create(:staff_profile, given_name: "Jane", surname: "Doe")
+      profile2 = FactoryBot.create :staff_profile, supervisor: staff_profile
+      profile.current_delegate = profile2
+      expect(profile.current_delegate).to eq(profile2)
     end
   end
 end

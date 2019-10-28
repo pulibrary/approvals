@@ -33,6 +33,15 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :delegates do
+    member do
+      get "assume"
+    end
+    collection do
+      get "cancel"
+    end
+  end
+
   get "my_requests", action: :my_requests, controller: "requests"
   get "my_approval_requests", action: :my_approval_requests, controller: "requests"
 end

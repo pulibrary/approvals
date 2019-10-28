@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Delegates</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Staff profile</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @delegates.each do |delegate| %>
+      <tr>
+        <td><%= delegate.delegate %></td>
+        <td><%= link_to 'Show', delegate %></td>
+        <td><%= link_to 'Edit', edit_delegate_path(delegate) %></td>
+        <td><%= link_to 'Destroy', delegate, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Delegate', new_delegate_path %>
