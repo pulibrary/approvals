@@ -15,7 +15,7 @@
     <library-header app-name="Leave and Travel Requests" app-url="<%= HomeURL.for(current_user: current_user) %>" class="lux" :max-width=1440>
     <menu-bar type="links" :menu-items="[
         {name: 'My Requests', component: 'My Requests', href: '/my_requests/'},
-        <%= "{name: 'Requests to Review', component: 'Requests to Review', href: '/my_approval_requests/'}" if current_staff_profile.supervisor? %>
+        <%= "{name: 'Requests to Review', component: 'Requests to Review', href: '/my_approval_requests/'}" if current_user && current_staff_profile.supervisor? %>
       ]"/>
     </library-header>
     <div class="main-content">
