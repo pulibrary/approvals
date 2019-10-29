@@ -65,3 +65,82 @@
     margin-right: 1rem;
   }
  }
+
+ .travel-estimates tr:last-child td {
+   font-weight: bold;
+   font-size: 28px;
+   line-height: 1;
+ }
+
+ /* notes and other staff */
+.notes,
+.staff {
+  list-style-type: none;
+}
+
+.notes li {
+  padding-bottom: 1rem;
+  margin: 1rem 0;
+  border-bottom: 1px solid #dcdcdc;
+  display: flex;
+}
+
+.notes li:last-child {
+  border: 0;
+  padding: 0;
+}
+
+.notes .status-icon {
+  padding: 0 0.5rem 0 0.5rem;
+  line-height: 1;
+}
+
+.notes strong {
+  display: block;
+}
+
+/* request show page headers */
+.request .lux-card-header span {
+  display: block;
+}
+
+.request .event-requestor {
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.request .event-dates {
+  margin-top: 1.75rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.request .lux-card-media {
+  padding: 0 0.5rem 1rem;
+}
+
+.request .lux-tag {
+  justify-content: center;
+}
+
+.request .lux-card-content .status-red {
+  background: #facec8;
+  padding: 1.5rem;
+}
+
+.request .lux-card-content .status-yellow {
+  background: #ffecbd;
+  padding: 1.5rem;
+}
+
+.request .lux-card-content .status-green {
+  background: #c3ed79;
+  padding: 1.5rem;
+}
+
+/* makes cards equal height */
+.request .lux-card {
+  height: 100%;;
+}

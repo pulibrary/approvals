@@ -1,2 +1,10 @@
-<text-style variation="strong"><%= note[:title] %></text-style>
-<text-style><%= note[:content] %></text-style>
+<li>
+  <span class="status-icon">
+    <lux-icon-base width="20" height="20">
+      <lux-icon-<%= note[:icon] %>></lux-icon-<%= note[:icon] %>>
+    </lux-icon-base>
+  </span>
+  <span class="note"><strong><%= note[:title] %></strong>
+    <%= note[:content] %></span>
+  
+</li>

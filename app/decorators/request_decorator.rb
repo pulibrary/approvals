@@ -50,6 +50,14 @@ class RequestDecorator
     end_date.strftime(date_format)
   end
 
+  def formatted_full_start_date
+    start_date.strftime(full_date_format)
+  end
+
+  def formatted_full_end_date
+    end_date.strftime(full_date_format)
+  end
+
   def absent_staff
     @absent_staff ||= AbsentStaff.list(start_date: start_date, end_date: end_date, supervisor: creator.supervisor).uniq - [creator]
     @absent_staff << "No team members absent" if @absent_staff.empty?
@@ -79,10 +87,16 @@ class RequestDecorator
     both = both.sort_by(&:created_at)
     both.map do |item|
       title = title_of_item(item)
-      content = item.content if item.is_a? Note
+      if item.is_a? Note
+        content = item.content
+        icon = "note"
+      else
+        icon = item.request.status
+      end
       {
         title: title,
-        content: content
+        content: content,
+        icon: icon
       }
     end
   end
@@ -91,6 +105,10 @@ class RequestDecorator
 
     def date_format
       "%b %-d, %Y"
+    end
+
+    def full_date_format
+      "%B %-d, %Y"
     end
 
     def decorated_status
@@ -111,7 +129,7 @@ class RequestDecorator
 
     def title_of_item(item)
       if item.is_a? Note
-        "Notes from #{item.creator.full_name}"
+        "#{item.creator.full_name} on #{item.created_at.strftime(date_format)}"
       else
         "#{item.action.titleize} by #{item.agent.full_name} on #{item.created_at.strftime(date_format)}"
       end

@@ -1,60 +1,127 @@
-<wrapper :max-width=1440>
+<wrapper :max-width="1440" class="request">
   <grid-container>
-    <grid-item columns="lg-10 sm-6">
-      <heading level="h1" size="h2">
-        <%= @request.requestor_status %>
-      </heading>
-      <heading level="h2" size="h3">
-        From <%= @request.start_date %> to <%= @request.end_date %> in <%= @request.event_requests[0].location %>
-      </heading>
-
-      <tag type="tag" :tag-items="[
-        {name: '<%= @request.latest_status %>', color: '<%= @request.status_color %>', icon: '<%= @request.status_icon %>'}
-        ]"></tag>
-    </grid-item>
-    <grid-item columns="lg-2 sm-6 auto">
-      <card size="small" id="trip-id">
-        <heading level="h2"><%= @request.id %></heading>
-        <text-style variation="default">Trip ID</text-style>
+    <grid-item columns="lg-12 sm-12">
+      <card size="full-width" class="request-header">
+        <card-media
+          ><lux-icon-base width="50" height="50" icon-color="rgb(65, 70, 78)"
+            ><<%= @request.travel_category_icon %> /></lux-icon-base
+          >
+          <tag
+            type="tag"
+            size="small"
+            :tag-items="[
+          {name: '<%= @request.latest_status %>', color: '<%= @request.status_color %>', icon: '<%= @request.status_icon %>'}
+          ]"
+          ></tag>
+        </card-media>
+        <card-header>
+          <heading level="h1" size="h3">
+            <span class="event-requestor"
+              ><%= @request.creator.full_name %></span
+            >
+            <span class="event-title"><%= @request.event_title %></span>
+            <span class="event-dates"
+              ><%= @request.formatted_full_start_date %> to <%=
+              @request.formatted_full_end_date %></span
+            >
+          </heading>
+        </card-header>
+        <card-content>
+          <div class="status-<%= @request.status_color %>">
+            <heading level="h2" size="h3"
+              ><text-style variation="default">Trip ID</text-style><%=
+              @request.id %></heading
+            >
+          </div>
+        </card-content>
       </card>
     </grid-item>
   </grid-container>
   <grid-container>
-    <grid-item columns="lg-3 sm-12">
-      <heading level="h3" size="h4">
-        Level of Participation
-      </heading>
-      <text-style variation="default"><%= @request.participation.blank? ? 'Unknown' : @request.participation %></text-style>
-      <heading level="h3" size="h4">
-        Purpose
-      </heading>
-      <text-style variation="default"><%= @request.purpose.blank? ? 'Unknown' : @request.purpose %></text-style>
-    </grid-item>
-    <grid-item columns="lg-5 sm-12">
-      <heading level="h3" size="h4">
-        Others who requested to go
-      </heading>
-      <%=  render partial: "other_staff", collection: @request.event_attendees, as: :staff %>
+    <grid-item columns="lg-4 sm-12">
+      <card size="full-width">
+        <card-content>
+          <heading level="h3" size="h5">
+            Level of Participation
+          </heading>
+          <text-style variation="default"
+            ><%= @request.participation.blank? ? 'Unknown' :
+            @request.participation.humanize %></text-style
+          >
+          <heading level="h3" size="h5">
+            Purpose
+          </heading>
+          <text-style variation="default"
+            ><%= @request.purpose.blank? ? 'Unknown' : @request.purpose
+            %></text-style
+          >
+        </card-content>
+      </card>
     </grid-item>
     <grid-item columns="lg-4 sm-12">
-      <heading level="h3" size="h4">
-        Team members absent during this time period
-      </heading>
-      <%=  render partial: "shared/absent_staff", collection: @request.absent_staff, as: :staff %>
+      <card size="full-width">
+        <card-content>
+          <heading level="h3" size="h5">
+            Others who requested to go
+          </heading>
+          <ul class="staff">
+            <%= render partial: "other_staff", collection:
+            @request.event_attendees, as: :staff %>
+          </ul>
+        </card-content>
+      </card>
+    </grid-item>
+    <grid-item columns="lg-4 sm-12">
+      <card size="full-width">
+        <card-content>
+          <heading level="h3" size="h5">
+            Team members absent during this time period
+          </heading>
+          <ul class="staff">
+            <%= render partial: "shared/absent_staff", collection:
+            @request.absent_staff, as: :staff %>
+          </ul>
+        </card-content>
+      </card>
     </grid-item>
   </grid-container>
   <grid-container>
-    <grid-item columns="lg-3 sm-12">
-      <%=  render partial: "shared/request_note", collection: @request.notes_and_changes, as: :note %>
+    <grid-item columns="lg-4 sm-12">
+      <card size="full-width">
+        <card-content>
+          <heading level="h3" size="h3">
+            Notes
+          </heading>
+          <ul class="notes">
+            <%= render partial: "shared/request_note", collection:
+            @request.notes_and_changes, as: :note %>
+          </ul>
+        </card-content>
+      </card>
     </grid-item>
-    <grid-item columns="lg-9 sm-12" :offset="true">
-      <data-table caption="Anticipated Expenses"
-        :columns="<%= @request.estimate_fields_json %>"
-        :json-data="<%= @request.estimates_json %>">
-      </data-table>
+    <grid-item columns="lg-8 sm-12" :offset="true" class="travel-estimates">
+      <card size="full-width">
+        <card-content>
+          <data-table
+            caption="Anticipated Expenses"
+            :columns="<%= @request.estimate_fields_json %>"
+            :json-data="<%= @request.estimates_json %>"
+          >
+          </data-table>
+        </card-content>
+      </card>
     </grid-item>
   </grid-container>
-
-  <hyperlink href="<%= edit_travel_request_path(@request.id) %>" variation="button solid">Edit</hyperlink>
-  <hyperlink href="<%= my_requests_path %>" variation="button solid">Back</hyperlink>
+  <grid-container>
+    <grid-item>
+      <hyperlink
+        href="<%= edit_travel_request_path(@request.id) %>"
+        variation="button solid"
+        >Edit</hyperlink
+      >
+      <hyperlink href="<%= my_requests_path %>" variation="button solid"
+        >Back</hyperlink
+      >
+    </grid-item>
+  </grid-container>
 </wrapper>

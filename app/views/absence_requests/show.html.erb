@@ -1,30 +1,63 @@
-<wrapper :max-width=1440>
+<wrapper :max-width=1440 class="request">
   <grid-container>
     <grid-item columns="lg-12 sm-12">
-      <heading level="h1" size="h2">
-        <%= @request.requestor_status %>
-      </heading>
-      <heading level="h2" size="h3">
-        From <%= @request.start_date %> to <%= @request.end_date %>
-      </heading>
-
-      <tag type="tag" :tag-items="[
-        {name: '<%= @request.latest_status %>', color: '<%= @request.status_color %>', icon: '<%= @request.status_icon %>'}
-        ]"></tag>
+      <card size="full-width">
+        <card-media>
+            <lux-icon-base
+            width="50"
+            height="50"
+            icon-color="rgb(65, 70, 78)"
+          ><<%= @request.absence_type_icon %> /></lux-icon-base>
+          <tag type="tag" size="small" :tag-items="[
+                {name: '<%= @request.latest_status %>', color: '<%= @request.status_color %>', icon: '<%= @request.status_icon %>'}
+                ]"></tag>
+        </card-media>
+        <card-header>
+            <heading level="h1" size="h3">
+              <span class="event-requestor"
+                ><%= @request.creator.full_name %></span
+              >
+              <span class="event-title"><%= @request.event_title %></span>
+              <span class="event-dates"
+                ><%= @request.formatted_full_start_date %> to <%=
+                @request.formatted_full_end_date %></span
+              >
+            </heading>
+          </card-header>
+          <card-content>
+              <div class="status-<%= @request.status_color %>">
+                <heading level="h2" size="h3"
+                  ><text-style variation="default">Total Hours</text-style><%=
+                  @request.hours_requested %></heading
+                >
+              </div>
+            </card-content>
+      </card>
+      
     </grid-item>
   </grid-container>
   <grid-container>
-    <grid-item columns="lg-3 sm-12">
-      <text-style>Total Hours Requested</text-style>
-      <heading level="h3" size="h4">
-        <%= @request.hours_requested%> Hours
-
-      </heading>
-      <%=  render partial: "shared/request_note", collection: @request.notes_and_changes, as: :note %>
+    <grid-item columns="lg-6 sm-12">
+      <card size="full-width">
+          <card-content>
+              <heading level="h3" size="h3">
+                  Notes
+                </heading>
+                <ul class="notes">
+            <%= render partial: "shared/request_note", collection:
+            @request.notes_and_changes, as: :note %>
+              </ul>
+          </card-content>
+        </card>
     </grid-item>
-    <grid-item columns="lg-9 sm-12" :offset="true">
-      <text-style variation="strong">Team members absent during this time period</text-style>
-        <%=  render partial: "shared/absent_staff", collection: @request.absent_staff, as: :staff %>
+    <grid-item columns="lg-6 sm-12" :offset="true">
+      <card size="full-width">
+        <card-content>
+            <text-style variation="strong">Team members absent during this time period</text-style>
+            <ul class="staff"><%=  render partial: "shared/absent_staff", collection: @request.absent_staff, as: :staff %></ul>
+        </card-content>
+      </card>
+      
     </grid-item>
   </grid-container>
   <grid-container>
