@@ -9,7 +9,9 @@ class RandomRequestGenerator
       request = TravelRequest.create!(creator: creator,
                                       event_requests_attributes: [event_requests_attributes(recurring_events: recurring_events)],
                                       estimates_attributes: estimates,
-                                      start_date: start_date, end_date: end_date)
+                                      start_date: start_date, end_date: end_date,
+                                      purpose: "#{Faker::Hacker.verb} #{Faker::Hacker.adjective} #{Faker::Hacker.noun}",
+                                      participation: Request.participations.keys.sample)
       request = generate_random_note(request, creator)
       generate_random_state_changes(request, status)
     end
