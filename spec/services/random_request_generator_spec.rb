@@ -17,6 +17,8 @@ RSpec.describe RandomRequestGenerator, type: :model do
         expect(request.estimates).not_to be_blank
         expect(request.start_date).not_to be_blank
         expect(request.end_date).not_to be_blank
+        expect(request.purpose).not_to be_blank
+        expect(request.participation).not_to be_blank
         expect(request.status).to eq("pending")
         expect(request.creator).to eq(creator)
         expect(request.state_changes).to be_blank
