@@ -18,6 +18,9 @@
         <%= "{name: 'Requests to Review', component: 'Requests to Review', href: '/my_approval_requests/'}" if current_user && current_staff_profile.supervisor? %>
       ]"/>
     </library-header>
+    <% if current_delegate %>
+      <div class="lux"><alert status="success">You are acting on behalf of <%= current_delegate.delegator %></alert> </div>
+    <% end %>
     <div class="main-content">
       <div class="lux">
         <wrapper :max-width=1400>

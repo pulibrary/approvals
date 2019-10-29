@@ -5,6 +5,8 @@ class StaffProfile < ApplicationRecord
   belongs_to :supervisor, class_name: "StaffProfile", optional: true
   belongs_to :location, required: true
 
+  attr_accessor :current_delegate
+
   delegate :uid, to: :user
 
   class << self

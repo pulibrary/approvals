@@ -1,0 +1,22 @@
+<%= form_with(model: delegate, local: true) do |form| %>
+  <% if delegate.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(delegate.errors.count, "error") %> prohibited this delegate from being saved:</h2>
+
+      <ul>
+      <% delegate.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :delegate_id %>
+    <%= form.text_field :delegate_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

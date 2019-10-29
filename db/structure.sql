@@ -117,6 +117,38 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: delegates; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.delegates (
+    id bigint NOT NULL,
+    delegate_id bigint,
+    delegator_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: delegates_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.delegates_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: delegates_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.delegates_id_seq OWNED BY public.delegates.id;
+
+
+--
 -- Name: departments; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -422,7 +454,8 @@ CREATE TABLE public.state_changes (
     request_id bigint,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    action public.request_action
+    action public.request_action,
+    delegate_id bigint
 );
 
 
@@ -476,6 +509,13 @@ CREATE SEQUENCE public.users_id_seq
 --
 
 ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: delegates id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delegates ALTER COLUMN id SET DEFAULT nextval('public.delegates_id_seq'::regclass);
 
 
 --
@@ -554,6 +594,14 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: delegates delegates_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delegates
+    ADD CONSTRAINT delegates_pkey PRIMARY KEY (id);
 
 
 --
@@ -645,6 +693,20 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: index_delegates_on_delegate_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_delegates_on_delegate_id ON public.delegates USING btree (delegate_id);
+
+
+--
+-- Name: index_delegates_on_delegator_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_delegates_on_delegator_id ON public.delegates USING btree (delegator_id);
+
+
+--
 -- Name: index_estimates_on_request_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -698,6 +760,13 @@ CREATE INDEX index_staff_profiles_on_supervisor_id ON public.staff_profiles USIN
 --
 
 CREATE INDEX index_staff_profiles_on_user_id ON public.staff_profiles USING btree (user_id);
+
+
+--
+-- Name: index_state_changes_on_delegate_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_state_changes_on_delegate_id ON public.state_changes USING btree (delegate_id);
 
 
 --
@@ -769,6 +838,14 @@ ALTER TABLE ONLY public.staff_profiles
 
 
 --
+-- Name: state_changes fk_rails_77c5fcac7d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.state_changes
+    ADD CONSTRAINT fk_rails_77c5fcac7d FOREIGN KEY (delegate_id) REFERENCES public.staff_profiles(id);
+
+
+--
 -- Name: staff_profiles fk_rails_873ad824ec; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -782,6 +859,22 @@ ALTER TABLE ONLY public.staff_profiles
 
 ALTER TABLE ONLY public.notes
     ADD CONSTRAINT fk_rails_93363d2800 FOREIGN KEY (request_id) REFERENCES public.requests(id);
+
+
+--
+-- Name: delegates fk_rails_a968507922; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delegates
+    ADD CONSTRAINT fk_rails_a968507922 FOREIGN KEY (delegator_id) REFERENCES public.staff_profiles(id);
+
+
+--
+-- Name: delegates fk_rails_ba46e66b89; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delegates
+    ADD CONSTRAINT fk_rails_ba46e66b89 FOREIGN KEY (delegate_id) REFERENCES public.staff_profiles(id);
 
 
 --
@@ -830,6 +923,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190827172900'),
 ('20190918150741'),
 ('20191021131520'),
-('20191021193122');
+('20191021193122'),
+('20191028173311'),
+('20191029130508');
 
 
