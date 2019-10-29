@@ -46,7 +46,7 @@ class TravelRequestsController < CommonRequestController
         :participation,
         :travel_category,
         event_requests: [:id, :recurring_event_id, :start_date, :end_date, :location, :url],
-        notes: [:creator_id, :content],
+        notes: [:content],
         estimates: [:id, :amount, :recurrence, :cost_type, :description]
       )
     end
