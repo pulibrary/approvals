@@ -8,9 +8,22 @@ class EventRequestChangeSet < Reform::Form
   validates :recurring_event_id, :start_date, :location, presence: true
 
   validate :recurring_event_id do
-    if recurring_event_id.present?
+    begin
+      Integer recurring_event_id
       errors.add(:recurring_event_id, "must be a RecurringEvent") if recurring_event.blank?
+    rescue ArgumentError, TypeError
+      true # either string or nil so we do not expect it to be found
     end
+  end
+
+  def recurring_event_id=(value)
+    begin
+      Integer value
+    rescue ArgumentError
+      @recurring_event ||= ::RecurringEvent.create!(name: value)
+      value = @recurring_event.id
+    end
+    super value
   end
 
   def prepopulate!(options)

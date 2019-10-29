@@ -36,6 +36,24 @@ RSpec.describe TravelRequestChangeSet, type: :model do
       end
     end
 
+    context "with a new Event" do
+      let(:valid_params) do
+        {
+          travel_category: "business", creator_id: 1, purpose: "my grand purpose", participation: "presenter",
+          event_requests: [recurring_event_id: "New Event", start_date: Time.zone.now, location: "Kalamazoo"]
+        }
+      end
+
+      it "is valid" do
+        expect do
+          expect(travel_request.validate(valid_params)).to be_truthy
+          expect(travel_request.validate(valid_params)).to be_truthy
+          expect(travel_request.validate(valid_params)).to be_truthy
+          expect(travel_request.validate(valid_params)).to be_truthy
+        end.to change(RecurringEvent, :count).by(1)
+      end
+    end
+
     context "with empty params" do
       let(:errors) { travel_request_errors.merge(event_requests: ["can't be blank"]) }
 
