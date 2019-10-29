@@ -186,6 +186,30 @@ RSpec.describe TravelRequestsController, type: :controller do
       end
     end
 
+    context "with fre text event" do
+      let(:valid_attributes) do
+        {
+          creator_id: creator.id,
+          start_date: start_date,
+          end_date: end_date,
+          request_type: "TravelRequest",
+          purpose: "Travel to campus for in-person meetings",
+          participation: "member",
+          event_requests: [
+            recurring_event_id: "A new event",
+            location: "Mumbai",
+            event_dates: "#{Time.zone.yesterday.strftime('%m/%d/%Y')} - #{Time.zone.today.strftime('%m/%d/%Y')}"
+          ],
+          travel_category: "business", # note this field is not available on the create form; only on approval.
+        }
+      end
+
+      it "redirects to the created travel_request" do
+        post :create, params: { travel_request: valid_attributes }, session: valid_session
+        expect(response).to redirect_to(TravelRequest.last)
+        assert_equal TravelRequest.last, assigns(:request)
+      end
+    end
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { travel_request: invalid_attributes }, session: valid_session
