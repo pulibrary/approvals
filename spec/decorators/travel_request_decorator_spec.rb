@@ -126,7 +126,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
 
   describe "#estimates_json" do
     it "returns json data" do
-      expect(travel_request_decorator.estimates_json).to eq '[{"cost_type":"","note":"","recurrence":"","amount":"Total:","total":"0.00"}]'
+      expect(travel_request_decorator.estimates_json).to eq '[{"cost_type":"","note":"","recurrence":"","amount":"Total","total":"0.00"}]'
     end
 
     context "with estimate" do
@@ -134,7 +134,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
       it "returns json data" do
         expect(travel_request_decorator.estimates_json).to eq(
           '[{"cost_type":"lodging","note":"","recurrence":3,"amount":"50.00","total":"150.00"},' \
-          '{"cost_type":"","note":"","recurrence":"","amount":"Total:","total":"150.00"}]'
+          '{"cost_type":"","note":"","recurrence":"","amount":"Total","total":"150.00"}]'
         )
       end
     end
@@ -192,10 +192,14 @@ RSpec.describe TravelRequestDecorator, type: :model do
 
     it "returns the combined data" do
       expect(travel_request_decorator.notes_and_changes).to eq([
-                                                                 { title: "Notes from Staff Person", content: "Please approve" },
-                                                                 { title: "Approved by Sally Supervisor on #{Time.zone.now.strftime('%b %-d, %Y')}", content: nil },
-                                                                 { title: "Notes from Sally Supervisor", content: "looks good" },
-                                                                 { title: "Approved by Department Head on #{Time.zone.now.strftime('%b %-d, %Y')}", content: nil }
+                                                                 { title: "Staff Person on #{Time.zone.now.strftime('%b %-d, %Y')}", content: "Please approve",
+                                                                   icon: "note" },
+                                                                 { title: "Approved by Sally Supervisor on #{Time.zone.now.strftime('%b %-d, %Y')}", content: nil,
+                                                                   icon: "approved" },
+                                                                 { title: "Sally Supervisor on #{Time.zone.now.strftime('%b %-d, %Y')}", content: "looks good",
+                                                                   icon: "note" },
+                                                                 { title: "Approved by Department Head on #{Time.zone.now.strftime('%b %-d, %Y')}", content: nil,
+                                                                   icon: "approved" }
                                                                ])
     end
   end

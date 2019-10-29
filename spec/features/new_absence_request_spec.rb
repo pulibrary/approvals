@@ -21,7 +21,7 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
     Percy.snapshot(page, name: "Leave Request - New", widths: [375, 768, 1440])
     click_on "Apply Changes"
 
-    expect(page).to have_content "Sally wants to take Sick Leave\nFrom #{today} to #{tomorrow}"
+    expect(page).to have_content "Sick Leave"
     Percy.snapshot(page, name: "Leave Request - Show", widths: [375, 768, 1440])
   end
 end

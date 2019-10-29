@@ -202,9 +202,12 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
 
     it "returns the combined data" do
       expect(absence_request_decorator.notes_and_changes).to eq([
-                                                                  { title: "Notes from Staff Person", content: "Please approve" },
-                                                                  { title: "Notes from Sally Supervisor", content: "looks good" },
-                                                                  { title: "Approved by Sally Supervisor on #{Time.zone.now.strftime('%b %-d, %Y')}", content: nil }
+                                                                  { title: "Staff Person on #{Time.zone.now.strftime('%b %-d, %Y')}", content: "Please approve",
+                                                                    icon: "note" },
+                                                                  { title: "Sally Supervisor on #{Time.zone.now.strftime('%b %-d, %Y')}", content: "looks good",
+                                                                    icon: "note" },
+                                                                  { title: "Approved by Sally Supervisor on #{Time.zone.now.strftime('%b %-d, %Y')}", content: nil,
+                                                                    icon: "approved" }
                                                                 ])
     end
   end
