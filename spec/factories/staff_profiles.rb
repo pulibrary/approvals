@@ -8,6 +8,7 @@ FactoryBot.define do
     sequence(:given_name) { |n| "Pat#{n}" }
     sequence(:surname) { |n| "Doe#{n}" }
     location { FactoryBot.create(:location) }
+    standard_hours_per_week { 36.25 }
 
     trait :with_supervisor do
       after(:create) do |profile, _evaluator|

@@ -421,7 +421,8 @@ CREATE TABLE public.staff_profiles (
     location_id bigint,
     vacation_balance numeric,
     sick_balance numeric,
-    personal_balance numeric
+    personal_balance numeric,
+    standard_hours_per_week numeric
 );
 
 
@@ -926,5 +927,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191021193122'),
 ('20191028173311'),
 ('20191029130508');
+('20191030122935');
 
 

@@ -38,8 +38,9 @@ class AbsenceRequestChangeSet < Reform::Form
     Holidays.list.to_json
   end
 
-  def hours_per_day
-    8
+  def hours_per_day(current_staff_profile)
+    creator = model&.creator || current_staff_profile
+    (creator.standard_hours_per_week || 40) / 5.0
   end
 
   def start_date_js

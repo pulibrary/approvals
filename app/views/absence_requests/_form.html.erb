@@ -31,7 +31,7 @@
                       end-date="<%= request_change_set.end_date_js %>"
                       hours-requested="<%= request_change_set.hours_requested %>"
                       :holidays="<%=request_change_set.holidays %>" 
-                      hours-per-day=<%= request_change_set.hours_per_day%>>
+                      hours-per-day=<%= request_change_set.hours_per_day(current_staff_profile)%>>
     </hours-calculator>
 
     <grid-item columns="lg-6 sm-12">
