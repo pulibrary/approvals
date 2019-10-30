@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class AbsenceRequestsController < CommonRequestController
-  before_action :set_absence_request, only: [:show, :destroy]
+  before_action :set_absence_request, only: [:show, :destroy, :review, :approve, :deny]
 
   private
 
@@ -26,7 +26,7 @@ class AbsenceRequestsController < CommonRequestController
         if params[:id]
           AbsenceRequestChangeSet.new(AbsenceRequest.find(params[:id]))
         else
-          AbsenceRequestChangeSet.new(AbsenceRequest.new)
+          AbsenceRequestChangeSet.new(AbsenceRequest.new, current_staff_profile: current_staff_profile)
         end
     end
 

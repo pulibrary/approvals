@@ -9,6 +9,9 @@ FactoryBot.define do
     sequence(:surname) { |n| "Doe#{n}" }
     location { FactoryBot.create(:location) }
     standard_hours_per_week { 36.25 }
+    vacation_balance { 20 }
+    sick_balance { 10 }
+    personal_balance { 16 }
 
     trait :with_supervisor do
       after(:create) do |profile, _evaluator|

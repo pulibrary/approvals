@@ -12,6 +12,20 @@ class AbsenceRequestChangeSet < Reform::Form
   validates :absence_type, inclusion: { in: Request.absence_types.keys }
   validates :creator_id, :hours_requested, :start_date, :end_date, presence: true
 
+  attr_reader :current_staff_profile
+
+  def initialize(model, current_staff_profile: nil, **)
+    super
+    @current_staff_profile = current_staff_profile
+  end
+
+  delegate :vacation_balance, :personal_balance, :sick_balance, to: :creator
+
+  def balance_title
+    last_month = (Time.zone.today - 1.month).end_of_month
+    "Balances as of #{last_month.strftime('%B %-d, %Y')}"
+  end
+
   def absence_type_options
     # turn key, value into label, key
     strings = model.class.absence_types.map do |key, value|
@@ -72,4 +86,10 @@ class AbsenceRequestChangeSet < Reform::Form
       current_staff_profile.supervisor
     end
   end
+
+  private
+
+    def creator
+      model.creator || current_staff_profile
+    end
 end

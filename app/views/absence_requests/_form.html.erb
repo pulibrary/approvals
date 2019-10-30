@@ -15,26 +15,51 @@
     <% end %>
 
 
-    <grid-item columns="lg-12">
+    <grid-item columns="lg-4 sm-12">
       <input-select label="Absence type" name="absence_request[absence_type]" id="absence_request_absence_type" 
                     value="<%= request_change_set.absence_type %>" 
                     :options="<%= request_change_set.absence_type_options %>"
                     required=true
       ></input-select>
+
+      <hours-calculator start-date="<%= request_change_set.start_date_js %>"
+                        end-date="<%= request_change_set.end_date_js %>"
+                        hours-requested="<%= request_change_set.hours_requested %>"
+                        :holidays="<%=request_change_set.holidays %>" 
+                        hours-per-day=<%= request_change_set.hours_per_day(current_staff_profile)%>>
+      </hours-calculator>
+    </grid-item>
+
+    <grid-item columns="lg-8 sm-12">
+      <card size="large" class="absence">
+      <card-header>
+        <heading level="h2" size="h5"><%= request_change_set.balance_title %></heading>
+      </card-header>
+      <card-content>
+        <heading level="h3" size="h4">
+          <lux-icon-base icon-name="vacation"><lux-icon-vacation></lux-icon-vacation></lux-icon-base>
+          Vacation
+        </heading>
+        <text-style><%= request_change_set.vacation_balance %>  Hours</text-style>
+        <heading level="h3" size="h4">
+          <lux-icon-base icon-name="relax"><lux-icon-relax></lux-icon-relax></lux-icon-base>
+          Personal
+        </heading>
+        <text-style><%= request_change_set.personal_balance %> Hours</text-style>
+        <heading level="h3" size="h4">
+        <lux-icon-base icon-name="hospital">
+          <lux-icon-hospital></lux-icon-hospital></lux-icon-base>
+          Sick
+        </heading>
+        <text-style><%= request_change_set.sick_balance %> Hours</text-style>
+      </card-content>
     </grid-item>
 
     <!--<grid-item columns="lg-12 sm-12">
       <date-picker id="absence_request_end_date" name="absence_request[end_date]" label="End Date" mode="single"></date-picker>
     </grid-item>-->
 
-    <hours-calculator start-date="<%= request_change_set.start_date_js %>"
-                      end-date="<%= request_change_set.end_date_js %>"
-                      hours-requested="<%= request_change_set.hours_requested %>"
-                      :holidays="<%=request_change_set.holidays %>" 
-                      hours-per-day=<%= request_change_set.hours_per_day(current_staff_profile)%>>
-    </hours-calculator>
-
-    <grid-item columns="lg-6 sm-12">
+    <grid-item columns="lg-8 sm-12">
       <input-text id="absence_request_notes_content" name="absence_request[notes][content]" label="Comments" type="textarea" 
                   width="expand"></input-text>
     </grid-item>

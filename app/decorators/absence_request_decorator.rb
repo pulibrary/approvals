@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class AbsenceRequestDecorator < RequestDecorator
-  delegate :absence_type, :hours_requested, to: :request
+  delegate :absence_type, :hours_requested, :vacation_balance, to: :request
   attr_reader :absence_request
 
   def initialize(absence_request)
