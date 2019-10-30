@@ -4,6 +4,7 @@
       name="absence_request[start_date]"
       label="Date range"
       mode="range"
+      width="expand"
       placeholder="9/2/2019 - 9/12/2019"
       @updateInput="setHours($event)"
       :defaultDates="defaultDates">
@@ -13,7 +14,13 @@
     <input type="hidden" id="absence_request_start_date" name="absence_request[start_date]" :value="localStartDate">
     <input type="hidden" id="absence_request_end_date" name="absence_request[end_date]" :value="localEndDate">
 
-    <input-text id="absence_request_hours_requested" name="absence_request[hours_requested]" label="Total hours requested" placeholder="111 hours" :value="localHoursReqested" required></input-text>
+    <input-text id="absence_request_hours_requested" 
+                name="absence_request[hours_requested]" 
+                width="expand" 
+                label="Total hours requested" 
+                placeholder="111 hours" 
+                :value="localHoursReqested" 
+                required></input-text>
   </div>
 </template>
 
