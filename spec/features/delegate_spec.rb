@@ -5,7 +5,7 @@ RSpec.feature "Delegate", type: :feature, js: true do
   let(:user) { FactoryBot.create :user }
   let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, :with_supervisor, given_name: "Sally", user: user }
   let(:delegate_user) { FactoryBot.create :user }
-  let(:delegate_staff_profile) { FactoryBot.create :staff_profile, :with_department, :with_supervisor, given_name: "Joe", user: delegate_user }
+  let(:delegate_staff_profile) { FactoryBot.create :staff_profile, :with_department, :with_supervisor, given_name: "Joe", surname: "Schmo", user: delegate_user }
   let(:delegate) { FactoryBot.create :delegate, delegator: delegate_staff_profile, delegate: staff_profile }
 
   before do
@@ -34,7 +34,7 @@ RSpec.feature "Delegate", type: :feature, js: true do
     js_date_format = "%m/%d/%Y"
     fill_in "absence_request_date", with: "#{today.strftime(js_date_format)} - #{tomorrow.strftime(js_date_format)}"
     click_on "Apply Changes"
-    expect(page).to have_content "Joe wants to take Sick Leave\nFrom #{today} to #{tomorrow}"
+    expect(page).to have_content "Joe Schmo\nSick Leave (#{today.strftime(js_date_format)} to #{tomorrow.strftime(js_date_format)})"
 
     click_link "My Requests"
     assert_selector "div.lux-alert", text: "You are acting on behalf of #{delegate_staff_profile}"
