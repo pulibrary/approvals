@@ -12,6 +12,11 @@ file = File.open(Rails.application.config.staff_report_location, encoding: "UTF-
 report = file.read
 StaffReportProcessor.process(data: report)
 
+file = File.open(Rails.application.config.balance_report_location, encoding: "UTF-16")
+report = file.read
+errors = BalanceReportProcessor.process(data: report)
+puts errors.inspect
+
 # process the seeds a second time to put in the AAs since they should now exist
 LocationLoader.load
 
