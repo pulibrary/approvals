@@ -8,8 +8,6 @@ namespace :approvals do
     RandomDirectReportsGenerator.create_reports(supervisor: staff_profile, number_of_people: number_of_people)
     puts "We made you a supervisor with #{number_of_people} direct reports"
     puts "You now manage #{StaffProfile.where(supervisor: staff_profile).map(&:uid).join(', ')}"
-    Puts "We are now making requests for all your direct reports"
-    StaffProfile.where(supervisor: staff_profile).each { |sp| make_requests(staff_profile: sp) }
   end
 
   desc "add a fake department and fake users to give [:netid] a department to head"
