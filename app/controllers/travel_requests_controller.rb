@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class TravelRequestsController < CommonRequestController
-  before_action :set_travel_request, only: [:show, :update, :destroy]
+  before_action :set_travel_request, only: [:show, :update, :destroy, :review, :approve, :deny]
 
   # PATCH/PUT
   def change_request

@@ -1,6 +1,5 @@
 <template>
-  <grid-item columns="lg-12 sm-12">
-
+  <div>
     <date-picker id="absence_request_date"
       name="absence_request[start_date]"
       label="Date range"
@@ -15,7 +14,7 @@
     <input type="hidden" id="absence_request_end_date" name="absence_request[end_date]" :value="localEndDate">
 
     <input-text id="absence_request_hours_requested" name="absence_request[hours_requested]" label="Total hours requested" placeholder="111 hours" :value="localHoursReqested" required></input-text>
-  </grid-item>
+  </div>
 </template>
 
 <script>

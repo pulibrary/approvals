@@ -18,6 +18,7 @@ RSpec.describe StaffProfile, type: :model do
   it { is_expected.to respond_to :sick_balance }
   it { is_expected.to respond_to :personal_balance }
   it { is_expected.to respond_to :current_delegate }
+  it { is_expected.to respond_to :standard_hours_per_week }
 
   describe "#find_by_uid" do
     it "returns the staff_profile" do

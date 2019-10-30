@@ -50,6 +50,21 @@ namespace :approvals do
     end
   end
 
+  desc "process the balance report"
+  task process_balance_report: :environment do
+    file = File.open(Rails.application.config.balance_report_location, encoding: "UTF-16")
+    report = file.read
+    errors = BalanceReportProcessor.process(data: report)
+    puts "Completed processing the balance report."
+    abort("There were unknown entries: #{errors[:unknown].join(', ')}") unless errors[:unknown].blank?
+  end
+
+  desc "process the balance report"
+  task process_reports: :environment do
+    Rake::Task["approvals:process_staff_report"].invoke
+    Rake::Task["approvals:process_balance_report"].invoke
+  end
+
   desc "Load locations"
   task load_locations: :environment do
     LocationLoader.load
