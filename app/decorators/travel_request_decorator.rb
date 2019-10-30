@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class TravelRequestDecorator < RequestDecorator
-  delegate :participation, :purpose, :travel_category, :event_title,
+  delegate :participation, :purpose, :travel_category,
            :event_requests, :estimates, :status, to: :request
   attr_reader :travel_request
 
@@ -40,14 +40,18 @@ class TravelRequestDecorator < RequestDecorator
     "lux-icon-globe"
   end
 
-  def attendance_verb
-    "attend"
-  end
-
   def event_attendees
     @attendees ||= list_event_attendees
     @attendees << "No others attending" if @attendees.blank?
     @attendees
+  end
+
+  def event_title_brief
+    request.event_title
+  end
+
+  def event_title
+    "#{request.event_title} (#{event_requests[0].start_date.strftime(date_format)} to #{event_requests[0].end_date.strftime(date_format)})"
   end
 
   private

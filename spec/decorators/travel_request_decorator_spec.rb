@@ -50,14 +50,28 @@ RSpec.describe TravelRequestDecorator, type: :model do
   describe "#formatted_start_date" do
     let(:travel_request) { FactoryBot.create(:travel_request, start_date: Time.zone.parse("2019-07-04 12:12")) }
     it "returns a formated start date" do
-      expect(travel_request_decorator.formatted_start_date).to eq "Jul 4, 2019"
+      expect(travel_request_decorator.formatted_start_date).to eq "07/04/2019"
+    end
+  end
+
+  describe "#formatted_full_start_date" do
+    let(:travel_request) { FactoryBot.create(:travel_request, start_date: Time.zone.parse("2019-07-04 12:12")) }
+    it "returns a formated start date" do
+      expect(travel_request_decorator.formatted_full_start_date).to eq "July 4, 2019"
     end
   end
 
   describe "#formatted_end_date" do
     let(:travel_request) { FactoryBot.create(:travel_request, end_date: Time.zone.parse("2019-07-04 12:12")) }
     it "returns a formated end date" do
-      expect(travel_request_decorator.formatted_end_date).to eq "Jul 4, 2019"
+      expect(travel_request_decorator.formatted_end_date).to eq "07/04/2019"
+    end
+  end
+
+  describe "#formatted_full_end_date" do
+    let(:travel_request) { FactoryBot.create(:travel_request, end_date: Time.zone.parse("2019-07-04 12:12")) }
+    it "returns a formated end date" do
+      expect(travel_request_decorator.formatted_full_end_date).to eq "July 4, 2019"
     end
   end
 
@@ -101,7 +115,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
     let(:today) { Time.zone.now }
     it "returns the status and the createddate" do
       expect(travel_request_decorator.latest_status).to eq "Pending"
-      expect(travel_request_decorator.latest_status_date).to eq "Updated on #{today.strftime('%b %-d, %Y')}"
+      expect(travel_request_decorator.latest_status_date).to eq "Updated on #{today.strftime('%m/%d/%Y')}"
     end
 
     context "it has been approved and then canceled" do
@@ -109,7 +123,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
       it "returns the last created status and date" do
         travel_request.cancel!(agent: travel_request.creator)
         expect(travel_request_decorator.latest_status).to eq "Canceled"
-        expect(travel_request_decorator.latest_status_date).to eq "Updated on #{today.strftime('%b %-d, %Y')}"
+        expect(travel_request_decorator.latest_status_date).to eq "Updated on #{today.strftime('%m/%d/%Y')}"
       end
     end
 
@@ -119,7 +133,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
       it "returns pending futher approval" do
         travel_request.approve!(agent: travel_request.creator.supervisor)
         expect(travel_request_decorator.latest_status).to eq "Pending further approval"
-        expect(travel_request_decorator.latest_status_date).to eq "Updated on #{today.strftime('%b %-d, %Y')}"
+        expect(travel_request_decorator.latest_status_date).to eq "Updated on #{today.strftime('%m/%d/%Y')}"
       end
     end
   end
@@ -140,43 +154,6 @@ RSpec.describe TravelRequestDecorator, type: :model do
     end
   end
 
-  describe "#requestor_status" do
-    let(:staff_profile) { FactoryBot.create(:staff_profile, :with_department, given_name: "Jane") }
-    let(:travel_request) do
-      FactoryBot.create(:travel_request, creator: staff_profile)
-    end
-    it "returns json data" do
-      expect(travel_request_decorator.requestor_status).to eq "Jane wants to attend #{travel_request.event_title}"
-    end
-
-    context "denied request" do
-      let(:travel_request) do
-        FactoryBot.create(:travel_request, action: :deny, creator: staff_profile)
-      end
-      it "returns json data" do
-        expect(travel_request_decorator.requestor_status).to eq "Jane will not attend #{travel_request.event_title}"
-      end
-    end
-
-    context "canceled request" do
-      let(:travel_request) do
-        FactoryBot.create(:travel_request, action: :approve, creator: staff_profile)
-      end
-      it "returns json data" do
-        expect(travel_request_decorator.requestor_status).to eq "Jane will attend #{travel_request.event_title}"
-      end
-    end
-
-    context "canceled request" do
-      let(:travel_request) do
-        FactoryBot.create(:travel_request, action: :cancel, creator: staff_profile)
-      end
-      it "returns json data" do
-        expect(travel_request_decorator.requestor_status).to eq "Jane does not want to attend #{travel_request.event_title}"
-      end
-    end
-  end
-
   describe "#notes_and_changes" do
     let(:department_head) { FactoryBot.create(:staff_profile, :as_department_head, given_name: "Department", surname: "Head") }
     let(:supervisor) { FactoryBot.create(:staff_profile, given_name: "Sally", surname: "Supervisor", department: department_head.department, supervisor: department_head) }
@@ -192,13 +169,13 @@ RSpec.describe TravelRequestDecorator, type: :model do
 
     it "returns the combined data" do
       expect(travel_request_decorator.notes_and_changes).to eq([
-                                                                 { title: "Staff Person on #{Time.zone.now.strftime('%b %-d, %Y')}", content: "Please approve",
+                                                                 { title: "Staff Person on #{Time.zone.now.strftime('%m/%d/%Y')}", content: "Please approve",
                                                                    icon: "note" },
-                                                                 { title: "Approved by Sally Supervisor on #{Time.zone.now.strftime('%b %-d, %Y')}", content: nil,
+                                                                 { title: "Approved by Sally Supervisor on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
                                                                    icon: "approved" },
-                                                                 { title: "Sally Supervisor on #{Time.zone.now.strftime('%b %-d, %Y')}", content: "looks good",
+                                                                 { title: "Sally Supervisor on #{Time.zone.now.strftime('%m/%d/%Y')}", content: "looks good",
                                                                    icon: "note" },
-                                                                 { title: "Approved by Department Head on #{Time.zone.now.strftime('%b %-d, %Y')}", content: nil,
+                                                                 { title: "Approved by Department Head on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
                                                                    icon: "approved" }
                                                                ])
     end

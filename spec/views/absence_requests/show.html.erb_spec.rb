@@ -11,9 +11,7 @@ RSpec.describe "absence_requests/show", type: :view do
   it "renders attributes in" do
     render
     expect(rendered).to include(absence_request.creator.given_name)
-    expect(rendered).to match(/#{ absence_request.formatted_full_start_date }/)
-    expect(rendered).to match(/#{ absence_request.formatted_full_end_date}/)
-    expect(rendered).to match(/Vacation/)
+    expect(rendered).to match(/Vacation \(#{Time.zone.now.strftime('%m/%d/%Y')} to #{Time.zone.tomorrow.strftime('%m/%d/%Y')}\)/)
     expect(rendered).to include("Sally Smith on")
     expect(rendered).to include(absence_request.notes.first.content)
     expect(rendered).to have_selector("hyperlink[href=\"#{edit_absence_request_path(absence_request.id)}\"]", text: "Edit")

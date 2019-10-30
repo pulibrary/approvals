@@ -64,23 +64,6 @@ class RequestDecorator
     @absent_staff
   end
 
-  def attendance
-    case status
-    when "denied"
-      "will not "
-    when "approved"
-      "will "
-    when "canceled"
-      "does not want to "
-    else
-      "wants to "
-    end + attendance_verb
-  end
-
-  def requestor_status
-    "#{creator.given_name} #{attendance} #{event_title}"
-  end
-
   def notes_and_changes
     both = notes.to_a
     both.concat(state_changes.to_a)
@@ -104,7 +87,7 @@ class RequestDecorator
   private
 
     def date_format
-      "%b %-d, %Y"
+      "%m/%d/%Y"
     end
 
     def full_date_format
