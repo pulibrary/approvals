@@ -4,7 +4,8 @@ require "rails_helper"
 RSpec.feature "My Approval Requests", type: :feature, js: true do
   let(:user) { FactoryBot.create :user }
   let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, :with_supervisor, user: user }
-  let(:employee) { FactoryBot.create :staff_profile, supervisor: staff_profile, department: staff_profile.department }
+  let(:employee_user) { FactoryBot.create :user, uid: "jdoe" }
+  let(:employee) { FactoryBot.create :staff_profile, supervisor: staff_profile, department: staff_profile.department, given_name: "Jane", surname: "Doe", user: employee_user }
 
   before do
     sign_in user
@@ -26,9 +27,11 @@ RSpec.feature "My Approval Requests", type: :feature, js: true do
 
     select_drop_down(menu: "#request-type-menu", item: "Travel")
     assert_selector "article.lux-card", count: 1
+    assert_selector "a", text: "Doe, Jane (jdoe) - Awesome Event 2019, Location"
 
     select_drop_down(menu: "#request-type-menu", item: "Absence")
     assert_selector "article.lux-card", count: 2
+    assert_selector "a", text: "Doe, Jane (jdoe) - Sick"
 
     click_link("Request type: Absence")
     assert_selector "article.lux-card", count: Request.count

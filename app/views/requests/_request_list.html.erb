@@ -51,9 +51,9 @@
     <grid-item columns="lg-12 sm-12">
       <% @requests.each do |request| %>
         <%= if request.request_type == 'TravelRequest'
-              render 'travel_requests/index_detail', travel_request: request
+              render "travel_requests/#{detail_partial}", travel_request: request
             else
-              render 'absence_requests/index_detail', absence_request: request
+              render "absence_requests/#{detail_partial}", absence_request: request
             end %>
       <% end %>
     </grid-item>
