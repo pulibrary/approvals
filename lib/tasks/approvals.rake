@@ -4,9 +4,10 @@ namespace :approvals do
   task :make_me_a_supervisor, [:netid, :number] => [:environment] do |_t, args|
     netid = args[:netid]
     number_of_people = args[:number].to_i || 5
-    staff_profile = User.find_by(uid: netid).staff_profile
+    staff_profile = StaffProfile.find_by(uid: netid)
     RandomDirectReportsGenerator.create_reports(supervisor: staff_profile, number_of_people: number_of_people)
     puts "We made you a supervisor with #{number_of_people} direct reports"
+    puts "You now manage #{StaffProfile.where(supervisor: staff_profile).map(&:uid).join(', ')}"
   end
 
   desc "add a fake department and fake users to give [:netid] a department to head"
