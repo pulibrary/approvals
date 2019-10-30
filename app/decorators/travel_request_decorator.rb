@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class TravelRequestDecorator < RequestDecorator
-  delegate :participation, :purpose, :travel_category, :event_title,
+  delegate :participation, :purpose, :travel_category,
            :event_requests, :estimates, :status, to: :request
   attr_reader :travel_request
 
@@ -21,7 +21,7 @@ class TravelRequestDecorator < RequestDecorator
       cost_type: "",
       note: "",
       recurrence: "",
-      amount: "Total:",
+      amount: "Total",
       total: format("%.2f", grand_total)
     )
 
@@ -32,22 +32,26 @@ class TravelRequestDecorator < RequestDecorator
     "[{ 'name': 'cost_type', 'display_name': 'Expense Type' },
       { 'name': 'note', 'display_name': 'Note' },
       { 'name': 'recurrence', 'display_name': 'Occurrences', 'datatype': 'number' },
-      { 'name': 'amount', 'display_name': 'Cost per Occurrence', 'datetype': 'number' },
-      { 'name': 'total', 'display_name': 'Total', 'datetype': 'number' } ]"
+      { 'name': 'amount', 'display_name': 'Cost per Occurrence', 'datatype': 'number' },
+      { 'name': 'total', 'display_name': 'Total', 'datatype': 'number' } ]"
   end
 
   def travel_category_icon
     "lux-icon-globe"
   end
 
-  def attendance_verb
-    "attend"
-  end
-
   def event_attendees
     @attendees ||= list_event_attendees
     @attendees << "No others attending" if @attendees.blank?
     @attendees
+  end
+
+  def event_title_brief
+    request.event_title
+  end
+
+  def event_title
+    "#{request.event_title} (#{event_requests[0].start_date.strftime(date_format)} to #{event_requests[0].end_date.strftime(date_format)})"
   end
 
   private

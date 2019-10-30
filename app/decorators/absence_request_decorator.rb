@@ -35,15 +35,12 @@ class AbsenceRequestDecorator < RequestDecorator
     }
     title_map[absence_type].titleize
   end
-  alias event_title title
 
-  def attendance_verb
-    "take"
+  def event_title_brief
+    title
   end
 
-  def attendance
-    clause = super
-    clause += " a" if absence_type == "vacation"
-    clause
+  def event_title
+    "#{title} (#{start_date.strftime(date_format)} to #{end_date.strftime(date_format)})"
   end
 end

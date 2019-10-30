@@ -1,11 +1,13 @@
-<wrapper :max-width=1440>
+<wrapper :max-width="1440">
   <grid-container>
     <grid-item columns="lg-12 sm-12">
-      <heading level="h1" size="h2">
-        <%= @request.requestor_status %>
-      </heading>
-      <heading level="h2" size="h3">
-        From <%= @request.start_date %> to <%= @request.end_date %>
+      <heading level="h1" size="h3">
+        <span class="event-requestor"><%= @request.creator.full_name %></span>
+        <span class="event-title"><%= @request.event_title %></span>
+        <span class="event-dates"
+          ><%= @request.formatted_full_start_date %> to <%=
+          @request.formatted_full_end_date %></span
+        >
       </heading>
     </grid-item>
   </grid-container>
@@ -14,15 +16,24 @@
       <text-style>Total Hours Requested</text-style>
       <heading level="h3" size="h4">
         <%= @request.hours_requested%> Hours
-
       </heading>
-      <%=  render partial: "shared/request_note", collection: @request.notes_and_changes, as: :note %>
+      <%= render partial: "shared/request_note", collection:
+      @request.notes_and_changes, as: :note %>
     </grid-item>
     <grid-item columns="lg-9 sm-12" :offset="true">
-      <text-style variation="strong">Team members absent during this time period</text-style>
-        <%=  render partial: "shared/absent_staff", collection: @request.absent_staff, as: :staff %>
+      <text-style variation="strong"
+        >Team members absent during this time period</text-style
+      >
+      <%= render partial: "shared/absent_staff", collection:
+      @request.absent_staff, as: :staff %>
     </grid-item>
   </grid-container>
-  <hyperlink href="<%= edit_absence_request_path(@request.request) %>" variation="button solid">Edit</hyperlink>
-  <hyperlink href="<%= my_requests_path %>" variation="button solid">Back</hyperlink>
+  <hyperlink
+    href="<%= edit_absence_request_path(@request.request) %>"
+    variation="button solid"
+    >Edit</hyperlink
+  >
+  <hyperlink href="<%= my_requests_path %>" variation="button solid"
+    >Back</hyperlink
+  >
 </wrapper>

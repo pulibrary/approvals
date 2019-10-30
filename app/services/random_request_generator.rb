@@ -32,12 +32,15 @@ class RandomRequestGenerator
     private
 
       def event_requests_attributes(recurring_events:)
+        start_date = Time.zone.now + Random.rand(1...500).days
+        end_date = start_date + Random.rand(1...10).days
         event = recurring_events[Random.rand(0..recurring_events.count - 1)]
         {
           recurring_event_id: event.id,
           location: Faker::Address.city,
           url: "http://#{event.name.parameterize}_#{Faker::Address.city}.org",
-          start_date: Time.zone.now + Random.rand(1...500).days
+          start_date: start_date,
+          end_date: end_date
         }
       end
 

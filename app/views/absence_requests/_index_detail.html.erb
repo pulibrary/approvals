@@ -7,8 +7,8 @@
     ><<%= absence_request.absence_type_icon %> /></lux-icon-base>
   </card-media>
   <card-header>
-    <heading level="h2" size="h3"><hyperlink href="<%= absence_request_path(absence_request.to_model)%>"><%= absence_request.title %></hyperlink></heading>
-    <text-style><%= absence_request.formatted_start_date %> to <%= absence_request.formatted_end_date %></text-style>
+    <heading level="h2" size="h3"><hyperlink href="<%= absence_request_path(absence_request.to_model)%>"><%= absence_request.event_title_brief %></hyperlink></heading>
+    <text-style><%= absence_request.formatted_full_start_date %> to <%= absence_request.formatted_full_end_date %></text-style>
   </card-header>
   <card-content>
     <tag type="tag" :tag-items="[

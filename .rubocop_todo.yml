@@ -10,3 +10,9 @@
 # Configuration parameters: Max.
 RSpec/ExampleLength:
   Enabled: false
+Metrics/ClassLength:
+  Exclude:
+    - 'app/decorators/request_decorator.rb'
+Metrics/MethodLength:
+  Exclude:
+    - 'app/decorators/request_decorator.rb'

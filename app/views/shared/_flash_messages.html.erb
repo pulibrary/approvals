@@ -4,7 +4,7 @@
        lux_status = 'warning' if lux_status == :alert
        lux_status = 'info' if lux_status == :notice
        if flash[type] %>
-        <alert status="<%=lux_status%>" dismissible><%= flash[type] %></alert>
+        <alert status="<%= lux_status %>" dismissible><%= flash[type] %></alert>
     <% end %>
   <% end %>
 </div>

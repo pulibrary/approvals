@@ -122,14 +122,28 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
   describe "#formatted_start_date" do
     let(:absence_request) { FactoryBot.create(:absence_request, start_date: Time.zone.parse("2019-07-04 12:12")) }
     it "returns a formated start date" do
-      expect(absence_request_decorator.formatted_start_date).to eq "Jul 4, 2019"
+      expect(absence_request_decorator.formatted_start_date).to eq "07/04/2019"
+    end
+  end
+
+  describe "#formatted_full_start_date" do
+    let(:absence_request) { FactoryBot.create(:absence_request, start_date: Time.zone.parse("2019-07-04 12:12")) }
+    it "returns a formated start date" do
+      expect(absence_request_decorator.formatted_full_start_date).to eq "July 4, 2019"
     end
   end
 
   describe "#formatted_end_date" do
     let(:absence_request) { FactoryBot.create(:absence_request, end_date: Time.zone.parse("2019-07-04 12:12")) }
     it "returns a formated end date" do
-      expect(absence_request_decorator.formatted_end_date).to eq "Jul 4, 2019"
+      expect(absence_request_decorator.formatted_end_date).to eq "07/04/2019"
+    end
+  end
+
+  describe "#formatted_full_end_date" do
+    let(:absence_request) { FactoryBot.create(:absence_request, end_date: Time.zone.parse("2019-07-04 12:12")) }
+    it "returns a formated end date" do
+      expect(absence_request_decorator.formatted_full_end_date).to eq "July 4, 2019"
     end
   end
 
@@ -184,7 +198,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
       absence_request.approve!(agent: supervisor)
       absence_request.cancel!(agent: absence_request.creator)
       expect(absence_request_decorator.latest_status).to eq "Canceled"
-      expect(absence_request_decorator.latest_status_date).to eq "Updated on #{today.strftime('%b %-d, %Y')}"
+      expect(absence_request_decorator.latest_status_date).to eq "Updated on #{today.strftime('%m/%d/%Y')}"
     end
   end
 
@@ -202,9 +216,12 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
 
     it "returns the combined data" do
       expect(absence_request_decorator.notes_and_changes).to eq([
-                                                                  { title: "Notes from Staff Person", content: "Please approve" },
-                                                                  { title: "Notes from Sally Supervisor", content: "looks good" },
-                                                                  { title: "Approved by Sally Supervisor on #{Time.zone.now.strftime('%b %-d, %Y')}", content: nil }
+                                                                  { title: "Staff Person on #{Time.zone.now.strftime('%m/%d/%Y')}", content: "Please approve",
+                                                                    icon: "note" },
+                                                                  { title: "Sally Supervisor on #{Time.zone.now.strftime('%m/%d/%Y')}", content: "looks good",
+                                                                    icon: "note" },
+                                                                  { title: "Approved by Sally Supervisor on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
+                                                                    icon: "approved" }
                                                                 ])
     end
   end
