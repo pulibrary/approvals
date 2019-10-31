@@ -18,7 +18,7 @@ namespace :approvals do
     number_of_people = args[:number].to_i || 5
     staff_profile = User.find_by(uid: netid).staff_profile
     RandomDirectReportsGenerator.create_populated_department(head: staff_profile, number_of_supervisors: number_of_people)
-    puts "We made you a department head with #{number_of_people} direct reports, who have 5 reports each"
+    puts "We made you a department head with #{number_of_people} direct reports, who have #{number_of_people} reports each"
   end
 
   desc "add requests for [:netid] user"

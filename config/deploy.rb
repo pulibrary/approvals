@@ -15,9 +15,6 @@ set :branch, 'master'
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/opt/approvals'
 
-# Default value for :scm is :git
-set :scm, :git
-
 # Default value for :format is :pretty
 # set :format, :pretty
 
@@ -65,7 +62,7 @@ namespace :approvals do
           #  The location processing just ignores an AA that does not exists, so if we run it once the locations 
           #  exists to connect with the new people.  If we run it again after the people exists it connects the AAs.
           execute :rake, 'approvals:load_locations'
-          execute :rake, 'approvals:process_staff_report'
+          execute :rake, 'approvals:process_reports'
           execute :rake, 'approvals:load_locations'
           execute :rake, 'approvals:make_requests_for_everyone'
         end
@@ -74,11 +71,11 @@ namespace :approvals do
   end
 
   desc 'Process the staff report now'
-  task :process_staff_report do
+  task :process_reports do
     on roles(:app) do
       within current_path do
         with :rails_env => fetch(:rails_env) do
-          execute :rake, 'approvals:process_staff_report'
+          execute :rake, 'approvals:process_reports'
         end
       end
     end 
@@ -94,7 +91,34 @@ namespace :approvals do
       end 
     end 
   end
+
+  desc 'Make Requests for a specific user'
+  task :make_requests_for_user, [:netid] do |_t, args|
+    netid = args[:netid]
+    on roles(:app) do
+      within current_path do
+        with :rails_env => fetch(:rails_env) do
+          execute :rake, "approvals:make_requests_for_user[#{netid}]"
+        end 
+      end 
+    end 
+  end
+
+  desc 'Add fake users to give [:netid] someone to supervise'
+  task :make_me_a_supervisor, [:netid, :number] do |_t, args|
+    netid = args[:netid]
+    number = args[:number]
+    on roles(:app) do
+      within current_path do
+        with :rails_env => fetch(:rails_env) do
+          execute :rake, "approvals:make_me_a_supervisor[#{netid},#{number}]"
+        end 
+      end 
+    end 
+  end
 end
+
+
 
 namespace :deploy do
   desc 'Restart application'
