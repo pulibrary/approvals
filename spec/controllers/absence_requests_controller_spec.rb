@@ -141,12 +141,12 @@ RSpec.describe AbsenceRequestsController, type: :controller do
     end
   end
 
-  describe "Put #approve" do
-    it "does not add a note if none is submitted" do
+  describe "Put #decide" do
+    it "approves and does not add a note if none is submitted" do
       staff_profile = FactoryBot.create :staff_profile, supervisor: creator
       absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
       notes = { notes: [{ content: "Important message" }] }
-      put :approve, params: { id: absence_request.to_param, absence_request: notes }, session: valid_session
+      put :decide, params: { id: absence_request.to_param, absence_request: notes, approve: "" }, session: valid_session
       absence_request.reload
       expect(absence_request.notes.count).to eq 1
       expect(absence_request).to be_approved
@@ -155,46 +155,44 @@ RSpec.describe AbsenceRequestsController, type: :controller do
     it "does not allow the creator to approve" do
       absence_request = FactoryBot.create(:absence_request, creator: creator)
       notes = { notes: [{ content: "Important message" }] }
-      put :approve, params: { id: absence_request.to_param, absence_request: notes }, session: valid_session
+      put :decide, params: { id: absence_request.to_param, absence_request: notes, approve: "" }, session: valid_session
       expect(response).to redirect_to(absence_request)
       expect(assigns(:request)).to eq(absence_request)
     end
 
-    context "with invalid params" do
+    context "approve with invalid params" do
       it "returns a success response (i.e. to display the 'review' template)" do
         staff_profile = FactoryBot.create :staff_profile, supervisor: creator
         absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
-        put :approve, params: { id: absence_request.to_param, absence_request: invalid_attributes }, session: valid_session
+        put :decide, params: { id: absence_request.to_param, absence_request: invalid_attributes, approve: "" }, session: valid_session
         expect(response).to be_successful
         expect(assigns(:request_change_set).errors.messages).to eq(absence_type: ["is not included in the list"])
       end
     end
-  end
 
-  describe "Put #deny" do
     it "returns a success response" do
       staff_profile = FactoryBot.create :staff_profile, supervisor: creator
       absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
       notes = { notes: [{ content: "Important message" }] }
-      put :deny, params: { id: absence_request.to_param, absence_request: notes }, session: valid_session
+      put :decide, params: { id: absence_request.to_param, absence_request: notes, deny: "" }, session: valid_session
       absence_request.reload
       expect(absence_request.notes.count).to eq 1
       expect(absence_request).to be_denied
     end
 
-    it "does not allow the creator to approve" do
+    it "does not allow the creator to deny" do
       absence_request = FactoryBot.create(:absence_request, creator: creator)
       notes = { notes: [{ content: "Important message" }] }
-      put :deny, params: { id: absence_request.to_param, absence_request: notes }, session: valid_session
+      put :decide, params: { id: absence_request.to_param, absence_request: notes, deny: "" }, session: valid_session
       expect(response).to redirect_to(absence_request)
       expect(assigns(:request)).to eq(absence_request)
     end
 
-    context "with invalid params" do
+    context "deny with invalid params" do
       it "returns a success response (i.e. to display the 'review' template)" do
         staff_profile = FactoryBot.create :staff_profile, supervisor: creator
         absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
-        put :deny, params: { id: absence_request.to_param, absence_request: invalid_attributes }, session: valid_session
+        put :decide, params: { id: absence_request.to_param, absence_request: invalid_attributes, deny: "" }, session: valid_session
         expect(response).to be_successful
         expect(assigns(:request_change_set).errors.messages).to eq(absence_type: ["is not included in the list"])
       end

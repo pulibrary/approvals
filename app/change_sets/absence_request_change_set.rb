@@ -19,7 +19,10 @@ class AbsenceRequestChangeSet < Reform::Form
     @current_staff_profile = current_staff_profile
   end
 
-  delegate :vacation_balance, :personal_balance, :sick_balance, to: :creator
+  delegate :vacation_balance, :personal_balance, :sick_balance, :full_name, to: :creator
+  delegate :absence_type_icon, :latest_status, :status_color,
+           :status_icon, :event_title, :notes_and_changes, :absent_staff,
+           to: :decorated_model
 
   def balance_title
     last_month = (Time.zone.today - 1.month).end_of_month
@@ -91,5 +94,9 @@ class AbsenceRequestChangeSet < Reform::Form
 
     def creator
       model.creator || current_staff_profile
+    end
+
+    def decorated_model
+      @decorated_model ||= AbsenceRequestDecorator.new(model)
     end
 end
