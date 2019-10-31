@@ -1,0 +1,17 @@
+<card size="full-width">
+    <card-content>
+        <heading level="h3" size="h3">
+            Notes
+          </heading>
+          <ul class="notes">
+            <%= render partial: "shared/request_note", collection:
+              request.notes_and_changes, as: :note %>
+        </ul>
+
+    <% if render_edit %>
+        <input-text id="absence_request_notes_content" name="absence_request[notes][content]" label="Notes" type="textarea" 
+                width="expand"></input-text>
+
+    <% end %>
+    </card-content>
+  </card>

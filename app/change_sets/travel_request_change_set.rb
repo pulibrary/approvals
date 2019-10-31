@@ -17,6 +17,11 @@ class TravelRequestChangeSet < Reform::Form
   validates :purpose, presence: true
   validates :participation, inclusion: { in: Request.participations.keys }
 
+  delegate :full_name, to: :creator
+  delegate :travel_category_icon, :latest_status, :status_color,
+           :status_icon, :event_title, :notes_and_changes, :absent_staff,
+           to: :decorated_model
+
   def estimate_cost_options
     # turn key, value into label, key
     strings = Estimate.cost_types.map do |key, value|
@@ -91,5 +96,13 @@ class TravelRequestChangeSet < Reform::Form
     def format_date_js(date)
       ldate = date || Time.zone.today
       ldate.strftime("%m/%d/%Y")
+    end
+
+    def creator
+      model.creator || current_staff_profile
+    end
+
+    def decorated_model
+      @decorated_model ||= TravelRequestDecorator.new(model)
     end
 end
