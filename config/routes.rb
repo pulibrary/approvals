@@ -19,9 +19,7 @@ Rails.application.routes.draw do
   resources :travel_requests, except: [:index] do
     member do
       get "review"
-      put "approve"
-      put "deny"
-      put "change_request"
+      put "decide"
     end
   end
 
@@ -29,7 +27,6 @@ Rails.application.routes.draw do
     member do
       get "review"
       put "decide"
-      put "deny"
     end
   end
 

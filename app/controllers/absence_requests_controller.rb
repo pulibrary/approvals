@@ -2,15 +2,6 @@
 class AbsenceRequestsController < CommonRequestController
   before_action :set_absence_request, only: [:show, :destroy, :review, :approve, :deny, :decide]
 
-  # PATCH/PUT
-  def decide
-    if params[:approve]
-      supervisor_action(action: :approve)
-    elsif params[:deny]
-      supervisor_action(action: :deny)
-    end
-  end
-
   private
 
     def request_decorator_class

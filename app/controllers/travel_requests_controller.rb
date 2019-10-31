@@ -3,8 +3,12 @@ class TravelRequestsController < CommonRequestController
   before_action :set_travel_request, only: [:show, :update, :destroy, :review, :approve, :deny]
 
   # PATCH/PUT
-  def change_request
-    supervisor_action(action: :change_request)
+  def decide
+    if params[:change_request]
+      supervisor_action(action: :change_request)
+    else
+      super
+    end
   end
 
   private

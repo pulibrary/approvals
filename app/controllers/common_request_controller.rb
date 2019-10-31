@@ -62,14 +62,12 @@ class CommonRequestController < ApplicationController
   end
 
   # PATCH/PUT
-  # PATCH/PUT
-  def approve
-    supervisor_action(action: :approve)
-  end
-
-  # PATCH/PUT
-  def deny
-    supervisor_action(action: :deny)
+  def decide
+    if params[:approve]
+      supervisor_action(action: :approve)
+    elsif params[:deny]
+      supervisor_action(action: :deny)
+    end
   end
 
   private
