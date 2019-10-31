@@ -332,12 +332,12 @@ RSpec.describe TravelRequestsController, type: :controller do
     end
   end
 
-  describe "Put #approve" do
+  describe "Put #decide" do
     it "does not fully approve for a supervisor and adds a note" do
       staff_profile = FactoryBot.create :staff_profile, supervisor: creator
       travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
       notes = { notes: [{ content: "Important message" }] }
-      put :approve, params: { id: travel_request.to_param, travel_request: notes }, session: valid_session
+      put :decide, params: { id: travel_request.to_param, travel_request: notes, approve: "" }, session: valid_session
       travel_request.reload
       expect(travel_request.notes.count).to eq 1
       expect(travel_request).not_to be_approved
@@ -350,7 +350,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       staff_profile.department.save
       travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
       notes = { notes: [{ content: "Important message" }] }
-      put :approve, params: { id: travel_request.to_param, travel_request: notes }, session: valid_session
+      put :decide, params: { id: travel_request.to_param, travel_request: notes, approve: "" }, session: valid_session
       travel_request.reload
       expect(travel_request.notes.count).to eq 1
       expect(travel_request).to be_approved
@@ -359,28 +359,26 @@ RSpec.describe TravelRequestsController, type: :controller do
     it "does not allow the creator to approve" do
       travel_request = FactoryBot.create(:travel_request, creator: creator)
       notes = { notes: [{ content: "Important message" }] }
-      put :approve, params: { id: travel_request.to_param, travel_request: notes }, session: valid_session
+      put :decide, params: { id: travel_request.to_param, travel_request: notes, approve: "" }, session: valid_session
       expect(response).to redirect_to(travel_request)
       expect(assigns(:request)).to eq(travel_request)
     end
 
-    context "with invalid params" do
+    context "approve with invalid params" do
       it "returns a success response (i.e. to display the 'review' template)" do
         staff_profile = FactoryBot.create :staff_profile, supervisor: creator
         travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
-        put :approve, params: { id: travel_request.to_param, travel_request: invalid_attributes }, session: valid_session
+        put :decide, params: { id: travel_request.to_param, travel_request: invalid_attributes, approve: "" }, session: valid_session
         expect(response).to be_successful
         expect(assigns(:request_change_set).errors.messages).to eq(participation: ["is not included in the list"])
       end
     end
-  end
 
-  describe "Put #deny" do
-    it "returns a success response" do
+    it "denies and returns a success response" do
       staff_profile = FactoryBot.create :staff_profile, supervisor: creator
       travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
       notes = { notes: [{ content: "Important message" }] }
-      put :deny, params: { id: travel_request.to_param, travel_request: notes }, session: valid_session
+      put :decide, params: { id: travel_request.to_param, travel_request: notes, deny: "" }, session: valid_session
       travel_request.reload
       expect(travel_request.notes.count).to eq 1
       expect(travel_request).to be_denied
@@ -389,28 +387,26 @@ RSpec.describe TravelRequestsController, type: :controller do
     it "does not allow the creator to deny" do
       travel_request = FactoryBot.create(:travel_request, creator: creator)
       notes = { notes: [{ content: "Important message" }] }
-      put :deny, params: { id: travel_request.to_param, travel_request: notes }, session: valid_session
+      put :decide, params: { id: travel_request.to_param, travel_request: notes, deny: "" }, session: valid_session
       expect(response).to redirect_to(travel_request)
       expect(assigns(:request)).to eq(travel_request)
     end
 
-    context "with invalid params" do
+    context "deny with invalid params" do
       it "returns a success response (i.e. to display the 'review' template)" do
         staff_profile = FactoryBot.create :staff_profile, supervisor: creator
         travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
-        put :deny, params: { id: travel_request.to_param, travel_request: invalid_attributes }, session: valid_session
+        put :decide, params: { id: travel_request.to_param, travel_request: invalid_attributes, deny: "" }, session: valid_session
         expect(response).to be_successful
         expect(assigns(:request_change_set).errors.messages).to eq(participation: ["is not included in the list"])
       end
     end
-  end
 
-  describe "Put #change_request" do
-    it "returns a success response" do
+    it "requests changes and returns a success response" do
       staff_profile = FactoryBot.create :staff_profile, supervisor: creator
       travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
       notes = { notes: [{ content: "Important message" }] }
-      put :change_request, params: { id: travel_request.to_param, travel_request: notes }, session: valid_session
+      put :decide, params: { id: travel_request.to_param, travel_request: notes, change_request: "" }, session: valid_session
       travel_request.reload
       expect(travel_request.notes.count).to eq 1
       expect(travel_request).to be_changes_requested
@@ -419,7 +415,7 @@ RSpec.describe TravelRequestsController, type: :controller do
     it "does not allow the creator to change_request" do
       travel_request = FactoryBot.create(:travel_request, creator: creator)
       notes = { notes: [{ content: "Important message" }] }
-      put :change_request, params: { id: travel_request.to_param, travel_request: notes }, session: valid_session
+      put :decide, params: { id: travel_request.to_param, travel_request: notes, change_request: "" }, session: valid_session
       expect(response).to redirect_to(travel_request)
       expect(assigns(:request)).to eq(travel_request)
     end
@@ -428,7 +424,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       it "returns a success response (i.e. to display the 'review' template)" do
         staff_profile = FactoryBot.create :staff_profile, supervisor: creator
         travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
-        put :change_request, params: { id: travel_request.to_param, travel_request: invalid_attributes }, session: valid_session
+        put :decide, params: { id: travel_request.to_param, travel_request: invalid_attributes, change_request: "" }, session: valid_session
         expect(response).to be_successful
         expect(assigns(:request_change_set).errors.messages).to eq(participation: ["is not included in the list"])
       end
