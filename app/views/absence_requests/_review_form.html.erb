@@ -1,0 +1,42 @@
+<div >
+
+  <%= form_with(model: request_change_set.model, local: true, url: decide_absence_request_path(request_change_set.model), method: :put) do |form| %>
+    <grid-container>
+      <% if request_change_set.errors.any? %>
+        <%=render 'errors', request_change_set: request_change_set%>
+      <% end %>
+
+
+      <grid-item columns="lg-12 sm-12">
+            <%= render 'title_card', request: request_change_set %>      
+      </grid-item>
+
+      <grid-item columns="lg-6 sm-12">
+        <%= render 'notes_card', request: request_change_set, render_edit: true %>      
+      </grid-item>
+      <grid-item columns="lg-6 sm-12">
+        <card size="full-width">
+          <card-content>
+              <text-style variation="strong">Team members absent during this time period</text-style>
+              <ul class="staff"><%=  render partial: "shared/absent_staff", collection: request_change_set.absent_staff, as: :staff %></ul>
+          </card-content>
+        </card>
+        <%= render 'balances', balance_title: request_change_set.balance_title, 
+                              vacation_balance:  request_change_set.vacation_balance,
+                              personal_balance: request_change_set.personal_balance,
+                              sick_balance: request_change_set.sick_balance  %>
+
+      </grid-item>
+
+      <grid-item columns="lg-12 sm-12">
+        <card size="full-width">
+          <card-content>
+            <input-button type="submit" variation="solid" name="approve">Approve</input-button>
+            <input-button type="submit" variation="solid" name="deny">Deny</input-button>
+          </card-content>
+        </card>
+      </grid-item>
+
+  </grid-container>
+<% end %>
+</div>

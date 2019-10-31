@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   resources :absence_requests, except: [:index] do
     member do
       get "review"
-      put "approve"
+      put "decide"
       put "deny"
     end
   end

@@ -13,7 +13,7 @@ RSpec.feature "My Approval Requests", type: :feature, js: true do
 
   scenario "I can filter my requests" do
     FactoryBot.create(:absence_request, creator: employee, start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
-    FactoryBot.create(:absence_request, creator: employee, absence_type: "sick", start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
+    sick_leave = FactoryBot.create(:absence_request, creator: employee, absence_type: "sick", start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
     recurring_event = FactoryBot.create(:recurring_event, name: "Awesome Event", description: "The most awesome event!!!")
     event_request = FactoryBot.build(:event_request, recurring_event: recurring_event, start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
     FactoryBot.create(:travel_request, creator: employee,
@@ -35,6 +35,11 @@ RSpec.feature "My Approval Requests", type: :feature, js: true do
 
     click_link("Request type: Absence")
     assert_selector "article.lux-card", count: Request.count
+
+    click_link "Doe, Jane (jdoe) - Sick"
+    assert_selector "h1", text: "Review Leave Request"
+    click_on "Approve"
+    expect(sick_leave.reload).to be_approved
   end
 
   scenario "I can search my requests" do
