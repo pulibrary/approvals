@@ -13,6 +13,6 @@ RSpec/ExampleLength:
 Metrics/ClassLength:
   Exclude:
     - 'app/decorators/request_decorator.rb'
+    - 'app/controllers/common_request_controller.rb'
 Metrics/MethodLength:
   Exclude:
-    - 'app/decorators/request_decorator.rb'

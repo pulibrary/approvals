@@ -194,7 +194,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
         absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
         put :decide, params: { id: absence_request.to_param, absence_request: invalid_attributes, deny: "" }, session: valid_session
         expect(response).to be_successful
-        expect(assigns(:request_change_set).errors.messages).to eq(absence_type: ["is not included in the list"])
+        expect(assigns(:request_change_set).errors.messages).to eq(absence_type: ["is not included in the list"], notes: ["Notes are required to deny a request"])
       end
     end
   end
