@@ -20,6 +20,7 @@ class TravelRequestChangeSet < Reform::Form
   delegate :full_name, to: :creator
   delegate :travel_category_icon, :latest_status, :status_color,
            :status_icon, :event_title, :notes_and_changes, :absent_staff,
+           :formatted_full_start_date, :formatted_full_end_date,
            to: :decorated_model
 
   def estimate_cost_options
