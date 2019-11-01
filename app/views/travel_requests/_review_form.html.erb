@@ -28,6 +28,15 @@
               ><%= request_change_set.purpose.blank? ? 'Unknown' : request_change_set.purpose
               %></text-style
             >
+            <% if current_staff_profile.department_head? %>
+              <heading level="h3" size="h5">
+                Travel Category
+              </heading>
+              <input-select label="Travel Category" name="travel_request[travel_category]"
+                  id="travel_request_travel_category" width="expand"
+                  value="<%= request_change_set.travel_category %>"
+                  :options="<%= request_change_set.travel_category_options %>" required=true></input-select>
+            <% end %>
           </card-content>
         </card>
       </grid-item>
