@@ -56,7 +56,9 @@ namespace :approvals do
     on roles(:app) do
       within current_path do
         with :rails_env => fetch(:rails_env) do
+          execute :sudo, '/usr/sbin/service nginx stop'
           execute :rake, 'db:drop db:create db:migrate'
+          execute :sudo, '/usr/sbin/service nginx start'
           # we process the locations twice when the database is empty, since there is a chicken and egg situation
           #  The location needs to exist to attche an AA to it, but the AA must exist to attach it to a location.
           #  The location processing just ignores an AA that does not exists, so if we run it once the locations 
