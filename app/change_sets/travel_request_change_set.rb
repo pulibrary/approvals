@@ -25,6 +25,13 @@ class TravelRequestChangeSet < Reform::Form
            :event_attendees,
            to: :decorated_model
 
+  attr_reader :current_staff_profile
+
+  def initialize(model, current_staff_profile: nil, **)
+    super
+    @current_staff_profile = current_staff_profile
+  end
+
   def estimate_cost_options
     # turn key, value into label, key
     strings = Estimate.cost_types.map do |key, value|
@@ -88,6 +95,14 @@ class TravelRequestChangeSet < Reform::Form
     #             { value: 'SAA', label: 'Society of American Archivists Annual Conference' },
     #             { value: 'Access', label: 'Access Annual Conference' }
     # ]"
+  end
+
+  def supervisor
+    if model.creator
+      model.creator.supervisor
+    else
+      current_staff_profile.supervisor
+    end
   end
 
   private

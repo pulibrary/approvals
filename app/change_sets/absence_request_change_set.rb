@@ -82,7 +82,7 @@ class AbsenceRequestChangeSet < Reform::Form
     send("#{field}=".to_sym, Date.strptime(data, date_format))
   end
 
-  def supervisor(current_staff_profile)
+  def supervisor
     if model.creator
       model.creator.supervisor
     else
