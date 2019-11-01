@@ -89,11 +89,4 @@ class TravelRequestsController < CommonRequestController
       local[:notes] = process_notes(local[:notes])
       local
     end
-
-    def process_notes(notes)
-      return notes unless notes
-      Array(notes).map do |note_entry|
-        note_entry.merge(creator_id: current_staff_profile.id) if note_entry[:content].present?
-      end.compact
-    end
 end

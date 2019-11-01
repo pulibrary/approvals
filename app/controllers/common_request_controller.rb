@@ -66,11 +66,19 @@ class CommonRequestController < ApplicationController
     if params[:approve]
       supervisor_action(action: :approve)
     elsif params[:deny]
+      request_change_set.errors.add(:notes, "Notes are required to deny a request") if processed_params[:notes].blank?
       supervisor_action(action: :deny)
     end
   end
 
   private
+
+    def process_notes(notes)
+      return notes unless notes
+      Array(notes).map do |note_entry|
+        note_entry.merge(creator_id: current_staff_profile.id) if note_entry[:content].present?
+      end.compact
+    end
 
     def respond_with_show_error(message:, status:)
       respond_to do |format|
@@ -117,7 +125,7 @@ class CommonRequestController < ApplicationController
       return unless allowed_to_change
 
       request = request_change_set.model
-      request.aasm.fire(action, agent: current_staff_profile) if allowed_to_change
+      request.aasm.fire(action, agent: current_staff_profile) if request_change_set.valid?
 
       update_model_and_respond(handle_deletes: false, success_verb: request.status, error_action: :review)
     end

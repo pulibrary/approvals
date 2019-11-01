@@ -68,20 +68,7 @@ class RequestDecorator
     both = notes.to_a
     both.concat(state_changes.to_a)
     both = both.sort_by(&:created_at)
-    both.map do |item|
-      title = title_of_item(item)
-      if item.is_a? Note
-        content = item.content
-        icon = "note"
-      else
-        icon = item.request.status
-      end
-      {
-        title: title,
-        content: content,
-        icon: icon
-      }
-    end
+    both.map { |item| item_json(item) }
   end
 
   private
@@ -110,11 +97,19 @@ class RequestDecorator
       end
     end
 
-    def title_of_item(item)
+    def item_json(item)
       if item.is_a? Note
-        "#{item.creator.full_name} on #{item.created_at.strftime(date_format)}"
+        {
+          title: "#{item.creator.full_name} on #{item.created_at.strftime(date_format)}",
+          content: item.content,
+          icon: "note"
+        }
       else
-        "#{item.action.titleize} by #{item.agent.full_name} on #{item.created_at.strftime(date_format)}"
+        {
+          title: "#{item.action.titleize} by #{item.agent.full_name} on #{item.created_at.strftime(date_format)}",
+          content: nil,
+          icon: item.request.status
+        }
       end
     end
 end
