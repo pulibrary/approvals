@@ -1,0 +1,96 @@
+<div >
+
+  <%= form_with(model: request_change_set.model, local: true, url: decide_travel_request_path(request_change_set.model), method: :put) do |form| %>
+    <grid-container>
+      <% if request_change_set.errors.any? %>
+        <%=render 'errors', request_change_set: request_change_set %>
+      <% end %>
+
+
+      <grid-item columns="lg-12 sm-12">
+            <%= render 'title_card', request: request_change_set %>
+      </grid-item>
+
+      <grid-item columns="lg-4 sm-12">
+        <card size="full-width">
+          <card-content>
+            <heading level="h3" size="h5">
+              Level of Participation
+            </heading>
+            <text-style variation="default"
+              ><%= request_change_set.participation.blank? ? 'Unknown' :
+              request_change_set.participation.humanize %></text-style
+            >
+            <heading level="h3" size="h5">
+              Purpose
+            </heading>
+            <text-style variation="default"
+              ><%= request_change_set.purpose.blank? ? 'Unknown' : request_change_set.purpose
+              %></text-style
+            >
+            <% if current_staff_profile.department_head? %>
+              <heading level="h3" size="h5">
+                Travel Category
+              </heading>
+              <input-select label="Travel Category" name="travel_request[travel_category]"
+                  id="travel_request_travel_category" width="expand"
+                  value="<%= request_change_set.travel_category %>"
+                  :options="<%= request_change_set.travel_category_options %>" required=true></input-select>
+            <% end %>
+          </card-content>
+        </card>
+      </grid-item>
+      <grid-item columns="lg-4 sm-12">
+        <card size="full-width">
+          <card-content>
+            <heading level="h3" size="h5">
+              Others who requested to go
+            </heading>
+            <ul class="staff">
+              <%= render partial: "other_staff", collection:
+              request_change_set.event_attendees, as: :staff %>
+            </ul>
+          </card-content>
+        </card>
+      </grid-item>
+      <grid-item columns="lg-4 sm-12">
+        <card size="full-width">
+          <card-content>
+            <heading level="h3" size="h5">
+              Team members absent during this time period
+            </heading>
+            <ul class="staff">
+              <%= render partial: "shared/absent_staff", collection:
+              request_change_set.absent_staff, as: :staff %>
+            </ul>
+          </card-content>
+        </card>
+      </grid-item>
+      <grid-item columns="lg-4 sm-12">
+        <%= render 'notes_card', request: request_change_set, render_edit: true %>
+      </grid-item>
+      <grid-item columns="lg-8 sm-12" :offset="true" class="travel-estimates">
+        <card size="full-width">
+          <card-content>
+            <data-table
+              caption="Anticipated Expenses"
+              :columns="<%= request_change_set.estimate_fields_json %>"
+              :json-data="<%= request_change_set.estimates_json %>"
+            >
+            </data-table>
+          </card-content>
+        </card>
+      </grid-item>
+
+      <grid-item columns="lg-12 sm-12">
+        <card size="full-width">
+          <card-content>
+            <input-button type="submit" variation="solid" name="approve">Approve</input-button>
+            <input-button type="submit" variation="solid" name="deny">Deny</input-button>
+          </card-content>
+        </card>
+      </grid-item>
+
+  </grid-container>
+<% end %>
+</div>
