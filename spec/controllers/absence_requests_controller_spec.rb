@@ -150,6 +150,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       absence_request.reload
       expect(absence_request.notes.count).to eq 1
       expect(absence_request).to be_approved
+      expect(absence_request.creator).to eq(staff_profile)
     end
 
     it "does not allow the creator to approve" do

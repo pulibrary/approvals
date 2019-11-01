@@ -342,6 +342,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       expect(travel_request.notes.count).to eq 1
       expect(travel_request).not_to be_approved
       expect(travel_request.state_changes.map(&:action)).to eq ["approved"]
+      expect(travel_request.creator).to eq(staff_profile)
     end
 
     it "fully approves for a department head and adds a note" do

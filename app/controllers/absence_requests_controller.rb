@@ -36,7 +36,8 @@ class AbsenceRequestsController < CommonRequestController
     end
 
     def processed_params
-      local = absence_request_params.merge(creator_id: current_staff_profile.id)
+      local = absence_request_params
+      local = local.merge(creator_id: current_staff_profile.id) if request_change_set.model.creator_id.blank?
       local[:notes] = process_notes(local[:notes])
       local
     end
