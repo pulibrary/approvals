@@ -36,7 +36,7 @@ class TravelRequestsController < CommonRequestController
         if params[:id]
           TravelRequestChangeSet.new(TravelRequest.find(params[:id]))
         else
-          TravelRequestChangeSet.new(TravelRequest.new)
+          TravelRequestChangeSet.new(TravelRequest.new, current_staff_profile: current_staff_profile)
         end
     end
 

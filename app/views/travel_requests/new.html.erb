@@ -5,5 +5,9 @@
     </grid-item>
   </grid-container>
   <%= render 'form', request_change_set: @request_change_set %>
-  <hyperlink href="<%= my_requests_path %>" variation="button solid">Back</hyperlink>
+  <grid-container>
+    <grid-item columns="lg-3 sm-12 auto">
+      <hyperlink href="<%= my_requests_path %>" variation="button solid">Back</hyperlink>
+    </grid-item>
+  </grid-container>
 </wrapper>
