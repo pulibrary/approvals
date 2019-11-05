@@ -79,7 +79,7 @@ export default {
   },
   methods: {
     addExpense() {
-      this.expenseData.push({ id: null, cost_type: null, recurrence: 1, amount: 0, description: '' })
+      this.expenseData.push({ id: null, cost_type: null, recurrence: 1, amount: 0, description: '', other_id: 'id_'+this.expenseData.length })
     },
     deleteExpense(expense) {
       let foundIndex = this.expenseData.findIndex(x => x.id == expense.id)
@@ -97,14 +97,23 @@ export default {
       return total.toFixed(2)
     },
     updateRecurrence(inputVal, expense) {
-      let foundIndex = this.expenseData.findIndex(x => x.id == expense.id)
+      let foundIndex = this.find_expense(expense)
       expense.recurrence = inputVal
       this.expenseData[foundIndex] = expense
     },
     updateAmount(inputVal, expense) {
-      let foundIndex = this.expenseData.findIndex(x => x.id == expense.id)
+      let foundIndex = this.find_expense(expense)
       expense.amount = inputVal
       this.expenseData[foundIndex] = expense
+    },
+    find_expense(expense){
+      let foundIndex = 0
+      if (expense.id !== null){
+        foundIndex = this.expenseData.findIndex(x => x.id == expense.id)
+      }else {
+        foundIndex = this.expenseData.findIndex(x => x.other_id == expense.other_id)
+      }
+      return foundIndex
     },
     normalizeAmount(amount) {
       return Number(amount).toFixed(2)
