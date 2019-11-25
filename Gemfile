@@ -42,6 +42,7 @@ gem "whenever", require: false
 # Single sign on
 gem "devise"
 gem "omniauth-cas"
+gem "omniauth-rails_csrf_protection", "~> 0.1"
 
 # workflow
 gem "aasm"
