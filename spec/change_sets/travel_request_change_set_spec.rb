@@ -7,8 +7,7 @@ RSpec.describe TravelRequestChangeSet, type: :model do
   let(:travel_request_errors) do
     {
       creator_id: ["can't be blank"],
-      participation: ["is not included in the list"],
-      purpose: ["can't be blank"]
+      participation: ["is not included in the list"]
     }
   end
 

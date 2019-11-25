@@ -216,8 +216,7 @@ RSpec.describe TravelRequestsController, type: :controller do
         expect(response).to be_successful
         expect(assigns(:request_change_set)).to be_a(TravelRequestChangeSet)
         expect(assigns(:request_change_set).errors.messages).to eq(event_requests: ["can't be blank"],
-                                                                   participation: ["is not included in the list"],
-                                                                   purpose: ["can't be blank"])
+                                                                   participation: ["is not included in the list"])
       end
     end
   end
