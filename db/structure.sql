@@ -105,6 +105,16 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: admin_assistants_departments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.admin_assistants_departments (
+    department_id bigint NOT NULL,
+    admin_assistant_id bigint NOT NULL
+);
+
+
+--
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -156,7 +166,6 @@ CREATE TABLE public.departments (
     id bigint NOT NULL,
     name character varying,
     head_id bigint,
-    admin_assistant_id bigint,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     number character varying
@@ -927,6 +936,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191021193122'),
 ('20191028173311'),
 ('20191029130508'),
-('20191030122935');
+('20191030122935'),
+('20191125161410');
 
 

@@ -1,4 +1,20 @@
 41000:
   head_uid: ajarvis
+  admin_assistant: 
+    - esamios
+    - jbakeman
+41004:
+  admin_assistant: 
+    - bszwast
+    - mariadif
+41014:
+  admin_assistant: 
+    - ddreyer
 10001:
   head_uid: ibogus
+  admin_assistant: 
+    - francesj
+41032:
+  admin_assistant: 
+    - rdunham
+    - temanuel
