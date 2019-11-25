@@ -23,6 +23,5 @@ RSpec.describe "travel_requests/show", type: :view do
     expect(rendered).to match(/#{ travel_request.estimates.first.amount}/)
     expect(rendered).to match(/#{ travel_request.estimates.first.recurrence}/)
     expect(rendered).to have_selector("hyperlink[href=\"#{edit_travel_request_path(travel_request.request)}\"]", text: "Edit")
-    expect(rendered).to have_selector("hyperlink[href=\"#{my_requests_path}\"]", text: "Back")
   end
 end
