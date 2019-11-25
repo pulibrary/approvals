@@ -14,7 +14,6 @@ class TravelRequestChangeSet < Reform::Form
   validates :travel_category, inclusion: { in: Request.travel_categories.keys, allow_blank: true }
   validates :creator_id, presence: true
   validates :event_requests, presence: true
-  validates :purpose, presence: true
   validates :participation, inclusion: { in: Request.participations.keys }
 
   delegate :full_name, to: :creator

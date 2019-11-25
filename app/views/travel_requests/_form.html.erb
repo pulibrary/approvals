@@ -55,9 +55,9 @@
 
       >
       </date-picker>
-      <input-text label="Purpose" id="travel_request_purpose" width="expand" required=true
+      <input-text label="Purpose (optional)" id="travel_request_purpose" width="expand"
         name="travel_request[purpose]" value="<%= request_change_set.purpose %>"
-        helper="Specify the reason this trip is necissary for your job"
+        helper="Specify the reason this trip is necessary for your job"
         :options="<%= request_change_set.travel_category_options %>"></input-text>
   </grid-item>
   <grid-item columns="lg-6 sm-12">
