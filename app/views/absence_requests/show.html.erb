@@ -1,12 +1,12 @@
 <wrapper :max-width=1440 class="request">
   <grid-container>
     <grid-item columns="lg-12 sm-12">
-      <%= render 'title_card', request: @request %>            
+      <%= render 'title_card', request: @request %>
     </grid-item>
   </grid-container>
   <grid-container>
     <grid-item columns="lg-6 sm-12">
-      <%= render 'notes_card', request: @request, render_edit: false %>      
+      <%= render 'notes_card', request: @request, render_edit: false %>
     </grid-item>
     <grid-item columns="lg-6 sm-12" :offset="true">
       <card size="full-width">
@@ -15,13 +15,12 @@
             <ul class="staff"><%=  render partial: "shared/absent_staff", collection: @request.absent_staff, as: :staff %></ul>
         </card-content>
       </card>
-      
+
     </grid-item>
   </grid-container>
   <grid-container>
     <grid-item>
       <hyperlink href="<%= edit_absence_request_path(@request.request) %>" variation="button solid">Edit</hyperlink>
-      <hyperlink href="<%= my_requests_path %>" variation="button solid">Back</hyperlink>
     </grid-item>
   </gird-container>
 </wrapper>
