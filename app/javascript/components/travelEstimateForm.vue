@@ -31,7 +31,7 @@
               :value="expense.recurrence" width="expand" required=true></input-text>
         </grid-item>
         <grid-item columns="lg-2 sm-12">
-          <input-text label="Cost" name="travel_request[estimates][][amount]"
+          <input-text label="Cost per Occurrence" name="travel_request[estimates][][amount]"
               id="travel_request_estimates_amount"
               @input="updateAmount($event, expense)"
               :value="expense.amount" width="expand" required=true></input-text>
