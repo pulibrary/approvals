@@ -105,7 +105,7 @@ RSpec.feature "My Requests", type: :feature, js: true do
     click_button "search"
 
     expect(find("#query").value).to eq "adfadfsd"
-    expect(page).to have_css('#no-results')
+    expect(page).to have_css("#no-results")
   end
 
   scenario "I can get to the page to add a new absence request" do
