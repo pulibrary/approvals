@@ -99,6 +99,13 @@ RSpec.feature "My Requests", type: :feature, js: true do
     # filtering on a search result retains search results
     select_drop_down(menu: "#status-menu", item: "Approved")
     assert_selector "article.lux-card", count: 1
+
+    # the user should be informed of no results
+    fill_in "query", with: "adfadfsd"
+    click_button "search"
+
+    expect(find("#query").value).to eq "adfadfsd"
+    expect(page).to have_css('#no-results')
   end
 
   scenario "I can get to the page to add a new absence request" do
