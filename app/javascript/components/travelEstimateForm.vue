@@ -63,7 +63,6 @@
 export default {
   name: "travelEstimateForm",
   data: function () {
-    console.log(this.expenses)
     return {
       expenseData: this.expenses,
     }
@@ -83,8 +82,6 @@ export default {
       this.expenseData.push({ id: 'id_'+this.expenseData.length, cost_type: null, recurrence: 1, amount: 0, description: '', other_id: 'id_'+this.expenseData.length })
     },
     deleteExpense(expense) {
-      console.log(expense)
-      console.log(this.expenseData)
       let foundIndex = this.expenseData.findIndex(x => x.id == expense.id)
       this.expenseData.splice(foundIndex, 1)
     },
