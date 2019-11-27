@@ -82,7 +82,7 @@ export default {
       this.expenseData.push({ id: null, cost_type: null, recurrence: 1, amount: 0, description: '', other_id: 'id_'+this.expenseData.length })
     },
     deleteExpense(expense) {
-      let foundIndex = this.expenseData.findIndex(x => x.id == expense.other_id)
+      let foundIndex = this.expenseData.findIndex(x => x.other_id == expense.other_id)
       this.expenseData.splice(foundIndex, 1)
     },
     setLineItemTotal(expense) {
