@@ -34,7 +34,7 @@ RSpec.describe DepartmentsController, type: :controller do
   # adjust the attributes here as well.
   let(:valid_attributes) do
     { head_id: department_head.id,
-      admin_assistant_id: admin_assistant.id,
+      admin_assistant_ids: [admin_assistant.id],
       name: "valid department" }
   end
 

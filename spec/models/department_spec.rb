@@ -7,8 +7,8 @@ RSpec.describe Department, type: :model do
     it { is_expected.to respond_to :name }
     it { is_expected.to respond_to :number }
     it { is_expected.to respond_to :head_id }
-    it { is_expected.to respond_to :admin_assistant_id }
+    it { is_expected.to respond_to :admin_assistant_ids }
     it { is_expected.to respond_to :head }
-    it { is_expected.to respond_to :admin_assistant }
+    it { is_expected.to respond_to :admin_assistants }
   end
 end

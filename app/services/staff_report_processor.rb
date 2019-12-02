@@ -5,7 +5,7 @@ class StaffReportProcessor
   class << self
     LIBRARY_DEAN_UID = "ajarvis"
 
-    def process(data:, ldap_service_class: Ldap)
+    def process(data:, ldap_service_class: Ldap, department_config: File.read("config/departments.yml"))
       manager_hash = {}
       csv = CSV.new(data, col_sep: "\t", headers: true)
       csv.each do |row|
@@ -13,7 +13,7 @@ class StaffReportProcessor
       end
       connect_staff_to_managers(manager_hash: manager_hash)
       connect_managers_to_department(manager_hash: manager_hash)
-      process_department_overrides
+      process_department_config(department_config: department_config)
       set_vacant_supervisors_to_department_head
     end
 
@@ -86,14 +86,18 @@ class StaffReportProcessor
       end
     end
 
-    def process_department_overrides
-      overrides = YAML.safe_load(File.read("config/departments.yml"))
+    def process_department_config(department_config:)
+      overrides = YAML.safe_load(department_config)
       overrides.each do |department_no, attributes|
         department = Department.find_by(number: department_no)
         next if department.blank?
 
         department_head = StaffProfile.find_by(uid: attributes["head_uid"])
         department.head = department_head
+        attributes["admin_assistant"].each do |net_id|
+          department.admin_assistants << StaffProfile.find_by(uid: net_id)
+        end
+        department.admin_assistants = department.admin_assistants.uniq
         department.save
       end
     end

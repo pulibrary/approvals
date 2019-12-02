@@ -2,7 +2,8 @@
 require "rails_helper"
 
 RSpec.describe "departments/new", type: :view do
-  let(:department) { Department.new(name: "MyString", head_id: 1, admin_assistant_id: 1) }
+  let(:staff_profile) { FactoryBot.create(:staff_profile) }
+  let(:department) { Department.new(name: "MyString", head_id: 1, admin_assistant_ids: [staff_profile.id]) }
   before do
     assign(:department, department)
   end
@@ -15,7 +16,7 @@ RSpec.describe "departments/new", type: :view do
 
       assert_select "input[name=?][value=?]", "department[head_id]", department.head_id.to_s
 
-      assert_select "input[name=?][value=?]", "department[admin_assistant_id]", department.admin_assistant_id.to_s
+      assert_select "input[name=?][value=?]", "department[admin_assistant_ids]", department.admin_assistant_ids.first.to_s
     end
   end
 end

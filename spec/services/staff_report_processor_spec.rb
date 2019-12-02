@@ -6,18 +6,13 @@ RSpec.describe StaffReportProcessor, type: :model do
   let(:user_line) { "90009\tTest Department\tPUHRS\t99999999\ttesti\tTest\tI\tam\tBiw\tR=BenElig\t000000000\tLibrary Office Assistant II\tManager, I Am.\timanager" }
   let(:manager_line) { "90009\tTest Department\tPUHRS\t99999991\timanager\tManager\tI\tam\tBiw\tR=BenElig\t000000000\tManager II\tLibrary, Dean of\tajarvis" }
   let(:dean_line) { "41000\tTest Department\tPUHRS\t99999991\tajarvis\tJarvis\tAnn\t\tBiw\tR=BenElig\t000000000\tManager II\tLibrary, Dean of\tomanager" }
-
-  # rubocop:disable RSpec/InstanceVariable
+  let(:department_config) { "41000:\n  head_uid: ajarvis\n  admin_assistant: \n    - testi\n    - testi\n    - imanager\n" }
   class FakeLdapClass
     class << self
       def find_by_netid(net_id)
         @count ||= 0
         @count += 1
-        address = if @count > 1
-                    "Firestone Library$Test Department"
-                  else
-                    ""
-                  end
+        address = "Firestone Library$Test Department"
         {
           address: address,
           department: "Library - Test Department",
@@ -30,7 +25,7 @@ RSpec.describe StaffReportProcessor, type: :model do
   describe "#process" do
     it "creates users and staff profiles" do
       expect do
-        StaffReportProcessor.process(data: "#{heading_line}\n#{user_line}", ldap_service_class: FakeLdapClass)
+        StaffReportProcessor.process(data: "#{heading_line}\n#{user_line}", ldap_service_class: FakeLdapClass, department_config: department_config)
       end.to change(User, :count).by(1).and(
         change(StaffProfile, :count).by(1)
       ).and(
@@ -47,7 +42,7 @@ RSpec.describe StaffReportProcessor, type: :model do
 
     it "connects a user and their supervisor" do
       expect do
-        StaffReportProcessor.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass)
+        StaffReportProcessor.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass, department_config: department_config)
       end.to change(User, :count).by(3).and(
         change(StaffProfile, :count).by(3)
       ).and(
@@ -62,13 +57,14 @@ RSpec.describe StaffReportProcessor, type: :model do
       expect(user_profile.supervisor).to eq(supervisor_profile)
       expect(user_profile.reload.department.head).to eq(supervisor_profile)
       expect(library_main_department.head).to eq(dean_profile)
+      expect(library_main_department.admin_assistants.map(&:uid)).to eq(["testi", "imanager"])
     end
 
     it "updates a user if their information changes" do
       user = FactoryBot.create(:user, uid: "testi")
       staff_profile = FactoryBot.create :staff_profile, user: user
       expect do
-        StaffReportProcessor.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass)
+        StaffReportProcessor.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass, department_config: department_config)
       end.to change(User, :count).by(2).and(
         change(StaffProfile, :count).by(2)
       ).and(
@@ -87,7 +83,7 @@ RSpec.describe StaffReportProcessor, type: :model do
 
       it "connects a user and the department head" do
         expect do
-          StaffReportProcessor.process(data: "#{heading_line}\n#{user_line}\n#{user_line2}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass)
+          StaffReportProcessor.process(data: "#{heading_line}\n#{user_line}\n#{user_line2}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass, department_config: department_config)
         end.to change(User, :count).by(4).and(
           change(StaffProfile, :count).by(4)
         ).and(
