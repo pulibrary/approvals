@@ -4,14 +4,14 @@ class Estimate < ApplicationRecord
   enum cost_type: {
     ground_transportation: "ground_transportation",
     lodging: "lodging",
-    meals: "meals",
-    misc: "misc",
-    registration: "registration",
-    rental_vehicle: "rental_vehicle",
-    air: "air",
+    meals: "meals (per diem)",
+    misc: "miscellaneous",
+    registration: "registration fee",
+    rental_vehicle: "car rental",
+    air: "airfare",
     taxi: "taxi",
-    personal_auto: "personal_auto",
-    transit_other: "transit_other",
+    personal_auto: "mileage - personal car",
+    transit_other: "other transit",
     train: "train"
   }
 end
