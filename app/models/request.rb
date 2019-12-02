@@ -30,7 +30,7 @@ class Request < ApplicationRecord
     query = connection.quote("%#{search_query}%")
 
     # ilike is a case insensitive like
-    joins(:notes).where("notes.content ilike #{query} or event_title ilike #{query}").distinct
+    joins(:creator).joins(:notes).where("notes.content ilike #{query} or event_title ilike #{query} or staff_profiles.given_name ilike #{query} or staff_profiles.surname ilike #{query}").distinct
   end
 
   enum status: {
