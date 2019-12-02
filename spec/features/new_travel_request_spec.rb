@@ -28,8 +28,6 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
     fill_in "travel_request_event_requests_attributes_0_location", with: "A Place To Be"
     fill_in "travel_request_purpose", with: "A grand purpose"
 
-    click_on "add-expense-button"
-
     find("#travel_request_estimates_cost_type option[value='air']").select_option
     fill_in "travel_request_estimates_recurrence", with: "2"
     fill_in "travel_request_estimates_amount", with: "20"

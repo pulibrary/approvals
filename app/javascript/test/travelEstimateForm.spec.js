@@ -10,8 +10,8 @@ describe("travelEstimateForm.vue", () => {
       localVue,
       propsData: {
         expenses: [
-          {"id":1,"cost_type":"registration","amount":"50.0","recurrence":2,"description":""},
-          {"id":2,"cost_type":"meals","amount":"193.0","recurrence":1,"description":"Foo!"}
+          {"id":1,"cost_type":"registration","amount":"50.0","recurrence":2,"description":"","other_id":"id_1"},
+          {"id":2,"cost_type":"meals","amount":"193.0","recurrence":1,"description":"Foo!","other_id":"id_2"}
         ],
         cost_types: [
           {label: 'Ground transportation', value: 'ground_transportation'},
@@ -56,11 +56,10 @@ describe("travelEstimateForm.vue", () => {
   })
 
   it("deletes the appropriate expense line", () => {
-    let id = wrapper.vm.expenseData[0].id
     wrapper.vm.deleteExpense(wrapper.vm.expenseData[0])
     expect(wrapper.vm.expenseData.length).toBe(1)
     let emptyArray = wrapper.vm.expenseData.filter(expense => {
-      return expense.id === 1
+      return expense.other_id === "id_1"
     })
     expect(emptyArray.length).toBe(0)
   })

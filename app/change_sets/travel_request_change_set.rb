@@ -62,7 +62,8 @@ class TravelRequestChangeSet < Reform::Form
         cost_type: estimate.cost_type,
         amount: estimate.amount,
         recurrence: estimate.recurrence,
-        description: estimate.description
+        description: estimate.description,
+        other_id: SecureRandom.uuid
       }
     end.to_json
   end
