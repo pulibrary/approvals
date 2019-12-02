@@ -14,5 +14,6 @@ Metrics/ClassLength:
   Exclude:
     - 'app/decorators/request_decorator.rb'
     - 'app/controllers/common_request_controller.rb'
+    - 'app/services/staff_report_processor.rb'
 Metrics/MethodLength:
   Exclude:

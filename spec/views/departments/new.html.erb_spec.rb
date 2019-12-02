@@ -2,7 +2,7 @@
 require "rails_helper"
 
 RSpec.describe "departments/new", type: :view do
-  let (:staff_profile) { FactoryBot.create(:staff_profile) }
+  let(:staff_profile) { FactoryBot.create(:staff_profile) }
   let(:department) { Department.new(name: "MyString", head_id: 1, admin_assistant_ids: [staff_profile.id]) }
   before do
     assign(:department, department)

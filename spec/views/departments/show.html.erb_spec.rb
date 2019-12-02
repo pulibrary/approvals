@@ -2,7 +2,7 @@
 require "rails_helper"
 
 RSpec.describe "departments/show", type: :view do
-  let (:staff_profile) { FactoryBot.create(:staff_profile) }
+  let(:staff_profile) { FactoryBot.create(:staff_profile) }
 
   before do
     @department = assign(:department, FactoryBot.create(
