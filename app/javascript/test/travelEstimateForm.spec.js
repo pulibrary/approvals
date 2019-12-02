@@ -56,7 +56,6 @@ describe("travelEstimateForm.vue", () => {
   })
 
   it("deletes the appropriate expense line", () => {
-    // let id = wrapper.vm.expenseData[0].other_id
     wrapper.vm.deleteExpense(wrapper.vm.expenseData[0])
     expect(wrapper.vm.expenseData.length).toBe(1)
     let emptyArray = wrapper.vm.expenseData.filter(expense => {
