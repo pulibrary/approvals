@@ -5,12 +5,21 @@ class ApprovalRequestList < RequestList
       records = Request
                 .where(request_filters(request_filters: request_filters))
                 .where_contains_text(search_query: search_query)
+                .where(creator: list_supervised(list: [], supervisor: approver).map(&:id))
                 .order(my_request_order(order))
 
       filter_records_by_approver(records: records, approver: approver)
     end
 
     private
+
+      def list_supervised(list:, supervisor:)
+        supervised = StaffProfile.where(supervisor: supervisor)
+        return list if supervised.empty?
+        list |= supervised
+        supervised.each { |staff| list = list_supervised(list: list, supervisor: staff) }
+        list
+      end
 
       def request_filters(request_filters:)
         { status: "pending" }.merge(filters_hash(request_filters))
@@ -23,9 +32,6 @@ class ApprovalRequestList < RequestList
       end
 
       def only_next_supervisor(request:, approver:)
-        # not the person's supervisor just filter
-        return false unless request.only_supervisor(agent: approver)
-
         supervisors = supervisor_chain(agent: request.creator)
         approver_index = supervisors.index(approver)
         previous_supervisors = supervisors.slice(0, approver_index)

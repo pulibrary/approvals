@@ -98,6 +98,25 @@ RSpec.describe RequestsController, type: :controller do
       expect(assigns(:requests).map(&:id)).to contain_exactly(*[approval_absence, approval_travel].map(&:id))
     end
 
+    it "runs reasonably fast" do
+      30.times do
+        FactoryBot.create(:absence_request, creator: profile, start_date: Time.zone.tomorrow)
+        FactoryBot.create(:travel_request, creator: profile)
+      end
+      100.times do
+        FactoryBot.create(:absence_request, start_date: Time.zone.tomorrow)
+        FactoryBot.create(:travel_request)
+      end
+      start_time = Time.zone.now
+      10.times do
+        get :my_approval_requests, params: {}, session: valid_session
+      end
+      end_time = Time.zone.now
+
+      expect(response).to be_successful
+      expect((end_time - start_time) < 4).to be_truthy
+    end
+
     it "returns a success response as json" do
       get :my_approval_requests, params: { format: :json }, session: valid_session
       expect(response).to be_successful
