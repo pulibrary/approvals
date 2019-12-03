@@ -77,7 +77,12 @@ class RandomRequestGenerator
       def generate_random_estimates
         estimates = []
         1.upto(Random.rand(2...10)) do
-          estimates << { amount: Random.rand(10...1000), cost_type: Estimate.cost_types[Estimate.cost_types.keys.sample], recurrence: Random.rand(1...5), description: Faker::Hacker.say_something_smart }
+          estimates << {
+            amount: Random.rand(10...1000),
+            cost_type: Estimate.cost_types[Estimate.cost_types.keys.sample],
+            recurrence: Random.rand(1...5),
+            description: Faker::Hacker.say_something_smart
+          }
         end
         estimates
       end
