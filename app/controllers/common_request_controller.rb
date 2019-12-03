@@ -98,11 +98,18 @@ class CommonRequestController < ApplicationController
       model.class.name.underscore.humanize
     end
 
+    # change set does not implement each_key, which this rubocop error is requesting
+    # rubocop:disable Performance/HashEachMethods
     def copy_model_errors_to_change_set
-      request_change_set.model.errors.each do |key, value|
-        @request_change_set.errors.add(key, value)
+      request_change_set.errors.each do |key, _value|
+        request_change_set.send("#{key}=", nil)
       end
+      request_change_set.model.errors.each do |key, value|
+        request_change_set.errors.add(key, value)
+      end
+      request_change_set.sync
     end
+    # rubocop:enable Performance/HashEachMethods
 
     def update_model_and_respond(handle_deletes:, success_verb:, error_action:)
       valid = request_change_set.validate(processed_params)

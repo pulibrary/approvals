@@ -50,7 +50,7 @@ RSpec.describe TravelRequestsController, type: :controller do
   end
 
   let(:invalid_attributes) do
-    { participation: "" }
+    { participation: "", purpose: "Travel to campus for in-person meetings" }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -217,6 +217,7 @@ RSpec.describe TravelRequestsController, type: :controller do
         expect(assigns(:request_change_set)).to be_a(TravelRequestChangeSet)
         expect(assigns(:request_change_set).errors.messages).to eq(event_requests: ["can't be blank"],
                                                                    participation: ["is not included in the list"])
+        expect(assigns(:request_change_set).model.purpose).to eq("Travel to campus for in-person meetings")
       end
     end
   end
