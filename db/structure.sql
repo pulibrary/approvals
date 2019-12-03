@@ -22,7 +22,7 @@ CREATE TYPE public.estimate_cost_type AS ENUM (
     'car rental',
     'airfare',
     'taxi',
-    'personal_auto',
+    'mileage - personal car',
     'other transit',
     'train'
 );
