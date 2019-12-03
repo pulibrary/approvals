@@ -29,7 +29,7 @@ class RequestDecorator
     color_map[status]
   end
 
-  def status_icon
+  def status_icon(status: self.status)
     icon_map = {
       "pending" => "clock",
       "approved" => "approved",
@@ -108,7 +108,7 @@ class RequestDecorator
         {
           title: "#{item.action.titleize} by #{item.agent.full_name} on #{item.created_at.strftime(date_format)}",
           content: nil,
-          icon: item.request.status
+          icon: status_icon(status: item.action)
         }
       end
     end

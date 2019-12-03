@@ -224,5 +224,32 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
                                                                     icon: "approved" }
                                                                 ])
     end
+
+    context "pending cancelation" do
+      let(:absence_request) do
+        request = FactoryBot.create(:absence_request, creator: staff)
+        request.notes << FactoryBot.build(:note, content: "Please approve", creator: staff)
+        request.notes << FactoryBot.build(:note, content: "looks good", creator: supervisor)
+        request.approve(agent: supervisor)
+        request.record(agent: supervisor)
+        request.pending_cancel(agent: staff)
+        request
+      end
+
+      it "returns the combined data" do
+        expect(absence_request_decorator.notes_and_changes).to eq([
+                                                                    { title: "Staff Person on #{Time.zone.now.strftime('%m/%d/%Y')}", content: "Please approve",
+                                                                      icon: "note" },
+                                                                    { title: "Sally Supervisor on #{Time.zone.now.strftime('%m/%d/%Y')}", content: "looks good",
+                                                                      icon: "note" },
+                                                                    { title: "Approved by Sally Supervisor on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
+                                                                      icon: "approved" },
+                                                                    { title: "Recorded by Sally Supervisor on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
+                                                                      icon: "reported" },
+                                                                    { title: "Pending Cancelation by Staff Person on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
+                                                                      icon: "remove" }
+                                                                  ])
+      end
+    end
   end
 end

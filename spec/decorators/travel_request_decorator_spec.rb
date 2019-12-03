@@ -179,6 +179,33 @@ RSpec.describe TravelRequestDecorator, type: :model do
                                                                    icon: "approved" }
                                                                ])
     end
+
+    context "when changes requested" do
+      let(:travel_request) do
+        request = FactoryBot.create(:travel_request, creator: staff)
+        request.notes << FactoryBot.build(:note, content: "Please approve", creator: staff)
+        request.approve(agent: supervisor)
+        request.notes << FactoryBot.build(:note, content: "looks good", creator: supervisor)
+        request.change_request(agent: department_head)
+        request.notes << FactoryBot.build(:note, content: "change stuff", creator: department_head)
+        request
+      end
+
+      it "returns the changes requested icon" do
+        expect(travel_request_decorator.notes_and_changes).to eq([
+                                                                   { title: "Staff Person on #{Time.zone.now.strftime('%m/%d/%Y')}", content: "Please approve",
+                                                                     icon: "note" },
+                                                                   { title: "Approved by Sally Supervisor on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
+                                                                     icon: "approved" },
+                                                                   { title: "Sally Supervisor on #{Time.zone.now.strftime('%m/%d/%Y')}", content: "looks good",
+                                                                     icon: "note" },
+                                                                   { title: "Changes Requested by Department Head on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
+                                                                     icon: "refresh" },
+                                                                   { title: "Department Head on #{Time.zone.now.strftime('%m/%d/%Y')}", content: "change stuff",
+                                                                     icon: "note" }
+                                                                 ])
+      end
+    end
   end
 
   describe "#event_attendees" do
