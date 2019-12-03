@@ -19,11 +19,8 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
     find("#travel_request_participation option[value='other']").select_option
     fill_in "displayInput", with: "Super Event"
 
-    today = Date.parse("2019-10-21")
-    tomorrow = Date.parse("2019-10-23")
-    js_date_format = "%m/%d/%Y"
-    fill_in "travel_request_event_requests_attributes_0_event_dates", with: "#{today.strftime(js_date_format)} - #{tomorrow.strftime(js_date_format)}"
-    fill_in "travel_request_travel_dates", with: "#{today.strftime(js_date_format)} - #{tomorrow.strftime(js_date_format)}"
+    fill_in "travel_request_event_requests_attributes_0_event_dates", with: "10/1/2019 - 10/3/2019"
+    fill_in "travel_request_travel_dates", with: "10/1/2019 - 10/3/2019"
 
     fill_in "travel_request_event_requests_attributes_0_location", with: "A Place To Be"
     fill_in "travel_request_purpose", with: "A grand purpose"
@@ -42,8 +39,7 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
     Percy.snapshot(page, name: "Travel Request - New", widths: [375, 768, 1440])
     click_on "Apply Changes"
 
-    # TODO: the date chooser is not setting the dates correctly.  It is choosing the day before the date sent in
-    expect(page).to have_content "Super Event 2019, A Place To Be (10/21/2019 to 10/23/2019)"
+    expect(page).to have_content "Super Event 2019, A Place To Be (10/01/2019 to 10/03/2019)"
     expect(page).to have_content "air 2 20.00 40.00\nlodging 3 30.00 90.00\nTotal 130.00"
   end
 end
