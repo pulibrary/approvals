@@ -43,3 +43,4 @@ coverage
 
 .yalc/
 yalc.lock
+.DS_Store

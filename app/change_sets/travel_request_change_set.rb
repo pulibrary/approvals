@@ -33,7 +33,8 @@ class TravelRequestChangeSet < Reform::Form
 
   def estimate_cost_options
     # turn key, value into label, key
-    strings = Estimate.cost_types.map do |key, value|
+    cost_types = Estimate.cost_types.sort_by { |_key, value| value }
+    strings = cost_types.map do |key, value|
       "{label: '#{value.humanize}', value: '#{key}'}"
     end
     "[#{strings.join(',')}]"

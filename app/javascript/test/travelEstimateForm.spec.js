@@ -14,14 +14,14 @@ describe("travelEstimateForm.vue", () => {
           {"id":2,"cost_type":"meals","amount":"193.0","recurrence":1,"description":"Foo!","other_id":"id_2"}
         ],
         cost_types: [
-          {label: 'Ground transportation', value: 'ground_transportation'},
-          {label: 'Lodging', value: 'lodging'},{label: 'Meals', value: 'meals'},
-          {label: 'Misc', value: 'misc'},{label: 'Registration', value: 'registration'},
-          {label: 'Rental vehicle', value: 'rental_vehicle'},
-          {label: 'Air', value: 'air'},{label: 'Taxi', value: 'taxi'},
-          {label: 'Personal auto', value: 'personal_auto'},
-          {label: 'Transit other', value: 'transit_other'},
-          {label: 'Train', value: 'train'}
+          {label: 'ground transportation', value: 'ground_transportation'},
+          {label: 'lodging (per night)', value: 'lodging'},{label: 'meals (per diem)', value: 'meals'},
+          {label: 'miscellaneous', value: 'misc'},{label: 'registration fee', value: 'registration'},
+          {label: 'car rental', value: 'rental_vehicle'},
+          {label: 'airfare', value: 'air'},{label: 'taxi', value: 'taxi'},
+          {label: 'mileage - personal car', value: 'personal_auto'},
+          {label: 'other transit', value: 'transit_other'},
+          {label: 'train', value: 'train'}
         ]
       },
       stubs: [

@@ -14,16 +14,16 @@ SET row_security = off;
 --
 
 CREATE TYPE public.estimate_cost_type AS ENUM (
-    'ground_transportation',
-    'lodging',
-    'meals',
-    'misc',
-    'registration',
-    'rental_vehicle',
-    'air',
+    'ground transportation',
+    'lodging (per night)',
+    'meals (per diem)',
+    'miscellaneous',
+    'registration fee',
+    'car rental',
+    'airfare',
     'taxi',
-    'personal_auto',
-    'transit_other',
+    'mileage - personal car',
+    'other transit',
     'train'
 );
 
@@ -937,6 +937,5 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191028173311'),
 ('20191029130508'),
 ('20191030122935'),
-('20191125161410');
-
-
+('20191125161410'),
+('20191203144321');
