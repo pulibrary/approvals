@@ -198,6 +198,33 @@ RSpec.describe AbsenceRequestsController, type: :controller do
         expect(assigns(:request_change_set).errors.messages).to eq(absence_type: ["is not included in the list"], notes: ["Notes are required to deny a request"])
       end
     end
+
+    it "cancel by the creator returns a success response" do
+      absence_request = FactoryBot.create(:absence_request, creator: creator)
+      notes = { notes: [{ content: "Important message" }] }
+      put :decide, params: { id: absence_request.to_param, absence_request: notes, cancel: "" }, session: valid_session
+      absence_request.reload
+      expect(absence_request.notes.count).to eq 1
+      expect(absence_request).to be_canceled
+    end
+
+    it "does not allow the supervisor to cancel" do
+      staff_profile = FactoryBot.create :staff_profile, supervisor: creator
+      absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
+      notes = { notes: [{ content: "Important message" }] }
+      put :decide, params: { id: absence_request.to_param, absence_request: notes, cancel: "" }, session: valid_session
+      expect(response).to redirect_to(absence_request)
+      expect(assigns(:request)).to eq(absence_request)
+    end
+
+    context "cancel with invalid params" do
+      it "returns a success response (i.e. to display the 'review' template)" do
+        absence_request = FactoryBot.create(:absence_request, creator: creator)
+        put :decide, params: { id: absence_request.to_param, absence_request: invalid_attributes, cancel: "" }, session: valid_session
+        expect(response).to be_successful
+        expect(assigns(:request_change_set).errors.messages).to eq(absence_type: ["is not included in the list"])
+      end
+    end
   end
 
   describe "POST #create" do

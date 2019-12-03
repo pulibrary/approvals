@@ -21,6 +21,12 @@
   <grid-container>
     <grid-item>
       <hyperlink href="<%= edit_absence_request_path(@request.request) %>" variation="button solid">Edit</hyperlink>
+      <% if @request.creator == current_staff_profile %>
+        <hyperlink
+          href="<%= decide_absence_request_path(@request.id, cancel: '') %>"
+          variation="button solid"
+          >Cancel</hyperlink>
+      <% end %>
     </grid-item>
   </gird-container>
 </wrapper>

@@ -9,7 +9,10 @@ RSpec.describe "travel_requests/show", type: :view do
   end
 
   it "renders attributes in <p>" do
-    render
+    without_partial_double_verification do
+      allow(view).to receive(:current_staff_profile).and_return(creator)
+      render
+    end
     expect(rendered).to include(travel_request.creator.given_name)
     expect(rendered).to match(/#{ travel_request.formatted_full_start_date}/)
     expect(rendered).to match(/#{ travel_request.formatted_full_end_date}/)
@@ -23,5 +26,14 @@ RSpec.describe "travel_requests/show", type: :view do
     expect(rendered).to match(/#{ travel_request.estimates.first.amount}/)
     expect(rendered).to match(/#{ travel_request.estimates.first.recurrence}/)
     expect(rendered).to have_selector("hyperlink[href=\"#{edit_travel_request_path(travel_request.request)}\"]", text: "Edit")
+    expect(rendered).to have_selector("hyperlink[href=\"#{decide_travel_request_path(travel_request.id, cancel: '')}\"]", text: "Cancel")
+  end
+
+  it "does not render edit if current profile is not the creator" do
+    without_partial_double_verification do
+      allow(view).to receive(:current_staff_profile).and_return(nil)
+      render
+    end
+    expect(rendered).not_to have_selector("hyperlink[href=\"#{decide_travel_request_path(travel_request.id, cancel: '')}\"]", text: "Cancel")
   end
 end

@@ -69,6 +69,12 @@
         href="<%= edit_travel_request_path(@request.id) %>"
         variation="button solid"
         >Edit</hyperlink>
+      <% if @request.creator == current_staff_profile %>
+        <hyperlink
+          href="<%= decide_travel_request_path(@request.id, cancel: '') %>"
+          variation="button solid"
+          >Cancel</hyperlink>
+      <% end %>
     </grid-item>
   </grid-container>
 </wrapper>

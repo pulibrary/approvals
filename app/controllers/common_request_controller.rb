@@ -64,10 +64,12 @@ class CommonRequestController < ApplicationController
   # PATCH/PUT
   def decide
     if params[:approve]
-      supervisor_action(action: :approve)
+      run_action(action: :approve, change_method: :supervisor_can_change?)
     elsif params[:deny]
       request_change_set.errors.add(:notes, "Notes are required to deny a request") if processed_params[:notes].blank?
-      supervisor_action(action: :deny)
+      run_action(action: :deny, change_method: :supervisor_can_change?)
+    elsif params[:cancel]
+      run_action(action: :cancel, change_method: :creator_can_change?)
     end
   end
 
@@ -120,8 +122,8 @@ class CommonRequestController < ApplicationController
       end
     end
 
-    def supervisor_action(action:)
-      allowed_to_change = can_change?(action: action)
+    def run_action(action:, change_method: :creator_can_change?)
+      allowed_to_change = send(change_method, action: action)
       return unless allowed_to_change
 
       request = request_change_set.model
@@ -130,8 +132,17 @@ class CommonRequestController < ApplicationController
       update_model_and_respond(handle_deletes: false, success_verb: request.status, error_action: :review)
     end
 
-    def can_change?(action:)
+    def creator_can_change?(action:)
+      allowed_to_change = request_change_set.model.only_creator(agent: current_staff_profile)
+      respond_to_change_error(action: action, allowed_to_change: allowed_to_change)
+    end
+
+    def supervisor_can_change?(action:)
       allowed_to_change = request_change_set.model.only_supervisor(agent: current_staff_profile)
+      respond_to_change_error(action: action, allowed_to_change: allowed_to_change)
+    end
+
+    def respond_to_change_error(action:, allowed_to_change:)
       return allowed_to_change if allowed_to_change
 
       respond_to do |format|
