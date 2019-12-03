@@ -196,4 +196,22 @@ RSpec.describe RequestsController, type: :controller do
       expect(assigns(:requests).count).to eq 1
     end
   end
+
+  describe "GET #my_approval_requests with searching" do
+    it "retrieves a result" do
+      profile = FactoryBot.create :staff_profile, supervisor: staff_profile, given_name: "Haley"
+      absence_request = FactoryBot.create(:absence_request, creator: profile)
+      absence_request2 = FactoryBot.create(:absence_request, creator: profile)
+      travel_request = FactoryBot.create(:travel_request, creator: profile)
+      FactoryBot.create(:note, content: "elephants love balloons", request: absence_request)
+      FactoryBot.create(:note, content: "elephants love pink balloons", request: absence_request2)
+      FactoryBot.create(:note, content: "flamingoes are pink because of shrimp", request: travel_request)
+
+      get :my_approval_requests, params: { query: "balloons" }, session: valid_session
+      expect(assigns(:requests).count).to eq 2
+
+      get :my_approval_requests, params: { query: "haley", filters: { request_type: :travel } }, session: valid_session
+      expect(assigns(:requests).count).to eq 1
+    end
+  end
 end
