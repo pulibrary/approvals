@@ -47,12 +47,12 @@ RSpec.feature "My Requests", type: :feature, js: true do
   end
 
   scenario "I can sort my requests" do
-    tomorrow_request = FactoryBot.create(:absence_request, creator: staff_profile, start_date: Time.zone.tomorrow)
     yesterday_request = FactoryBot.create(:absence_request, creator: staff_profile, start_date: Time.zone.yesterday)
     today_request = FactoryBot.create(:travel_request, creator: staff_profile, start_date: Time.zone.today)
+    tomorrow_request = FactoryBot.create(:absence_request, creator: staff_profile, start_date: Time.zone.tomorrow)
 
     visit "/my_requests"
-    expect(find("#sort-menu").text).to start_with "Sort: Start date - descending"
+    expect(find("#sort-menu").text).to start_with "Sort: Date modified - descending"
     ids = page.all(:css, "article.lux-card").map { |element| element["id"].to_i }
     expect(ids).to eq([tomorrow_request, today_request, yesterday_request].map(&:id))
 

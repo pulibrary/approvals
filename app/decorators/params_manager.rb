@@ -29,6 +29,10 @@ class ParamsManager
     @filter_params ||= existing_params[:filters] || {}
   end
 
+  def current_sort
+    @params[:sort] || "updated_at_desc"
+  end
+
   private
 
     def existing_params

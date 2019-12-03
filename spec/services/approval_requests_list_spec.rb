@@ -22,8 +22,8 @@ RSpec.describe ApprovalRequestList, type: :model do
     it "returns a success response" do
       list = ApprovalRequestList.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil, order: nil)
       expect(list.count).to be(2)
-      expect(list.first).to be_a AbsenceRequest
-      expect(list.last).to be_a TravelRequest
+      expect(list.first).to be_a TravelRequest
+      expect(list.last).to be_a AbsenceRequest
       expect(list.map(&:id)).to contain_exactly(*[my_absence, my_travel].map(&:id))
     end
 
@@ -143,9 +143,9 @@ RSpec.describe ApprovalRequestList, type: :model do
     end
 
     context "sort by start date" do
-      it "by default sorts by start date descending" do
+      it "by default sorts by start date ascending" do
         list = ApprovalRequestList.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil, order: nil)
-        expect(list.map(&:id)).to eq [r2, r1, r3].map(&:id)
+        expect(list.map(&:id)).to eq [r3, r1, r2].map(&:id)
       end
 
       it "sorts ascending" do

@@ -30,8 +30,8 @@ RSpec.describe RequestsController, type: :controller do
     it "returns a success response" do
       get :my_requests, params: {}, session: valid_session
       expect(response).to be_successful
-      expect(assigns(:requests).first).to be_a AbsenceRequestDecorator
-      expect(assigns(:requests).last).to be_a TravelRequestDecorator
+      expect(assigns(:requests).first).to be_a TravelRequestDecorator
+      expect(assigns(:requests).last).to be_a AbsenceRequestDecorator
       expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_absence, my_travel].map(&:id))
     end
 
@@ -80,7 +80,7 @@ RSpec.describe RequestsController, type: :controller do
   describe "GET #my_approval_requests" do
     let(:profile) { FactoryBot.create :staff_profile, supervisor: staff_profile }
     let(:approval_absence) { FactoryBot.create(:absence_request, creator: profile, start_date: Time.zone.tomorrow) }
-    let(:approval_travel) { FactoryBot.create(:travel_request, creator: profile) }
+    let(:approval_travel) { FactoryBot.create(:travel_request, creator: profile, start_date: Time.zone.now) }
     before do
       # create all the requests
       other_absence
@@ -93,8 +93,8 @@ RSpec.describe RequestsController, type: :controller do
     it "returns a success response" do
       get :my_approval_requests, params: {}, session: valid_session
       expect(response).to be_successful
-      expect(assigns(:requests).first).to be_a AbsenceRequestDecorator
-      expect(assigns(:requests).last).to be_a TravelRequestDecorator
+      expect(assigns(:requests).first).to be_a TravelRequestDecorator
+      expect(assigns(:requests).last).to be_a AbsenceRequestDecorator
       expect(assigns(:requests).map(&:id)).to contain_exactly(*[approval_absence, approval_travel].map(&:id))
     end
 
@@ -165,15 +165,20 @@ RSpec.describe RequestsController, type: :controller do
       end
     end
 
-    context "sort by start date" do
-      it "by default sorts by start date descending" do
-        get :my_requests, session: valid_session
-        expect(assigns(:requests).map(&:id)).to eq [r2, r1, r3].map(&:id)
-      end
+    it "by default sorts by updated date ascending" do
+      get :my_requests, session: valid_session
+      expect(assigns(:requests).map(&:id)).to eq [r1, r3, r2].map(&:id)
+    end
 
+    context "sort by start date" do
       it "sorts ascending" do
         get :my_requests, params: { sort: "start_date_asc" }, session: valid_session
         expect(assigns(:requests).map(&:id)).to eq [r3, r1, r2].map(&:id)
+      end
+
+      it "sorts descending" do
+        get :my_requests, params: { sort: "start_date_desc" }, session: valid_session
+        expect(assigns(:requests).map(&:id)).to eq [r2, r1, r3].map(&:id)
       end
     end
 
