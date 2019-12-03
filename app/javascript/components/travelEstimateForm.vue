@@ -1,8 +1,31 @@
 <template>
-  <grid-container>
-    <grid-item columns="lg-12 sm-12" v-for="expense in expenseData" v-bind:key="expense.id">
+  <grid-container class="expenses">
+    <grid-item columns="lg-12 sm-12" class="expense-row-header">
       <grid-container>
-        <grid-item :vertical="center" columns="lg-1 sm-12">
+        <grid-item vertical="center" columns="lg-1 sm-12" class="expense-delete">
+          <text-style>Delete</text-style>
+        </grid-item>
+        <grid-item vertical="center" columns="lg-2 sm-12">
+          <text-style id="expense-type-column">Expense Type</text-style>
+        </grid-item>
+        <grid-item vertical="center" columns="lg-1 sm-12">
+          <text-style>Occurrences</text-style>
+        </grid-item>
+        <grid-item vertical="center" columns="lg-2 sm-12">
+          <text-style>Cost per Occurrence</text-style>
+        </grid-item>
+        <grid-item vertical="center" columns="lg-4 sm-12">
+         <text-style>Note</text-style>
+        </grid-item>
+        <grid-item vertical="center" columns="lg-2 sm-12">
+          <text-style>Total</text-style>
+        </grid-item>
+      </grid-container>
+    </grid-item>
+
+    <grid-item columns="lg-12 sm-12" class="expense-row" v-for="expense in expenseData" v-bind:key="expense.id">
+      <grid-container>
+        <grid-item vertical="center" columns="lg-1 sm-12" class="expense-delete">
           <input-button class="button-delete-row" type="button" variation="text"
             @button-clicked="deleteExpense(expense)">
             <lux-icon-base width="25" height="25" icon-name="Delete Expense Line Item" icon-color="red">
@@ -11,49 +34,53 @@
           </input-button>
           <input type="hidden" name="travel_request[estimates][][id]" :value="expense.id"/>
         </grid-item>
-        <grid-item columns="lg-2 sm-12">
+        <grid-item vertical="center" columns="lg-2 sm-12">
           <input-select label="Expense Type" name="travel_request[estimates][][cost_type]"
-              id="travel_request_estimates_cost_type"
+              :id="'travel_request_estimates_cost_type_' + expense.id"
               :value="expense.cost_type" width="expand"
-              :options="cost_types" required=true></input-select>
+              :options="cost_types" required hideLabel></input-select>
         </grid-item>
-        <grid-item columns="lg-1 sm-12">
+        <grid-item vertical="center" columns="lg-1 sm-12">
           <input-text label="Occurrences" name="travel_request[estimates][][recurrence]"
-              id="travel_request_estimates_recurrence"
+              :id="'travel_request_estimates_recurrence_' + expense.id"
               @input="updateRecurrence($event, expense)"
-              :value="expense.recurrence" width="expand" required=true></input-text>
+              :value="expense.recurrence" width="expand" required hideLabel></input-text>
         </grid-item>
-        <grid-item columns="lg-2 sm-12">
+        <grid-item vertical="center" columns="lg-2 sm-12">
           <input-text label="Cost per Occurrence" name="travel_request[estimates][][amount]"
-              id="travel_request_estimates_amount"
+              :id="'travel_request_estimates_amount_' + expense.id"
               @input="updateAmount($event, expense)"
-              :value="expense.amount" width="expand" required=true></input-text>
+              :value="expense.amount" width="expand" required hideLabel></input-text>
         </grid-item>
-        <grid-item columns="lg-4 sm-12">
+        <grid-item vertical="center" columns="lg-4 sm-12">
           <input-text label="Note" name="travel_request[estimates][][description]"
-              id="travel_request_estimates_description"
-              :value="expense.description" width="expand"></input-text>
+              :id="'travel_request_estimates_description_' + expense.id"
+              :value="expense.description" width="expand" hideLabel></input-text>
         </grid-item>
-        <grid-item columns="lg-2 sm-12">
-          <input-text label="Total"
-              :value="setLineItemTotal(expense)" width="expand" disabled=true></input-text>
+        <grid-item vertical="center" columns="lg-2 sm-12" class="expense-total-col">
+          <input-text label="Total" name="travel_request[estimates][][total]"
+              :id="'travel_request_estimates_total_' + expense.id"
+              :value="setLineItemTotal(expense)" width="expand" disabled hideLabel></input-text>
         </grid-item>
       </grid-container>
     </grid-item>
-    <grid-item columns="lg-12 sm-12">
-      <hr/>
-    </grid-item>
-    <grid-item columns="lg-2 sm-12 auto">
+
+    <grid-item columns="lg-11 sm-12" class="expense-add">
       <input-button type="button" id="add-expense-button" variation="text"
         @button-clicked="addExpense()">
-        <lux-icon-base width="12" height="12" icon-name="Add Expense">
+        <lux-icon-base width="16" height="16" icon-name="Add Expense">
           <lux-icon-add></lux-icon-add>
         </lux-icon-base> Add Expense</input-button>
     </grid-item>
-    <grid-item columns="lg-8 sm-12 auto" :offset="true">
+
+    <grid-item columns="lg-12 sm-12">
+      <hr>
+    </grid-item>
+
+    <grid-item columns="lg-10 sm-12 auto" class="expense-total" :offset="true">
       <text-style variation="strong">Total:</text-style>
     </grid-item>
-    <grid-item columns="lg-2 sm-12">
+    <grid-item columns="lg-2 sm-12" class="expense-total">
       <text-style id="expenses-total" variation="strong">${{ expensesTotal() }}</text-style>
     </grid-item>
   </grid-container>

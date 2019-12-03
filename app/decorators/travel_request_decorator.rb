@@ -22,7 +22,7 @@ class TravelRequestDecorator < RequestDecorator
       cost_type: "",
       note: "",
       recurrence: "",
-      amount: "Total",
+      amount: "Total:",
       total: format("%.2f", grand_total)
     )
 

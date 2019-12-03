@@ -140,7 +140,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
 
   describe "#estimates_json" do
     it "returns json data" do
-      expect(travel_request_decorator.estimates_json).to eq '[{"cost_type":"","note":"","recurrence":"","amount":"Total","total":"0.00"}]'
+      expect(travel_request_decorator.estimates_json).to eq '[{"cost_type":"","note":"","recurrence":"","amount":"Total:","total":"0.00"}]'
     end
 
     context "with estimate" do
@@ -148,7 +148,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
       it "returns json data" do
         expect(travel_request_decorator.estimates_json).to eq(
           '[{"cost_type":"lodging","note":"","recurrence":3,"amount":"50.00","total":"150.00"},' \
-          '{"cost_type":"","note":"","recurrence":"","amount":"Total","total":"150.00"}]'
+          '{"cost_type":"","note":"","recurrence":"","amount":"Total:","total":"150.00"}]'
         )
       end
     end

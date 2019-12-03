@@ -17,14 +17,14 @@
         # wanted to see the validations sbhow up on the screen, but did not want to put any effort into the form %>
     <%= form.fields_for :event_requests do |ff| %>
       <%= ff.hidden_field :id %>
-        <input-autocomplete required=true
+        <input-autocomplete required
           id="travel_request_event_requests_attributes_0_recurring_event_id"
           name="travel_request[event_requests_attributes][0][recurring_event_id]"
           label="Event Name"
           default-value="<%= request_change_set.event_name %>"
           :items="<%= request_change_set.recurring_event_list %>"
         ></input-autocomplete>
-        <date-picker label="Event Dates" mode="range" width="expand" required=true
+        <date-picker label="Event Dates" mode="range" width="expand" required
           id="travel_request_event_requests_attributes_0_event_dates"
           name="travel_request[event_requests_attributes][0][event_dates]"
           :disabled-dates="
@@ -34,7 +34,7 @@
             }]"
           :default-dates="<%=request_change_set.event_dates_js%>"
         ></date-picker>
-        <input-text label="Location" type="text" name="travel_request[event_requests_attributes][0][location]" required=true
+        <input-text label="Location" type="text" name="travel_request[event_requests_attributes][0][location]" required
               id="travel_request_event_requests_attributes_0_location" width="expand" value="<%= request_change_set.model.event_requests[0].location %>">
         </input-text>
     <% end %>
@@ -43,7 +43,7 @@
       <input-select label="Participation" name="travel_request[participation]"
           id="travel_request_participation" width="expand"
           value="<%= request_change_set.participation %>"
-          :options="<%= request_change_set.participation_options %>" required=true></input-select>
+          :options="<%= request_change_set.participation_options %>" required></input-select>
       <date-picker label="Travel Dates" mode="range" width="expand"
         name="travel_request[travel_dates]" id="travel_request_travel_dates"
         :disabled-dates="
@@ -66,7 +66,7 @@
       label="Notes to approvers (optional)" width="expand" type="textarea"></input-text>
   </grid-item>
   <grid-item columns="lg-12 sm-12">
-    <heading level="h1" size="h2">Anticipated Expenses</heading>
+    <heading level="h2" size="h3">Anticipated Expenses</heading>
   </grid-item>
 </grid-container>
   <!--
