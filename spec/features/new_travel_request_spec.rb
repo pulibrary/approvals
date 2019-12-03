@@ -25,21 +25,21 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
     fill_in "travel_request_event_requests_attributes_0_location", with: "A Place To Be"
     fill_in "travel_request_purpose", with: "A grand purpose"
 
-    find("#travel_request_estimates_cost_type option[value='air']").select_option
-    fill_in "travel_request_estimates_recurrence", with: "2"
-    fill_in "travel_request_estimates_amount", with: "20"
+    find("select[id^='travel_request_estimates_cost_type_'] option[value='air']").select_option
+    find("input[id^='travel_request_estimates_recurrence_']").fill_in with: "2"
+    find("input[id^='travel_request_estimates_amount_']").fill_in with: "20"
     expect(page).to have_content "40.00"
 
     click_on "add-expense-button"
 
-    all("#travel_request_estimates_cost_type option[value='lodging']")[1].select_option
-    all("#travel_request_estimates_recurrence")[1].fill_in with: "3"
-    all("#travel_request_estimates_amount")[1].fill_in with: "30"
+    all("select[id^='travel_request_estimates_cost_type_'] option[value='lodging']")[1].select_option
+    all("input[id^='travel_request_estimates_recurrence_']")[1].fill_in with: "3"
+    all("input[id^='travel_request_estimates_amount_']")[1].fill_in with: "30"
     expect(page).to have_content "130.00"
     Percy.snapshot(page, name: "Travel Request - New", widths: [375, 768, 1440])
     click_on "Apply Changes"
 
     expect(page).to have_content "Super Event 2019, A Place To Be (10/01/2019 to 10/03/2019)"
-    expect(page).to have_content "air 2 20.00 40.00\nlodging 3 30.00 90.00\nTotal 130.00"
+    expect(page).to have_content "air 2 20.00 40.00\nlodging 3 30.00 90.00\nTotal: 130.00"
   end
 end
