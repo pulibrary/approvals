@@ -56,6 +56,15 @@ RSpec.describe Request, type: :model do
     end
   end
 
+  describe "#destory" do
+    it "destroys dependant notes and estimates" do
+      travel_request = FactoryBot.create(:travel_request, action: :approve)
+      FactoryBot.create(:note, content: "Flamingoes are pink, because they eat lots of shrimp.", request: travel_request)
+      FactoryBot.create(:estimate, request: travel_request)
+      expect { travel_request.destroy }.to change(Note, :count).by(-1).and(change(Estimate, :count).by(-1)).and(change(StateChange, :count).by(-1))
+    end
+  end
+
   describe "#where_contains_text" do
     let(:absence_request) { FactoryBot.create(:absence_request, action: :approve) }
     let(:absence_request2) { FactoryBot.create(:absence_request, action: :deny) }

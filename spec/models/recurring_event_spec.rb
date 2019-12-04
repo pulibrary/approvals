@@ -10,4 +10,13 @@ RSpec.describe RecurringEvent, type: :model do
     it { is_expected.to respond_to :event_requests }
     it { is_expected.to respond_to :requests }
   end
+
+  describe "#destory" do
+    it "destroys dependants" do
+      recurring_event = FactoryBot.create(:recurring_event, name: "Ice Capades")
+      travel_request = FactoryBot.create(:travel_request, action: :approve)
+      FactoryBot.create :event_request, recurring_event: recurring_event, request: travel_request
+      expect { recurring_event.destroy }.to change(EventRequest, :count).by(-1)
+    end
+  end
 end
