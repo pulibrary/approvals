@@ -3,7 +3,11 @@
     <grid-item vertical="center">
       <heading level="h1">Leave and Travel Requests</heading>
       <text-style variation="default">A Leave and Travel request workflow application for the Princeton University Library staff. Use this site to request vacation and other leave types from your supervisor, and to submit travel requests with cost estimates. Receive notifications as your request progresses through the required steps. Browse your upcoming and prior requests as needed.</text-style>
-      <hyperlink href="/users/auth/cas" variation="button solid" data-method="post" size="large">LOGIN with NetID</hyperlink>
+      <% if current_user.blank? %>
+        <hyperlink href="/users/auth/cas" variation="button solid" data-method="post" size="large">LOGIN with NetID</hyperlink>
+      <% else %>
+        <hyperlink href="/sign_out" variation="button solid" size="large">LOGOUT</hyperlink>
+      <% end %>
     </grid-item>
   </grid-container>
 </wrapper>
