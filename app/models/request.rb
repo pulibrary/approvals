@@ -10,13 +10,13 @@ class Request < ApplicationRecord
   has_many :recurring_events, through: :event_requests
   accepts_nested_attributes_for :event_requests
 
-  has_many :notes
+  has_many :notes, dependent: :destroy
   accepts_nested_attributes_for :notes
 
-  has_many :estimates
+  has_many :estimates, dependent: :destroy
   accepts_nested_attributes_for :estimates
 
-  has_many :state_changes
+  has_many :state_changes, dependent: :destroy
 
   def self.where_contains_text(search_query:)
     # returning all which is the relation
