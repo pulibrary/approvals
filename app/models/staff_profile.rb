@@ -35,6 +35,13 @@ class StaffProfile < ApplicationRecord
     "#{given_name} #{surname}"
   end
 
+  def staff_list_json
+    @values ||= StaffProfile.all.map do |u|
+      "{ id: '#{u.id}', label: '#{u}' }"
+    end.join(",")
+    "[#{@values}]"
+  end
+
   def department_head?
     Department.where(head_id: id).count.positive?
   end

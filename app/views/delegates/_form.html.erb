@@ -1,3 +1,4 @@
+
 <%= form_with(model: delegate, local: true) do |form| %>
   <% if delegate.errors.any? %>
     <div id="error_explanation">
@@ -11,12 +12,14 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :delegate_id %>
-    <%= form.text_field :delegate_id %>
-  </div>
+  <input-autocomplete required
+    id="delegate_delegate_id"
+    name="delegate[delegate_id]"
+    label="Assign people to use this system on your behalf"
+    :items="<%= @staff_list %>"
+  ></input-autocomplete>
 
   <div class="actions">
-    <%= form.submit %>
+    <input-button type="submit" variation="solid">Add Delegate</input-button>
   </div>
 <% end %>

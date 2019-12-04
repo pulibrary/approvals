@@ -7,6 +7,8 @@ class DelegatesController < ApplicationController
   # GET /delegates.json
   def index
     @delegates = Delegate.where(delegator: current_staff_profile)
+    @delegate = Delegate.new
+    @staff_list = current_staff_profile.staff_list_json
   end
 
   # GET /delegates/to_assume
@@ -14,25 +16,6 @@ class DelegatesController < ApplicationController
   def to_assume
     @delegates = Delegate.where(delegate: current_staff_profile)
   end
-
-  # GET /delegates/1
-  # GET /delegates/1.json
-  def show
-    return if @delegate.present?
-
-    respond_to do |format|
-      format.html { redirect_to delegates_path, notice: "invalid delegate" }
-      format.json { head :no_content }
-    end
-  end
-
-  # GET /delegates/new
-  def new
-    @delegate = Delegate.new
-  end
-
-  # GET /delegates/1/edit
-  def edit; end
 
   # GET /delegates/1/assume
   def assume
@@ -65,24 +48,10 @@ class DelegatesController < ApplicationController
 
     respond_to do |format|
       if @delegate.save
-        format.html { redirect_to @delegate, notice: "Delegate was successfully created." }
+        format.html { redirect_to delegates_path, notice: "Delegate was successfully created." }
         format.json { render :show, status: :created, location: @delegate }
       else
         format.html { render :new }
-        format.json { render json: @delegate.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /delegates/1
-  # PATCH/PUT /delegates/1.json
-  def update
-    respond_to do |format|
-      if @delegate.update(delegate_params)
-        format.html { redirect_to @delegate, notice: "Delegate was successfully updated." }
-        format.json { render :show, status: :ok, location: @delegate }
-      else
-        format.html { render :edit }
         format.json { render json: @delegate.errors, status: :unprocessable_entity }
       end
     end
