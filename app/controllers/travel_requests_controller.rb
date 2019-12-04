@@ -18,10 +18,6 @@ class TravelRequestsController < CommonRequestController
       TravelRequestDecorator
     end
 
-    def can_edit?
-      @request_change_set.model.pending? || request_change_set.model.changes_requested?
-    end
-
     def list_url
       travel_requests_url
     end

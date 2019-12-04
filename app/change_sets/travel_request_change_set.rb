@@ -21,7 +21,7 @@ class TravelRequestChangeSet < Reform::Form
            :status_icon, :event_title, :notes_and_changes, :absent_staff,
            :formatted_full_start_date, :formatted_full_end_date,
            :estimate_fields_json, :estimates_json,
-           :event_attendees,
+           :event_attendees, :can_modify_attributes?,
            to: :decorated_model
 
   attr_reader :current_staff_profile

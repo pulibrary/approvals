@@ -72,4 +72,8 @@ class TravelRequest < Request
   def start_time
     raise_invalid_argument(property_name: :start_time)
   end
+
+  def can_modify_attributes?
+    changes_requested? || pending? && state_changes.empty?
+  end
 end

@@ -8,10 +8,6 @@ class AbsenceRequestsController < CommonRequestController
       AbsenceRequestDecorator
     end
 
-    def can_edit?
-      @request_change_set.model.pending?
-    end
-
     def list_url
       absence_requests_url
     end

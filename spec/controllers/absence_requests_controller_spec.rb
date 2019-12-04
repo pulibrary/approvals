@@ -374,6 +374,16 @@ RSpec.describe AbsenceRequestsController, type: :controller do
         end.to change(Note, :count).by(0)
       end
     end
+
+    context "Already in the approval process" do
+      it "does not allow updates to the attributes" do
+        absence_request.approve(agent: absence_request.creator.supervisor)
+        absence_request.save
+        put :update, params: { id: absence_request.to_param, absence_request: valid_attributes }, session: valid_session
+        expect(response).to redirect_to(absence_request)
+        expect(absence_request.reload.absence_type).not_to eq("sick")
+      end
+    end
   end
 
   describe "DELETE #destroy" do

@@ -72,4 +72,8 @@ class AbsenceRequest < Request
   def travel_category
     raise_invalid_argument(property_name: :travel_category)
   end
+
+  def can_modify_attributes?
+    pending?
+  end
 end
