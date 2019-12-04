@@ -26,7 +26,7 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
     js_date_format = "%m/%d/%Y"
     fill_in "absence_request_date", with: "#{today.strftime(js_date_format)} - #{tomorrow.strftime(js_date_format)}"
     Percy.snapshot(page, name: "Leave Request - New", widths: [375, 768, 1440])
-    click_on "Apply Changes"
+    click_on "Submit Request"
 
     expect(page).to have_content "Sick Leave"
     expect(page).to have_content "Total Hours\n21.75"

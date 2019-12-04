@@ -33,7 +33,7 @@ RSpec.feature "Delegate", type: :feature, js: true do
     tomorrow = Date.parse("2019-10-23")
     js_date_format = "%m/%d/%Y"
     fill_in "absence_request_date", with: "#{today.strftime(js_date_format)} - #{tomorrow.strftime(js_date_format)}"
-    click_on "Apply Changes"
+    click_on "Submit Request"
     expect(page).to have_content "Joe Schmo\nSick Leave (#{today.strftime(js_date_format)} to #{tomorrow.strftime(js_date_format)})"
 
     click_link "My Requests"

@@ -37,7 +37,7 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
     all("input[id^='travel_request_estimates_amount_']")[1].fill_in with: "30"
     expect(page).to have_content "130.00"
     Percy.snapshot(page, name: "Travel Request - New", widths: [375, 768, 1440])
-    click_on "Apply Changes"
+    click_on "Submit Request"
 
     expect(page).to have_content "Super Event 2019, A Place To Be (10/01/2019 to 10/03/2019)"
     expect(page).to have_content "air 2 20.00 40.00\nlodging 3 30.00 90.00\nTotal: 130.00"
