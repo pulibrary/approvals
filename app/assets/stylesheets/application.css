@@ -21,6 +21,7 @@
 
 body {
   background-color: #f9f8f4;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 .main-content {
@@ -195,4 +196,38 @@ body {
 .expense-total,
 .expense-total-col input {
   text-align: right;
+}
+
+@media screen and (min-width: 600px) {
+  .right-align {
+    text-align: right;
+  }
+}
+
+.search-filter-sort.lux-card {
+  border-top: 4px solid rgba(255, 204, 163, 1);
+  background: #fdf6ee;
+}
+
+.lux-col .lux-search-box,
+.search-filter-sort .lux-flex-container {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.filter-applied {
+  border-top: 1px solid #dcdcdc;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.filter-label {
+  color: rgb(65, 70, 78);
+  display: block;
+  font-size: 14px;
+  margin: 0 0 0.5rem 1rem;
+}
+
+.filter-applied .lux-tag.filter li {
+  margin-right: 0.5rem;
 }
