@@ -18,13 +18,13 @@ RSpec.feature "Delegate", type: :feature, js: true do
     FactoryBot.create(:absence_request, creator: delegate_staff_profile, start_date: Date.parse("2019-09-12"), end_date: Date.parse("2019-09-13"))
 
     visit "/my_requests"
-    assert_selector "article.lux-card", count: 1
+    assert_selector ".my-request .lux-card", count: 1
 
     # Todo we really should not need to hand jam the url
     visit assume_delegate_path(delegate)
 
     assert_selector "div.lux-alert", text: "You are acting on behalf of #{delegate_staff_profile}"
-    assert_selector "article.lux-card", count: 2
+    assert_selector ".my-request .lux-card", count: 2
 
     click_link "New leave request"
     assert_selector "div.lux-alert", text: "You are acting on behalf of #{delegate_staff_profile}"
@@ -38,12 +38,12 @@ RSpec.feature "Delegate", type: :feature, js: true do
 
     click_link "My Requests"
     assert_selector "div.lux-alert", text: "You are acting on behalf of #{delegate_staff_profile}"
-    assert_selector "article.lux-card", count: 3
+    assert_selector ".my-request .lux-card", count: 3
 
     # Todo we really should not need to hand jam the url
     visit cancel_delegates_path
 
     assert_selector "div.lux-alert", text: "You are now acting on your own behalf"
-    assert_selector "article.lux-card", count: 1
+    assert_selector ".my-request .lux-card", count: 1
   end
 end
