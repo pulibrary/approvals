@@ -20,8 +20,8 @@ RSpec.describe RequestList, type: :model do
     end
     it "returns a success response" do
       list = RequestList.list_requests(creator: staff_profile, request_filters: nil, search_query: nil, order: nil)
-      expect(list.first).to be_a AbsenceRequest
-      expect(list.last).to be_a TravelRequest
+      expect(list.first).to be_a TravelRequest
+      expect(list.last).to be_a AbsenceRequest
       expect(list.map(&:id)).to contain_exactly(*[my_absence, my_travel].map(&:id))
     end
 
@@ -97,9 +97,14 @@ RSpec.describe RequestList, type: :model do
       end
     end
 
+    it "by default sorts by updated date descending" do
+      list = RequestList.list_requests(creator: staff_profile, request_filters: nil, search_query: nil, order: nil)
+      expect(list.map(&:id)).to eq [r1, r3, r2].map(&:id)
+    end
+
     context "sort by start date" do
       it "by default sorts by start date descending" do
-        list = RequestList.list_requests(creator: staff_profile, request_filters: nil, search_query: nil, order: nil)
+        list = RequestList.list_requests(creator: staff_profile, request_filters: nil, search_query: nil, order: "start_date_desc")
         expect(list.map(&:id)).to eq [r2, r1, r3].map(&:id)
       end
 

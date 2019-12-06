@@ -10,7 +10,7 @@
     <heading level="h2" size="h3"><hyperlink href="<%= absence_request_path(absence_request.to_model)%>"><%= absence_request.event_title_brief %></hyperlink></heading>
     <text-style><%= absence_request.formatted_full_start_date %> to <%= absence_request.formatted_full_end_date %></text-style>
   </card-header>
-  <card-content>
+  <card-content class="right-align">
     <tag type="tag" :tag-items="[
       {name: '<%= absence_request.latest_status %>', color: '<%= absence_request.status_color %>'}
       ]"

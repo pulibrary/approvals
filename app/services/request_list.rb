@@ -45,9 +45,9 @@ class RequestList
 
       # sort_field can be any field, we use dates to start out with
       # sort_direction can be "asc" or "desc"
-      # default is start date, descending
+      # default is updated date, descending
       def my_request_order(sort_order)
-        return { "start_date" => "desc" } unless sort_order
+        return { "updated_at" => "desc" } unless sort_order
         sort_field, _, sort_direction = sort_order.rpartition("_")
         { sort_field => sort_direction }
       end

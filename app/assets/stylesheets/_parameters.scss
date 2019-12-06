@@ -1,0 +1,28 @@
+.search-filter-sort.lux-card {
+  border: 1px solid $color-grayscale-warm-light;
+  box-shadow: none;
+  background: lighten($color-grayscale-warm-light, 17%);
+}
+
+.lux-col .lux-search-box,
+.search-filter-sort .lux-flex-container {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.filter-applied {
+  border-top: 1px solid $color-grayscale-warm-light;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.filter-label {
+  color: $color-grayscale-darker;
+  display: block;
+  font-size: $font-size-small;
+  margin: 0 0 0.5rem 1rem;
+}
+
+.filter-applied .lux-tag.filter li {
+  margin-right: 0.5rem;
+}

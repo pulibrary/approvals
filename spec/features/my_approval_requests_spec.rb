@@ -23,18 +23,18 @@ RSpec.feature "My Approval Requests", type: :feature, js: true do
 
     visit "/my_approval_requests"
     Percy.snapshot(page, name: "My Approval Requests - Show", widths: [375, 768, 1440])
-    assert_selector "article.lux-card", count: Request.count
+    assert_selector ".my-request .lux-card", count: Request.count
 
     select_drop_down(menu: "#request-type-menu", item: "Travel")
-    assert_selector "article.lux-card", count: 1
+    assert_selector ".my-request .lux-card", count: 1
     assert_selector "a", text: "Doe, Jane (jdoe) - Awesome Event 2019, Location"
 
     select_drop_down(menu: "#request-type-menu", item: "Absence")
-    assert_selector "article.lux-card", count: 2
+    assert_selector ".my-request .lux-card", count: 2
     assert_selector "a", text: "Doe, Jane (jdoe) - Sick"
 
     click_link("Request type: Absence")
-    assert_selector "article.lux-card", count: Request.count
+    assert_selector ".my-request .lux-card", count: Request.count
 
     click_link "Doe, Jane (jdoe) - Sick"
     assert_selector "h1", text: "Review Leave Request"
@@ -53,8 +53,8 @@ RSpec.feature "My Approval Requests", type: :feature, js: true do
 
     # filter with out query
     select_drop_down(menu: "#request-type-menu", item: "Absence")
-    assert_selector "article.lux-card", count: 2
-    ids = page.all(:css, "article.lux-card").map { |element| element["id"].to_i }
+    assert_selector ".my-request .lux-card", count: 2
+    ids = page.all(:css, ".my-request .lux-card").map { |element| element["id"].to_i }
     expect(ids).to contain_exactly absence_request.id, absence_request2.id
 
     # search query clears the filter
@@ -62,15 +62,15 @@ RSpec.feature "My Approval Requests", type: :feature, js: true do
     click_button "search"
 
     expect(find("#query").value).to eq "balloons"
-    assert_selector "article.lux-card", count: 2
-    ids = page.all(:css, "article.lux-card").map { |element| element["id"].to_i }
+    assert_selector ".my-request .lux-card", count: 2
+    ids = page.all(:css, ".my-request .lux-card").map { |element| element["id"].to_i }
     expect(ids).to contain_exactly absence_request.id, travel_request.id
 
     # filter with query
     select_drop_down(menu: "#request-type-menu", item: "Absence")
     expect(find("#query").value).to eq "balloons"
-    assert_selector "article.lux-card", count: 1
-    ids = page.all(:css, "article.lux-card").map { |element| element["id"].to_i }
+    assert_selector ".my-request .lux-card", count: 1
+    ids = page.all(:css, ".my-request .lux-card").map { |element| element["id"].to_i }
     expect(ids).to contain_exactly absence_request.id
 
     # clear the filter
@@ -78,8 +78,8 @@ RSpec.feature "My Approval Requests", type: :feature, js: true do
 
     # clearing cilter retains search results
     expect(find("#query").value).to eq "balloons"
-    assert_selector "article.lux-card", count: 2
-    ids = page.all(:css, "article.lux-card").map { |element| element["id"].to_i }
+    assert_selector ".my-request .lux-card", count: 2
+    ids = page.all(:css, ".my-request .lux-card").map { |element| element["id"].to_i }
     expect(ids).to contain_exactly absence_request.id, travel_request.id
   end
 

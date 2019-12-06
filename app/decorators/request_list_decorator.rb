@@ -43,12 +43,8 @@ class RequestListDecorator
 
   # @returns [String] Label for the sort dropdown menu
   def current_sort_label
-    sort = params_manager.params[:sort]
-    if sort.present?
-      "Sort: #{sort_options_table[sort]}"
-    else
-      "Sort: Start date - descending"
-    end
+    sort = params_manager.current_sort
+    "Sort: #{sort_options_table[sort]}"
   end
 
   # @returns [Hash] Labels and urls for the status dropdown menu

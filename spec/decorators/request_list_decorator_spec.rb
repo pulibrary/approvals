@@ -275,7 +275,7 @@ RSpec.describe RequestListDecorator, type: :model do
 
   describe "current_sort_label" do
     it "returns default when no sort is applied" do
-      expect(request_list_decorator.current_sort_label).to eq("Sort: Start date - descending")
+      expect(request_list_decorator.current_sort_label).to eq("Sort: Date modified - descending")
     end
 
     context "when a sort param is provided" do

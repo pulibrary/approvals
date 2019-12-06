@@ -48,5 +48,12 @@ class ApprovalRequestList < RequestList
         list << agent.supervisor
         supervisor_chain(agent: agent.supervisor, list: list)
       end
+
+      # default is start date, ascending
+      def my_request_order(sort_order)
+        return { "start_date" => "asc" } unless sort_order
+        sort_field, _, sort_direction = sort_order.rpartition("_")
+        { sort_field => sort_direction }
+      end
   end
 end

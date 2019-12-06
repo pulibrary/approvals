@@ -1,0 +1,39 @@
+.title-card .lux-card-header span {
+  display: block;
+}
+
+.title-card .event-requestor {
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.title-card .event-dates {
+  margin-top: 1.75rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.title-card .lux-card-media {
+  padding: 0 0.5rem 1rem;
+}
+
+.title-card .lux-tag {
+  justify-content: center;
+}
+
+.title-card .lux-card-content .status-red {
+  background: #facec8;
+  padding: 1.5rem;
+}
+
+.title-card .lux-card-content .status-yellow {
+  background: #ffecbd;
+  padding: 1.5rem;
+}
+
+.title-card .lux-card-content .status-green {
+  background: #c3ed79;
+  padding: 1.5rem;
+}

@@ -1,0 +1,25 @@
+.notes,
+.staff {
+  list-style-type: none;
+}
+
+.notes li {
+  padding-bottom: 1rem;
+  margin: 1rem 0;
+  border-bottom: 1px solid $color-grayscale-light;
+  display: flex;
+}
+
+.notes li:last-child {
+  border: 0;
+  padding: 0;
+}
+
+.notes .status-icon {
+  padding: 0 0.5rem 0 0.5rem;
+  line-height: 1;
+}
+
+.notes strong {
+  display: block;
+}

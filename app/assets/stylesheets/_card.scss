@@ -1,0 +1,48 @@
+.lux-card-content .small,
+.lux-card-header .default {
+  color: rgb(65, 70, 78);
+}
+
+.lux-card-media {
+  flex-basis: 85px;
+}
+
+.lux-card-header {
+  flex-basis: calc(100% - 90px);
+}
+
+.lux-card-content .lux-tag .lux-tag-item {
+  margin: 0;
+}
+
+.lux-tag.filter {
+  margin: 0 14px;
+}
+
+@media (max-width: 599px) {
+  .my-request .full-width .lux-card-content {
+    margin-left: 90px;
+    padding: 0 0 1rem;
+    width: 100%;
+  }
+
+  .my-request .lux-tag.end {
+    float: left;
+    margin-right: 1rem;
+  }
+}
+
+.request .lux-card,
+.review .lux-card {
+  height: 100%;
+}
+
+@media screen and (min-width: 600px) {
+  .right-align {
+    text-align: right;
+  }
+}
+
+.absence.lux-card h3 {
+  margin-bottom: 0.2em;
+}
