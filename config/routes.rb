@@ -36,6 +36,7 @@ Rails.application.routes.draw do
     end
     collection do
       get "cancel"
+      get "to_assume"
     end
   end
 

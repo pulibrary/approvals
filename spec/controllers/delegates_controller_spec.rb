@@ -27,6 +27,16 @@ RSpec.describe DelegatesController, type: :controller do
     end
   end
 
+  describe "GET #index" do
+    it "returns delegates the current profile can assume" do
+      delegate = FactoryBot.create :delegate, delegate: staff_profile
+      FactoryBot.create :delegate
+      get :to_assume, params: {}, session: valid_session
+      expect(response).to be_successful
+      expect(assigns[:delegates]).to eq [delegate]
+    end
+  end
+
   describe "GET #show" do
     it "returns a success response" do
       delegate = FactoryBot.create :delegate, delegator: staff_profile
