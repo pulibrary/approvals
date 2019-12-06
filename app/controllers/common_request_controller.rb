@@ -17,7 +17,7 @@ class CommonRequestController < ApplicationController
     @request_change_set = request_change_set
 
     # render the default
-    return if can_edit?
+    return if request_change_set.can_modify_attributes?
 
     # handle the error
     respond_with_show_error(message: "#{model_instance_to_name(@request_change_set.model)} can not be edited after it has been #{@request_change_set.model.status}.",
@@ -31,7 +31,12 @@ class CommonRequestController < ApplicationController
 
   # PATCH/PUT
   def update
-    update_model_and_respond(handle_deletes: true, success_verb: "updated", error_action: :edit)
+    if request_change_set.can_modify_attributes?
+      update_model_and_respond(handle_deletes: true, success_verb: "updated", error_action: :edit)
+    else
+      respond_with_show_error(message: "#{model_instance_to_name(@request_change_set.model)} can not be updated after it has been #{@request_change_set.model.status}.",
+                              status: :invalid_update)
+    end
   end
 
   # DELETE

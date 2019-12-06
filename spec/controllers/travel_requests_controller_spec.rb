@@ -108,6 +108,14 @@ RSpec.describe TravelRequestsController, type: :controller do
       expect(assigns(:request)).to eq(travel_request)
     end
 
+    it "can not edit an partially approved request" do
+      travel_request = FactoryBot.create(:travel_request)
+      travel_request.approve(agent: travel_request.creator.supervisor)
+      get :edit, params: { id: travel_request.to_param }, session: valid_session
+      expect(response).to redirect_to(travel_request)
+      expect(assigns(:request)).to eq(travel_request)
+    end
+
     it "can not edit a denied request" do
       travel_request = FactoryBot.create(:travel_request, action: "deny")
       get :edit, params: { id: travel_request.to_param }, session: valid_session
@@ -297,6 +305,16 @@ RSpec.describe TravelRequestsController, type: :controller do
           expect(response).not_to be_successful
           expect(response.media_type).to eq("application/json")
           expect(response.body).to eq('{"request":["must exist"],"creator":["must exist"]}')
+        end
+      end
+
+      context "Already in the approval process" do
+        it "does not allow updates to the attributes" do
+          travel_request = FactoryBot.create(:travel_request)
+          travel_request.approve(agent: travel_request.creator.supervisor)
+          put :update, params: { id: travel_request.to_param, travel_request: nested_attributes }, session: valid_session
+          expect(response).to redirect_to(travel_request)
+          expect(travel_request.estimates).to be_empty
         end
       end
     end

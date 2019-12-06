@@ -22,6 +22,7 @@ class AbsenceRequestChangeSet < Reform::Form
   delegate :vacation_balance, :personal_balance, :sick_balance, :full_name, to: :creator
   delegate :absence_type_icon, :latest_status, :status_color,
            :status_icon, :event_title, :notes_and_changes, :absent_staff,
+           :can_modify_attributes?,
            to: :decorated_model
 
   def balance_title
