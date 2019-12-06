@@ -1,0 +1,47 @@
+.expenses .expense-row {
+  padding: 0;
+}
+
+.expenses .lux-col {
+  padding: 0.5rem 0 0 0.5rem;
+}
+
+.expense-row .lux-flex-container {
+  padding: 0;
+}
+
+.expense-row .lux-col:first-child {
+  padding-left: 0;
+}
+
+.expense-row-header .lux-col {
+  padding: 1rem 0 0 1rem;
+}
+
+.expense-row-header .lux-flex-container {
+  padding-bottom: 0;
+}
+
+.expense-delete {
+  flex-basis: auto;
+}
+
+.expense-add {
+  margin-left: 85px;
+}
+
+.expense-add .lux-icon {
+  margin-left: 0;
+}
+
+.expense-total,
+.expense-total-col input {
+  text-align: right;
+}
+
+.travel-estimates tr:last-child td,
+.expense-total .lux-text-style {
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1;
+}
