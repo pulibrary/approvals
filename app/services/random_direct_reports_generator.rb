@@ -30,7 +30,8 @@ class RandomDirectReportsGenerator
         StaffProfile.create!(given_name: Faker::Name.first_name, surname: Faker::Name.last_name,
                              department: supervisor.department, biweekly: false,
                              user: user, email: "#{user.uid}@princeton.edu", location: location,
-                             supervisor: supervisor)
+                             supervisor: supervisor, vacation_balance: Random.rand(1...50),
+                             sick_balance: Random.rand(1...50), personal_balance: Random.rand(1...50))
       end
   end
 end

@@ -22,6 +22,9 @@ RSpec.describe RandomDirectReportsGenerator, type: :model do
           RandomDirectReportsGenerator.create_reports(supervisor: supervisor, number_of_people: 1)
         end.to change(StaffProfile, :count).by(1)
         expect(StaffProfile.last.supervisor).to eq(supervisor)
+        expect(StaffProfile.last.vacation_balance > 0).to be_truthy
+        expect(StaffProfile.last.sick_balance > 0).to be_truthy
+        expect(StaffProfile.last.personal_balance > 0).to be_truthy
       end
     end
 
