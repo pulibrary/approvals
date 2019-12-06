@@ -56,8 +56,17 @@ This is an application that allows the library to create workflows that allow st
      ```
      bundle exec foreman start
      ```
-
+   * run mail catcher
+     run once 
+     ```
+     gem install mailcatcher
+     ```
+     run every time
+     ```
+     mailcatcher
+     ```
    
+     [you can see the mail that has been sent here]( http://localhost:1080/)
      
 ## How to run the test suite
 
