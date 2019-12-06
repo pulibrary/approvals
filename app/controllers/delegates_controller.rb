@@ -9,6 +9,12 @@ class DelegatesController < ApplicationController
     @delegates = Delegate.where(delegator: current_staff_profile)
   end
 
+  # GET /delegates/to_assume
+  # GET /delegates/to_assume.json
+  def to_assume
+    @delegates = Delegate.where(delegate: current_staff_profile)
+  end
+
   # GET /delegates/1
   # GET /delegates/1.json
   def show
