@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
 
     def load_delegate(delegate_id)
       @current_delegate = Delegate.find(delegate_id)
-      if @delegate && @delegate.delegate.user_id != current_user
+      if @current_delegate && @current_delegate.delegate.user != current_user
         session[:approvals_delegate] = nil
         @current_delegate = nil
       end
