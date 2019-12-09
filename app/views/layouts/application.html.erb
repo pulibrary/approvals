@@ -17,8 +17,10 @@
         <% if current_user %>
           {name: 'My Requests', component: 'My Requests', href: '/my_requests/'},
           <%= "{name: 'Requests to Review', component: 'Requests to Review', href: '/my_approval_requests/'}," if current_staff_profile.supervisor? %>
-          {name: 'My Delegates', component: 'My Delegates', href: '/delegates/'},
-          {name: 'Delegations', component: 'Delegations', href: '<%= to_assume_delegates_path %>'},
+          <% unless current_delegate %>
+            {name: 'My Delegates', component: 'My Delegates', href: '/delegates/'},
+            {name: 'Delegations', component: 'Delegations', href: '<%= to_assume_delegates_path %>'},
+          <% end %>
           {name: 'Logout', component: 'Logout', href: '/sign_out'}
         <% end %>
       ]"/>

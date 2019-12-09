@@ -2,6 +2,7 @@
 class DelegatesController < ApplicationController
   before_action :set_delegate, only: [:destroy]
   before_action :set_delegator, only: [:assume]
+  before_action :check_for_delegation, only: [:assume, :create, :destroy]
 
   # GET /delegates
   # GET /delegates.json
@@ -100,5 +101,15 @@ class DelegatesController < ApplicationController
 
       # the delegator can only be the logged in user
       permitted_params.merge(delegator_id: current_staff_profile.id)
+    end
+
+    def check_for_delegation
+      return unless current_delegate
+
+      respond_to do |format|
+        format.html { redirect_to my_requests_path, notice: "You can not modify delegations as a delegate" }
+        format.json { head :no_content }
+      end
+      false
     end
 end
