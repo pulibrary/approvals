@@ -1,22 +1,20 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Delegators to Assume</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Staff profile</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @delegators.each do |delegator| %>
-      <tr>
-        <td><%= delegator.delegate %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
+<wrapper :max-width=1440>
+  <grid-container>
+    <grid-item columns="lg-12 sm-12">
+      <heading level="h1" size="h2">Act as Delegate for...</heading>
+    </grid-item>
+  </grid-container>
+</wrapper>
+<wrapper :max-width=1440 class="my-request">
+  <grid-container>
+    <grid-item columns="lg-12 sm-12">
+      <% if @delegators.count == 0 %>
+        <heading id="no-delegates" level="h3" size="h3">You don't have any people you can become at the moment.</heading>
+      <% end %>
+      <% @delegators.each do |delegator| %>
+        <%=  render 'assume_detail', delegator: delegator %>
+      <% end %>
+    </grid-item>
+  </grid-container>
+</wrapper>
+<br/>

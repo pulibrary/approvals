@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 class DelegatesController < ApplicationController
-  before_action :set_delegate, only: [:show, :edit, :update, :destroy]
+  before_action :set_delegate, only: [:destroy]
   before_action :set_delegator, only: [:assume]
 
   # GET /delegates
   # GET /delegates.json
   def index
-    @delegates = Delegate.where(delegator: current_staff_profile)
+    delegates_for_current_profile
     @delegate = Delegate.new
     @staff_list = current_staff_profile.staff_list_json
   end
@@ -14,7 +14,7 @@ class DelegatesController < ApplicationController
   # GET /delegates/to_assume
   # GET /delegates/to_assume.json
   def to_assume
-    @delegates = Delegate.where(delegate: current_staff_profile)
+    @delegators = Delegate.where(delegate: current_staff_profile)
   end
 
   # GET /delegates/1/assume
@@ -51,7 +51,8 @@ class DelegatesController < ApplicationController
         format.html { redirect_to delegates_path, notice: "Delegate was successfully created." }
         format.json { render :show, status: :created, location: @delegate }
       else
-        format.html { render :new }
+        delegates_for_current_profile
+        format.html { render :index }
         format.json { render json: @delegate.errors, status: :unprocessable_entity }
       end
     end
@@ -60,14 +61,23 @@ class DelegatesController < ApplicationController
   # DELETE /delegates/1
   # DELETE /delegates/1.json
   def destroy
-    @delegate.destroy
+    notice = if @delegate.blank?
+               "Invalid delegate #{params[:id]} can not be destroyed"
+             else
+               @delegate.destroy
+               "Delegate was successfully destroyed."
+             end
     respond_to do |format|
-      format.html { redirect_to delegates_url, notice: "Delegate was successfully destroyed." }
+      format.html { redirect_to delegates_url, notice: notice }
       format.json { head :no_content }
     end
   end
 
   private
+
+    def delegates_for_current_profile
+      @delegates = Delegate.where(delegator: current_staff_profile)
+    end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_delegate
