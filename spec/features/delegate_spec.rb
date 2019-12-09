@@ -41,7 +41,8 @@ RSpec.feature "Delegate", type: :feature, js: true do
     assert_selector ".my-request .lux-card", count: 3
 
     # Todo we really should not need to hand jam the url
-    visit cancel_delegates_path
+    # visit cancel_delegates_path
+    find("a#cancel_delegation").click
 
     assert_selector "div.lux-alert", text: "You are now acting on your own behalf"
     assert_selector ".my-request .lux-card", count: 1
