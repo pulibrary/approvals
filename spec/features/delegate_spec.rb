@@ -10,6 +10,7 @@ RSpec.feature "Delegate", type: :feature, js: true do
 
   before do
     sign_in user
+    delegate
   end
 
   scenario "I can see my requests and my delegates" do
@@ -19,12 +20,21 @@ RSpec.feature "Delegate", type: :feature, js: true do
 
     visit "/my_requests"
     assert_selector ".my-request .lux-card", count: 1
+    assert_selector "a", text: "Delegations", count: 1
+    assert_selector "a", text: "My Delegates", count: 1
 
-    # Todo we really should not need to hand jam the url
-    visit assume_delegate_path(delegate)
+    click_on "Delegations"
+    Percy.snapshot(page, name: "Delegations - Show", widths: [375, 768, 1440])
+
+    assert_selector ".lux-card-header", text: /^Joe Schmo*/, count: 1
+    assert_selector ".lux-card-content a", count: 1
+
+    find(".lux-card-content a").click
 
     assert_selector "div.lux-alert", text: "You are acting on behalf of #{delegate_staff_profile}"
     assert_selector ".my-request .lux-card", count: 2
+    assert_selector "a", text: "Delegations", count: 0
+    assert_selector "a", text: "My Delegates", count: 0
 
     click_link "New leave request"
     assert_selector "div.lux-alert", text: "You are acting on behalf of #{delegate_staff_profile}"

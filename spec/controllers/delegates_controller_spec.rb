@@ -54,6 +54,18 @@ RSpec.describe DelegatesController, type: :controller do
         expect(flash[:notice]).to eq "Invalid delegation attempt!"
       end
     end
+
+    context "when you are being delegate" do
+      it "does not allow you to assume a delegation" do
+        delegate = FactoryBot.create :delegate, delegate: staff_profile
+        delegate2 = FactoryBot.create :delegate, delegate: delegate.delegator
+        valid_session["approvals_delegate"] = delegate.id.to_s
+        get :assume, params: { id: delegate2.to_param }, session: valid_session
+        expect(response).to redirect_to(my_requests_path)
+        expect(response.headers["APPROVALS-DELEGATE"]).not_to eq delegate.to_s
+        expect(flash[:notice]).to eq "You can not modify delegations as a delegate"
+      end
+    end
   end
 
   describe "GET #cancel_delegation" do
@@ -97,6 +109,17 @@ RSpec.describe DelegatesController, type: :controller do
         expect(response).to be_successful
       end
     end
+
+    context "when you are being delegate" do
+      it "does not allow you to create a delegation" do
+        delegate = FactoryBot.create :delegate, delegate: staff_profile
+        valid_session["approvals_delegate"] = delegate.id.to_s
+        post :create, params: { delegate: valid_attributes }, session: valid_session
+        expect(response).to redirect_to(my_requests_path)
+        expect(response.headers["APPROVALS-DELEGATE"]).not_to eq delegate.to_s
+        expect(flash[:notice]).to eq "You can not modify delegations as a delegate"
+      end
+    end
   end
 
   describe "DELETE #destroy" do
@@ -116,6 +139,18 @@ RSpec.describe DelegatesController, type: :controller do
     it "errors on bad delegate" do
       delete :destroy, params: { id: 123 }, session: valid_session
       expect(response).to redirect_to(delegates_url)
+    end
+
+    it "does not allow you to assume a delegation" do
+      delegate = FactoryBot.create :delegate, delegate: staff_profile
+      delegate2 = FactoryBot.create :delegate, delegate: delegate.delegator
+      valid_session["approvals_delegate"] = delegate.id.to_s
+      expect do
+        delete :destroy, params: { id: delegate2.to_param }, session: valid_session
+      end.to change(Delegate, :count).by(0)
+      expect(response).to redirect_to(my_requests_path)
+      expect(response.headers["APPROVALS-DELEGATE"]).not_to eq delegate.to_s
+      expect(flash[:notice]).to eq "You can not modify delegations as a delegate"
     end
   end
 end
