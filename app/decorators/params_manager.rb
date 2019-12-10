@@ -33,6 +33,10 @@ class ParamsManager
     @params[:sort] || "updated_at_desc"
   end
 
+  def current_department
+    @params[:department] || ""
+  end
+
   private
 
     def existing_params

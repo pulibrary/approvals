@@ -1,0 +1,8 @@
+{
+  'reported': <%= absence_request.id %>,
+  'request_types': '<%= absence_request.request_type %>',
+  'leave_dates': '<%= absence_request.formatted_full_start_date %> to <%= absence_request.formatted_full_end_date %>',
+  'total_hours': '<%= absence_request.hours_requested %>',
+  'staff': '<%= absence_request.full_name %>',
+  'department': '',
+}

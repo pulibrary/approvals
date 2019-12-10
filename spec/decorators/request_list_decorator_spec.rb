@@ -178,6 +178,40 @@ RSpec.describe RequestListDecorator, type: :model do
     end
   end
 
+  describe "#department_filter_urls" do
+    subject(:request_list_decorator) { described_class.new([FactoryBot.create(:absence_request)], params_hash: params_hash, params_manager_class: ReportsParamsManager) }
+
+    let(:status_filter) { "" }
+    let(:filters) do
+      filters = {}
+      Department.all.each do |department|
+        filters[department.name] = "/reporting_requests?filters%5Bdepartment%5D=#{department.number}#{status_filter}"
+      end
+      filters
+    end
+
+    it "returns a list of department filter urls" do
+      expect(request_list_decorator.department_filter_urls).to eq(filters)
+    end
+
+    context "a status filter has been applied" do
+      let(:status_filter) { "&filters%5Bstatus%5D=approved" }
+      let(:params_hash) { { "filters" => { "status" => "approved" } } }
+
+      it "returns a list of absence filter urls that include the status filter" do
+        expect(request_list_decorator.department_filter_urls).to eq(filters)
+      end
+    end
+
+    context "a status filter and travel filter has been applied" do
+      let(:status_filter) { "&filters%5Brequest_type%5D=travel&filters%5Bstatus%5D=approved" }
+      let(:params_hash) { { "filters" => { "request_type" => "travel", "status" => "approved" } } }
+      it "returns a list of absence filter urls that include the status filter, but not the request type filter" do
+        expect(request_list_decorator.department_filter_urls).to eq(filters)
+      end
+    end
+  end
+
   describe "#filter_removal_urls" do
     it "returns an empty list when no filters are selected" do
       expect(request_list_decorator.filter_removal_urls).to eq({})
@@ -238,6 +272,23 @@ RSpec.describe RequestListDecorator, type: :model do
   describe "current_request_type_filter_label" do
     it "returns default when no filter is applied" do
       expect(request_list_decorator.current_request_type_filter_label).to eq("Request type")
+    end
+  end
+
+  describe "current_department_filter_label" do
+    subject(:request_list_decorator) { described_class.new([FactoryBot.create(:absence_request)], params_hash: params_hash, params_manager_class: ReportsParamsManager) }
+
+    it "returns default when no filter is applied" do
+      expect(request_list_decorator.current_department_filter_label).to eq("Department")
+    end
+
+    context "a department filter is applied" do
+      let(:params_hash) { { "filters" => { "department" => department.number } } }
+      let(:department)  { FactoryBot.create :department }
+
+      it "returns the department name" do
+        expect(request_list_decorator.current_department_filter_label).to eq("Department: #{department.name}")
+      end
     end
   end
 

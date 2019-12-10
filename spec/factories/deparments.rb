@@ -3,6 +3,7 @@
 FactoryBot.define do
   factory :department do
     sequence(:name) { |n| "department #{n}" }
+    sequence(:number, &:to_s)
 
     trait :with_head do
       after(:create) do |department, _evaluator|
