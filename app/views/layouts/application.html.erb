@@ -26,7 +26,13 @@
       ]"/>
     </library-header>
     <% if current_delegate %>
-      <div class="lux"><alert status="success">You are acting on behalf of <%= current_delegate.delegator %></alert> </div>
+      <div class="lux">
+        <alert status="success">You are acting on behalf of <%= current_delegate.delegator %>.
+          <%= link_to "Stop acting on #{current_delegate.delegator.given_name}'s behalf.",
+              cancel_delegates_path,
+              id: "cancel_delegation" %>
+        </alert>
+      </div>
     <% end %>
     <div class="main-content">
       <div class="lux">
