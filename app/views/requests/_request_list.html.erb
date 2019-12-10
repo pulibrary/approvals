@@ -40,6 +40,10 @@
                 <% end %>
               ]"></dropdown-menu>
             </grid-item>
+            <grid-item columns="sm-12 auto">
+              <%= paginate @requests %>
+            </grid-item>
+
           </grid-container>
 
         <% if @requests.filter_removal_urls.present? %>

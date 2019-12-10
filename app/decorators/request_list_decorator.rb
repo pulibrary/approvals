@@ -4,13 +4,15 @@
 #    This decorator supports the My Request page filter drop down menus in addition to supporting the display of the list of results.
 #
 class RequestListDecorator
-  attr_reader :request_list, :params_manager
+  attr_reader :request_list, :params_manager, :original_list
 
   delegate :count, :each, :first, :last, :map, :to_a, to: :request_list
+  delegate :total_pages, :current_page, :limit_value, to: :original_list
 
   # @param [Array] list of request model objects
   # @param [Hash] params_hash current request paramters; filter and sort options
   def initialize(request_list, params_hash: {}, params_manager_class: ParamsManager)
+    @original_list = request_list
     @request_list = request_list.map do |request|
       if request.is_a?(TravelRequest)
         TravelRequestDecorator.new(request)

@@ -1,14 +1,25 @@
 # frozen_string_literal: true
 class RequestList
   class << self
-    def list_requests(creator:, request_filters:, search_query:, order:)
-      Request
-        .where(request_filters(creator: creator, request_filters: request_filters))
-        .where_contains_text(search_query: search_query)
-        .order(my_request_order(order))
+    def list_requests(creator:, request_filters:, search_query:, order:, page: 1)
+      offset = page_number(page) * Request.default_per_page
+      record_scope = Request
+                     .where(request_filters(creator: creator, request_filters: request_filters))
+                     .where_contains_text(search_query: search_query)
+                     .order(my_request_order(order))
+      total_count = record_scope.count
+      records = record_scope.limit(Request.default_per_page).offset(offset)
+      page = Kaminari.paginate_array(records, total_count: total_count).page(0)
+      page.offset_value = offset
+      page
     end
 
     private
+
+      def page_number(page)
+        page ||= 1
+        page.to_i - 1
+      end
 
       def request_filters(creator:, request_filters:)
         { creator: creator }.merge(filters_hash(request_filters))

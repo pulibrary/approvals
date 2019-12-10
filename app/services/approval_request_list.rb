@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 class ApprovalRequestList < RequestList
   class << self
-    def list_requests(approver:, request_filters:, search_query:, order:)
+    def list_requests(approver:, request_filters:, search_query:, order:, page: 0)
       records = Request
                 .where(request_filters(request_filters: request_filters))
                 .where_contains_text(search_query: search_query)
                 .where(creator: list_supervised(list: [], supervisor: approver).map(&:id))
                 .order(my_request_order(order))
 
-      filter_records_by_approver(records: records, approver: approver)
+      filter_records_by_approver(records: records, approver: approver, page: page)
     end
 
     private
@@ -25,10 +25,11 @@ class ApprovalRequestList < RequestList
         { status: "pending" }.merge(filters_hash(request_filters))
       end
 
-      def filter_records_by_approver(records:, approver:)
-        records.select do |request|
+      def filter_records_by_approver(records:, approver:, page:)
+        filtered = records.select do |request|
           only_next_supervisor(request: request, approver: approver) && !already_approved?(request: request, approver: approver)
         end
+        Kaminari.paginate_array(filtered, total_count: filtered.count).page(page)
       end
 
       def only_next_supervisor(request:, approver:)
