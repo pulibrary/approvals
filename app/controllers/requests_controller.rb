@@ -19,10 +19,10 @@ class RequestsController < ApplicationController
 
     # objects to return to my_request action
     def my_request_objects
-      RequestList.list_requests(creator: current_staff_profile, request_filters: request_params[:filters], search_query: request_params[:query], order: params["sort"])
+      RequestList.list_requests(creator: current_staff_profile, request_filters: request_params[:filters], search_query: request_params[:query], order: params["sort"], page: params[:page])
     end
 
     def my_approval_request_objects
-      ApprovalRequestList.list_requests(approver: current_staff_profile, request_filters: request_params[:filters], search_query: request_params[:query], order: params["sort"])
+      ApprovalRequestList.list_requests(approver: current_staff_profile, request_filters: request_params[:filters], search_query: request_params[:query], order: params["sort"], page: params[:page])
     end
 end

@@ -19,6 +19,10 @@ RSpec.describe RequestsController, type: :controller do
     sign_in user
   end
 
+  after do
+    Kaminari.config.default_per_page = 25
+  end
+
   describe "GET #my_requests" do
     before do
       # create all the requests
@@ -39,6 +43,13 @@ RSpec.describe RequestsController, type: :controller do
       get :my_requests, params: { format: :json }, session: valid_session
       expect(response).to be_successful
       expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_absence, my_travel].map(&:id))
+    end
+
+    it "accepts paging" do
+      Kaminari.config.default_per_page = 1
+      get :my_requests, params: { format: :json, page: 2 }, session: valid_session
+      expect(response).to be_successful
+      expect(assigns(:requests).map(&:id)).to contain_exactly(my_absence.id)
     end
 
     it "accepts limit by status" do
@@ -96,6 +107,14 @@ RSpec.describe RequestsController, type: :controller do
       expect(assigns(:requests).first).to be_a TravelRequestDecorator
       expect(assigns(:requests).last).to be_a AbsenceRequestDecorator
       expect(assigns(:requests).map(&:id)).to contain_exactly(*[approval_absence, approval_travel].map(&:id))
+    end
+
+    it "accepts page information" do
+      Kaminari.config.default_per_page = 1
+      get :my_approval_requests, params: { page: 2 }, session: valid_session
+      expect(response).to be_successful
+      expect(assigns(:requests).first).to be_a AbsenceRequestDecorator
+      expect(assigns(:requests).map(&:id)).to contain_exactly(approval_absence.id)
     end
 
     it "runs reasonably fast" do
