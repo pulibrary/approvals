@@ -68,7 +68,8 @@ class RequestDecorator
     both = notes.to_a
     both.concat(state_changes.to_a)
     both = both.sort_by(&:created_at)
-    both.map { |item| item_json(item) }
+    json = both.map { |item| item_json(item) }
+    json.prepend(title: "Created by #{creator.full_name} on #{created_at.strftime(date_format)}", content: nil, icon: "add")
   end
 
   private
@@ -106,7 +107,7 @@ class RequestDecorator
         }
       else
         {
-          title: "#{item.action.titleize} by #{item.agent.full_name} on #{item.created_at.strftime(date_format)}",
+          title: item.title,
           content: nil,
           icon: status_icon(status: item.action)
         }

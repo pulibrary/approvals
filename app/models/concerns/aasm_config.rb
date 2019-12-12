@@ -31,7 +31,7 @@ module AasmConfig
   end
 
   def log_status_change(agent:)
-    StateChange.create(request: self, agent: agent, action: current_action)
+    StateChange.create(request: self, agent: agent, action: current_action, delegate: agent.current_delegate)
   end
 
   def current_action

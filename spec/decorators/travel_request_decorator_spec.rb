@@ -156,6 +156,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
 
   describe "#notes_and_changes" do
     let(:department_head) { FactoryBot.create(:staff_profile, :as_department_head, given_name: "Department", surname: "Head") }
+    let(:admin_assistant) { FactoryBot.create(:staff_profile, given_name: "Admin", surname: "Assistant", department: department_head.department) }
     let(:supervisor) { FactoryBot.create(:staff_profile, given_name: "Sally", surname: "Supervisor", department: department_head.department, supervisor: department_head) }
     let(:staff) { FactoryBot.create(:staff_profile, given_name: "Staff", surname: "Person", department: department_head.department, supervisor: supervisor) }
     let(:travel_request) do
@@ -163,19 +164,22 @@ RSpec.describe TravelRequestDecorator, type: :model do
       request.notes << FactoryBot.build(:note, content: "Please approve", creator: staff)
       request.approve(agent: supervisor)
       request.notes << FactoryBot.build(:note, content: "looks good", creator: supervisor)
+      department_head.current_delegate = admin_assistant
       request.approve(agent: department_head)
       request
     end
 
     it "returns the combined data" do
       expect(travel_request_decorator.notes_and_changes).to eq([
+                                                                 { title: "Created by Staff Person on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
+                                                                   icon: "add" },
                                                                  { title: "Staff Person on #{Time.zone.now.strftime('%m/%d/%Y')}", content: "Please approve",
                                                                    icon: "note" },
                                                                  { title: "Approved by Sally Supervisor on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
                                                                    icon: "approved" },
                                                                  { title: "Sally Supervisor on #{Time.zone.now.strftime('%m/%d/%Y')}", content: "looks good",
                                                                    icon: "note" },
-                                                                 { title: "Approved by Department Head on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
+                                                                 { title: "Approved by Admin Assistant on behalf of Department Head on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
                                                                    icon: "approved" }
                                                                ])
     end
@@ -193,6 +197,8 @@ RSpec.describe TravelRequestDecorator, type: :model do
 
       it "returns the changes requested icon" do
         expect(travel_request_decorator.notes_and_changes).to eq([
+                                                                   { title: "Created by Staff Person on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
+                                                                     icon: "add" },
                                                                    { title: "Staff Person on #{Time.zone.now.strftime('%m/%d/%Y')}", content: "Please approve",
                                                                      icon: "note" },
                                                                    { title: "Approved by Sally Supervisor on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
