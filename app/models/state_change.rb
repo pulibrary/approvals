@@ -5,4 +5,13 @@ class StateChange < ApplicationRecord
   belongs_to :delegate, class_name: "StaffProfile", required: false
 
   accepts_nested_attributes_for :request
+
+  def title
+    date = created_at.strftime(Rails.configuration.short_date_format)
+    if delegate
+      "#{action.titleize} by #{delegate.full_name} on behalf of #{agent.full_name} on #{date}"
+    else
+      "#{action.titleize} by #{agent.full_name} on #{date}"
+    end
+  end
 end
