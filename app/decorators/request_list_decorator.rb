@@ -41,16 +41,6 @@ class RequestListDecorator
     end
   end
 
-  # only used for report
-  def current_department_filter_label
-    filters = params_manager.filter_params
-    if filters[:department].present?
-      "Department: #{department_number_to_name(filters[:department])}"
-    else
-      "Department"
-    end
-  end
-
   # @returns [String] Label for the sort dropdown menu
   def current_sort_label
     sort = params_manager.current_sort
@@ -61,18 +51,6 @@ class RequestListDecorator
   def status_filter_urls
     Request.statuses.map do |key, value|
       [key.to_s.humanize, params_manager.url_with_filter(field: :status, new_option: value)]
-    end.to_h
-  end
-
-  def department_number_to_name(department_number)
-    Department.find_by(number: department_number).name
-  end
-
-  # only used in report
-  # @returns [Hash] Labels and urls for the department dropdown menu
-  def department_filter_urls
-    Department.all.map do |department|
-      [department.name, params_manager.url_with_filter(field: :department, new_option: department.number)]
     end.to_h
   end
 
@@ -111,31 +89,13 @@ class RequestListDecorator
   end
 
   def filter_label(key, value)
-    if key == :department
-      "#{key.to_s.humanize}: #{department_number_to_name(value)}"
-    else
-      "#{key.to_s.humanize}: #{value.humanize}"
-    end
+    "#{key.to_s.humanize}: #{value.humanize}"
   end
 
   # @returns [Hash] Labels and urls for sorting the results, while maintaining
   # currently applied filters
   def sort_urls
     sort_options_table.map { |value, label| [label, params_manager.url_with_sort(new_option: value)] }.to_h
-  end
-
-  def report_json
-    request_list.map do |request|
-      {
-        'reported': request.id,
-        'request_types':  request.title,
-        'start_date': request.formatted_full_start_date,
-        'end_date': request.formatted_full_end_date,
-        'total_hours':  request.hours_requested,
-        'staff':  request.full_name,
-        'department': request.department.name
-      }
-    end.to_json
   end
 
   private

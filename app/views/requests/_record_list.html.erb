@@ -70,19 +70,16 @@
       <% if @requests.count == 0 %>
         <heading id="no-results" level="h3" size="h3">No results found for your search</heading>
       <% end %>
-      <card size="full-width">
-        <card-content>
-          <data-table caption="<%= @requests.data_table_heading%>"
-            :columns="[
-              { 'name': 'request_type', 'display_name': 'Request Type'},
-              { 'name': 'start_date', 'display_name': 'Start Date'},
-              { 'name': 'end_date', 'display_name': 'End Date'},
-              { 'name': 'status', 'display_name': 'Status'},
-              { 'name': 'staff', 'display_name': 'Staff'},
-              { 'name': 'department', 'display_name': 'Department'}]"
-            :json-data="<%= @requests.report_json %>"/>
-        </card-content>
-      </card>
+      <data-table caption="Report"
+        :columns="[
+          { 'name': 'reported', 'display_name': 'Reported', 'checkbox': true },
+          { 'name': 'request_types', 'display_name': 'Request Types'},
+          { 'name': 'start_date', 'display_name': 'Start Dates'},
+          { 'name': 'end_date', 'display_name': 'End Dates'},
+          { 'name': 'total_hours', 'display_name': 'Total Hours'},
+          { 'name': 'staff', 'display_name': 'Staff'},
+          { 'name': 'department', 'display_name': 'Department'}]"
+        :json-data="<%= @requests.report_json %>"/>
     </grid-item>
   </grid-container>
 </wrapper>

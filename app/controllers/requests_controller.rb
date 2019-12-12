@@ -10,8 +10,12 @@ class RequestsController < ApplicationController
     @requests = RequestListDecorator.new(my_approval_request_objects, params_hash: request_params.to_h, params_manager_class: ::ApprovalsParamsManager)
   end
 
-  def reporting_requests
-    @requests = RequestListDecorator.new(my_reporting_request_objects, params_hash: request_params.to_h, params_manager_class: ::ReportsParamsManager)
+  def records
+    @requests = RequestListDecorator.new(recording_request_objects, params_hash: request_params.to_h, params_manager_class: ::RecordsParamsManager)
+  end
+
+  def reports
+    @requests = ReportListDecorator.new(report_request_objects, params_hash: request_params.to_h, params_manager_class: ::ReportsParamsManager)
   end
 
   private
@@ -30,7 +34,11 @@ class RequestsController < ApplicationController
       ApprovalRequestList.list_requests(approver: current_staff_profile, request_filters: request_params[:filters], search_query: request_params[:query], order: params["sort"])
     end
 
-    def my_reporting_request_objects
-      ReportingRequestList.list_requests(creator: current_staff_profile, request_filters: request_params[:filters], search_query: request_params[:query], order: params["sort"])
+    def report_request_objects
+      ReportRequestList.list_requests(request_filters: request_params[:filters], search_query: request_params[:query], order: params["sort"])
+    end
+
+    def recording_request_objects
+      RecordingRequestList.list_requests(request_filters: request_params[:filters], search_query: request_params[:query], order: params["sort"])
     end
 end

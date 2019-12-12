@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-class ReportingRequestList < RequestList
+class ReportRequestList < RequestList
   class << self
-    def list_requests(creator:, request_filters:, search_query:, order:)
+    def list_requests(request_filters:, search_query:, order:)
       Request.joins(creator: :department)
              .where(request_filters(request_filters: request_filters))
              .where_contains_text(search_query: search_query)
@@ -15,7 +15,7 @@ class ReportingRequestList < RequestList
     end
 
     def department_filters(request_filters)
-      return { request_type: "AbsenceRequest" } if request_filters.blank?
+      return {} if request_filters.blank?
       department = request_filters.delete("department")
       if department.blank?
         {}

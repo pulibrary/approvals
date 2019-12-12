@@ -57,7 +57,7 @@ RSpec.describe StaffReportProcessor, type: :model do
       expect(user_profile.supervisor).to eq(supervisor_profile)
       expect(user_profile.reload.department.head).to eq(supervisor_profile)
       expect(library_main_department.head).to eq(dean_profile)
-      expect(library_main_department.admin_assistants.map(&:uid)).to eq(["testi", "imanager"])
+      expect(library_main_department.admin_assistants.map(&:uid)).to include("testi", "imanager")
     end
 
     it "updates a user if their information changes" do

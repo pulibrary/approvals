@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class ReportsParamsManager < ParamsManager
+class RecordsParamsManager < ParamsManager
   def build_url(params)
     Rails.application.routes.url_helpers.reports_path(params: params)
   end
@@ -9,6 +9,6 @@ class ReportsParamsManager < ParamsManager
   end
 
   def filter_params
-    @filter_params ||= existing_params[:filters] || {}
+    @filter_params ||= existing_params[:filters] || { request_type: "absence" }
   end
 end

@@ -56,10 +56,6 @@ class TravelRequestDecorator < RequestDecorator
   end
   alias title event_title
 
-  def hours_requested
-    ""
-  end
-
   private
 
     def list_event_attendees

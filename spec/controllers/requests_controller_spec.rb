@@ -129,7 +129,7 @@ RSpec.describe RequestsController, type: :controller do
     end
   end
 
-  describe "GET #reporting_requests" do
+  describe "GET #reports" do
     before do
       # create all the requests
       other_absence
@@ -138,7 +138,22 @@ RSpec.describe RequestsController, type: :controller do
       my_travel
     end
     it "returns a success response" do
-      get :reporting_requests, params: {}, session: valid_session
+      get :reports, params: {}, session: valid_session
+      expect(response).to be_successful
+      expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_travel, my_absence, other_absence, other_travel].map(&:id))
+    end
+  end
+
+  describe "GET #records" do
+    before do
+      # create all the requests
+      other_absence
+      other_travel
+      my_absence
+      my_travel
+    end
+    it "returns a success response" do
+      get :records, params: {}, session: valid_session
       expect(response).to be_successful
       expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_absence, other_absence].map(&:id))
     end
