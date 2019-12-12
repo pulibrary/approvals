@@ -7,4 +7,12 @@ class ReportsParamsManager < ParamsManager
   def current_sort
     @params[:sort] || "start_date_asc"
   end
+
+  def current_department
+    @params[:department] || ""
+  end
+
+  def filter_params
+    @filter_params ||= existing_params[:filters] || { request_type: "absence" }
+  end
 end

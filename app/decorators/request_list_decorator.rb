@@ -41,6 +41,7 @@ class RequestListDecorator
     end
   end
 
+  # only used for report
   def current_department_filter_label
     filters = params_manager.filter_params
     if filters[:department].present?
@@ -67,6 +68,7 @@ class RequestListDecorator
     Department.find_by(number: department_number).name
   end
 
+  # only used in report
   # @returns [Hash] Labels and urls for the department dropdown menu
   def department_filter_urls
     Department.all.map do |department|
@@ -122,28 +124,30 @@ class RequestListDecorator
     sort_options_table.map { |value, label| [label, params_manager.url_with_sort(new_option: value)] }.to_h
   end
 
-  def sort_options_table
-    {
-      "start_date_asc" => "Start date - ascending",
-      "start_date_desc" => "Start date - descending",
-      "created_at_asc" => "Date created - ascending",
-      "created_at_desc" => "Date created - descending",
-      "updated_at_asc" => "Date modified - ascending",
-      "updated_at_desc" => "Date modified - descending"
-    }
-  end
-
   def report_json
-    request_list.map do |absence_request|
+    request_list.map do |request|
       {
-        'reported': absence_request.id,
-        'request_types':  absence_request.title,
-        'start_date': absence_request.formatted_full_start_date,
-        'end_date': absence_request.formatted_full_end_date,
-        'total_hours':  absence_request.hours_requested,
-        'staff':  absence_request.full_name,
-        'department': absence_request.department.name
+        'reported': request.id,
+        'request_types':  request.title,
+        'start_date': request.formatted_full_start_date,
+        'end_date': request.formatted_full_end_date,
+        'total_hours':  request.hours_requested,
+        'staff':  request.full_name,
+        'department': request.department.name
       }
     end.to_json
   end
+
+  private
+
+    def sort_options_table
+      {
+        "start_date_asc" => "Start date - ascending",
+        "start_date_desc" => "Start date - descending",
+        "created_at_asc" => "Date created - ascending",
+        "created_at_desc" => "Date created - descending",
+        "updated_at_asc" => "Date modified - ascending",
+        "updated_at_desc" => "Date modified - descending"
+      }
+    end
 end

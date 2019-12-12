@@ -11,11 +11,11 @@ class ReportingRequestList < RequestList
     private
 
     def request_filters(request_filters:)
-      { request_type: "AbsenceRequest" }.merge(department_filters(request_filters)).merge(filters_hash(request_filters))
+      department_filters(request_filters).merge(filters_hash(request_filters))
     end
 
     def department_filters(request_filters)
-      return {} if request_filters.blank?
+      return { request_type: "AbsenceRequest" } if request_filters.blank?
       department = request_filters.delete("department")
       if department.blank?
         {}
