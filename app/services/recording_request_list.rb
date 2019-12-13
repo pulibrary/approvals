@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 class RecordingRequestList < RequestList
   class << self
-    def list_requests(request_filters:, search_query:, order:)
-      Request.joins(creator: :department)
-             .where(request_filters(request_filters: request_filters))
-             .where_contains_text(search_query: search_query)
-             .order(request_order(order))
+    def list_requests(request_filters:, search_query:, order:, page: 1)
+      record_scope = Request.joins(creator: :department)
+                            .where(request_filters(request_filters: request_filters))
+                            .where_contains_text(search_query: search_query)
+                            .order(request_order(order))
+      paginate(record_scope: record_scope, page: page)
     end
 
     private

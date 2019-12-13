@@ -161,6 +161,13 @@ RSpec.describe RequestsController, type: :controller do
       expect(response).to be_successful
       expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_travel, my_absence, other_absence, other_travel].map(&:id))
     end
+
+    it "accepts paging" do
+      Kaminari.config.default_per_page = 1
+      get :my_requests, params: { format: :json, page: 2 }, session: valid_session
+      expect(response).to be_successful
+      expect(assigns(:requests).map(&:id)).to contain_exactly(my_absence.id)
+    end
   end
 
   describe "GET #records" do
@@ -175,6 +182,13 @@ RSpec.describe RequestsController, type: :controller do
       get :records, params: {}, session: valid_session
       expect(response).to be_successful
       expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_absence, other_absence].map(&:id))
+    end
+
+    it "accepts paging" do
+      Kaminari.config.default_per_page = 1
+      get :my_requests, params: { format: :json, page: 2 }, session: valid_session
+      expect(response).to be_successful
+      expect(assigns(:requests).map(&:id)).to contain_exactly(my_absence.id)
     end
   end
 
