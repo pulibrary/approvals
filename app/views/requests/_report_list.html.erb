@@ -38,6 +38,14 @@
                     {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
                   <% end %>
                 ]"></dropdown-menu>
+
+
+            <%= form_with(url: @requests.date_filter_url, method: "get", local: true) do %>
+              <date-picker label="Event Dates" mode="range" width="expand"
+                  name="filters[date]" id="filter_date" :default-dates="<%=@requests.current_date_filter%>"
+                  ></date-picker>
+              <%= submit_tag("filter") %>
+            <% end %>
             </grid-item>
             <grid-item columns="sm-12 auto">
               <dropdown-menu type="links" id="sort-menu" button-label="<%= @requests.current_sort_label %>" :menu-items="[

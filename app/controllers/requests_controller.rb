@@ -15,14 +15,16 @@ class RequestsController < ApplicationController
   end
 
   def reports
-    @requests = ReportListDecorator.new(report_request_objects, params_hash: request_params.to_h, params_manager_class: ::ReportsParamsManager)
+    objects = report_request_objects
+    puts "Objects = #{objects}"
+    @requests = ReportListDecorator.new(objects, params_hash: request_params.to_h, params_manager_class: ::ReportsParamsManager)
   end
 
   private
 
     # all params for this controller
     def request_params
-      params.permit(:query, :sort, filters: [:status, :request_type, :department])
+      params.permit(:query, :sort, filters: [:status, :request_type, :department, :date])
     end
 
     # objects to return to my_request action

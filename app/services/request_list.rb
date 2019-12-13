@@ -14,8 +14,11 @@ class RequestList
       def paginate(record_scope:, page:)
         offset = page_number(page) * per_page
         total_count = record_scope.count
+        puts "\n\n\n\n\n\n COunt = #{total_count} offset #{offset} \n\n\n\n\n\n"
         records = record_scope.limit(per_page).offset(offset)
+        puts "number of records = #{records.size}"
         page = Kaminari.paginate_array(records, total_count: total_count).page(0)
+        puts "page = #{page}"
         page.offset_value = offset
         page
       end
@@ -37,10 +40,23 @@ class RequestList
       def filters_hash(request_filters)
         return {} if request_filters.blank?
 
-        filters = request_filters.to_hash
-        map_request_type_filters(filters)
+        filters = date_filters(request_filters)
+        filters.merge(map_request_type_filters(request_filters.to_hash))
       end
 
+      def date_filters(request_filters)
+        date = request_filters.delete("date")
+        if date.blank?
+          {}
+        else
+          date_strings = date.split(' - ')
+          start_date = Date.strptime(date_strings[0], Rails.configuration.short_date_format)
+          end_date = Date.strptime(date_strings[1], Rails.configuration.short_date_format)
+          { start_date: start_date..end_date }
+        end
+      end
+  
+  
       # These couple methods will likely be reused; consider making it into a class like
       # ParamsToFiltersConverter
       def map_request_type_filters(filters)

@@ -100,7 +100,15 @@ class RequestListDecorator
     sort_options_table.map { |value, label| [label, params_manager.url_with_sort(new_option: value)] }.to_h
   end
 
+  def current_date_filter
+    range = params_manager.filter_params[:date].split(' - ')
+    date_range_js(range[0], range[1])
+  end
   private
+
+    def date_range_js(start_date, end_date)
+      "{ start: new Date('#{start_date}'), end: new Date('#{end_date}') }"
+    end
 
     def sort_options_table
       {

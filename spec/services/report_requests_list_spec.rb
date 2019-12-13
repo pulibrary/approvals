@@ -5,9 +5,12 @@ RSpec.describe ReportRequestList, type: :model do
   let(:user) { FactoryBot.create :user }
   let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, user: user }
 
-  let(:other_absence) { FactoryBot.create(:absence_request) }
-  let(:other_travel) { FactoryBot.create(:travel_request) }
-  let(:my_absence) { FactoryBot.create(:absence_request, creator: staff_profile, start_date: Time.zone.tomorrow) }
+  let(:yesterday) { Time.zone.yesterday }
+  let(:today) { Time.zone.today }
+  let(:tomorrow) { Time.zone.tomorrow }
+  let(:other_absence) { FactoryBot.create(:absence_request, start_date: yesterday) }
+  let(:other_travel) { FactoryBot.create(:travel_request, start_date: yesterday) }
+  let(:my_absence) { FactoryBot.create(:absence_request, creator: staff_profile, start_date: tomorrow) }
   let(:my_travel) { FactoryBot.create(:travel_request, creator: staff_profile) }
 
   describe "GET #list_requests" do
@@ -64,12 +67,15 @@ RSpec.describe ReportRequestList, type: :model do
       list = ReportRequestList.list_requests(request_filters: { "department" => staff_profile.department.number }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(*[my_absence, my_travel].map(&:id))
     end
+
+    it "accepts limit by date" do
+      list = ReportRequestList.list_requests(request_filters: { "date"=>"#{today.strftime(Rails.configuration.short_date_format)} - #{tomorrow.strftime(Rails.configuration.short_date_format)}" }, search_query: nil, order: nil)
+      expect(list.map(&:id)).to contain_exactly(*[my_absence, my_travel].map(&:id))
+    end
+    
   end
 
   describe "GET #my_requests with sort params" do
-    let(:yesterday) { Time.zone.yesterday }
-    let(:today) { Time.zone.today }
-    let(:tomorrow) { Time.zone.tomorrow }
     # r1: created yesterday, modified tomorrow, start date today
     let(:r1) do
       Timecop.freeze(yesterday) do

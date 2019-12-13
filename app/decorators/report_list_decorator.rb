@@ -44,6 +44,7 @@ class ReportListDecorator < RequestListDecorator
   end
 
   def report_json
+    puts "Request list #{request_list}"
     request_list.map do |request|
       {
         'id': request.id,
@@ -55,6 +56,10 @@ class ReportListDecorator < RequestListDecorator
         'department': request.department.name
       }
     end.to_json
+  end
+
+  def date_filter_url
+    params_manager.url_to_remove_filter(field: 'date')
   end
 
   private
