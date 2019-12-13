@@ -2,7 +2,7 @@
 class TravelRequestDecorator < RequestDecorator
   delegate :participation, :purpose, :travel_category,
            :event_requests, :estimates, :status, :can_modify_attributes?, to: :request
-  delegate :full_name, to: :creator
+  delegate :full_name, :department, to: :creator
   attr_reader :travel_request
 
   def initialize(travel_request)
@@ -54,6 +54,7 @@ class TravelRequestDecorator < RequestDecorator
   def event_title
     "#{request.event_title} (#{event_requests[0].start_date.strftime(date_format)} to #{event_requests[0].end_date.strftime(date_format)})"
   end
+  alias title event_title
 
   private
 

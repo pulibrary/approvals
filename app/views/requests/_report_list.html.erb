@@ -1,0 +1,88 @@
+<wrapper :max-width=1440>
+  <grid-container>
+    <grid-item columns="lg-12 sm-12">
+      <card size="full-width" class="search-filter-sort">
+        <card-content>
+          <grid-container>
+            <grid-item columns="lg-12 sm-12">
+            <%= form_tag(search_path, method: :get) do %>
+              <search-box>
+                <input-text id="query" name="query" value="<%=params[:query]%>" :hide-label=true label="search" placeholder="Search..."></input-text>
+                <input-button type="submit" id="search" variation="icon" icon="search" aria-label="submit search"></input-button>
+              </search-box>
+            <% end %>
+            </grid-item>
+
+            <grid-item columns="sm-12 auto">
+              <% if show_status %>
+                <dropdown-menu type="links" id="status-menu" button-label="<%= @requests.current_status_filter_label %>" :menu-items="[
+                  <% @requests.status_filter_urls.each do |key, url| %>
+                    {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
+                  <% end %>
+                ]"></dropdown-menu>
+              <% end %>
+
+              <dropdown-menu type="links" id="request-type-menu" button-label="<%= @requests.current_request_type_filter_label %>" :menu-items="[
+                {name: 'Absence', component: 'Absence', href: '<%= @requests.absence_filter_url %>'},
+                <% @requests.absence_filter_urls.each do |key, url| %>
+                  {name: '<%= key %>', component: '<%= key %>', parent: 'Absence', href: '<%= url %>'},
+                <% end %>
+                {name: 'Travel', component: 'Travel', href: '<%= @requests.travel_filter_url %>'},
+                <% @requests.travel_filter_urls.each do |key, url| %>
+                  {name: '<%= key %>', component: '<%= key %>', parent: 'Travel', href: '<%= url %>'},
+                <% end %>
+              ]"></dropdown-menu>
+
+              <dropdown-menu type="links" id="department-menu" button-label="<%= @requests.current_department_filter_label %>" :menu-items="[
+                  <% @requests.department_filter_urls.each do |key, url| %>
+                    {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
+                  <% end %>
+                ]"></dropdown-menu>
+            </grid-item>
+            <grid-item columns="sm-12 auto">
+              <dropdown-menu type="links" id="sort-menu" button-label="<%= @requests.current_sort_label %>" :menu-items="[
+                <% @requests.sort_urls.each do |key, url| %>
+                  {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
+                <% end %>
+              ]"></dropdown-menu>
+            </grid-item>
+          </grid-container>
+
+        <% if @requests.filter_removal_urls.present? %>
+          <div class="filter-applied">
+            <span class="filter-label">Filtered by</span>
+            <tag type="filter" :tag-items="[
+              <% @requests.filter_removal_urls.each do |key, url| %>
+              {name: '<%= key %>', href: '<%= url %>'},
+              <% end %>
+            ]"></tag>
+          </div>
+        <% end %>
+        </card-content>
+      </card>
+    </grid-item>
+  </grid-container>
+</wrapper>
+
+<wrapper :max-width=1440 class="my-request">
+<grid-container>
+    <grid-item columns="lg-12 sm-12">
+      <% if @requests.count == 0 %>
+        <heading id="no-results" level="h3" size="h3">No results found for your search</heading>
+      <% end %>
+      <card size="full-width">
+        <card-content>
+          <data-table caption="<%= @requests.data_table_heading%>"
+            :columns="[
+              { 'name': 'request_type', 'display_name': 'Request Type'},
+              { 'name': 'start_date', 'display_name': 'Start Date'},
+              { 'name': 'end_date', 'display_name': 'End Date'},
+              { 'name': 'status', 'display_name': 'Status'},
+              { 'name': 'staff', 'display_name': 'Staff'},
+              { 'name': 'department', 'display_name': 'Department'}]"
+            :json-data="<%= @requests.report_json %>"/>
+        </card-content>
+      </card>
+    </grid-item>
+  </grid-container>
+</wrapper>

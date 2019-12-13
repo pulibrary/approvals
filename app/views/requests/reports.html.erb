@@ -1,0 +1,8 @@
+<wrapper :max-width=1440>
+  <grid-container>
+    <grid-item columns="lg-5 sm-12">
+      <heading level="h1" size="h2">Reports</heading>
+    </grid-item>
+  </grid-container>
+</wrapper>
+<%=  render 'report_list', show_status: true, search_path: reports_path, detail_partial: 'report_detail' %>

@@ -48,9 +48,9 @@ class RequestList
         elsif param_value == "travel"
           { request_type: "TravelRequest" }
         elsif Request.travel_categories.values.include?(param_value)
-          { travel_category: param_value }
+          { request_type: "TravelRequest", travel_category: param_value }
         else
-          { absence_type: param_value }
+          { request_type: "AbsenceRequest", absence_type: param_value }
         end
       end
 

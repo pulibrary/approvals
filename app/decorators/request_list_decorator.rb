@@ -86,8 +86,12 @@ class RequestListDecorator
     return {} if filters.empty?
 
     filters.map do |key, value|
-      ["#{key.to_s.humanize}: #{value.humanize}", params_manager.url_to_remove_filter(field: key)]
+      [filter_label(key, value), params_manager.url_to_remove_filter(field: key)]
     end.to_h
+  end
+
+  def filter_label(key, value)
+    "#{key.to_s.humanize}: #{value.humanize}"
   end
 
   # @returns [Hash] Labels and urls for sorting the results, while maintaining
@@ -96,14 +100,16 @@ class RequestListDecorator
     sort_options_table.map { |value, label| [label, params_manager.url_with_sort(new_option: value)] }.to_h
   end
 
-  def sort_options_table
-    {
-      "start_date_asc" => "Start date - ascending",
-      "start_date_desc" => "Start date - descending",
-      "created_at_asc" => "Date created - ascending",
-      "created_at_desc" => "Date created - descending",
-      "updated_at_asc" => "Date modified - ascending",
-      "updated_at_desc" => "Date modified - descending"
-    }
-  end
+  private
+
+    def sort_options_table
+      {
+        "start_date_asc" => "Start date - ascending",
+        "start_date_desc" => "Start date - descending",
+        "created_at_asc" => "Date created - ascending",
+        "created_at_desc" => "Date created - descending",
+        "updated_at_asc" => "Date modified - ascending",
+        "updated_at_desc" => "Date modified - descending"
+      }
+    end
 end
