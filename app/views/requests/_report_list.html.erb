@@ -46,6 +46,12 @@
                 <% end %>
               ]"></dropdown-menu>
             </grid-item>
+            <% if @requests.total_pages >= 2 %>
+              <grid-item columns="sm-12 auto">
+                <%= paginate @requests %>
+              </grid-item>
+            <% end %>
+
           </grid-container>
 
         <% if @requests.filter_removal_urls.present? %>

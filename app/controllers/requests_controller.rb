@@ -35,10 +35,10 @@ class RequestsController < ApplicationController
     end
 
     def report_request_objects
-      ReportRequestList.list_requests(request_filters: request_params[:filters], search_query: request_params[:query], order: params["sort"])
+      ReportRequestList.list_requests(request_filters: request_params[:filters], search_query: request_params[:query], order: params["sort"], page: params[:page])
     end
 
     def recording_request_objects
-      RecordingRequestList.list_requests(request_filters: request_params[:filters], search_query: request_params[:query], order: params["sort"])
+      RecordingRequestList.list_requests(request_filters: request_params[:filters], search_query: request_params[:query], order: params["sort"], page: params[:page])
     end
 end

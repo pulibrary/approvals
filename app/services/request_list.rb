@@ -2,19 +2,27 @@
 class RequestList
   class << self
     def list_requests(creator:, request_filters:, search_query:, order:, page: 1)
-      offset = page_number(page) * Request.default_per_page
       record_scope = Request
                      .where(request_filters(creator: creator, request_filters: request_filters))
                      .where_contains_text(search_query: search_query)
                      .order(my_request_order(order))
-      total_count = record_scope.count
-      records = record_scope.limit(Request.default_per_page).offset(offset)
-      page = Kaminari.paginate_array(records, total_count: total_count).page(0)
-      page.offset_value = offset
-      page
+      paginate(record_scope: record_scope, page: page)
     end
 
     private
+
+      def paginate(record_scope:, page:)
+        offset = page_number(page) * per_page
+        total_count = record_scope.count
+        records = record_scope.limit(per_page).offset(offset)
+        page = Kaminari.paginate_array(records, total_count: total_count).page(0)
+        page.offset_value = offset
+        page
+      end
+
+      def per_page
+        Request.default_per_page
+      end
 
       def page_number(page)
         page ||= 1
