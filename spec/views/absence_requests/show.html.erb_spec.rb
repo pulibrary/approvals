@@ -18,7 +18,8 @@ RSpec.describe "absence_requests/show", type: :view do
     expect(rendered).to include("Sally Smith on")
     expect(rendered).to include(absence_request.notes.first.content)
     expect(rendered).to have_selector("hyperlink[href=\"#{edit_absence_request_path(absence_request.id)}\"]", text: "Edit")
-    expect(rendered).to have_selector("hyperlink[href=\"#{decide_absence_request_path(absence_request.id, cancel: '')}\"]", text: "Cancel")
+    expect(rendered).to have_selector("form[action=\"#{decide_absence_request_path(absence_request.id)}\"]")
+    expect(rendered).to have_selector("input-button", text: "Cancel")
   end
 
   context "not the creator" do

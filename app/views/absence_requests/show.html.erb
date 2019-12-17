@@ -22,10 +22,9 @@
     <grid-item>
       <hyperlink href="<%= edit_absence_request_path(@request.request) %>" variation="button solid">Edit</hyperlink>
       <% if @request.creator == current_staff_profile %>
-        <hyperlink
-          href="<%= decide_absence_request_path(@request.id, cancel: '') %>"
-          variation="button solid"
-          >Cancel</hyperlink>
+       <%= form_with(model: @request.request, local: true, url: decide_absence_request_path(@request.request), method: :put, class: 'form-button') do |form| %>
+          <input-button type="submit" variation="solid" name="cancel">Cancel</input-button>
+       <% end %>
       <% end %>
     </grid-item>
   </gird-container>

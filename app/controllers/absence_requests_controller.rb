@@ -37,4 +37,8 @@ class AbsenceRequestsController < CommonRequestController
       local[:notes] = process_notes(local[:notes])
       local
     end
+
+    def process_request_params?
+      params.include?(:absence_request)
+    end
 end

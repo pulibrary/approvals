@@ -86,4 +86,8 @@ class TravelRequestsController < CommonRequestController
       local[:notes] = process_notes(local[:notes])
       local
     end
+
+    def process_request_params?
+      params.include?(:travel_request)
+    end
 end

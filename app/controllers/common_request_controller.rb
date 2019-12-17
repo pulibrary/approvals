@@ -117,7 +117,7 @@ class CommonRequestController < ApplicationController
     # rubocop:enable Performance/HashEachMethods
 
     def update_model_and_respond(handle_deletes:, success_verb:, error_action:)
-      valid = request_change_set.validate(processed_params)
+      valid = process_request_params? && request_change_set.validate(processed_params)
       handle_nested_deletes if valid && handle_deletes
       valid &&= request_change_set.save
 
