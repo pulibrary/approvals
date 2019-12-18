@@ -74,7 +74,7 @@
 </grid-container>
   <!--
     Travel Estimate Form -->
-
+<%= request_change_set.estimate_cost_options %>
   <travel-estimate-form
     <% unless request_change_set.estimates_json_form == '[]' %>
       :expenses="<%= request_change_set.estimates_json_form %>"
