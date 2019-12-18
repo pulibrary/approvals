@@ -38,6 +38,7 @@
           <input-select label="Expense Type" name="travel_request[estimates][][cost_type]"
               :id="'travel_request_estimates_cost_type_' + expense.id"
               :value="expense.cost_type" width="expand"
+              @change="updateExpenseType($event, expense)"
               :options="cost_types" required hideLabel></input-select>
         </grid-item>
         <grid-item vertical="center" columns="lg-1 sm-12">
@@ -122,6 +123,14 @@ export default {
         total = total + (this.expenseData[i].amount * this.expenseData[i].recurrence)
       }
       return total.toFixed(2)
+    },
+    updateExpenseType(inputVal, expense) {
+      let foundIndex = this.find_expense(expense)
+      if(inputVal === 'personal_auto'){
+        this.expenseData[foundIndex].amount = 0.58
+      } else {
+        this.expenseData[foundIndex].amount = null
+      }
     },
     updateRecurrence(inputVal, expense) {
       let foundIndex = this.find_expense(expense)
