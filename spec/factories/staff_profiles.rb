@@ -12,6 +12,7 @@ FactoryBot.define do
     vacation_balance { 20 }
     sick_balance { 10 }
     personal_balance { 16 }
+    email { "#{user.uid}@princeton.edu" }
 
     trait :with_supervisor do
       after(:create) do |profile, _evaluator|

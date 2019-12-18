@@ -52,9 +52,26 @@ class TravelRequestDecorator < RequestDecorator
   end
 
   def event_title
-    "#{request.event_title} (#{event_requests[0].start_date.strftime(date_format)} to #{event_requests[0].end_date.strftime(date_format)})"
+    "#{request.event_title} (#{event_dates})"
   end
   alias title event_title
+
+  def event_dates
+    "#{event_requests[0].start_date.strftime(date_format)} to #{event_requests[0].end_date.strftime(date_format)}"
+  end
+
+  def review_path
+    Rails.application.routes.url_helpers.review_travel_request_url(request)
+  end
+
+  def review_details
+    {
+      "Type" => request_type,
+      "Dates Away" => event_dates,
+      "Destination" => event_requests[0].location,
+      "Event" => event_requests[0].recurring_event.name
+    }
+  end
 
   private
 

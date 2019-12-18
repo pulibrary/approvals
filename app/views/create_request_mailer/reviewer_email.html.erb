@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+  <h1>The following leave request was submitted by <%= @request.creator %> on <%= @request.created_at %>.</h1>
+  <p>To review the request for approval go to <a href="<%= @request.review_path %>">here</a></p>
+  <dl>
+    <% @request.review_details.each do |key, value| %>
+    <dt><%=key%></dt><dd><%=value%></dd>
+    <% end %>      
+  </dl>
+  </body>
+</html>
