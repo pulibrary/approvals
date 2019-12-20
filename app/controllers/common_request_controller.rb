@@ -26,7 +26,7 @@ class CommonRequestController < ApplicationController
 
   # POST
   def create
-    update_model_and_respond(handle_deletes: false, success_verb: "created", error_action: :new)
+    MailForAction.send(request: @request, action: "create") if update_model_and_respond(handle_deletes: false, success_verb: "created", error_action: :new)
   end
 
   # PATCH/PUT
@@ -117,10 +117,7 @@ class CommonRequestController < ApplicationController
     # rubocop:enable Performance/HashEachMethods
 
     def update_model_and_respond(handle_deletes:, success_verb:, error_action:)
-      valid = process_request_params? && request_change_set.validate(processed_params)
-      handle_nested_deletes if valid && handle_deletes
-      valid &&= request_change_set.save
-
+      valid = validate_and_save(handle_deletes: handle_deletes)
       respond_to do |format|
         if valid
           @request = request_change_set.model
@@ -132,6 +129,13 @@ class CommonRequestController < ApplicationController
           format.json { render json: request_change_set.errors, status: :unprocessable_entity }
         end
       end
+      valid
+    end
+
+    def validate_and_save(handle_deletes:)
+      valid = process_request_params? && request_change_set.validate(processed_params)
+      handle_nested_deletes if valid && handle_deletes
+      valid && request_change_set.save
     end
 
     def run_action(action:, change_method: :creator_can_change?)
@@ -141,7 +145,7 @@ class CommonRequestController < ApplicationController
       request = request_change_set.model
       request.aasm.fire(action, agent: current_staff_profile) if request_change_set.valid?
 
-      update_model_and_respond(handle_deletes: false, success_verb: request.status, error_action: :review)
+      MailForAction.send(request: request, action: action) if update_model_and_respond(handle_deletes: false, success_verb: request.status, error_action: :review)
     end
 
     def creator_can_change?(action:)

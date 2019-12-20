@@ -177,7 +177,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       it "creates a new TravelRequest" do
         expect do
           post :create, params: { travel_request: valid_attributes }, session: valid_session
-        end.to change(TravelRequest, :count).by(1)
+        end.to change(TravelRequest, :count).by(1).and change { ActionMailer::Base.deliveries.count }.by(1)
         updated = TravelRequest.last
         expect(updated.start_date).to eq start_date
         expect(updated.end_date).to eq end_date

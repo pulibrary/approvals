@@ -42,6 +42,22 @@ class AbsenceRequestDecorator < RequestDecorator
   end
 
   def event_title
-    "#{title} (#{start_date.strftime(date_format)} to #{end_date.strftime(date_format)})"
+    "#{title} (#{event_dates})"
+  end
+
+  def event_dates
+    "#{start_date.strftime(date_format)} to #{end_date.strftime(date_format)}"
+  end
+
+  def review_path
+    Rails.application.routes.url_helpers.review_absence_request_url(request)
+  end
+
+  def review_details
+    {
+      "Type" => request_type,
+      "Dates Away" => event_dates,
+      "Total absence time in hours" => hours_requested
+    }
   end
 end

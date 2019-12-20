@@ -99,4 +99,6 @@ Rails.application.configure do
   # location of the mounted staff report
   config.staff_report_location = '/mnt/dms-smbserve/bi-library-hr/prod/Department Absence Manager Report - Library-en-us.csv'
   config.balance_report_location = '/mnt/dms-smbserve/bi-library-hr/prod/Balances for Employees Enrolled in Absence Management - Library-en-us.csv'
+
+  Rails.application.routes.default_url_options[:host] = 'approvals.princeton.edu'
 end

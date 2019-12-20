@@ -1,0 +1,5 @@
+The following leave request was submitted by <%= @request.creator %> on <% @request.created_at %>.
+To review the request for approval go to <%= @request.review_path %>
+<% @request.review_details.each do |key, value| %>
+<%=key%>: <%=value%>
+<% end %>

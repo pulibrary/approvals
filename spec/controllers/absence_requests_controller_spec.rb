@@ -25,7 +25,7 @@ require "rails_helper"
 # `rails-controller-testing` gem.
 
 RSpec.describe AbsenceRequestsController, type: :controller do
-  let(:creator) { FactoryBot.create(:staff_profile, user: user) }
+  let(:creator) { FactoryBot.create(:staff_profile, :with_supervisor, user: user) }
 
   # This should return the minimal set of attributes required to create a valid
   # AbsenceRequest. As you add validations to AbsenceRequest, be sure to
@@ -232,7 +232,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       it "creates a new AbsenceRequest" do
         expect do
           post :create, params: { absence_request: valid_attributes }, session: valid_session
-        end.to change(AbsenceRequest, :count).by(1)
+        end.to change(AbsenceRequest, :count).by(1).and change { ActionMailer::Base.deliveries.count }.by(1)
       end
 
       it "redirects to the created absence_request" do
