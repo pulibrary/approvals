@@ -38,6 +38,7 @@
           <input-select label="Expense Type" name="travel_request[estimates][][cost_type]"
               :id="'travel_request_estimates_cost_type_' + expense.id"
               :value="expense.cost_type" width="expand"
+              @change="updateExpenseType($event, expense)"
               :options="cost_types" required hideLabel></input-select>
         </grid-item>
         <grid-item vertical="center" columns="lg-1 sm-12">
@@ -50,7 +51,8 @@
           <input-text label="Cost per Occurrence" name="travel_request[estimates][][amount]"
               :id="'travel_request_estimates_amount_' + expense.id"
               @input="updateAmount($event, expense)"
-              :value="expense.amount" width="expand" required hideLabel></input-text>
+              :value="expense.amount" width="expand"
+              :readonly="isAmountReadonly(expense)" required hideLabel></input-text>
         </grid-item>
         <grid-item vertical="center" columns="lg-4 sm-12">
           <input-text label="Note" name="travel_request[estimates][][description]"
@@ -112,6 +114,9 @@ export default {
       let foundIndex = this.expenseData.findIndex(x => x.other_id == expense.other_id)
       this.expenseData.splice(foundIndex, 1)
     },
+    isAmountReadonly(expense){
+      return (expense.cost_type === 'personal_auto') ? true : false
+    },
     setLineItemTotal(expense) {
       return (expense.amount * expense.recurrence).toFixed(2)
     },
@@ -122,6 +127,15 @@ export default {
         total = total + (this.expenseData[i].amount * this.expenseData[i].recurrence)
       }
       return total.toFixed(2)
+    },
+    updateExpenseType(inputVal, expense) {
+      let foundIndex = this.find_expense(expense)
+      this.expenseData[foundIndex].cost_type = inputVal
+      if(inputVal === 'personal_auto'){
+        this.expenseData[foundIndex].amount = 0.58
+      } else {
+        this.expenseData[foundIndex].amount = null
+      }
     },
     updateRecurrence(inputVal, expense) {
       let foundIndex = this.find_expense(expense)
