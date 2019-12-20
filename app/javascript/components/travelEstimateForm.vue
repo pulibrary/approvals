@@ -99,7 +99,7 @@ export default {
   props: {
     expenses: {
      type: Array,
-     default: () => [{ id: null, cost_type: null, recurrence: 1, amount: 0, description: '', other_id: 'id_0' }]
+     default: () => [{ id: null, cost_type: null, recurrence: null, amount: null, description: '', other_id: 'id_0' }]
     },
     cost_types: {
      type: Array,
@@ -108,7 +108,7 @@ export default {
   },
   methods: {
     addExpense() {
-      this.expenseData.push({ id: null, cost_type: null, recurrence: 1, amount: 0, description: '', other_id: 'id_'+this.expenseData.length })
+      this.expenseData.push({ id: null, cost_type: null, recurrence: null, amount: null, description: '', other_id: 'id_'+this.expenseData.length })
     },
     deleteExpense(expense) {
       let foundIndex = this.expenseData.findIndex(x => x.other_id == expense.other_id)
