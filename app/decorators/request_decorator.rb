@@ -3,7 +3,7 @@ class RequestDecorator
   include Rails.application.routes.url_helpers
 
   delegate :created_at, :end_date, :id, :request_type, :start_date, :status, :to_model, :state_changes,
-           :creator, :notes, to: :request
+           :creator, :notes, :approved?, to: :request
   attr_reader :request
 
   def initialize(request)
@@ -44,6 +44,10 @@ class RequestDecorator
     icon_map[status]
   end
 
+  def formatted_created_at
+    created_at.strftime(date_format)
+  end
+
   def formatted_start_date
     start_date.strftime(date_format)
   end
@@ -72,6 +76,17 @@ class RequestDecorator
     both = both.sort_by(&:created_at)
     json = both.map { |item| item_json(item) }
     json.prepend(title: "Created by #{creator.full_name} on #{created_at.strftime(date_format)}", content: nil, icon: "add")
+  end
+
+  def last_supervisor_to_approve
+    last_state_change = request.latest_state_change
+    last_state_change.agent if last_state_change && (last_state_change.action == "approved")
+  end
+
+  def latest_state_change_title
+    return "" if @request.state_changes.blank?
+
+    "It has been #{@request.state_changes.last.title}."
   end
 
   private

@@ -49,4 +49,16 @@ class StaffProfile < ApplicationRecord
   def supervisor?
     StaffProfile.where(supervisor: id).count.positive?
   end
+
+  def supervisor_chain(agent: self, list: [])
+    return list if agent.supervisor.blank?
+
+    list << agent.supervisor
+    supervisor_chain(agent: agent.supervisor, list: list)
+  end
+
+  def admin_assistants
+    return [location.admin_assistant] if location&.admin_assistant
+    department.admin_assistants
+  end
 end

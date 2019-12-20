@@ -1,0 +1,3 @@
+The following request was submitted by <%= @request.creator %> on <%= @request.formatted_created_at %>.  <%= @request.latest_state_change_title %>
+To review the request for approval go to <%= @request.review_path %>
+<%= render "review_details" %>
