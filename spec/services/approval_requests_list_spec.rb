@@ -101,9 +101,30 @@ RSpec.describe ApprovalRequestList, type: :model do
       list = ApprovalRequestList.list_requests(approver: staff_profile.supervisor, request_filters: { "request_type" => "business", "status" => "pending" }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(my_business_travel.id)
     end
+
+    context "with changes requested" do
+      let(:profile1) { FactoryBot.create :staff_profile, supervisor: profile2 }
+      let(:profile2) { FactoryBot.create :staff_profile, supervisor: staff_profile }
+      let(:my_travel) { FactoryBot.create(:travel_request, creator: profile1) }
+
+      before do
+        my_travel.approve(agent: profile2)
+        my_travel.approve(agent: staff_profile)
+        my_travel.change_request(agent: staff_profile.supervisor)
+        my_travel.fix_requested_changes!(agent: profile1)
+      end
+
+      it "returns a success response" do
+        list = ApprovalRequestList.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil, order: nil)
+        expect(list.count).to be(2)
+        expect(list.first).to be_a TravelRequest
+        expect(list.last).to be_a AbsenceRequest
+        expect(list.map(&:id)).to contain_exactly(*[my_absence, my_travel].map(&:id))
+      end
+    end
   end
 
-  describe "GET #my_requests with sort params" do
+  describe "#list_requests with sort params" do
     let(:yesterday) { Time.zone.yesterday }
     let(:today) { Time.zone.today }
     let(:tomorrow) { Time.zone.tomorrow }
