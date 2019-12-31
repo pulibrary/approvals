@@ -146,6 +146,28 @@ RSpec.describe RequestsController, type: :controller do
       get :my_approval_requests, params: { filters: { request_type: "absence" } }, session: valid_session
       expect(assigns(:requests).map(&:id)).to contain_exactly(approval_absence.id)
     end
+
+    context "shows when changes are requested by the current supervisor" do
+      let(:profile1) { FactoryBot.create :staff_profile, supervisor: profile2 }
+      let(:profile2) { FactoryBot.create :staff_profile, supervisor: staff_profile }
+      let(:approval_absence) { FactoryBot.create(:absence_request, creator: profile1, start_date: Time.zone.tomorrow) }
+      let(:approval_travel) { FactoryBot.create(:travel_request, creator: profile1, start_date: Time.zone.now) }
+
+      before do
+        approval_absence.approve(agent: profile2)
+        approval_travel.approve(agent: profile2)
+        approval_travel.change_request(agent: staff_profile)
+        approval_travel.fix_requested_changes!(agent: profile1)
+      end
+
+      it "returns a success response" do
+        get :my_approval_requests, params: {}, session: valid_session
+        expect(response).to be_successful
+        expect(assigns(:requests).first).to be_a TravelRequestDecorator
+        expect(assigns(:requests).last).to be_a AbsenceRequestDecorator
+        expect(assigns(:requests).map(&:id)).to contain_exactly(*[approval_absence, approval_travel].map(&:id))
+      end
+    end
   end
 
   describe "GET #reports" do

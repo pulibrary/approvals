@@ -40,7 +40,7 @@ class ApprovalRequestList < RequestList
       end
 
       def already_approved?(request:, approver:)
-        StateChange.where(request_id: request.id, agent_id: approver.id).count.positive?
+        StateChange.where(request_id: request.id, agent_id: approver.id, action: "approved").count.positive?
       end
 
       def supervisor_chain(agent:, list: [])
