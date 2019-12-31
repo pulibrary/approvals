@@ -52,6 +52,8 @@ RSpec.feature "My Requests", type: :feature, js: true do
     tomorrow_request = FactoryBot.create(:absence_request, creator: staff_profile, start_date: Time.zone.tomorrow)
 
     visit "/my_requests"
+
+    expect(page).to have_content("My Requests")
     expect(find("#sort-menu").text).to start_with "Sort: Date modified - descending"
     ids = page.all(:css, ".my-request .lux-card").map { |element| element["id"].to_i }
     expect(ids).to eq([tomorrow_request, today_request, yesterday_request].map(&:id))

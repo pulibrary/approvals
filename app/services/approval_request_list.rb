@@ -33,7 +33,7 @@ class ApprovalRequestList < RequestList
       end
 
       def only_next_supervisor(request:, approver:)
-        supervisors = supervisor_chain(agent: request.creator)
+        supervisors = request.creator.supervisor_chain
         approver_index = supervisors.index(approver)
         previous_supervisors = supervisors.slice(0, approver_index)
         previous_supervisors.all? { |supervisor| already_approved?(request: request, approver: supervisor) }
@@ -41,13 +41,6 @@ class ApprovalRequestList < RequestList
 
       def already_approved?(request:, approver:)
         StateChange.where(request_id: request.id, agent_id: approver.id).count.positive?
-      end
-
-      def supervisor_chain(agent:, list: [])
-        return list if agent.supervisor.blank?
-
-        list << agent.supervisor
-        supervisor_chain(agent: agent.supervisor, list: list)
       end
 
       # default is start date, ascending

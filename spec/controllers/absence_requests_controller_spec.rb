@@ -143,7 +143,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
 
   describe "Put #decide" do
     it "approves and does not add a note if none is submitted" do
-      staff_profile = FactoryBot.create :staff_profile, supervisor: creator
+      staff_profile = FactoryBot.create :staff_profile, :with_department, supervisor: creator
       absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
       notes = { notes: [{ content: "Important message" }] }
       put :decide, params: { id: absence_request.to_param, absence_request: notes, approve: "" }, session: valid_session

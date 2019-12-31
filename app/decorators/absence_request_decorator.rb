@@ -53,11 +53,20 @@ class AbsenceRequestDecorator < RequestDecorator
     Rails.application.routes.url_helpers.review_absence_request_url(request)
   end
 
+  def show_path
+    Rails.application.routes.url_helpers.absence_request_url(request)
+  end
+
   def review_details
     {
       "Type" => request_type,
       "Dates Away" => event_dates,
       "Total absence time in hours" => hours_requested
     }
+  end
+
+  def next_supervisor
+    return if creator.blank?
+    creator.supervisor
   end
 end

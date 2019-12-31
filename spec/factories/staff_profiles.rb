@@ -23,7 +23,7 @@ FactoryBot.define do
 
     trait :with_department do
       after(:create) do |profile, _evaluator|
-        profile.department = FactoryBot.create(:department, :with_head)
+        profile.department = FactoryBot.create(:department, :with_head, admin_assistants: [FactoryBot.create(:staff_profile)])
         profile.supervisor = FactoryBot.create(:staff_profile) if profile.supervisor.blank?
         profile.supervisor.supervisor = profile.department.head
         profile.save

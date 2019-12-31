@@ -364,7 +364,7 @@ RSpec.describe TravelRequestsController, type: :controller do
     end
 
     it "fully approves for a department head and adds a note" do
-      staff_profile = FactoryBot.create :staff_profile, supervisor: creator
+      staff_profile = FactoryBot.create :staff_profile, :with_department, supervisor: creator
       staff_profile.department.head = creator
       staff_profile.department.save
       travel_request = FactoryBot.create(:travel_request, creator: staff_profile)

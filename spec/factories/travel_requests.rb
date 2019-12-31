@@ -3,9 +3,9 @@
 FactoryBot.define do
   factory :travel_request do
     creator { FactoryBot.create(:staff_profile, :with_department) }
-    event_requests { [FactoryBot.build(:event_request)] }
     start_date { Time.zone.today }
     end_date { Time.zone.tomorrow }
+    event_requests { [FactoryBot.build(:event_request, start_date: start_date, end_date: end_date)] }
     purpose { "My grand purpose" }
     participation { "other" }
     transient do

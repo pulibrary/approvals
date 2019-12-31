@@ -72,4 +72,23 @@ RSpec.describe StaffProfile, type: :model do
       expect(profile.current_delegate).to eq(profile2)
     end
   end
+
+  describe "#admin_assistant" do
+    it "returns based on location" do
+      aa = FactoryBot.create(:staff_profile, given_name: "Doug", surname: "Doe")
+      aa2 = FactoryBot.create(:staff_profile, given_name: "Sally", surname: "Smith")
+      location = FactoryBot.create(:location, admin_assistant: aa)
+      department = FactoryBot.create(:department, admin_assistants: [aa2])
+      profile = FactoryBot.create(:staff_profile, location: location, department: department)
+      expect(profile.admin_assistants).to eq([aa])
+    end
+
+    it "returns based on department" do
+      aa = FactoryBot.create(:staff_profile, given_name: "Doug", surname: "Doe")
+      location = FactoryBot.create(:location)
+      department = FactoryBot.create(:department, admin_assistants: [aa])
+      profile = FactoryBot.create(:staff_profile, location: location, department: department)
+      expect(profile.admin_assistants).to eq([aa])
+    end
+  end
 end

@@ -64,13 +64,24 @@ class TravelRequestDecorator < RequestDecorator
     Rails.application.routes.url_helpers.review_travel_request_url(request)
   end
 
+  def show_path
+    Rails.application.routes.url_helpers.travel_request_url(request)
+  end
+
   def review_details
     {
       "Type" => request_type,
       "Dates Away" => event_dates,
       "Destination" => event_requests[0].location,
-      "Event" => event_requests[0].recurring_event.name
+      "Event" => event_title
     }
+  end
+
+  def next_supervisor
+    return if creator.blank?
+    supervisors = request.creator.supervisor_chain
+    last_agent_index = supervisors.find_index(last_supervisor_to_approve) || -1
+    supervisors[last_agent_index + 1]
   end
 
   private
