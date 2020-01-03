@@ -2,11 +2,6 @@
 require "rails_helper"
 
 RSpec.describe ApproveRequestMailer, type: :mailer do
-  let(:html_email_heading) do
-    "<!DOCTYPE html>\n<html>\n  <head>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n    " \
-   "<style>\n      /* Email styles need to be inline */\n    </style>\n  </head>\n\n  <body>\n    "
-  end
-  let(:html_email_footer) { "\n  </body>\n</html>\n" }
   let(:supervisor) do
     aa = FactoryBot.create(:staff_profile, given_name: "Sally", surname: "Smith")
     head = FactoryBot.create(:staff_profile, given_name: "Department", surname: "Head")

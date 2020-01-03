@@ -3,7 +3,7 @@ class RequestDecorator
   include Rails.application.routes.url_helpers
 
   delegate :created_at, :end_date, :id, :request_type, :start_date, :status, :to_model, :state_changes,
-           :creator, :notes, :approved?, to: :request
+           :creator, :notes, :approved?, :latest_state_change, to: :request
   attr_reader :request
 
   def initialize(request)
