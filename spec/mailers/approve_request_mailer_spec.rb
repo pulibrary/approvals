@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require "rails_helper"
 
-RSpec.describe ApproveRequestMailer, type: :mailer do
+RSpec.describe ApproveMailer, type: :mailer do
   let(:supervisor) do
     aa = FactoryBot.create(:staff_profile, given_name: "Sally", surname: "Smith")
     head = FactoryBot.create(:staff_profile, given_name: "Department", surname: "Head")
@@ -17,11 +17,11 @@ RSpec.describe ApproveRequestMailer, type: :mailer do
 
   context "unapproved absence" do
     it "does not send AA emails" do
-      expect { ApproveRequestMailer.with(request: absence_request).admin_assistant_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
+      expect { ApproveMailer.with(request: absence_request).admin_assistant_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
     end
 
     it "sends review emails" do
-      expect { ApproveRequestMailer.with(request: absence_request).reviewer_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { ApproveMailer.with(request: absence_request).reviewer_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{AbsenceRequestDecorator.new(absence_request).title} Ready For Review"
       expect(mail.to).to eq [supervisor.email]
@@ -36,11 +36,11 @@ RSpec.describe ApproveRequestMailer, type: :mailer do
     end
 
     it "does not send creator emails" do
-      expect { ApproveRequestMailer.with(request: absence_request).creator_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
+      expect { ApproveMailer.with(request: absence_request).creator_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
     end
 
     it "does not send supervisor emails" do
-      expect { ApproveRequestMailer.with(request: absence_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
+      expect { ApproveMailer.with(request: absence_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
     end
   end
 
@@ -50,7 +50,7 @@ RSpec.describe ApproveRequestMailer, type: :mailer do
     end
 
     it "sends AA emails" do
-      expect { ApproveRequestMailer.with(request: absence_request).admin_assistant_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { ApproveMailer.with(request: absence_request).admin_assistant_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
       mail = ActionMailer::Base.deliveries.last
 
       expect(mail.subject).to eq "#{AbsenceRequestDecorator.new(absence_request).title} Approved"
@@ -67,11 +67,11 @@ RSpec.describe ApproveRequestMailer, type: :mailer do
     end
 
     it "does not send reviewer emails" do
-      expect { ApproveRequestMailer.with(request: absence_request).reviewer_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
+      expect { ApproveMailer.with(request: absence_request).reviewer_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
     end
 
     it "sends creator emails" do
-      expect { ApproveRequestMailer.with(request: absence_request).creator_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { ApproveMailer.with(request: absence_request).creator_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
       mail = ActionMailer::Base.deliveries.last
 
       expect(mail.subject).to eq "#{AbsenceRequestDecorator.new(absence_request).title} Approved"
@@ -87,7 +87,7 @@ RSpec.describe ApproveRequestMailer, type: :mailer do
     end
 
     it "does not send supervisor emails" do
-      expect { ApproveRequestMailer.with(request: absence_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
+      expect { ApproveMailer.with(request: absence_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
     end
   end
 
@@ -97,12 +97,12 @@ RSpec.describe ApproveRequestMailer, type: :mailer do
     end
 
     it "does not send AA emails" do
-      expect { ApproveRequestMailer.with(request: travel_request).admin_assistant_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
+      expect { ApproveMailer.with(request: travel_request).admin_assistant_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
     end
 
     it "sends creator email" do
       decorated_travel_request = TravelRequestDecorator.new(travel_request)
-      expect { ApproveRequestMailer.with(request: travel_request).creator_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { ApproveMailer.with(request: travel_request).creator_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{decorated_travel_request.title} Approved by Jane Smith Pending Further Review"
       expect(mail.to).to eq [creator.email]
@@ -119,7 +119,7 @@ RSpec.describe ApproveRequestMailer, type: :mailer do
 
     it "sends reviewer email" do
       decorated_travel_request = TravelRequestDecorator.new(travel_request)
-      expect { ApproveRequestMailer.with(request: travel_request).reviewer_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { ApproveMailer.with(request: travel_request).reviewer_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{decorated_travel_request.title} Ready For Review"
       expect(mail.to).to eq [supervisor.department.head.email]
@@ -136,7 +136,7 @@ RSpec.describe ApproveRequestMailer, type: :mailer do
     end
 
     it "does not send supervisor emails" do
-      expect { ApproveRequestMailer.with(request: travel_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
+      expect { ApproveMailer.with(request: travel_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
     end
   end
 
@@ -149,7 +149,7 @@ RSpec.describe ApproveRequestMailer, type: :mailer do
     it "sends AA emails" do
       decorated_travel_request = TravelRequestDecorator.new(travel_request)
 
-      expect { ApproveRequestMailer.with(request: travel_request).admin_assistant_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { ApproveMailer.with(request: travel_request).admin_assistant_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{decorated_travel_request.title} Approved"
       expect(mail.to).to eq creator.admin_assistants.map(&:email)
@@ -168,7 +168,7 @@ RSpec.describe ApproveRequestMailer, type: :mailer do
     it "sends creator email" do
       decorated_travel_request = TravelRequestDecorator.new(travel_request)
 
-      expect { ApproveRequestMailer.with(request: travel_request).creator_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { ApproveMailer.with(request: travel_request).creator_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{decorated_travel_request.title} Approved"
       expect(mail.to).to eq [creator.email]
@@ -185,12 +185,12 @@ RSpec.describe ApproveRequestMailer, type: :mailer do
     end
 
     it "does not send reviewer emails" do
-      expect { ApproveRequestMailer.with(request: travel_request).reviewer_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
+      expect { ApproveMailer.with(request: travel_request).reviewer_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
     end
 
     it "sends supervisor emails" do
       decorated_travel_request = TravelRequestDecorator.new(travel_request)
-      expect { ApproveRequestMailer.with(request: travel_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { ApproveMailer.with(request: travel_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{decorated_travel_request.title} Approved"
       expect(mail.to).to eq [supervisor.email]

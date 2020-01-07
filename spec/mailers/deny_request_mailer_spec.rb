@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require "rails_helper"
 
-RSpec.describe DenyRequestMailer, type: :mailer do
+RSpec.describe DenyMailer, type: :mailer do
   let(:supervisor) do
     aa = FactoryBot.create(:staff_profile, given_name: "Sally", surname: "Smith")
     head = FactoryBot.create(:staff_profile, given_name: "Department", surname: "Head")
