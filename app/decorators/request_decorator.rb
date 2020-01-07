@@ -86,7 +86,7 @@ class RequestDecorator
   def latest_state_change_title
     return "" if @request.state_changes.blank?
 
-    "It has been #{@request.state_changes.last.title}."
+    "It has been #{@request.latest_state_change.title}."
   end
 
   private

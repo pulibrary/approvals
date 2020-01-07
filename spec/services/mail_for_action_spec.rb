@@ -40,6 +40,14 @@ RSpec.describe MailForAction, type: :model do
       expect(approved_mail.to).to eq [creator.email]
     end
 
+    it "sends email for the change request action" do
+      request.change_request(agent: supervisor)
+      expect { MailForAction.send(request: request, action: "change_request") }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      review_mail = ActionMailer::Base.deliveries.last
+      expect(review_mail.subject).to eq "#{TravelRequestDecorator.new(request).title} Request Changes"
+      expect(review_mail.to).to eq [request.creator.email]
+    end
+
     it "logs warning for an unknown action" do
       allow(Rails.logger).to receive(:warn)
       expect { MailForAction.send(request: request, action: "bad") }.to change { ActionMailer::Base.deliveries.count }.by(0)

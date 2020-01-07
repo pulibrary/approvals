@@ -68,6 +68,10 @@ class TravelRequestDecorator < RequestDecorator
     Rails.application.routes.url_helpers.travel_request_url(request)
   end
 
+  def edit_path
+    Rails.application.routes.url_helpers.edit_travel_request_url(request)
+  end
+
   def review_details
     {
       "Type" => request_type,
