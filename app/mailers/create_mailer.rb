@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class CreateRequestMailer < ApplicationMailer
+class CreateMailer < ApplicationMailer
   default from: "approvals@princeton.edu"
 
   def reviewer_email

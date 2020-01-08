@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class ApproveRequestMailer < ApplicationMailer
+class ApproveMailer < ApplicationMailer
   def reviewer_email
     return if request.approved?
     mail(to: request.next_supervisor.email, subject: "#{request.title} Ready For Review")

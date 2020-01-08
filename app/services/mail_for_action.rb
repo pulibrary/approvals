@@ -8,13 +8,13 @@
 class MailForAction
   class << self
     def send(request:, action:)
-      mailer_class = "#{action.to_s.camelize}RequestMailer".constantize
+      mailer_class = "#{action.to_s.camelize}Mailer".constantize
       send_creator(request: request, mailer_class: mailer_class)
       send_reviewer(request: request, mailer_class: mailer_class)
       send_admin_assistant(request: request, mailer_class: mailer_class)
       send_supervisor(request: request, mailer_class: mailer_class)
     rescue NameError => e
-      raise unless e.name == "#{action.to_s.camelize}RequestMailer".to_sym
+      raise unless e.name == "#{action.to_s.camelize}Mailer".to_sym
 
       Rails.logger.warn("Unexpected action type: #{action}. Try creating a mailer for you action")
     end

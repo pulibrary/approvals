@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class DenyRequestMailer < ApplicationMailer
+class DenyMailer < ApplicationMailer
   def creator_email
     mail(to: request.creator.email, subject: "#{request.title} Denied")
   end

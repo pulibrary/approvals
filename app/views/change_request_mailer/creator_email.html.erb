@@ -1,0 +1,3 @@
+<h1>The following request was submitted on <%= @request.formatted_created_at %>.  <%= @request.latest_state_change.title %>.</h1>
+<p>To edit your request go to <a href="<%= @request.edit_path %>">here</a></p>
+<%= render "mailer/review_details" %>
