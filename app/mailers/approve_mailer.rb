@@ -12,6 +12,7 @@ class ApproveMailer < ApplicationMailer
 
   def admin_assistant_email
     return unless request.approved?
+    return if request.creator.admin_assistants.empty?
     mail(to: request.creator.admin_assistants.map(&:email), subject: "#{request.title} Approved")
   end
 

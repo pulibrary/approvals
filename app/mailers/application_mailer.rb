@@ -2,7 +2,7 @@
 
 # Main class for sending mail
 class ApplicationMailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: "approvals@princeton.edu"
   layout "mailer"
 
   private
