@@ -317,6 +317,24 @@ RSpec.describe TravelRequestsController, type: :controller do
           expect(travel_request.estimates).to be_empty
         end
       end
+
+      context "Changes requested by supervisor" do
+        it "updates the attributes and sets the status back to pending" do
+          travel_request = FactoryBot.create(:travel_request)
+          travel_request.change_request!(agent: travel_request.creator.supervisor)
+          expect do
+            put :update, params: { id: travel_request.to_param, travel_request: nested_attributes }, session: valid_session
+          end.to change(ActionMailer::Base.deliveries, :count).by(1)
+          travel_request.reload
+          expect(travel_request).to be_pending
+          expect(travel_request.notes.last.content).to eq "Important message"
+          expect(travel_request.estimates.last.amount).to eq 200.20
+          expect(travel_request.event_requests.count).to eq 1
+          expect(travel_request.event_requests[0].recurring_event.name).to eq "Conference"
+          expect(travel_request.event_requests[0].start_date).to eq start_date
+          expect(travel_request.event_requests[0].location).to eq "Paris"
+        end
+      end
     end
 
     context "with invalid note params" do
