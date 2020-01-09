@@ -12,6 +12,13 @@ class TravelRequestsController < CommonRequestController
     end
   end
 
+  # PATCH/PUT
+  def update
+    return unless super && @request.changes_requested?
+    @request.fix_requested_changes!(agent: current_staff_profile)
+    MailForAction.send(request: @request, action: "fix_requested_changes")
+  end
+
   private
 
     def request_decorator_class

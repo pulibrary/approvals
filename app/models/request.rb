@@ -77,6 +77,12 @@ class Request < ApplicationRecord
     state_changes.order("created_at ASC").last
   end
 
+  def ordered_state_changes(action:)
+    state_changes.order("created_at ASC").select do |change|
+      change.action == action
+    end
+  end
+
   private
 
     def raise_invalid_argument(property_name:)

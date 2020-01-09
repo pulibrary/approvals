@@ -93,6 +93,7 @@ class CommonRequestController < ApplicationController
         format.html { redirect_to @request, notice: message }
         format.json { render :show, status: status, location: @request }
       end
+      false
     end
 
     def handle_nested_deletes

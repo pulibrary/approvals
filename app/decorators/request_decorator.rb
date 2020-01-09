@@ -3,7 +3,7 @@ class RequestDecorator
   include Rails.application.routes.url_helpers
 
   delegate :created_at, :end_date, :id, :request_type, :start_date, :status, :to_model, :state_changes,
-           :creator, :notes, :approved?, :latest_state_change, to: :request
+           :creator, :notes, :approved?, :latest_state_change, :ordered_state_changes, :updated_at, to: :request
   attr_reader :request
 
   def initialize(request)
@@ -46,6 +46,10 @@ class RequestDecorator
 
   def formatted_created_at
     created_at.strftime(date_format)
+  end
+
+  def formatted_updated_at
+    updated_at.strftime(date_format)
   end
 
   def formatted_start_date
