@@ -384,6 +384,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       travel_request.reload
       expect(travel_request.notes.count).to eq 1
       expect(travel_request).not_to be_approved
+      expect(travel_request).to be_pending
       expect(travel_request.state_changes.map(&:action)).to eq ["approved"]
       expect(travel_request.creator).to eq(staff_profile)
     end
@@ -404,8 +405,10 @@ RSpec.describe TravelRequestsController, type: :controller do
       travel_request = FactoryBot.create(:travel_request, creator: creator)
       notes = { notes: [{ content: "Important message" }] }
       put :decide, params: { id: travel_request.to_param, travel_request: notes, approve: "" }, session: valid_session
+      travel_request.reload
       expect(response).to redirect_to(travel_request)
       expect(assigns(:request)).to eq(travel_request)
+      expect(travel_request).to be_pending
     end
 
     context "approve with invalid params" do
@@ -415,6 +418,8 @@ RSpec.describe TravelRequestsController, type: :controller do
         put :decide, params: { id: travel_request.to_param, travel_request: invalid_attributes, approve: "" }, session: valid_session
         expect(response).to be_successful
         expect(assigns(:request_change_set).errors.messages).to eq(participation: ["is not included in the list"])
+        travel_request.reload
+        expect(travel_request).to be_pending
       end
     end
 
@@ -431,9 +436,11 @@ RSpec.describe TravelRequestsController, type: :controller do
     it "does not allow the creator to deny" do
       travel_request = FactoryBot.create(:travel_request, creator: creator)
       notes = { notes: [{ content: "Important message" }] }
+      travel_request.reload
       put :decide, params: { id: travel_request.to_param, travel_request: notes, deny: "" }, session: valid_session
       expect(response).to redirect_to(travel_request)
       expect(assigns(:request)).to eq(travel_request)
+      expect(travel_request).to be_pending
     end
 
     context "deny with invalid params" do
@@ -443,6 +450,8 @@ RSpec.describe TravelRequestsController, type: :controller do
         put :decide, params: { id: travel_request.to_param, travel_request: invalid_attributes, deny: "" }, session: valid_session
         expect(response).to be_successful
         expect(assigns(:request_change_set).errors.messages).to eq(participation: ["is not included in the list"], notes: ["Notes are required to deny a request"])
+        travel_request.reload
+        expect(travel_request).to be_pending
       end
     end
 
@@ -462,6 +471,8 @@ RSpec.describe TravelRequestsController, type: :controller do
       put :decide, params: { id: travel_request.to_param, travel_request: notes, change_request: "" }, session: valid_session
       expect(response).to redirect_to(travel_request)
       expect(assigns(:request)).to eq(travel_request)
+      travel_request.reload
+      expect(travel_request).to be_pending
     end
 
     context "with invalid params" do
@@ -471,7 +482,36 @@ RSpec.describe TravelRequestsController, type: :controller do
         put :decide, params: { id: travel_request.to_param, travel_request: invalid_attributes, change_request: "" }, session: valid_session
         expect(response).to be_successful
         expect(assigns(:request_change_set).errors.messages).to eq(participation: ["is not included in the list"], notes: ["Notes are required to specify requested changes."])
+        travel_request.reload
+        expect(travel_request).to be_pending
       end
+    end
+
+    it "cancels and returns a success with notes response" do
+      travel_request = FactoryBot.create(:travel_request, creator: creator)
+      notes = { notes: [{ content: "Important message" }] }
+      put :decide, params: { id: travel_request.to_param, travel_request: notes, cancel: "" }, session: valid_session
+      travel_request.reload
+      expect(travel_request).to be_canceled
+      expect(travel_request.notes.count).to eq 1
+    end
+
+    it "cancels and returns a success response" do
+      travel_request = FactoryBot.create(:travel_request, creator: creator)
+      put :decide, params: { id: travel_request.to_param, cancel: "" }, session: valid_session
+      travel_request.reload
+      expect(travel_request.notes.count).to eq 0
+      expect(travel_request).to be_canceled
+    end
+
+    it "does not allow others to cancel" do
+      staff_profile = FactoryBot.create :staff_profile, supervisor: creator
+      travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
+      notes = { notes: [{ content: "Important message" }] }
+      put :decide, params: { id: travel_request.to_param, travel_request: notes, cancel: "" }, session: valid_session
+      travel_request.reload
+      expect(travel_request).not_to be_canceled
+      expect(travel_request.notes.count).to eq 0
     end
   end
 

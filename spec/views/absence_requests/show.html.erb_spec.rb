@@ -28,7 +28,8 @@ RSpec.describe "absence_requests/show", type: :view do
         allow(view).to receive(:current_staff_profile).and_return(nil)
         render
       end
-      expect(rendered).not_to have_selector("hyperlink[href=\"#{decide_absence_request_path(absence_request.id, cancel: '')}\"]", text: "Cancel")
+      expect(rendered).not_to have_selector("hyperlink[href=\"#{edit_absence_request_path(absence_request.id)}\"]", text: "Edit")
+      expect(rendered).not_to have_selector("form[action=\"#{decide_absence_request_path(absence_request.id)}\"]")
     end
   end
 end
