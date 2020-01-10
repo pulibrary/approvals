@@ -26,7 +26,8 @@ RSpec.describe "travel_requests/show", type: :view do
     expect(rendered).to match(/#{ travel_request.estimates.first.amount}/)
     expect(rendered).to match(/#{ travel_request.estimates.first.recurrence}/)
     expect(rendered).to have_selector("hyperlink[href=\"#{edit_travel_request_path(travel_request.request)}\"]", text: "Edit")
-    expect(rendered).to have_selector("hyperlink[href=\"#{decide_travel_request_path(travel_request.id, cancel: '')}\"]", text: "Cancel")
+    expect(rendered).to have_selector("form[action=\"#{decide_travel_request_path(travel_request.id)}\"]")
+    expect(rendered).to have_selector("input-button", text: "Cancel")
   end
 
   it "does not render edit if current profile is not the creator" do
@@ -34,6 +35,7 @@ RSpec.describe "travel_requests/show", type: :view do
       allow(view).to receive(:current_staff_profile).and_return(nil)
       render
     end
-    expect(rendered).not_to have_selector("hyperlink[href=\"#{decide_travel_request_path(travel_request.id, cancel: '')}\"]", text: "Cancel")
+    expect(rendered).not_to have_selector("hyperlink[href=\"#{edit_travel_request_path(travel_request.request)}\"]", text: "Edit")
+    expect(rendered).not_to have_selector("form[action=\"#{decide_travel_request_path(travel_request.id)}\"]")
   end
 end

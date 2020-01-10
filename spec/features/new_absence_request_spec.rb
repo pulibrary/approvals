@@ -13,7 +13,7 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
     staff_profile
   end
 
-  scenario "I can submit a sick day request" do
+  scenario "I can submit a sick day request and cancel it" do
     visit "/absence_requests/new"
     expect(page).to have_content "Vacation\n90.1 Hours"
     expect(page).to have_content "Sick\n100.0 Hours"
@@ -30,6 +30,12 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
 
     expect(page).to have_content "Sick Leave"
     expect(page).to have_content "Total Hours\n21.75"
+    expect(page).to have_content "Pending"
     Percy.snapshot(page, name: "Leave Request - Show", widths: [375, 768, 1440])
+
+    click_on "Cancel"
+    expect(page).to have_content "Sick Leave"
+    expect(page).to have_content "Total Hours\n21.75"
+    expect(page).to have_content "Canceled"
   end
 end

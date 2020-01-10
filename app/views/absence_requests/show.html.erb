@@ -20,11 +20,11 @@
   </grid-container>
   <grid-container>
     <grid-item>
-      <hyperlink href="<%= edit_absence_request_path(@request.request) %>" variation="button solid">Edit</hyperlink>
       <% if @request.creator == current_staff_profile %>
-       <%= form_with(model: @request.request, local: true, url: decide_absence_request_path(@request.request), method: :put, class: 'form-button') do |form| %>
+        <hyperlink href="<%= edit_absence_request_path(@request.request) %>" variation="button solid">Edit</hyperlink>
+        <%= form_with(model: @request.request, local: true, url: decide_absence_request_path(@request.request), method: :put, class: 'form-button') do |form| %>
           <input-button type="submit" variation="solid" name="cancel">Cancel</input-button>
-       <% end %>
+        <% end %>
       <% end %>
     </grid-item>
   </gird-container>

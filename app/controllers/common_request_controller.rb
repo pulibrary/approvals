@@ -138,7 +138,12 @@ class CommonRequestController < ApplicationController
     end
 
     def validate_and_save(handle_deletes:)
-      valid = process_request_params? && request_change_set.validate(processed_params)
+      params_to_process = if process_request_params?
+                            processed_params
+                          else
+                            {}
+                          end
+      valid = request_change_set.validate(params_to_process)
       handle_nested_deletes if valid && handle_deletes
       valid && request_change_set.save
     end

@@ -206,12 +206,20 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       end
     end
 
-    it "cancel by the creator returns a success response" do
+    it "cancel by the creator with notes returns a success response" do
       absence_request = FactoryBot.create(:absence_request, creator: creator)
       notes = { notes: [{ content: "Important message" }] }
       put :decide, params: { id: absence_request.to_param, absence_request: notes, cancel: "" }, session: valid_session
       absence_request.reload
       expect(absence_request.notes.count).to eq 1
+      expect(absence_request).to be_canceled
+    end
+
+    it "cancel by the creator returns a success response" do
+      absence_request = FactoryBot.create(:absence_request, creator: creator)
+      put :decide, params: { id: absence_request.to_param, cancel: "" }, session: valid_session
+      absence_request.reload
+      expect(absence_request.notes.count).to eq 0
       expect(absence_request).to be_canceled
     end
 

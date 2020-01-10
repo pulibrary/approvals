@@ -41,5 +41,11 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
 
     expect(page).to have_content "Super Event 2019, A Place To Be (10/01/2019 to 10/03/2019)"
     expect(page).to have_content "air 2 20.00 40.00\nlodging 3 30.00 90.00\nTotal: 130.00"
+    expect(page).to have_content "Pending"
+
+    click_on "Cancel"
+    expect(page).to have_content "Super Event 2019, A Place To Be (10/01/2019 to 10/03/2019)"
+    expect(page).to have_content "air 2 20.00 40.00\nlodging 3 30.00 90.00\nTotal: 130.00"
+    expect(page).to have_content "Canceled"
   end
 end
