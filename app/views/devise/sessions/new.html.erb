@@ -1,3 +1,8 @@
-<h2>Log in</h2>
-
-<%= render "devise/shared/links" %>
+<wrapper>
+  <grid-container class="stretch-height">
+    <grid-item >
+      <text-style variation="default">You must login to view the requested resource.</text-style>
+      <hyperlink href="/users/auth/cas" variation="button solid" data-method="post" size="large">LOGIN with NetID</hyperlink>
+    </grid-item>
+  </grid-container>
+</wrapper>
