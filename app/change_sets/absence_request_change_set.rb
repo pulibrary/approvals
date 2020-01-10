@@ -91,11 +91,11 @@ class AbsenceRequestChangeSet < Reform::Form
     end
   end
 
-  private
+  def creator
+    model.creator || current_staff_profile
+  end
 
-    def creator
-      model.creator || current_staff_profile
-    end
+  private
 
     def decorated_model
       @decorated_model ||= AbsenceRequestDecorator.new(model)

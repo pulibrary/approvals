@@ -67,7 +67,7 @@ RSpec.describe TravelRequestsController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
-      travel_request = FactoryBot.create(:travel_request)
+      travel_request = FactoryBot.create(:travel_request, creator: creator)
       get :show, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to be_successful
       assert_equal travel_request, assigns(:request).to_model
@@ -86,7 +86,7 @@ RSpec.describe TravelRequestsController, type: :controller do
 
   describe "GET #edit" do
     it "returns a success response" do
-      travel_request = FactoryBot.create(:travel_request)
+      travel_request = FactoryBot.create(:travel_request, creator: creator)
       get :edit, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to be_successful
       expect(assigns(:request_change_set)).to be_a(TravelRequestChangeSet)
@@ -94,7 +94,7 @@ RSpec.describe TravelRequestsController, type: :controller do
     end
 
     it "can edit a changes_requested request" do
-      travel_request = FactoryBot.create(:travel_request, action: "change_request")
+      travel_request = FactoryBot.create(:travel_request, creator: creator, action: "change_request")
       get :edit, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to be_successful
       expect(assigns(:request_change_set)).to be_a(TravelRequestChangeSet)
@@ -102,14 +102,14 @@ RSpec.describe TravelRequestsController, type: :controller do
     end
 
     it "can not edit an approved request" do
-      travel_request = FactoryBot.create(:travel_request, action: "approve")
+      travel_request = FactoryBot.create(:travel_request, creator: creator, action: "approve")
       get :edit, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to redirect_to(travel_request)
       expect(assigns(:request)).to eq(travel_request)
     end
 
     it "can not edit an partially approved request" do
-      travel_request = FactoryBot.create(:travel_request)
+      travel_request = FactoryBot.create(:travel_request, creator: creator)
       travel_request.approve(agent: travel_request.creator.supervisor)
       get :edit, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to redirect_to(travel_request)
@@ -117,14 +117,21 @@ RSpec.describe TravelRequestsController, type: :controller do
     end
 
     it "can not edit a denied request" do
-      travel_request = FactoryBot.create(:travel_request, action: "deny")
+      travel_request = FactoryBot.create(:travel_request, creator: creator, action: "deny")
       get :edit, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to redirect_to(travel_request)
       expect(assigns(:request)).to eq(travel_request)
     end
 
     it "can not edit a canceled request" do
-      travel_request = FactoryBot.create(:travel_request, action: "cancel")
+      travel_request = FactoryBot.create(:travel_request, creator: creator, action: "cancel")
+      get :edit, params: { id: travel_request.to_param }, session: valid_session
+      expect(response).to redirect_to(travel_request)
+      expect(assigns(:request)).to eq(travel_request)
+    end
+
+    it "can not edit a request by another person" do
+      travel_request = FactoryBot.create(:travel_request)
       get :edit, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to redirect_to(travel_request)
       expect(assigns(:request)).to eq(travel_request)
@@ -242,7 +249,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       end
 
       it "updates the requested travel_request" do
-        travel_request = FactoryBot.create(:travel_request)
+        travel_request = FactoryBot.create(:travel_request, creator: creator)
         put :update, params: { id: travel_request.to_param, travel_request: nested_attributes }, session: valid_session
         travel_request.reload
         expect(travel_request.notes.last.content).to eq "Important message"
@@ -277,7 +284,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       end
 
       it "redirects to the travel_request" do
-        travel_request = FactoryBot.create(:travel_request)
+        travel_request = FactoryBot.create(:travel_request, creator: creator)
         put :update, params: { id: travel_request.to_param, travel_request: nested_attributes }, session: valid_session
         expect(response).to redirect_to(travel_request)
         expect(assigns(:request)).to be_a(TravelRequest)
@@ -285,7 +292,7 @@ RSpec.describe TravelRequestsController, type: :controller do
 
       # rubocop:disable RSpec/AnyInstance
       context "invalid save to database" do
-        let(:travel_request) { FactoryBot.create(:travel_request) }
+        let(:travel_request) { FactoryBot.create(:travel_request, creator: creator) }
         before do
           travel_request
           allow_any_instance_of(TravelRequest).to receive(:save).and_return(false)
@@ -310,7 +317,7 @@ RSpec.describe TravelRequestsController, type: :controller do
 
       context "Already in the approval process" do
         it "does not allow updates to the attributes" do
-          travel_request = FactoryBot.create(:travel_request)
+          travel_request = FactoryBot.create(:travel_request, creator: creator)
           travel_request.approve(agent: travel_request.creator.supervisor)
           put :update, params: { id: travel_request.to_param, travel_request: nested_attributes }, session: valid_session
           expect(response).to redirect_to(travel_request)
@@ -320,7 +327,7 @@ RSpec.describe TravelRequestsController, type: :controller do
 
       context "Changes requested by supervisor" do
         it "updates the attributes and sets the status back to pending" do
-          travel_request = FactoryBot.create(:travel_request)
+          travel_request = FactoryBot.create(:travel_request, creator: creator)
           travel_request.change_request!(agent: travel_request.creator.supervisor)
           expect do
             put :update, params: { id: travel_request.to_param, travel_request: nested_attributes }, session: valid_session
@@ -345,7 +352,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       end
 
       it "returns a success response (i.e. to display the 'edit' template)" do
-        travel_request = FactoryBot.create(:travel_request)
+        travel_request = FactoryBot.create(:travel_request, creator: creator)
         expect do
           put :update, params: { id: travel_request.to_param, travel_request: invalid_nested_attributes }, session: valid_session
           expect(response).to redirect_to(travel_request)
@@ -361,7 +368,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       end
 
       it "returns a success response (i.e. to display the 'edit' template)" do
-        travel_request = FactoryBot.create(:travel_request)
+        travel_request = FactoryBot.create(:travel_request, creator: creator)
         put :update, params: { id: travel_request.to_param, travel_request: invalid_nested_attributes }, session: valid_session
         expect(assigns(:request_change_set).event_requests.last.recurring_event_id).to eq recurring_event.id.to_s
       end
@@ -470,14 +477,14 @@ RSpec.describe TravelRequestsController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested travel_request" do
-      travel_request = FactoryBot.create(:travel_request)
+      travel_request = FactoryBot.create(:travel_request, creator: creator)
       expect do
         delete :destroy, params: { id: travel_request.to_param }, session: valid_session
       end.to change(TravelRequest, :count).by(-1)
     end
 
     it "redirects to the travel_requests list" do
-      travel_request = FactoryBot.create(:travel_request)
+      travel_request = FactoryBot.create(:travel_request, creator: creator)
       delete :destroy, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to redirect_to(travel_requests_url)
     end

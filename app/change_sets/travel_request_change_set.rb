@@ -106,6 +106,10 @@ class TravelRequestChangeSet < Reform::Form
     end
   end
 
+  def creator
+    model.creator || current_staff_profile
+  end
+
   private
 
     def date_range_js(start_date, end_date)
@@ -115,10 +119,6 @@ class TravelRequestChangeSet < Reform::Form
     def format_date_js(date)
       ldate = date || Time.zone.today
       ldate.strftime("%m/%d/%Y")
-    end
-
-    def creator
-      model.creator || current_staff_profile
     end
 
     def decorated_model

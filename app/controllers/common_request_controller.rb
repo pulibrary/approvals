@@ -17,11 +17,15 @@ class CommonRequestController < ApplicationController
     @request_change_set = request_change_set
 
     # render the default
-    return if request_change_set.can_modify_attributes?
+    return if request_change_set.can_modify_attributes? && current_staff_profile == request_change_set.creator
 
     # handle the error
-    respond_with_show_error(message: "#{model_instance_to_name(@request_change_set.model)} can not be edited after it has been #{@request_change_set.model.status}.",
-                            status: :invalid_edit)
+    error = if current_staff_profile == request_change_set.creator
+              "#{model_instance_to_name(@request_change_set.model)} can not be edited after it has been #{@request_change_set.model.status}."
+            else
+              "You must be the creator to edit a request"
+            end
+    respond_with_show_error(message: error, status: :invalid_edit)
   end
 
   # POST
