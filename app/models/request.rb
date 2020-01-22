@@ -77,8 +77,10 @@ class Request < ApplicationRecord
     state_changes.order("created_at ASC").last
   end
 
-  def ordered_state_changes(action:)
-    state_changes.order("created_at ASC").select do |change|
+  def ordered_state_changes(action: nil)
+    ordered = state_changes.order("created_at ASC")
+    return ordered unless action.present?
+    ordered.select do |change|
       change.action == action
     end
   end

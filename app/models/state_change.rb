@@ -6,12 +6,26 @@ class StateChange < ApplicationRecord
 
   accepts_nested_attributes_for :request
 
+  enum action: {
+    pending: "pending",
+    canceled: "canceled",
+    changes_requested: "changes_requested",
+    approved: "approved",
+    denied: "denied",
+    pending_cancelation: "pending_cancelation",
+    recorded: "recorded"
+  }
+
   def title
+    "#{action.titleize} by #{actor_and_date}"
+  end
+
+  def actor_and_date
     date = created_at.strftime(Rails.configuration.short_date_format)
     if delegate
-      "#{action.titleize} by #{delegate.full_name} on behalf of #{agent.full_name} on #{date}"
+      "#{delegate.full_name} on behalf of #{agent.full_name} on #{date}"
     else
-      "#{action.titleize} by #{agent.full_name} on #{date}"
+      "#{agent.full_name} on #{date}"
     end
   end
 end

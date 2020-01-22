@@ -1,0 +1,7 @@
+The following request was submitted by <%= @request.creator %> on <%= @request.formatted_created_at %>.  <%= @request.latest_state_change_title %>
+<%= @request.previous_state_change_title %>
+<% if @request.previous_state.recorded? %>
+To complete the cancelation after you have recorded the change go to <%= @request.show_path %>">
+<% else %>
+To view the request go to <%= @request.show_path %>
+<% end %>
