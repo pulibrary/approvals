@@ -56,11 +56,34 @@ RSpec.describe AbsenceRequestsController, type: :controller do
   end
 
   describe "GET #show" do
-    it "returns a success response" do
+    it "returns a success response for the creator" do
       absence_request = FactoryBot.create(:absence_request, creator: creator)
       get :show, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to be_successful
       assert_equal absence_request, assigns(:request).request
+    end
+
+    it "returns a success response for the creator's supervisor" do
+      staff_profile = FactoryBot.create(:staff_profile, supervisor: creator)
+      absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
+      get :show, params: { id: absence_request.to_param }, session: valid_session
+      expect(response).to be_successful
+      assert_equal absence_request, assigns(:request).request
+    end
+
+    it "returns a success response for the creator's supervisor's supervisor" do
+      staff_supervisor = FactoryBot.create(:staff_profile, supervisor: creator)
+      staff_profile = FactoryBot.create(:staff_profile, supervisor: staff_supervisor)
+      absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
+      get :show, params: { id: absence_request.to_param }, session: valid_session
+      expect(response).to be_successful
+      assert_equal absence_request, assigns(:request).request
+    end
+
+    it "can not show a request created by another user" do
+      absence_request = FactoryBot.create(:absence_request)
+      get :show, params: { id: absence_request.to_param }, session: valid_session
+      expect(response).to redirect_to(my_requests_path)
     end
   end
 
