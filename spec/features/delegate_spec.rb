@@ -36,7 +36,43 @@ RSpec.feature "Delegate", type: :feature, js: true do
     assert_selector "a", text: "Delegations", count: 0
     assert_selector "a", text: "My Delegates", count: 0
 
-    click_link "New leave request"
+    click_link "My Requests"
+    assert_selector "div.lux-alert", text: "You are acting on behalf of #{delegate_staff_profile}"
+    assert_selector ".my-request .lux-card", count: 2
+
+    # Todo we really should not need to hand jam the url
+    # visit cancel_delegates_path
+    find("a#cancel_delegation").click
+
+    assert_selector "div.lux-alert", text: "You are now acting on your own behalf"
+    assert_selector ".my-request .lux-card", count: 1
+  end
+
+  scenario "I can see my requests and my delegates with pending for absence" do
+    FactoryBot.create(:absence_request, creator: staff_profile, start_date: Date.parse("2019-10-12"), end_date: Date.parse("2019-10-13"))
+    FactoryBot.create(:absence_request, creator: delegate_staff_profile, start_date: Date.parse("2019-10-12"), end_date: Date.parse("2019-10-13"))
+    FactoryBot.create(:absence_request, creator: delegate_staff_profile, start_date: Date.parse("2019-09-12"), end_date: Date.parse("2019-09-13"))
+
+    visit "/my_requests"
+    assert_selector ".my-request .lux-card", count: 1
+    assert_selector "a", text: "Delegations", count: 1
+    assert_selector "a", text: "My Delegates", count: 1
+
+    click_on "Delegations"
+    Percy.snapshot(page, name: "Delegations - Show", widths: [375, 768, 1440])
+
+    assert_selector ".lux-card-header", text: /^Joe Schmo*/, count: 1
+    assert_selector ".lux-card-content a", count: 1
+
+    find(".lux-card-content a").click
+
+    assert_selector "div.lux-alert", text: "You are acting on behalf of #{delegate_staff_profile}"
+    assert_selector ".my-request .lux-card", count: 2
+    assert_selector "a", text: "Delegations", count: 0
+    assert_selector "a", text: "My Delegates", count: 0
+
+    pending("absence fully implemented")
+    click_link "New travel request"
     assert_selector "div.lux-alert", text: "You are acting on behalf of #{delegate_staff_profile}"
     find("#absence_request_absence_type option[value='sick']").select_option
     today = Date.parse("2019-10-21")
