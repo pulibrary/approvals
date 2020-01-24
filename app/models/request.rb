@@ -50,7 +50,10 @@ class Request < ApplicationRecord
     committee_member: "committee_member",
     other: "other",
     site_visit: "site_visit",
-    training: "training"
+    training: "training",
+    vendor_visit: "vendor_visit",
+    donor_visit: "donor_visit",
+    participant: "participant"
   }
 
   enum travel_category: {

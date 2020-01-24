@@ -70,7 +70,10 @@ CREATE TYPE public.request_participation_category AS ENUM (
     'committee_member',
     'other',
     'site_visit',
-    'training'
+    'training',
+    'vendor_visit',
+    'donor_visit',
+    'participant'
 );
 
 
@@ -102,7 +105,7 @@ CREATE TYPE public.request_travel_category AS ENUM (
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+SET default_table_access_method = heap;
 
 --
 -- Name: admin_assistants_departments; Type: TABLE; Schema: public; Owner: -

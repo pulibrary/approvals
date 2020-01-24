@@ -6,7 +6,7 @@ class ConvertRequestStringsToEnums < ActiveRecord::Migration[5.2]
     remove_column :requests, :travel_category, :string
     remove_column :requests, :absence_type, :string
     execute <<-SQL
-      CREATE TYPE request_participation_category AS ENUM ('presenter', 'member', 'committee_chair', 'committee_member', 'other', 'site_visit', 'training');
+      CREATE TYPE request_participation_category AS ENUM ('presenter', 'member', 'committee_chair', 'committee_member', 'other', 'site_visit', 'training', 'vendor_visit', 'donor_visit', 'participant');
       CREATE TYPE request_travel_category AS ENUM ('business', 'professional_development', 'discretionary');
       CREATE TYPE request_absence_type AS ENUM ('consulting', 'vacation_monthly', 'personal', 'sick', 'jury_duty', 'death_in_family', 'research_days', 'work_from_home');
     SQL
