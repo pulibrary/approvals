@@ -2,7 +2,17 @@
 class CommonRequestController < ApplicationController
   # GET
   def show
-    @request = request_decorator_class.new(@request)
+    # you may view the request only if you are the creator, or you are allowed to review the request
+    if allowed_to_review || current_staff_profile == @request.creator
+      @request = request_decorator_class.new(@request)
+
+    else
+      respond_to do |format|
+        @request = nil
+        format.html { redirect_to my_requests_path, notice: "Only the requestor or reviewer can view a request" }
+        format.json { redirect_to my_requests_path(format: :json) }
+      end
+    end
   end
 
   # GET
@@ -55,7 +65,6 @@ class CommonRequestController < ApplicationController
   # GET
   def review
     @request_change_set = request_change_set
-    allowed_to_review = @request_change_set.model.only_supervisor(agent: current_staff_profile)
 
     # render the default
     return if @request_change_set.model.pending? && allowed_to_review
@@ -83,6 +92,10 @@ class CommonRequestController < ApplicationController
   end
 
   private
+
+    def allowed_to_review
+      @allowed_to_review ||= @request.only_supervisor(agent: current_staff_profile)
+    end
 
     def process_notes(notes)
       return notes unless notes

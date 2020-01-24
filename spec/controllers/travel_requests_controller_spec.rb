@@ -66,11 +66,34 @@ RSpec.describe TravelRequestsController, type: :controller do
   end
 
   describe "GET #show" do
-    it "returns a success response" do
+    it "returns a success response for the creator" do
       travel_request = FactoryBot.create(:travel_request, creator: creator)
       get :show, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to be_successful
       assert_equal travel_request, assigns(:request).to_model
+    end
+
+    it "returns a success response for the creator's supervisor" do
+      staff_profile = FactoryBot.create(:staff_profile, supervisor: creator)
+      travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
+      get :show, params: { id: travel_request.to_param }, session: valid_session
+      expect(response).to be_successful
+      assert_equal travel_request, assigns(:request).to_model
+    end
+
+    it "returns a success response for the creator's supervisor's supervisor" do
+      staff_supervisor = FactoryBot.create(:staff_profile, supervisor: creator)
+      staff_profile = FactoryBot.create(:staff_profile, supervisor: staff_supervisor)
+      travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
+      get :show, params: { id: travel_request.to_param }, session: valid_session
+      expect(response).to be_successful
+      assert_equal travel_request, assigns(:request).to_model
+    end
+
+    it "can not show a request created by another user" do
+      travel_request = FactoryBot.create(:travel_request)
+      get :show, params: { id: travel_request.to_param }, session: valid_session
+      expect(response).to redirect_to(my_requests_path)
     end
   end
 
