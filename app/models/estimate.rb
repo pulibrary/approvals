@@ -4,7 +4,7 @@ class Estimate < ApplicationRecord
   enum cost_type: {
     ground_transportation: "ground transportation",
     lodging: "lodging (per night)",
-    meals: "meals (per diem)",
+    meals: "meals and related expenses (daily)",
     misc: "miscellaneous",
     registration: "registration fee",
     rental_vehicle: "car rental",

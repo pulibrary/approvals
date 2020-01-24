@@ -16,7 +16,7 @@ SET row_security = off;
 CREATE TYPE public.estimate_cost_type AS ENUM (
     'ground transportation',
     'lodging (per night)',
-    'meals (per diem)',
+    'meals and related expenses (daily)',
     'miscellaneous',
     'registration fee',
     'car rental',
@@ -105,7 +105,7 @@ CREATE TYPE public.request_travel_category AS ENUM (
 
 SET default_tablespace = '';
 
-SET default_table_access_method = heap;
+SET default_with_oids = false;
 
 --
 -- Name: admin_assistants_departments; Type: TABLE; Schema: public; Owner: -

@@ -15,7 +15,7 @@ describe("travelEstimateForm.vue", () => {
         ],
         cost_types: [
           {label: 'ground transportation', value: 'ground_transportation'},
-          {label: 'lodging (per night)', value: 'lodging'},{label: 'meals (per diem)', value: 'meals'},
+          {label: 'lodging (per night)', value: 'lodging'},{label: 'meals and related expenses (daily)', value: 'meals'},
           {label: 'miscellaneous', value: 'misc'},{label: 'registration fee', value: 'registration'},
           {label: 'car rental', value: 'rental_vehicle'},
           {label: 'airfare', value: 'air'},{label: 'taxi', value: 'taxi'},
