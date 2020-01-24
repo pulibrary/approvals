@@ -21,7 +21,7 @@ RSpec.describe StateChangesController, type: :controller do
     {
       agent_id: nil,
       request_id: nil,
-      action: "bad"
+      action: nil
     }
   end
 

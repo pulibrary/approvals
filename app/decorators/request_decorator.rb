@@ -3,7 +3,8 @@ class RequestDecorator
   include Rails.application.routes.url_helpers
 
   delegate :created_at, :end_date, :id, :request_type, :start_date, :status, :to_model, :state_changes,
-           :creator, :notes, :approved?, :latest_state_change, :ordered_state_changes, :updated_at, to: :request
+           :creator, :notes, :latest_state_change, :ordered_state_changes, :updated_at,
+           :approved?, :canceled?, :recorded?, to: :request
   attr_reader :request
 
   def initialize(request)
@@ -88,12 +89,29 @@ class RequestDecorator
   end
 
   def latest_state_change_title
-    return "" if @request.state_changes.blank?
+    title_for_state(state: @request.latest_state_change)
+  end
 
-    "It has been #{@request.latest_state_change.title}."
+  def previous_state_change_title
+    title_for_state(state: previous_state, phrase: "was")
+  end
+
+  def previous_state
+    count = ordered_state_changes.count
+    return unless count >= 2
+    ordered_state_changes[count - 2]
   end
 
   private
+
+    def title_for_state(state:, phrase: "has been")
+      return "" if state.blank?
+      if state.pending_cancelation?
+        "Cancelation #{phrase} requested by #{state.actor_and_date}."
+      else
+        "It #{phrase} #{state.title}."
+      end
+    end
 
     def date_format
       "%m/%d/%Y"
