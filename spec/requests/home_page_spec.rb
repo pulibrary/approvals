@@ -16,7 +16,8 @@ RSpec.describe "Home Page", type: :request do
         FactoryBot.create(:travel_request)
 
         get root_path
-        expect(response).to have_http_status(200)
+        expect(response).to be_redirect
+        expect(response.redirect_url).to eq(my_requests_url)
       end
     end
 
