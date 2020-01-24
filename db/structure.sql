@@ -16,7 +16,7 @@ SET row_security = off;
 CREATE TYPE public.estimate_cost_type AS ENUM (
     'ground transportation',
     'lodging (per night)',
-    'meals (per diem)',
+    'meals and related expenses (daily)',
     'miscellaneous',
     'registration fee',
     'car rental',
@@ -70,7 +70,10 @@ CREATE TYPE public.request_participation_category AS ENUM (
     'committee_member',
     'other',
     'site_visit',
-    'training'
+    'training',
+    'vendor_visit',
+    'donor_visit',
+    'participant'
 );
 
 
@@ -373,14 +376,14 @@ CREATE TABLE public.requests (
     purpose character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    participation public.request_participation_category,
     travel_category public.request_travel_category,
     absence_type public.request_absence_type,
     status public.request_status,
     event_title character varying,
     start_time character varying,
     end_time character varying,
-    hours_requested numeric
+    hours_requested numeric,
+    participation public.request_participation_category
 );
 
 
@@ -938,6 +941,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191029130508'),
 ('20191030122935'),
 ('20191125161410'),
-('20191203144321');
+('20191203144321'),
+('20200124122301'),
+('20200124122321');
 
 

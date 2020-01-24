@@ -58,14 +58,14 @@
 
       >
       </date-picker>
-      <input-text label="Purpose (optional)" id="travel_request_purpose" width="expand"
+      <input-text label="Purpose" id="travel_request_purpose" width="expand"
         name="travel_request[purpose]" value="<%= request_change_set.purpose %>"
         helper="Specify the reason this trip is necessary for your job"
-        :options="<%= request_change_set.travel_category_options %>"></input-text>
+        :options="<%= request_change_set.travel_category_options %>" required></input-text>
   </grid-item>
   <grid-item columns="lg-6 sm-12">
     <input-text id="travel_request_notes_content" name="travel_request[notes][][content]"
-      helper="Specify any unique circumstances (request for time off, desire to stay additional nights, etc.)"
+      helper="Additional information that would help the approver understand the details of the trip (request for time off, desire to stay additional nights, etc.)"
       label="Notes to approvers (optional)" width="expand" type="textarea"></input-text>
   </grid-item>
   <grid-item columns="lg-12 sm-12">
