@@ -69,16 +69,18 @@ RSpec.describe Request, type: :model do
     let(:absence_request) { FactoryBot.create(:absence_request, action: :approve) }
     let(:absence_request2) { FactoryBot.create(:absence_request, action: :deny) }
     let(:travel_request) { FactoryBot.create(:travel_request, action: :approve) }
+    let(:travel_request2) { FactoryBot.create(:travel_request) }
 
     before do
       FactoryBot.create(:note, content: "elephants love balloons", request: absence_request)
       FactoryBot.create(:note, content: "Elephants love balloons", request: absence_request2)
       FactoryBot.create(:note, content: "Flamingoes are pink, because they eat lots of shrimp.", request: travel_request)
       FactoryBot.create(:note, content: "Bears can't fly", request: travel_request)
+      travel_request2 # no note just create it
     end
 
     it "finds all when search_query is blank" do
-      expect(Request.where_contains_text(search_query: nil).map(&:id)).to contain_exactly(absence_request.id, absence_request2.id, travel_request.id)
+      expect(Request.where_contains_text(search_query: nil).map(&:id)).to contain_exactly(absence_request.id, absence_request2.id, travel_request.id, travel_request2.id)
     end
 
     it "finds an ending word" do
@@ -103,7 +105,7 @@ RSpec.describe Request, type: :model do
     end
 
     it "finds a travel event title" do
-      expect(Request.where_contains_text(search_query: "#{Time.zone.today.year}, Location").map(&:id)).to contain_exactly(travel_request.id)
+      expect(Request.where_contains_text(search_query: "#{Time.zone.today.year}, Location").map(&:id)).to contain_exactly(travel_request.id, travel_request2.id)
     end
 
     it "finds a request by id" do
