@@ -376,14 +376,14 @@ CREATE TABLE public.requests (
     purpose character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    participation public.request_participation_category,
     travel_category public.request_travel_category,
     absence_type public.request_absence_type,
     status public.request_status,
     event_title character varying,
     start_time character varying,
     end_time character varying,
-    hours_requested numeric
+    hours_requested numeric,
+    participation public.request_participation_category
 );
 
 
@@ -941,6 +941,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191029130508'),
 ('20191030122935'),
 ('20191125161410'),
-('20191203144321');
+('20191203144321'),
+('20200124122301'),
+('20200124122321');
 
 
