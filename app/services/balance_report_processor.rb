@@ -17,6 +17,8 @@ class BalanceReportProcessor
 
       def process_balance_entry(balance_entry:, errors:)
         net_id = balance_entry["Net ID"]
+        return errors if net_id.blank?
+
         profile = StaffProfile.find_by(uid: net_id)
         if profile.blank?
           errors[:unknown] << net_id
