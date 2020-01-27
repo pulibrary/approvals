@@ -68,6 +68,13 @@ This is an application that allows the library to create workflows that allow st
    
      [you can see the mail that has been sent here]( http://localhost:1080/)
      
+## Staging Mail Catcher
+  To See mail that has been sent on the staging server you must ssh tunnel into the server
+  ```
+  ssh -L 1082:localhost:1080 pulsys@lib-approvals-staging1
+  ```
+  Once the tunnel is open [you can see the mail that has been sent on staging here]( http://localhost:1082/)
+     
 ## How to run the test suite
 
 ### Percy (Visual Regressions)
