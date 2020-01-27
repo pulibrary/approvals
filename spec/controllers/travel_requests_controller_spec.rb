@@ -45,7 +45,7 @@ RSpec.describe TravelRequestsController, type: :controller do
         location: "Mumbai",
         event_dates: "#{Time.zone.yesterday.strftime('%m/%d/%Y')} - #{Time.zone.today.strftime('%m/%d/%Y')}"
       ],
-      travel_category: "business", # note this field is not available on the create form; only on approval.
+      travel_category: "business" # note this field is not available on the create form; only on approval.
     }
   end
 
@@ -238,7 +238,7 @@ RSpec.describe TravelRequestsController, type: :controller do
             location: "Mumbai",
             event_dates: "#{Time.zone.yesterday.strftime('%m/%d/%Y')} - #{Time.zone.today.strftime('%m/%d/%Y')}"
           ],
-          travel_category: "business", # note this field is not available on the create form; only on approval.
+          travel_category: "business" # note this field is not available on the create form; only on approval.
         }
       end
 

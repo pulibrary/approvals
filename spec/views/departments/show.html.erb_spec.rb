@@ -10,7 +10,7 @@ RSpec.describe "departments/show", type: :view do
                                         name: "Name",
                                         head_id: 2,
                                         admin_assistant_ids: [staff_profile.id]
-    ))
+                                      ))
   end
 
   it "renders attributes in <p>" do

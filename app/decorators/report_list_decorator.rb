@@ -47,11 +47,11 @@ class ReportListDecorator < RequestListDecorator
     request_list.map do |request|
       {
         'id': request.id,
-        'request_type':  request.title,
+        'request_type': request.title,
         'start_date': request.formatted_full_start_date,
         'end_date': request.formatted_full_end_date,
-        'status':  request.latest_status,
-        'staff':  request.full_name,
+        'status': request.latest_status,
+        'staff': request.full_name,
         'department': request.department.name
       }
     end.to_json
