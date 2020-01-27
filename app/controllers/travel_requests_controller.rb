@@ -19,7 +19,18 @@ class TravelRequestsController < CommonRequestController
     MailForAction.send(request: @request, action: "fix_requested_changes")
   end
 
+  # GET
+  def review
+    return if !super || current_profile_has_not_already_reviewed
+
+    respond_with_show_error(message: "You have already reviewed the request.", status: :invalid_edit)
+  end
+
   private
+
+    def current_profile_has_not_already_reviewed
+      @request.latest_state_change.blank? || @request.latest_state_change.agent != current_staff_profile
+    end
 
     def request_decorator_class
       TravelRequestDecorator

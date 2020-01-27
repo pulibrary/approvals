@@ -155,6 +155,16 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       expect(assigns(:request_change_set)).to be_a AbsenceRequestChangeSet
     end
 
+    it "Does not allow review after approved" do
+      staff_profile = FactoryBot.create :staff_profile, supervisor: creator
+      absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
+      absence_request.approve!(agent: creator)
+      get :review, params: { id: absence_request.to_param }, session: valid_session
+      expect(response).to redirect_to(absence_request)
+      expect(assigns(:request)).to eq(absence_request)
+      expect(flash[:notice]).to eq "Absence request can not be reviewed after it has been approved."
+    end
+
     it "does not allow the creator to review" do
       absence_request = FactoryBot.create(:absence_request, creator: creator)
       get :review, params: { id: absence_request.to_param }, session: valid_session
