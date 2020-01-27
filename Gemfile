@@ -53,6 +53,9 @@ gem "net-ldap"
 # pagination
 gem "kaminari"
 
+# static pages
+gem "high_voltage", "~> 3.1"
+
 gem "honeybadger"
 
 group :development, :test do

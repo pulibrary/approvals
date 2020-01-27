@@ -1,0 +1,45 @@
+<wrapper :max-width="1440">
+  <grid-container>
+    <grid-item columns="lg-3 sm-12">
+    <card>
+      <card-header>
+        <heading level="h2" size="h3">Help</heading>
+      </card-header>
+      <card-content>
+        <ul>
+          <li><%= link_to "Create a Travel Request", :anchor => "create-travel" %></li>
+          <li><%= link_to "Approve a Travel Request", :anchor => "approve-travel" %></li>
+          <li><%= link_to "Report a Problem", :anchor => "report-problem" %></li>
+        </ul>
+      </card-content>
+    </card>
+    </grid-item>
+
+    <grid-item columns="lg-9 sm-12">
+      <card size="full-width">
+        <card-content>
+          <heading level="h1" size="h2">Overview</heading>
+          <text-style variation="default">...</text-style>
+        </card-content>
+      </card>
+      <card size="full-width">
+        <card-content>
+          <heading level="h2" size="h2" id="create-travel">Create a Travel Request</heading>
+          <text-style variation="default">Login into the system, Click the new Travel button, Fill out form, Submit, get notifications of status changes, canceling requests</text-style>
+        </card-content>
+      </card>
+      <card size="full-width">
+        <card-content>
+          <heading level="h2" size="h2" id="approve-travel">Approve a Travel Request</heading>
+          <text-style variation="default">Login into the system, requests to review, look at details of request, add notes, approve (or decline), get notifications of status changes</text-style>
+        </card-content>
+      </card>
+      <card size="full-width">
+        <card-content>
+          <heading level="h2" size="h2" id="report-problem">Report a Problem</heading>
+          <text-style variation="default">...</text-style>
+        </card-content>
+      </card>
+    </grid-item>
+  </grid-container>
+</wrapper>
