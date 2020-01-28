@@ -50,7 +50,8 @@ class TravelRequestChangeSet < Reform::Form
 
   def participation_options
     # turn key, value into label, key
-    strings = model.class.participations.map do |key, value|
+    participation_options = model.class.participations.sort_by { |_key, value| value }
+    strings = participation_options.map do |key, value|
       "{label: '#{value.humanize}', value: '#{key}'}"
     end
     "[#{strings.join(',')}]"
