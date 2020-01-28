@@ -2,7 +2,7 @@
 <%= form_with(model: request_change_set.model, local: true) do |form| %>
 <% if request_change_set.errors.any? %>
   <div id="error_explanation">
-    <h2><%= pluralize(request_change_set.errors.count, "error") %> prohibited this travel_request from being saved:</h2>
+    <h2><%= pluralize(request_change_set.errors.count, "error") %> prohibited this request from being saved:</h2>
 
     <ul>
     <% request_change_set.errors.full_messages.each do |message| %>

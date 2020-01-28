@@ -1,7 +1,7 @@
 <%= form_with(model: state_change, local: true) do |form| %>
   <% if state_change.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(state_change.errors.count, "error") %> prohibited this state_change from being saved:</h2>
+      <h2><%= pluralize(state_change.errors.count, "error") %> prohibited this change from being saved:</h2>
 
       <ul>
       <% state_change.errors.full_messages.each do |message| %>
