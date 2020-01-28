@@ -8,7 +8,7 @@ RSpec.describe "recurring_events/show", type: :view do
                                                   name: "Name",
                                                   description: "MyText",
                                                   url: "Url"
-    ))
+                                                ))
   end
 
   it "renders attributes in <p>" do
