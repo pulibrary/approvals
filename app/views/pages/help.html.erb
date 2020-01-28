@@ -1,0 +1,90 @@
+<wrapper :max-width="1440">
+  <grid-container class="help">
+    <grid-item columns="lg-3 sm-12">
+    <card size="full-width" class="help-sidebar">
+      <card-content>
+        <heading level="h2" size="h4">Helpful Guides</heading>
+        <ul>
+          <li><%= link_to "Create a Travel Request", :anchor => "create-travel" %></li>
+          <li><%= link_to "Review a Travel Request", :anchor => "approve-travel" %></li>
+          <li><%= link_to "Cancel a Travel Request", :anchor => "cancel-travel" %></li>
+          <li><%= link_to "Report a Problem", :anchor => "report-problem" %></li>
+        </ul>
+      </card-content>
+    </card>
+    </grid-item>
+
+    <grid-item columns="lg-9 sm-12">
+      <card size="full-width">
+        <card-content>
+          <heading level="h1" size="h3">Overview</heading>
+          <text-style>This Travel and Leave Request application allows Library staff to seek approval for travel and leave. The initial rollout of this system supports the travel workflow. Please review the documentation below if you need assistance.</text-style>
+          <text-style>Travel requests will need to be approved by your direct supervisor and any supervisors up to and including your department head. If you need clarification on travel policy, please read <%= link_to "the Library's official travel policy", "https://library.princeton.edu/staff/ofa/finance-and-budget/travel" %> or contact your direct supervisor.</text-style>
+        </card-content>
+      </card>
+      <card size="full-width">
+        <card-content>
+          <heading level="h2" size="h3" id="create-travel">Create a Travel Request</heading>
+          <text-style>To create a new travel request, log into the system via CAS using your NetID and password.</text-style>
+          <%= image_tag("login.png")%>
+          <text-style>Click on the "New Travel Request" button on the top right portion of the "My Requests" page.</text-style>
+          <%= image_tag("my_requests.png")%>
+          <text-style>Include the details of your travel in the following fields:</text-style>
+          <%= image_tag("travel_info.png")%>
+          <ul>
+            <li><strong>Event Name</strong>: The name of the event you are attending, e.g., American Library Association - Annual Conference (ALA).</li>
+            <li><strong>Event Dates</strong>: The range of dates you will be attending the event.</li>
+            <li><strong>Location</strong>: The location of the event.</li>
+            <li><strong>Participation</strong>: Specify your level of participation in the event.</li>
+            <li><strong>Travel Dates</strong>: The range of dates you will be traveling to attend the event.</li>
+            <li><strong>Purpose</strong>: Specify the reason this trip is necessary for your job.</li>
+            <li><strong>Notes to Approvers</strong>: Additional information that would help the approver understand the details of the trip (request for time off, desire to stay additional nights, etc.). Please contact your direct supervisor for more information on what they are expecting.</li>
+          </ul>
+          <text-style>Include all anticipated travel expenses related to the event you would like to attend:</text-style>
+          <%= image_tag("expenses.png")%>
+          <ul>
+            <li><strong>Expense Type</strong>: The category for the anticipated line item expense.</li>
+            <li><strong>Occurrences</strong>: The number of times you expect for a line item expense to take place.</li>
+            <li><strong>Cost per Occurrence</strong>: The cost in USD per line item expense.</li>
+            <li><strong>Note</strong>: Additional information that would help the approver understand the details of the line item expense.</li>
+            <li><strong>Total</strong>: This amount is automatically calculated based on the numbers provided for <em>Occurrences</em> and <em>Cost per Occurrences</em>.</li>
+          </ul>
+          <text-style>You can add additional line item expenses by clicking on the "Add Expense" button located below the last line item expense.</text-style>
+          <text-style>Once you click on "Submit Request", a notification will be sent to your supervisor to approve the request.</text-style>
+          <%= image_tag("requestview.png")%>
+          <text-style>You will receive notifications when the status of your request changes.</text-style>
+          <text-style>You can modify your request until it has been reviewed</text-style>
+        </card-content>
+      </card>
+      <card size="full-width">
+        <card-content>
+          <heading level="h2" size="h3" id="approve-travel">Review a Travel Request</heading>
+          <text-style>When there is a request to review, you will receive a notification via email with a link to that request.</text-style>
+          <text-style>To approve a travel request pending your review, log into the system via CAS using your NetID and password.</text-style>
+          <text-style>You can also click on "Requests to Review" on the top right navigation to view all travel requests awaiting your approval.</text-style>
+          <%= image_tag("review_list.png")%>
+          <text-style>Review the details of travel request, add notes, approve the request.</text-style>
+          <%= image_tag("approval.png")%>
+          <text-style>In order to decline a travel request, you must include a reason in the note field.</text-style>
+          <text-style>At this point you may also "Request Changes" by adding notes and clicking on the "Request Changes" button. For example, anticipated expenses that will not be covered by the University should be requested to be deleted.</text-style>
+          <text-style>You will receive notifications when the status of the request changes.</text-style>
+          <text-style>The department head will have the ability to choose the travel category (business, professional development, or discretionary).</text-style>
+        </card-content>
+      </card>
+      <card size="full-width">
+        <card-content>
+          <heading level="h2" size="h3" id="cancel-travel">Cancel a Travel Request</heading>
+          <text-style>Only the request creator can cancel their request. To cancel your request, find your request in your "My Requests" list, view your request details and click on the "Cancel" button at the bottom of the travel request details page.</text-style>
+          <%= image_tag("cancel_request.png")%>
+        </card-content>
+      </card>
+      <card size="full-width">
+        <card-content>
+          <heading level="h2" size="h3" id="report-problem">Report a Problem</heading>
+          <text-style>If you are looking for technical support or would like to provide feedback on this application, please contact <%= mail_to "lsupport@princeton.edu", "lsupport@princeton.edu" %>.</text-style>
+          <text-style><strong>Note</strong>: When reporting issues, please include screenshots, if possible.</text-style>
+        </card-content>
+      </card>
+    </grid-item>
+  </grid-container>
+</wrapper>
