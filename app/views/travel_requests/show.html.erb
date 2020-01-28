@@ -11,15 +11,19 @@
           </heading>
           <text-style variation="default"
             ><%= @request.participation.blank? ? 'Unknown' :
-            @request.participation.humanize %></text-style
-          >
+            @request.participation.humanize %></text-style>
           <heading level="h3" size="h5">
             Purpose
           </heading>
           <text-style variation="default"
             ><%= @request.purpose.blank? ? 'Unknown' : @request.purpose
-            %></text-style
-          >
+            %></text-style>
+          <heading level="h3" size="h5">
+            Travel Category
+          </heading>
+          <text-style variation="default"
+            ><%= @request.travel_category.blank? ? 'Unknown' : @request.travel_category
+            %></text-style>
         </card-content>
       </card>
     </grid-item>
