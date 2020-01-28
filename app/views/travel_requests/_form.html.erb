@@ -37,17 +37,7 @@
             }]"
           :default-dates="<%=request_change_set.event_dates_js%>"
         ></date-picker>
-        <input-text label="Location" type="text" name="travel_request[event_requests_attributes][0][location]" required
-              id="travel_request_event_requests_attributes_0_location" width="expand" value="<%= request_change_set.model.event_requests[0].location %>">
-        </input-text>
-    <% end %>
-  </grid-item>
-  <grid-item columns="lg-3 sm-6">
-      <input-select label="Participation" name="travel_request[participation]"
-          id="travel_request_participation" width="expand"
-          value="<%= request_change_set.participation %>"
-          :options="<%= request_change_set.participation_options %>" required></input-select>
-      <date-picker label="Travel Dates" mode="range" width="expand"
+        <date-picker label="Travel Dates" mode="range" width="expand"
         name="travel_request[travel_dates]" id="travel_request_travel_dates"
         :disabled-dates="
           [{
@@ -58,6 +48,18 @@
 
       >
       </date-picker>
+        
+    <% end %>
+  </grid-item>
+  <grid-item columns="lg-3 sm-6">
+      <input-text label="Location" type="text" name="travel_request[event_requests_attributes][0][location]" required
+              id="travel_request_event_requests_attributes_0_location" width="expand" value="<%= request_change_set.model.event_requests[0].location %>">
+        </input-text>
+      <input-select label="Participation" name="travel_request[participation]"
+          id="travel_request_participation" width="expand"
+          value="<%= request_change_set.participation %>"
+          :options="<%= request_change_set.participation_options %>" required></input-select>
+      
       <input-text label="Purpose" id="travel_request_purpose" width="expand"
         name="travel_request[purpose]" value="<%= request_change_set.purpose %>"
         helper="Specify the reason this trip is necessary for your job"
