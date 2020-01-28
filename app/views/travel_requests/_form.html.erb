@@ -26,6 +26,7 @@
           label="Event Name"
           default-value="<%= request_change_set.event_name %>"
           :items="<%= request_change_set.recurring_event_list %>"
+          autocomplete="off"
         ></input-autocomplete>
         <date-picker label="Event Dates" mode="range" width="expand" required
           id="travel_request_event_requests_attributes_0_event_dates"
