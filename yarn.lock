@@ -6016,10 +6016,10 @@ lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
-lux-design-system@^2.13.1:
-  version "2.13.1"
-  resolved "https://registry.yarnpkg.com/lux-design-system/-/lux-design-system-2.13.1.tgz#5f86da0c268b33ecd18e6c0bd4fadddf03b9dce1"
-  integrity sha512-4YLBNswRCyhhgIbB5E7pCsWLSB5jdqZZL6p5VNVVKk+tEK8Q3oYrEIdKqpm6DFn51PGkVI4LzpzN603H4LUTUQ==
+lux-design-system@^2.13.2:
+  version "2.13.2"
+  resolved "https://registry.yarnpkg.com/lux-design-system/-/lux-design-system-2.13.2.tgz#3238c1824ce1770ee243e6a31f5911b54bd7363d"
+  integrity sha512-iMHPqML/1qwtpEkOSVaHs1vFquDcfrsZRkh8NyvN+rPAVI/U7NTHCWHkO09Kkfv/U5aFRFkgkkzu74olrXeIsA==
   dependencies:
     lodash "^4.17.11"
     mini-css-extract-plugin "^0.4.5"
