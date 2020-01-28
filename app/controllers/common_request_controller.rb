@@ -67,7 +67,7 @@ class CommonRequestController < ApplicationController
     @request_change_set = request_change_set
 
     # render the default
-    return if @request_change_set.model.pending? && allowed_to_review
+    return true if @request_change_set.model.pending? && allowed_to_review
 
     message = if allowed_to_review
                 "#{model_instance_to_name(@request)} can not be reviewed after it has been #{@request_change_set.model.status}."

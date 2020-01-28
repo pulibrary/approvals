@@ -177,6 +177,26 @@ RSpec.describe TravelRequestsController, type: :controller do
       expect(assigns(:request)).to eq(travel_request)
     end
 
+    it "Does not allow review after approved" do
+      staff_profile = FactoryBot.create :staff_profile, supervisor: creator, department: creator.department
+      travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
+      travel_request.approve!(agent: creator)
+      get :review, params: { id: travel_request.to_param }, session: valid_session
+      expect(response).to redirect_to(travel_request)
+      expect(assigns(:request)).to eq(travel_request)
+      expect(flash[:notice]).to eq "You have already reviewed the request."
+    end
+
+    it "Does allow review after request changes have been fixed" do
+      staff_profile = FactoryBot.create :staff_profile, supervisor: creator, department: creator.department
+      travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
+      travel_request.change_request!(agent: creator)
+      travel_request.fix_requested_changes!(agent: staff_profile)
+      get :review, params: { id: travel_request.to_param }, session: valid_session
+      expect(response).to be_successful
+      expect(assigns(:request_change_set)).to be_a TravelRequestChangeSet
+    end
+
     it "Does not allow review after denied" do
       staff_profile = FactoryBot.create :staff_profile, supervisor: creator, department: creator.department
       travel_request = FactoryBot.create(:travel_request, creator: staff_profile, action: "deny")
