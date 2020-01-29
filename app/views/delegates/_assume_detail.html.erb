@@ -7,14 +7,12 @@
     ><lux-icon-person></lux-icon-person></lux-icon-base>
   </card-media>
   <card-header>
-    <heading level="h2" size="h3"><%= delegator.delegator.full_name %></heading>
+    <heading level="h2" size="h3"><hyperlink href="<%= assume_delegate_path(delegator) %>"><%= delegator.delegator.full_name %></hyperlink></heading>
     <text-style><%= delegator.delegator.uid %></text-style>
   </card-header>
   <card-content>
-    <%= link_to assume_delegate_path(delegator) do %>
       <lux-icon-base icon-name="person">
         <lux-icon-person></lux-icon-person>
       </lux-icon-base>
-    <% end %>
   </card-content>
 </card>
