@@ -21,6 +21,7 @@ import "lux-design-system/dist/system/system.css"
 import "lux-design-system/dist/system/tokens/tokens.scss"
 import hoursCalculator from "../components/hoursCalculator.vue"
 import travelEstimateForm from "../components/travelEstimateForm.vue"
+import travelRequestDatePickers from "../components/travelRequestDatePickers.vue"
 
 Vue.use(system)
 
@@ -33,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
       components: {
         'hours-calculator': hoursCalculator,
         'travel-estimate-form': travelEstimateForm,
+        'travel-request-date-pickers': travelRequestDatePickers,
       }
     })
   }
