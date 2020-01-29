@@ -24,7 +24,9 @@ class SimpleCovHelper
     results = SimpleCov::Result.from_hash(JSON.parse(File.read(results_file)))
     results.format!
     covered_percent = results.covered_percent.round(2)
-    return unless covered_percent < SimpleCov.minimum_coverage
+    min_coverage = SimpleCov.minimum_coverage
+    min_coverage = min_coverage[:line].to_f if min_coverage.is_a? Hash
+    return unless covered_percent < min_coverage
     $stderr.printf("Coverage (%.2f%%) is below the expected minimum coverage (%.2f%%).\n", covered_percent, SimpleCov.minimum_coverage)
     Kernel.exit SimpleCov::ExitCodes::MINIMUM_COVERAGE
   end
