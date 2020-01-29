@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :estimate do
-    cost_type { "lodging (per night)" }
+    cost_type { "lodging" }
     amount { 50.0 }
     recurrence { 3 }
   end

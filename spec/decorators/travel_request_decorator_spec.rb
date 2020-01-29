@@ -147,7 +147,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
       let(:travel_request) { FactoryBot.create(:travel_request, :with_note_and_estimate) }
       it "returns json data" do
         expect(travel_request_decorator.estimates_json).to eq(
-          '[{"cost_type":"lodging","note":"","recurrence":3,"amount":"50.00","total":"150.00"},' \
+          '[{"cost_type":"Lodging (per night)","note":"","recurrence":3,"amount":"50.00","total":"150.00"},' \
           '{"cost_type":"","note":"","recurrence":"","amount":"Total:","total":"150.00"}]'
         )
       end

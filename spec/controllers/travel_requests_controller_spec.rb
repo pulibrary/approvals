@@ -286,7 +286,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       let(:nested_attributes) do
         {
           notes: [{ creator_id: creator.id, content: "Important message" }],
-          estimates: [amount: 200.20, recurrence: 3, cost_type: "lodging (per night)"],
+          estimates: [amount: 200.20, recurrence: 3, cost_type: "lodging"],
           event_requests: [{ start_date: start_date, location: "Paris", recurring_event_id: recurring_event.id }]
         }
       end
@@ -309,7 +309,7 @@ RSpec.describe TravelRequestsController, type: :controller do
         let(:nested_attributes) do
           {
             notes: [{ creator_id: creator.id, content: "Important message" }],
-            estimates: [id: travel_request.estimates[0].id, amount: 200.20, recurrence: 3, cost_type: "lodging (per night)"],
+            estimates: [id: travel_request.estimates[0].id, amount: 200.20, recurrence: 3, cost_type: "lodging"],
             event_requests: [{ start_date: start_date, location: "Paris", recurring_event_id: recurring_event.id }]
           }
         end
