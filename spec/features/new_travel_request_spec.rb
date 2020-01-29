@@ -24,6 +24,7 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
 
     fill_in "travel_request_event_requests_attributes_0_location", with: "A Place To Be"
     fill_in "travel_request_purpose", with: "A grand purpose"
+    fill_in "travel_request_notes_content", with: "Elephants Love Balloons"
 
     find("select[id^='travel_request_estimates_cost_type_'] option[value='air']").select_option
     find("input[id^='travel_request_estimates_recurrence_']").fill_in with: "2"
@@ -42,6 +43,11 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
     expect(page).to have_content "Super Event 2019, A Place To Be (10/01/2019 to 10/03/2019)"
     expect(page).to have_content "air 2 20.00 40.00\nlodging 3 30.00 90.00\nTotal: 130.00"
     expect(page).to have_content "Pending"
+    expect(page).to have_content "Elephants Love Balloons"
+
+    click_on "Edit"
+    expect(page).to have_content "Elephants Love Balloons"
+    page.go_back
 
     click_on "Cancel"
     expect(page).to have_content "Super Event 2019, A Place To Be (10/01/2019 to 10/03/2019)"
