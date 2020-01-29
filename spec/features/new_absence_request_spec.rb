@@ -37,5 +37,7 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
     expect(page).to have_content "Sick Leave"
     expect(page).to have_content "Total Hours\n21.75"
     expect(page).to have_content "Canceled"
+    expect(page).not_to have_selector(:link_or_button, "Edit")
+    expect(page).not_to have_selector(:link_or_button, "Cancel")
   end
 end
