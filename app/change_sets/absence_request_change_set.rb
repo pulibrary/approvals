@@ -1,28 +1,17 @@
 # frozen_string_literal: true
-class AbsenceRequestChangeSet < Reform::Form
-  property :creator_id
+class AbsenceRequestChangeSet < RequestChangeSet
   property :absence_type
   property :hours_requested
   property :start_date, populator: ->(options) { populate_date(field: "start_date", options: options) }
   property :end_date, populator: ->(options) { populate_date(field: "end_date", options: options) }
   property :start_time, default: Time.zone.parse("8:45 AM")
   property :end_time, default: Time.zone.parse("5:00 PM")
-  collection :notes, form: NoteChangeSet, populator: NoteChangeSet::NotePopulator
 
   validates :absence_type, inclusion: { in: Request.absence_types.keys }
-  validates :creator_id, :hours_requested, :start_date, :end_date, presence: true
+  validates :hours_requested, :start_date, :end_date, presence: true
 
-  attr_reader :current_staff_profile
-
-  def initialize(model, current_staff_profile: nil, **)
-    super
-    @current_staff_profile = current_staff_profile
-  end
-
-  delegate :vacation_balance, :personal_balance, :sick_balance, :full_name, to: :creator
-  delegate :absence_type_icon, :latest_status, :status_color,
-           :status_icon, :event_title, :notes_and_changes, :absent_staff,
-           :can_modify_attributes?,
+  delegate :vacation_balance, :personal_balance, :sick_balance, to: :creator
+  delegate :absence_type_icon,
            to: :decorated_model
 
   def balance_title

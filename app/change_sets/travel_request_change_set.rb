@@ -1,34 +1,31 @@
 # frozen_string_literal: true
-class TravelRequestChangeSet < Reform::Form
-  property :creator_id
+class TravelRequestChangeSet < RequestChangeSet
   property :travel_category
-  property :start_date
-  property :end_date
   property :purpose
   property :participation
 
-  collection :notes, form: NoteChangeSet, populator: NoteChangeSet::NotePopulator
   collection :event_requests, form: EventRequestChangeSet, populator: EventRequestChangeSet::EventRequestPopulator, prepopulator: EventRequestChangeSet::EventRequestPrepopulator
   collection :estimates, form: EstimateChangeSet, populator: EstimateChangeSet::EstimatePopulator
 
   validates :travel_category, inclusion: { in: Request.travel_categories.keys, allow_blank: true }
-  validates :creator_id, presence: true
   validates :event_requests, presence: true
   validates :participation, inclusion: { in: Request.participations.keys }
 
-  delegate :full_name, to: :creator
-  delegate :travel_category_icon, :latest_status, :status_color,
-           :status_icon, :event_title, :notes_and_changes, :absent_staff,
-           :formatted_full_start_date, :formatted_full_end_date,
+  delegate :travel_category_icon,
            :estimate_fields_json, :estimates_json,
-           :event_attendees, :can_modify_attributes?,
            to: :decorated_model
 
   attr_reader :current_staff_profile
 
-  def initialize(model, current_staff_profile: nil, **)
-    super
-    @current_staff_profile = current_staff_profile
+  def existing_notes
+    sorted_notes = notes.map(&:model).sort_by(&:created_at)
+    sorted_notes.map do |item|
+      {
+        title: "#{item.creator.full_name} on #{item.created_at.strftime(Rails.configuration.short_date_format)}",
+        content: item.content,
+        icon: "note"
+      }
+    end
   end
 
   def estimate_cost_options

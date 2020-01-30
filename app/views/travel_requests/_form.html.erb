@@ -67,6 +67,15 @@
         :options="<%= request_change_set.travel_category_options %>" required></input-text>
   </grid-item>
   <grid-item columns="lg-6 sm-12">
+    <% if request_change_set.existing_notes.any? %>
+      <heading level="h3" size="h5">
+        Notes
+      </heading>
+      <ul class="notes">
+          <%= render partial: "shared/request_note", collection:
+            request_change_set.existing_notes, as: :note %>
+      </ul>
+    <% end %>
     <input-text id="travel_request_notes_content" name="travel_request[notes][][content]"
       helper="Additional information that would help the approver understand the details of the trip (request for time off, desire to stay additional nights, etc.)"
       label="Notes to Approvers (optional)" width="expand" type="textarea"></input-text>
