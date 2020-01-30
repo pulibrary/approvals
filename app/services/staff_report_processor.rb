@@ -7,23 +7,25 @@ class StaffReportProcessor
 
     def process(data:, ldap_service_class: Ldap, department_config: File.read("config/departments.yml"))
       manager_hash = {}
+      new_profiles = []
       csv = CSV.new(data, col_sep: "\t", headers: true)
       csv.each do |row|
-        manager_hash = process_staff_entry(staff_entry: row, manager_hash: manager_hash, ldap_service_class: ldap_service_class)
+        manager_hash = process_staff_entry(staff_entry: row, manager_hash: manager_hash, ldap_service_class: ldap_service_class, new_profiles: new_profiles)
       end
       connect_staff_to_managers(manager_hash: manager_hash)
       connect_managers_to_department(manager_hash: manager_hash)
       process_department_config(department_config: department_config)
       set_vacant_supervisors_to_department_head
+      DefaultAasAsDelegate.run(profiles: new_profiles)
     end
 
     private
 
-      def process_staff_entry(staff_entry:, manager_hash:, ldap_service_class:)
+      def process_staff_entry(staff_entry:, manager_hash:, ldap_service_class:, new_profiles:)
         net_id = staff_entry["Net ID"]
         user = create_user(net_id: net_id)
         department = create_department(name: staff_entry["Department Name"], number: staff_entry["Department Number"])
-        create_staff_profile(user: user, department: department, staff_entry: staff_entry, ldap_service_class: ldap_service_class)
+        create_staff_profile(user: user, department: department, staff_entry: staff_entry, ldap_service_class: ldap_service_class, new_profiles: new_profiles)
         manager_net_id = staff_entry["Manager Net ID"]
         manager_hash[manager_net_id] = Array(manager_hash[manager_net_id]) << net_id
         manager_hash
@@ -43,7 +45,7 @@ class StaffReportProcessor
         Department.create(name: name, number: number)
       end
 
-      def create_staff_profile(user:, department:, staff_entry:, ldap_service_class:)
+      def create_staff_profile(user:, department:, staff_entry:, ldap_service_class:, new_profiles:)
         biweekly = staff_entry["Paid"] == "Biw"
         given_name = "#{staff_entry['First Name']} #{staff_entry['Middle Name']}".strip
         surname = staff_entry["Last Name"]
@@ -51,10 +53,12 @@ class StaffReportProcessor
         location = find_location(net_id: user.uid, ldap_service_class: ldap_service_class)
 
         staff_profile = StaffProfile.where(user_id: user.id).first
+        profile_is_new = staff_profile.blank?
         staff_profile ||= StaffProfile.new
         staff_profile.update_attributes(user: user, department: department, biweekly: biweekly,
                                         given_name: given_name, surname: surname, email: email, location: location)
         staff_profile.save
+        new_profiles << staff_profile if profile_is_new
       end
 
       def find_location(net_id:, ldap_service_class:)

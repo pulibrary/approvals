@@ -7,8 +7,17 @@ FactoryBot.define do
 
     trait :with_head do
       after(:create) do |department, _evaluator|
-        department.head = FactoryBot.create(:staff_profile)
+        department.head = FactoryBot.create(:staff_profile, department: department)
         department.save
+      end
+    end
+
+    after(:create) do |department, _evaluator|
+      if department.admin_assistants.present?
+        department.admin_assistants.each do |aa|
+          aa.department = department
+          aa.save
+        end
       end
     end
   end

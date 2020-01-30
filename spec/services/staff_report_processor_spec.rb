@@ -32,6 +32,8 @@ RSpec.describe StaffReportProcessor, type: :model do
         change(Department, :count).by(1)
       ).and(
         change(Location, :count).by(1)
+      ).and(
+        change(Delegate, :count).by(0)
       )
       user_profile = StaffProfile.find_by(uid: "testi")
       expect(user_profile.given_name).to eq("I am")
@@ -49,6 +51,8 @@ RSpec.describe StaffReportProcessor, type: :model do
         change(Department, :count).by(2)
       ).and(
         change(Location, :count).by(1)
+      ).and(
+        change(Delegate, :count).by(2)
       )
       user_profile = StaffProfile.find_by(uid: "testi")
       supervisor_profile = StaffProfile.find_by(uid: "imanager")
@@ -63,14 +67,18 @@ RSpec.describe StaffReportProcessor, type: :model do
     it "updates a user if their information changes" do
       user = FactoryBot.create(:user, uid: "testi")
       staff_profile = FactoryBot.create :staff_profile, user: user
+      ajarvis_user = FactoryBot.create(:user, uid: "ajarvis")
+      FactoryBot.create :staff_profile, user: ajarvis_user
       expect do
         StaffReportProcessor.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass, department_config: department_config)
-      end.to change(User, :count).by(2).and(
-        change(StaffProfile, :count).by(2)
+      end.to change(User, :count).by(1).and(
+        change(StaffProfile, :count).by(1)
       ).and(
         change(Department, :count).by(2)
       ).and(
         change(Location, :count).by(1)
+      ).and(
+        change(Delegate, :count).by(0)
       )
       staff_profile.reload
       supervisor_profile = StaffProfile.find_by(uid: "imanager")
@@ -90,6 +98,8 @@ RSpec.describe StaffReportProcessor, type: :model do
           change(Department, :count).by(2)
         ).and(
           change(Location, :count).by(1)
+        ).and(
+          change(Delegate, :count).by(2)
         )
         user_profile = StaffProfile.find_by(uid: "test2")
         supervisor_profile = StaffProfile.find_by(uid: "imanager")
