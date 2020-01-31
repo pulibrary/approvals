@@ -28,28 +28,22 @@
           :items="<%= request_change_set.recurring_event_list %>"
           autocomplete="off"
         ></input-autocomplete>
-        <date-picker label="Event Dates" mode="range" width="expand" required
-          id="travel_request_event_requests_attributes_0_event_dates"
-          name="travel_request[event_requests_attributes][0][event_dates]"
-          :disabled-dates="
-            [{
-              start: null,
-            end: new Date(<%= Date.current.year %>, <%= Date.current.month - 1 %>, <%= Date.current.day %>)
-            }]"
-          :default-dates="<%=request_change_set.event_dates_js%>"
-        ></date-picker>
-        <date-picker label="Travel Dates" mode="range" width="expand"
-        name="travel_request[travel_dates]" id="travel_request_travel_dates"
-        :disabled-dates="
-          [{
+        <!--
+          Travel Request Date Pickers -->
+        <travel-request-date-pickers
+          :event_disabled_dates="[{
             start: null,
           end: new Date(<%= Date.current.year %>, <%= Date.current.month - 1 %>, <%= Date.current.day %>)
           }]"
-        :default-dates="<%=request_change_set.travel_dates_js%>"
+          :travel_disabled_dates="[{
+            start: null,
+          end: new Date(<%= Date.current.year %>, <%= Date.current.month - 1 %>, <%= Date.current.day %>)
+          }]"
+          :event_dates="<%=request_change_set.event_dates_js%>"
+          :travel_dates="<%=request_change_set.travel_dates_js%>"
+          :today="new Date(<%= Date.current.year %>, <%= Date.current.month - 1 %>, <%= Date.current.day %>)">
+        </travel-request-date-pickers>
 
-      >
-      </date-picker>
-        
     <% end %>
   </grid-item>
   <grid-item columns="lg-3 sm-6">
@@ -60,7 +54,7 @@
           id="travel_request_participation" width="expand"
           value="<%= request_change_set.participation %>"
           :options="<%= request_change_set.participation_options %>" required></input-select>
-      
+
       <input-text label="Purpose" id="travel_request_purpose" width="expand"
         name="travel_request[purpose]" value="<%= request_change_set.purpose %>"
         helper="Specify the reason this trip is necessary for your job"

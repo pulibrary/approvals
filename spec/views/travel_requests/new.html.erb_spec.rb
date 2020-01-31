@@ -14,8 +14,7 @@ RSpec.describe "travel_requests/new", type: :view do
   it "renders new travel_request form" do
     render
     assert_select "form[action=?][method=?]", travel_requests_path, "post" do
-      assert_select "date-picker[label=?][mode=?][name=?]", "Event Dates", "range", "travel_request[event_requests_attributes][0][event_dates]"
-      assert_select "date-picker[label=?][mode=?][name=?]", "Travel Dates", "range", "travel_request[travel_dates]"
+      assert_select "travel-request-date-pickers"
       assert_select "input-select[name=?][value=?]", "travel_request[participation]", "presenter"
       assert_select "input-text[name=?]", "travel_request[notes][][content]"
       assert_select "input-text[name=?][value=?]", "travel_request[purpose]", travel_request.purpose
