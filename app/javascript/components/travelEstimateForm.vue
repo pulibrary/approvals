@@ -36,6 +36,7 @@
         </grid-item>
         <grid-item vertical="center" columns="lg-2 sm-12">
           <input-select label="Expense Type" name="travel_request[estimates][][cost_type]"
+              :ref="'expense_type'"
               :id="'travel_request_estimates_cost_type_' + expense.id"
               :value="expense.cost_type" width="expand"
               @change="updateExpenseType($event, expense)"
@@ -108,7 +109,19 @@ export default {
   },
   methods: {
     addExpense() {
-      this.expenseData.push({ id: null, cost_type: null, recurrence: null, amount: null, description: '', other_id: 'id_'+this.expenseData.length })
+      this.expenseData.push({
+        id: null,
+        cost_type: null,
+        recurrence: null,
+        amount: null,
+        description: '',
+        other_id: 'id_'+this.expenseData.length
+      })
+      this.$nextTick(() => {
+         let index = this.expenseData.length - 1
+         let input = this.$refs.expense_type[index].$el
+         input.children[1].focus()
+      });
     },
     deleteExpense(expense) {
       let foundIndex = this.expenseData.findIndex(x => x.other_id == expense.other_id)
