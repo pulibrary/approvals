@@ -98,10 +98,14 @@ class CommonRequestController < ApplicationController
     end
 
     def process_notes(notes)
-      return notes unless notes
+      if current_staff_profile.current_delegate.present? && action_name == "create"
+        delegate_note_hash = { creator_id: current_staff_profile.current_delegate.id,
+                               content: "This request was created by #{current_staff_profile.current_delegate.full_name} on behalf of #{current_staff_profile.full_name}" }
+      end
+      return [delegate_note_hash].compact unless notes
       Array(notes).map do |note_entry|
         note_entry.merge(creator_id: current_staff_profile.id) if note_entry[:content].present?
-      end.compact
+      end.prepend(delegate_note_hash).compact
     end
 
     def respond_with_show_error(message:, status:)
