@@ -52,6 +52,14 @@ module AasmConfig
     creator == agent
   end
 
+  def can_cancel?(agent:)
+    only_creator(agent: agent) && !canceled?
+  end
+
+  def can_edit?(agent:)
+    only_creator(agent: agent) && can_modify_attributes?
+  end
+
   private
 
     def in_supervisor_chain(supervisor:, agent:, previous_supervisor: "no one")

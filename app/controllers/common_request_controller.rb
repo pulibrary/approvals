@@ -172,7 +172,7 @@ class CommonRequestController < ApplicationController
     end
 
     def creator_can_change?(action:)
-      allowed_to_change = request_change_set.model.only_creator(agent: current_staff_profile)
+      allowed_to_change = request_change_set.model.can_edit?(agent: current_staff_profile)
       respond_to_change_error(action: action, allowed_to_change: allowed_to_change)
     end
 
