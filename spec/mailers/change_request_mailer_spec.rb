@@ -25,12 +25,12 @@ RSpec.describe ChangeRequestMailer, type: :mailer do
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{decorated_travel_request.title} Request Changes"
       expect(mail.to).to eq [creator.email]
-      expect(mail.html_part.body.to_s).to eq("#{html_email_heading}<h1>The following request was submitted on #{today_formatted}.  Changes Requested by Jane Smith on #{today_formatted}.</h1>\n" \
-                                             "<p>To edit your request go to <a href=\"http://localhost:3000/travel_requests/#{travel_request.id}/edit\">here</a></p>\n  <dl>\n    " \
-                                             "<dt>Type</dt><dd>TravelRequest</dd>\n    <dt>Dates Away</dt><dd>12/30/2019 to 12/31/2019</dd>\n    " \
-                                             "<dt>Destination</dt><dd>Location</dd>\n    <dt>Event</dt><dd>#{decorated_travel_request.event_title}</dd>\n  </dl>#{html_email_footer}")
-      expect(mail.text_part.body.to_s).to eq("The following request was submitted on #{today_formatted}.  Changes Requested by Jane Smith on #{today_formatted}.\n" \
-                                             "To edit your request go to http://localhost:3000/travel_requests/#{travel_request.id}/edit\n" \
+      expect(mail.html_part.body.to_s).to have_content("Travel and Leave Request - Changes Requested")
+      expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}. Changes Requested by Jane Smith on #{today_formatted}. ")
+      expect(mail.html_part.body.to_s).to have_content("Type\n    TravelRequest\n    Dates Away\n    12/30/2019 to 12/31/2019\n")
+      expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}/edit\"]")
+      expect(mail.text_part.body.to_s).to eq("The following request was submitted on #{today_formatted}.  Changes Requested by Jane Smith on #{today_formatted}.\n\n" \
+                                             "To edit your request go to http://localhost:3000/travel_requests/#{travel_request.id}/edit\n\n" \
                                              "Type: TravelRequest\nDates Away: 12/30/2019 to 12/31/2019\n" \
         "Destination: Location\n" \
         "Event: #{decorated_travel_request.event_title}\n\n")
@@ -53,13 +53,12 @@ RSpec.describe ChangeRequestMailer, type: :mailer do
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{decorated_travel_request.title} Request Changes"
       expect(mail.to).to eq [creator.email]
-      expect(mail.html_part.body.to_s).to eq("#{html_email_heading}<h1>The following request was submitted on #{today_formatted}.  " \
-                                             "Changes Requested by Department Head on #{today_formatted}.</h1>\n" \
-                                             "<p>To edit your request go to <a href=\"http://localhost:3000/travel_requests/#{travel_request.id}/edit\">here</a></p>\n  <dl>\n    " \
-                                             "<dt>Type</dt><dd>TravelRequest</dd>\n    <dt>Dates Away</dt><dd>12/30/2019 to 12/31/2019</dd>\n    " \
-                                             "<dt>Destination</dt><dd>Location</dd>\n    <dt>Event</dt><dd>#{decorated_travel_request.event_title}</dd>\n  </dl>#{html_email_footer}")
-      expect(mail.text_part.body.to_s).to eq("The following request was submitted on #{today_formatted}.  Changes Requested by Department Head on #{today_formatted}.\n" \
-                                             "To edit your request go to http://localhost:3000/travel_requests/#{travel_request.id}/edit\n" \
+      expect(mail.html_part.body.to_s).to have_content("Travel and Leave Request - Changes Requested")
+      expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}. Changes Requested by Department Head on #{today_formatted}.")
+      expect(mail.html_part.body.to_s).to have_content("Type\n    TravelRequest\n    Dates Away\n    12/30/2019 to 12/31/2019\n")
+      expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}/edit\"]")
+      expect(mail.text_part.body.to_s).to eq("The following request was submitted on #{today_formatted}.  Changes Requested by Department Head on #{today_formatted}.\n\n" \
+                                             "To edit your request go to http://localhost:3000/travel_requests/#{travel_request.id}/edit\n\n" \
                                              "Type: TravelRequest\nDates Away: 12/30/2019 to 12/31/2019\n" \
                                              "Destination: Location\n" \
                                              "Event: #{decorated_travel_request.event_title}\n\n")
@@ -71,13 +70,12 @@ RSpec.describe ChangeRequestMailer, type: :mailer do
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{decorated_travel_request.title} Request Changes"
       expect(mail.to).to eq [supervisor.email]
-      expect(mail.html_part.body.to_s).to eq("#{html_email_heading}<h1>The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.  " \
-                                             "Changes Requested by Department Head on #{today_formatted}.</h1>\n" \
-                                             "<p>To view the request go to <a href=\"http://localhost:3000/travel_requests/#{travel_request.id}\">here</a></p>\n  <dl>\n    " \
-                                             "<dt>Type</dt><dd>TravelRequest</dd>\n    <dt>Dates Away</dt><dd>12/30/2019 to 12/31/2019</dd>\n    " \
-                                             "<dt>Destination</dt><dd>Location</dd>\n    <dt>Event</dt><dd>#{decorated_travel_request.event_title}</dd>\n  </dl>#{html_email_footer}")
-      expect(mail.text_part.body.to_s).to eq("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.  Changes Requested by Department Head on #{today_formatted}.\n" \
-                                             "To view the request go to http://localhost:3000/travel_requests/#{travel_request.id}\n" \
+      expect(mail.html_part.body.to_s).to have_content("Travel and Leave Request - Changes Requested")
+      expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}. Changes Requested by Department Head on #{today_formatted}.")
+      expect(mail.html_part.body.to_s).to have_content("Type\n    TravelRequest\n    Dates Away\n    12/30/2019 to 12/31/2019\n")
+      expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}\"]")
+      expect(mail.text_part.body.to_s).to eq("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.  Changes Requested by Department Head on #{today_formatted}.\n\n" \
+                                             "To view the request go to http://localhost:3000/travel_requests/#{travel_request.id}\n\n" \
                                              "Type: TravelRequest\nDates Away: 12/30/2019 to 12/31/2019\n" \
                                              "Destination: Location\n" \
                                              "Event: #{decorated_travel_request.event_title}\n\n")

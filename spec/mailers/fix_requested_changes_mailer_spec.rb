@@ -22,12 +22,12 @@ RSpec.describe FixRequestedChangesMailer, type: :mailer do
     mail = ActionMailer::Base.deliveries.last
     expect(mail.subject).to eq "#{decorated_travel_request.title} Updated and Ready For Review"
     expect(mail.to).to eq [supervisor.email]
-    expect(mail.html_part.body.to_s).to eq("#{html_email_heading}<h1>The following request was updated by Doe, Joe (jd4) on #{today_formatted}.</h1>\n" \
-                                           "<p>To review the request for approval go to <a href=\"http://localhost:3000/travel_requests/#{travel_request.id}/review\">here</a></p>\n  <dl>\n    " \
-                                           "<dt>Type</dt><dd>TravelRequest</dd>\n    <dt>Dates Away</dt><dd>12/30/2019 to 12/31/2019</dd>\n    " \
-                                           "<dt>Destination</dt><dd>Location</dd>\n    <dt>Event</dt><dd>#{decorated_travel_request.event_title}</dd>\n  </dl>#{html_email_footer}")
-    expect(mail.text_part.body.to_s).to eq("The following request was updated by Doe, Joe (jd4) on #{today_formatted}.\n" \
-                                           "To review the request for approval go to http://localhost:3000/travel_requests/#{travel_request.id}/review\n" \
+    expect(mail.html_part.body.to_s).to have_content("Travel and Leave Request - Updated")
+    expect(mail.html_part.body.to_s).to have_content("The following request was updated by Doe, Joe (jd4) on #{today_formatted}.")
+    expect(mail.html_part.body.to_s).to have_content("Type\n    TravelRequest\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Destination\n    Location\n")
+    expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}/review\"]")
+    expect(mail.text_part.body.to_s).to eq("The following request was updated by Doe, Joe (jd4) on #{today_formatted}.\n\n" \
+                                           "To review the request for approval go to http://localhost:3000/travel_requests/#{travel_request.id}/review\n\n" \
                                            "Type: TravelRequest\nDates Away: 12/30/2019 to 12/31/2019\n" \
                                            "Destination: Location\n" \
                                            "Event: #{decorated_travel_request.event_title}\n\n")
