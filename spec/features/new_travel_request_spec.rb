@@ -41,7 +41,7 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
     click_on "Submit Request"
 
     expect(page).to have_content "Super Event 2019, A Place To Be (10/01/2019 to 10/03/2019)"
-    expect(page).to have_content "air 2 20.00 40.00\nlodging 3 30.00 90.00\nTotal: 130.00"
+    expect(page).to have_content "Airfare 2 20.00 40.00\nLodging (per night) 3 30.00 90.00\nTotal: 130.00"
     expect(page).to have_content "Pending"
     expect(page).to have_content "Elephants Love Balloons"
 
@@ -51,7 +51,7 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
 
     click_on "Cancel"
     expect(page).to have_content "Super Event 2019, A Place To Be (10/01/2019 to 10/03/2019)"
-    expect(page).to have_content "air 2 20.00 40.00\nlodging 3 30.00 90.00\nTotal: 130.00"
+    expect(page).to have_content "Airfare 2 20.00 40.00\nLodging (per night) 3 30.00 90.00\nTotal: 130.00"
     expect(page).to have_content "Canceled"
     expect(page).not_to have_selector(:link_or_button, "Edit")
     expect(page).not_to have_selector(:link_or_button, "Cancel")

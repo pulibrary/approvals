@@ -22,7 +22,7 @@ RSpec.describe "travel_requests/show", type: :view do
     expect(rendered).to match(/Sally Smith/)
     expect(rendered).to include("Sally Smith on")
     expect(rendered).to include(travel_request.notes.first.content)
-    expect(rendered).to match(/#{ travel_request.estimates.first.cost_type}/)
+    expect(rendered).to include("Lodging (per night)")
     expect(rendered).to match(/#{ travel_request.estimates.first.amount}/)
     expect(rendered).to match(/#{ travel_request.estimates.first.recurrence}/)
     expect(rendered).to have_selector("hyperlink[href=\"#{edit_travel_request_path(travel_request.request)}\"]", text: "Edit")
