@@ -124,6 +124,14 @@ RSpec.describe TravelRequestsController, type: :controller do
       assert_equal travel_request, assigns(:request_change_set).model
     end
 
+    it "can edit a fix_requested_changes pending request" do
+      travel_request = FactoryBot.create(:travel_request, creator: creator, action: "fix_requested_changes")
+      get :edit, params: { id: travel_request.to_param }, session: valid_session
+      expect(response).to be_successful
+      expect(assigns(:request_change_set)).to be_a(TravelRequestChangeSet)
+      assert_equal travel_request, assigns(:request_change_set).model
+    end
+
     it "can not edit an approved request" do
       travel_request = FactoryBot.create(:travel_request, creator: creator, action: "approve")
       get :edit, params: { id: travel_request.to_param }, session: valid_session
