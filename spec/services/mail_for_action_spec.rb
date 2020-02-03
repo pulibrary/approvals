@@ -13,6 +13,17 @@ RSpec.describe MailForAction, type: :model do
       expect(mail.to).to eq [request.creator.supervisor.email]
     end
 
+    it "sends email to the creator if a delegate created the event" do
+      Note.create request: request, creator: supervisor, content: "I created this"
+      expect { MailForAction.send(request: request.reload, action: "create") }.to change { ActionMailer::Base.deliveries.count }.by(2)
+      mail = ActionMailer::Base.deliveries.last
+      expect(mail.subject).to eq "#{TravelRequestDecorator.new(request).title} Ready For Review"
+      expect(mail.to).to eq [request.creator.supervisor.email]
+      creator_mail = ActionMailer::Base.deliveries[ActionMailer::Base.deliveries.count - 2]
+      expect(creator_mail.to).to eq [request.creator.email]
+      expect(creator_mail.subject).to eq "#{TravelRequestDecorator.new(request).title} Created by Jane Smith"
+    end
+
     it "sends email for the approve action" do
       request.approve(agent: supervisor)
       expect { MailForAction.send(request: request, action: "approve") }.to change { ActionMailer::Base.deliveries.count }.by(2)

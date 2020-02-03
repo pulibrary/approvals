@@ -227,7 +227,9 @@ RSpec.describe TravelRequestsController, type: :controller do
       it "creates a new TravelRequest" do
         expect do
           post :create, params: { travel_request: valid_attributes }, session: valid_session
-        end.to change(TravelRequest, :count).by(1).and change { ActionMailer::Base.deliveries.count }.by(1)
+        end.to change(TravelRequest, :count).by(1)
+                                            .and change(Note, :count).by(0)
+                                                                     .and change { ActionMailer::Base.deliveries.count }.by(1)
         updated = TravelRequest.last
         expect(updated.start_date).to eq start_date
         expect(updated.end_date).to eq end_date
@@ -241,6 +243,20 @@ RSpec.describe TravelRequestsController, type: :controller do
         post :create, params: { travel_request: valid_attributes }, session: valid_session
         expect(response).to redirect_to(TravelRequest.last)
         assert_equal TravelRequest.last, assigns(:request)
+      end
+
+      context "with delegate" do
+        it "creates a note to say who really created the request" do
+          delegate_profile = FactoryBot.create :staff_profile, given_name: "Sally", surname: "Smith", supervisor: creator.supervisor
+          delegate = FactoryBot.create :delegate, delegate: creator, delegator: delegate_profile
+          valid_session["approvals_delegate"] = delegate.id.to_s
+          expect do
+            post :create, params: { travel_request: valid_attributes.merge(notes: [{ content: "Important message" }]) }, session: valid_session
+          end.to change(TravelRequest, :count)
+            .by(1).and change(Note, :count)
+            .by(2).and change { ActionMailer::Base.deliveries.count }.by(2)
+          expect(TravelRequest.last.notes.first.content).to start_with("This request was created by")
+        end
       end
     end
 

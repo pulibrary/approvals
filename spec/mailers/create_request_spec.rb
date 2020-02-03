@@ -30,4 +30,26 @@ RSpec.describe CreateMailer, type: :mailer do
                                            "Destination: Location\n" \
                                            "Event: #{decorated_travel_request.event_title}\n\n")
   end
+
+  it "does not send a creator email" do
+    expect { described_class.with(request: travel_request).creator_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
+  end
+
+  it "does send a creator email if there is a note to specifying someone else created the request" do
+    Note.create request: travel_request, creator: supervisor, content: "I created this"
+    decorated_travel_request = TravelRequestDecorator.new(travel_request.reload)
+    expect { described_class.with(request: travel_request).creator_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+    mail = ActionMailer::Base.deliveries.last
+    expect(mail.subject).to eq "#{decorated_travel_request.title} Created by Jane Smith"
+    expect(mail.to).to eq [creator.email]
+    expect(mail.html_part.body.to_s).to eq("#{html_email_heading}<h1>The following request was submitted for you on #{today_formatted}.</h1>\n" \
+                                           "<p>To view your request go to <a href=\"http://localhost:3000/travel_requests/#{travel_request.id}\">here</a></p>\n  <dl>\n    " \
+                                           "<dt>Type</dt><dd>TravelRequest</dd>\n    <dt>Dates Away</dt><dd>12/30/2019 to 12/31/2019</dd>\n    " \
+                                           "<dt>Destination</dt><dd>Location</dd>\n    <dt>Event</dt><dd>#{decorated_travel_request.event_title}</dd>\n  </dl>#{html_email_footer}")
+    expect(mail.text_part.body.to_s).to eq("The following request was submitted for you on #{today_formatted}.\n" \
+                                           "To view your request go to http://localhost:3000/travel_requests/#{travel_request.id}\n" \
+                                           "Type: TravelRequest\nDates Away: 12/30/2019 to 12/31/2019\n" \
+                                           "Destination: Location\n" \
+                                           "Event: #{decorated_travel_request.event_title}\n\n")
+  end
 end
