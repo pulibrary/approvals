@@ -84,7 +84,7 @@ class CommonRequestController < ApplicationController
     if params[:approve]
       run_action(action: :approve, change_method: :supervisor_can_change?)
     elsif params[:deny]
-      request_change_set.errors.add(:notes, "Notes are required to deny a request") if processed_params[:notes].blank?
+      request_change_set.errors.add(:notes, "are required to deny a request") if processed_params[:notes].blank?
       run_action(action: :deny, change_method: :supervisor_can_change?)
     elsif params[:cancel]
       run_action(action: :cancel, change_method: :creator_can_change?)
@@ -168,7 +168,7 @@ class CommonRequestController < ApplicationController
       request = request_change_set.model
       request.aasm.fire(action, agent: current_staff_profile) if request_change_set.valid?
 
-      MailForAction.send(request: request, action: action) if update_model_and_respond(handle_deletes: false, success_verb: request.status, error_action: :review)
+      MailForAction.send(request: request, action: action) if update_model_and_respond(handle_deletes: false, success_verb: "updated", error_action: :review)
     end
 
     def creator_can_change?(action:)

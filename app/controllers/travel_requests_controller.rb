@@ -5,7 +5,7 @@ class TravelRequestsController < CommonRequestController
   # PATCH/PUT
   def decide
     if params[:change_request]
-      request_change_set.errors.add(:notes, "Notes are required to specify requested changes.") if processed_params[:notes].blank?
+      request_change_set.errors.add(:notes, "are required to specify requested changes.") if processed_params[:notes].blank?
       run_action(action: :change_request, change_method: :supervisor_can_change?)
     else
       super

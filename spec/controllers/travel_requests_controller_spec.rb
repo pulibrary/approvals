@@ -492,7 +492,7 @@ RSpec.describe TravelRequestsController, type: :controller do
         travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
         put :decide, params: { id: travel_request.to_param, travel_request: invalid_attributes, deny: "" }, session: valid_session
         expect(response).to be_successful
-        expect(assigns(:request_change_set).errors.messages).to eq(participation: ["is not included in the list"], notes: ["Notes are required to deny a request"])
+        expect(assigns(:request_change_set).errors.messages).to eq(participation: ["is not included in the list"], notes: ["are required to deny a request"])
         travel_request.reload
         expect(travel_request).to be_pending
       end
@@ -524,7 +524,7 @@ RSpec.describe TravelRequestsController, type: :controller do
         travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
         put :decide, params: { id: travel_request.to_param, travel_request: invalid_attributes, change_request: "" }, session: valid_session
         expect(response).to be_successful
-        expect(assigns(:request_change_set).errors.messages).to eq(participation: ["is not included in the list"], notes: ["Notes are required to specify requested changes."])
+        expect(assigns(:request_change_set).errors.messages).to eq(participation: ["is not included in the list"], notes: ["are required to specify requested changes."])
         travel_request.reload
         expect(travel_request).to be_pending
       end
