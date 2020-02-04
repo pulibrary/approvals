@@ -1,3 +1,5 @@
 The following request was updated by <%= @request.creator %> on <%= @request.formatted_updated_at %>.
+
 To review the request for approval go to <%= @request.review_path %>
+
 <%= render "mailer/review_details" %>

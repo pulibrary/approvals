@@ -1,5 +1,6 @@
-  <dl>
+  <dl style="padding: 10px; margin: 0 0 10px 0;">
     <% @request.review_details.each do |key, value| %>
-    <dt><%=key%></dt><dd><%=value%></dd>
+    <dt style="float: left; clear: left; width: 150px; text-align: right; font-weight: bold;"><%=key%></dt>
+    <dd style="margin: 0 0 0 175px; padding: 0 0 0.5em 0;"><%=value%></dd>
     <% end %>      
   </dl>
