@@ -6,7 +6,7 @@ class CreateMailer < ApplicationMailer
 
   def creator_email
     # no delegate note was created
-    return if request.notes.last.blank? || request.notes.first.creator_id == request.request.creator_id
+    return if request.notes.first.blank? || request.notes.first.creator_id == request.request.creator_id
 
     mail(to: request.creator.email, subject: "#{request.title} Created by #{request.notes.first.creator.full_name}")
   end
