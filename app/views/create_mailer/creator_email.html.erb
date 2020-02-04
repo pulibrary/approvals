@@ -1,3 +1,31 @@
-<h1>The following request was submitted for you on <%= @request.formatted_created_at %>.</h1>
-<p>To view your request go to <a href="<%= @request.show_path %>">here</a></p>
-<%= render "mailer/review_details" %>
+<tr>
+  <td style="background-color: #ffffff; box-shadow: 0 0 0 1px rgba(92,106,196,.1);">
+    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+      <tr>
+        <td style="padding: 20px 20px 0; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #001123;">
+          <h1 style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 25px; line-height: 30px; font-weight: normal;">Travel and Leave Request - Submitted for You</h1>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #001123;">
+          <p style="margin: 0 0 30px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #333333;">The following request was submitted on <%= @request.formatted_created_at %>. Please view the full details of the request on the <a href="<%= @request.show_path %>" style="text-decoration: underline; color: #333333;font-weight: bold;">Travel and Leave Request</a> system.</p>
+          
+          <%= render "mailer/review_details" %>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 0 20px 20px;">
+          <!-- Button : BEGIN -->
+          <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: auto;">
+            <tr>
+              <td class="button-td button-td-primary" style="border-radius: 4px; background: #222222;">
+                <a class="button-a button-a-primary" href="<%= @request.show_path %>" style="background: #222222; border: 1px solid #000000; font-family: sans-serif; font-size: 15px; line-height: 15px; text-decoration: none; padding: 13px 17px; color: #ffffff; display: block; border-radius: 4px;">View the Request</a>
+              </td>
+            </tr>
+          </table>
+          <!-- Button : END -->
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
