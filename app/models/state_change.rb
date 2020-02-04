@@ -17,7 +17,7 @@ class StateChange < ApplicationRecord
   }
 
   def title
-    "#{action.titleize} by #{actor_and_date}"
+    "#{title_for_action} by #{actor_and_date}"
   end
 
   def actor_and_date
@@ -28,4 +28,12 @@ class StateChange < ApplicationRecord
       "#{agent.full_name} on #{date}"
     end
   end
+
+  private
+
+    def title_for_action
+      return "Updated" if pending?
+
+      action.titleize
+    end
 end

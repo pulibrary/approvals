@@ -12,4 +12,19 @@ RSpec.describe StateChange, type: :model do
     it { is_expected.to respond_to :delegate_id }
     it { is_expected.to respond_to :delegate }
   end
+
+  describe "#title" do
+    it "returns the title for a canceled request" do
+      agent = FactoryBot.create :staff_profile, surname: "Doe", given_name: "Jane"
+      state_change = FactoryBot.create :state_change, action: "canceled", agent: agent
+      expect(state_change.title).to start_with("Canceled by Jane Doe")
+    end
+
+    it "returns the title for a fixed request" do
+      agent = FactoryBot.create :staff_profile, :with_department, surname: "Doe", given_name: "Jane"
+      request = FactoryBot.create :travel_request, creator: agent, action: "fix_requested_changes"
+      state_change = request.state_changes.last
+      expect(state_change.title).to start_with("Updated by Jane Doe")
+    end
+  end
 end

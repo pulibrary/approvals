@@ -74,6 +74,6 @@ class TravelRequest < Request
   end
 
   def can_modify_attributes?
-    changes_requested? || pending? && state_changes.empty?
+    changes_requested? || (pending? && (state_changes.empty? || state_changes.last.pending?))
   end
 end

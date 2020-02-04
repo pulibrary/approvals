@@ -127,12 +127,12 @@ RSpec.describe TravelRequestDecorator, type: :model do
       end
     end
 
-    context "approved but waiting on further approval" do
+    context "approved but waiting on further review" do
       let(:creator) { FactoryBot.create :staff_profile, :with_supervisor }
       let(:travel_request) { FactoryBot.create(:travel_request, creator: creator) }
-      it "returns pending futher approval" do
+      it "returns pending futher review" do
         travel_request.approve!(agent: travel_request.creator.supervisor)
-        expect(travel_request_decorator.latest_status).to eq "Pending further approval"
+        expect(travel_request_decorator.latest_status).to eq "Pending further review"
         expect(travel_request_decorator.latest_status_date).to eq "Updated on #{today.strftime('%m/%d/%Y')}"
       end
     end
@@ -192,6 +192,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
         request.notes << FactoryBot.build(:note, content: "looks good", creator: supervisor)
         request.change_request(agent: department_head)
         request.notes << FactoryBot.build(:note, content: "change stuff", creator: department_head)
+        request.fix_requested_changes(agent: staff)
         request
       end
 
@@ -208,7 +209,9 @@ RSpec.describe TravelRequestDecorator, type: :model do
                                                                    { title: "Changes Requested by Department Head on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
                                                                      icon: "refresh" },
                                                                    { title: "Department Head on #{Time.zone.now.strftime('%m/%d/%Y')}", content: "change stuff",
-                                                                     icon: "note" }
+                                                                     icon: "note" },
+                                                                   { title: "Updated by Staff Person on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
+                                                                     icon: "clock" }
                                                                  ])
       end
     end
