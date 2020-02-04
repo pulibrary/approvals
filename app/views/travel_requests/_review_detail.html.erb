@@ -7,7 +7,7 @@
       ><<%= travel_request.travel_category_icon %> /></lux-icon-base>
     </card-media>
     <card-header>
-      <heading level="h2" size="h3"><hyperlink href="<%= review_travel_request_path(travel_request.to_model)%>"><%= travel_request.creator %> - <%= travel_request.event_title_brief %></hyperlink></heading>
+      <heading level="h2" size="h3"><hyperlink href="<%= review_travel_request_path(travel_request.to_model)%>"><%= travel_request.creator %> - <%= travel_request.event_title %></hyperlink></heading>
       <text-style><%= travel_request.formatted_full_start_date %> to <%= travel_request.formatted_full_end_date %></text-style>
     </card-header>
     <card-content>
