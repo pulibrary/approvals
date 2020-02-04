@@ -105,7 +105,7 @@ RSpec.describe ApproveMailer, type: :mailer do
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{decorated_travel_request.title} Approved by Jane Smith Pending Further Review"
       expect(mail.to).to eq [creator.email]
-      expect(mail.html_part.body.to_s).to have_content("Travel and Leave Request - Pending Further Approval")
+      expect(mail.html_part.body.to_s).to have_content("Travel and Leave Request - Pending Further Review")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}. It has been Approved by Jane Smith on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Type\n    TravelRequest\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Destination\n    Location\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}\"]")
