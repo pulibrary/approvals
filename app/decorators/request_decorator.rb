@@ -3,7 +3,7 @@ class RequestDecorator
   include Rails.application.routes.url_helpers
 
   delegate :created_at, :end_date, :id, :request_type, :start_date, :status, :to_model, :state_changes,
-           :creator, :notes, :latest_state_change, :ordered_state_changes, :updated_at,
+           :creator, :creator_id, :notes, :latest_state_change, :ordered_state_changes, :updated_at,
            :approved?, :canceled?, :recorded?, to: :request
   attr_reader :request
 
@@ -77,10 +77,11 @@ class RequestDecorator
 
   def notes_and_changes
     both = notes.to_a
+    delegate_note = both.shift if both.first.present? && both.first.creator_id != creator_id
     both.concat(state_changes.to_a)
     both = both.sort_by(&:created_at)
     json = both.map { |item| item_json(item) }
-    json.prepend(title: "Created by #{creator.full_name} on #{created_at.strftime(date_format)}", content: nil, icon: "add")
+    created_state(json: json, delegate_note: delegate_note)
   end
 
   def last_supervisor_to_approve
@@ -151,5 +152,14 @@ class RequestDecorator
           icon: status_icon(status: item.action)
         }
       end
+    end
+
+    def created_state(json:, delegate_note:)
+      title = if delegate_note.present?
+                "Created by #{delegate_note.creator.full_name} on behalf of #{creator.full_name} on #{created_at.strftime(date_format)}"
+              else
+                "Created by #{creator.full_name} on #{created_at.strftime(date_format)}"
+              end
+      json.prepend(title: title, content: nil, icon: "add")
     end
 end
