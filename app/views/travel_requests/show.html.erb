@@ -72,10 +72,10 @@
       <% if @request.request.can_edit?(agent: current_staff_profile) %>
         <hyperlink
           href="<%= edit_travel_request_path(@request.id) %>"
-          variation="button solid"
+          variation="button solid">
+          Edit</hyperlink>
       <% end %>
       <% if @request.request.can_cancel?(agent: current_staff_profile) %>
-          >Edit</hyperlink>
         <%= form_with(model: @request.request, local: true, url: decide_travel_request_path(@request.id), method: :put, class: 'form-button') do |form| %>
           <input-button type="submit" variation="solid" name="cancel">Cancel</input-button>
         <% end %>
