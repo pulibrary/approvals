@@ -16,14 +16,18 @@
     <library-header app-name="Leave and Travel Requests" app-url="<%= HomeURL.for(current_user: current_user) %>" class="lux" :max-width=1440 theme="dark">
     <menu-bar type="links" :menu-items="[
         <% if current_user %>
-          {name: 'My Requests', component: 'My Requests', href: '/my_requests/'},
+          {name: 'My Requests', component: 'My Requests', href: '/my_requests/', children: [
+            {name: 'New Travel Request', component: 'New Travel Request', href: '/travel_requests/new/'},
+          ]},
           <%= "{name: 'Requests to Review', component: 'Requests to Review', href: '/my_approval_requests/'}," if current_staff_profile.supervisor? %>
-          <% unless current_delegate %>
-            {name: 'My Delegates', component: 'My Delegates', href: '/delegates/'},
-            {name: 'Delegations', component: 'Delegations', href: '<%= to_assume_delegates_path %>'},
-          <% end %>
-          {name: 'Help', component: 'Help', href: '/help'},
-          {name: 'Logout', component: 'Logout', href: '/sign_out'}
+          {name: 'My Account', component: 'My Account', href: '#', children: [
+            <% unless current_delegate %>
+              {name: 'My Delegates', component: 'My Delegates', href: '/delegates/'},
+              {name: 'Delegations', component: 'Delegations', href: '<%= to_assume_delegates_path %>'},
+            <% end %>
+            {name: 'Logout', component: 'Logout', href: '/sign_out'}
+          ]},
+          {name: 'Help', component: 'Help', href: '/help'}
         <% end %>
       ]"/>
     </library-header>

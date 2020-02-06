@@ -20,10 +20,12 @@ RSpec.feature "Delegate", type: :feature, js: true do
 
     visit "/my_requests"
     assert_selector ".my-request .lux-card", count: 1
-    assert_selector "a", text: "Delegations", count: 1
-    assert_selector "a", text: "My Delegates", count: 1
+    assert_selector "a", text: "Delegations", count: 0
+    assert_selector "a", text: "My Delegates", count: 0
 
+    click_on "My Account"
     click_on "Delegations"
+
     Percy.snapshot(page, name: "Delegations - Show", widths: [375, 768, 1440])
 
     assert_selector ".lux-card-header", text: /^Joe Schmo*/, count: 1
@@ -40,8 +42,6 @@ RSpec.feature "Delegate", type: :feature, js: true do
     assert_selector "div.lux-alert", text: "You are acting on behalf of #{delegate_staff_profile}"
     assert_selector ".my-request .lux-card", count: 2
 
-    # Todo we really should not need to hand jam the url
-    # visit cancel_delegates_path
     find("a#cancel_delegation").click
 
     assert_selector "div.lux-alert", text: "You are now acting on your own behalf"
@@ -55,11 +55,11 @@ RSpec.feature "Delegate", type: :feature, js: true do
 
     visit "/my_requests"
     assert_selector ".my-request .lux-card", count: 1
-    assert_selector "a", text: "Delegations", count: 1
-    assert_selector "a", text: "My Delegates", count: 1
+    assert_selector "a", text: "Delegations", count: 0
+    assert_selector "a", text: "My Delegates", count: 0
 
+    click_on "My Account"
     click_on "Delegations"
-    Percy.snapshot(page, name: "Delegations - Show", widths: [375, 768, 1440])
 
     assert_selector ".lux-card-header", text: /^Joe Schmo*/, count: 1
     assert_selector ".lux-card-header a", count: 1
@@ -86,8 +86,6 @@ RSpec.feature "Delegate", type: :feature, js: true do
     assert_selector "div.lux-alert", text: "You are acting on behalf of #{delegate_staff_profile}"
     assert_selector ".my-request .lux-card", count: 3
 
-    # Todo we really should not need to hand jam the url
-    # visit cancel_delegates_path
     find("a#cancel_delegation").click
 
     assert_selector "div.lux-alert", text: "You are now acting on your own behalf"
