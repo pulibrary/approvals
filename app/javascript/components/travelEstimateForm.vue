@@ -120,14 +120,16 @@ export default {
       this.$nextTick(() => {
          let index = this.expenseData.length - 1
          let input = this.$refs.expense_type[index].$el
-         input.children[1].focus()
+         if (typeof input.children[1] !== 'undefined'){
+           input.children[1].focus()
+         }
       });
     },
     deleteExpense(expense) {
       let foundIndex = this.expenseData.findIndex(x => x.other_id == expense.other_id)
       this.expenseData.splice(foundIndex, 1)
     },
-    isAmountReadonly(expense){
+    isAmountReadonly(expense) {
       return (expense.cost_type === 'personal_auto') ? true : false
     },
     setLineItemTotal(expense) {
