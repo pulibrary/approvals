@@ -59,7 +59,7 @@ class AbsenceRequestDecorator < RequestDecorator
 
   def review_details
     {
-      "Type" => request_type,
+      "Type" => request_type.titleize,
       "Dates Away" => event_dates,
       "Total absence time in hours" => hours_requested
     }
