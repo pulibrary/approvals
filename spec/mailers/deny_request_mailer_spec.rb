@@ -27,11 +27,11 @@ RSpec.describe DenyMailer, type: :mailer do
       expect(mail.to).to eq [creator.email]
       expect(mail.html_part.body.to_s).to have_content("Travel and Leave Request - Denied")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}. It has been Denied by Jane Smith on #{today_formatted}.")
-      expect(mail.html_part.body.to_s).to have_content("Type\n    AbsenceRequest\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
+      expect(mail.html_part.body.to_s).to have_content("Type\n    Absence Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/absence_requests/#{absence_request.id}\"]")
       expect(mail.text_part.body.to_s).to eq("The following request was submitted on #{today_formatted}.  It has been Denied by Jane Smith on #{today_formatted}.\n\n" \
                                              "To view your request go to http://localhost:3000/absence_requests/#{absence_request.id}\n\n" \
-                                             "Type: AbsenceRequest\nDates Away: 12/30/2019 to 12/31/2019\n" \
+                                             "Type: Absence Request\nDates Away: 12/30/2019 to 12/31/2019\n" \
                                              "Total absence time in hours: 8.0\n\n")
     end
 
@@ -53,11 +53,11 @@ RSpec.describe DenyMailer, type: :mailer do
       expect(mail.to).to eq [creator.email]
       expect(mail.html_part.body.to_s).to have_content("Travel and Leave Request - Denied")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}. It has been Denied by Jane Smith on #{today_formatted}.")
-      expect(mail.html_part.body.to_s).to have_content("Type\n    TravelRequest\n    Dates Away\n    12/30/2019 to 12/31/2019\n")
+      expect(mail.html_part.body.to_s).to have_content("Type\n    Travel Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}\"]")
       expect(mail.text_part.body.to_s).to eq("The following request was submitted on #{today_formatted}.  It has been Denied by Jane Smith on #{today_formatted}.\n\n" \
                                              "To view your request go to http://localhost:3000/travel_requests/#{travel_request.id}\n\n" \
-                                             "Type: TravelRequest\nDates Away: 12/30/2019 to 12/31/2019\n" \
+                                             "Type: Travel Request\nDates Away: 12/30/2019 to 12/31/2019\n" \
         "Destination: Location\n" \
         "Event: #{decorated_travel_request.event_title}\n\n")
     end
@@ -81,11 +81,11 @@ RSpec.describe DenyMailer, type: :mailer do
       expect(mail.to).to eq [creator.email]
       expect(mail.html_part.body.to_s).to have_content("Travel and Leave Request - Denied")
       expect(mail.html_part.body.to_s).to have_content("It has been Denied by Department Head on #{today_formatted}.")
-      expect(mail.html_part.body.to_s).to have_content("Type\n    TravelRequest\n    Dates Away\n    12/30/2019 to 12/31/2019\n")
+      expect(mail.html_part.body.to_s).to have_content("Type\n    Travel Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}\"]")
       expect(mail.text_part.body.to_s).to eq("The following request was submitted on #{today_formatted}.  It has been Denied by Department Head on #{today_formatted}.\n\n" \
                                              "To view your request go to http://localhost:3000/travel_requests/#{travel_request.id}\n\n" \
-                                             "Type: TravelRequest\nDates Away: 12/30/2019 to 12/31/2019\n" \
+                                             "Type: Travel Request\nDates Away: 12/30/2019 to 12/31/2019\n" \
                                              "Destination: Location\n" \
                                              "Event: #{decorated_travel_request.event_title}\n\n")
     end
@@ -98,11 +98,11 @@ RSpec.describe DenyMailer, type: :mailer do
       expect(mail.to).to eq [supervisor.email]
       expect(mail.html_part.body.to_s).to have_content("Travel and Leave Request - Denied")
       expect(mail.html_part.body.to_s).to have_content("It has been Denied by Department Head on #{today_formatted}.")
-      expect(mail.html_part.body.to_s).to have_content("Type\n    TravelRequest\n    Dates Away\n    12/30/2019 to 12/31/2019\n")
+      expect(mail.html_part.body.to_s).to have_content("Type\n    Travel Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}\"]")
       expect(mail.text_part.body.to_s).to eq("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.  It has been Denied by Department Head on #{today_formatted}.\n\n" \
                                              "To view the request go to http://localhost:3000/travel_requests/#{travel_request.id}\n\n" \
-                                             "Type: TravelRequest\nDates Away: 12/30/2019 to 12/31/2019\n" \
+                                             "Type: Travel Request\nDates Away: 12/30/2019 to 12/31/2019\n" \
                                              "Destination: Location\n" \
                                              "Event: #{decorated_travel_request.event_title}\n\n")
     end
