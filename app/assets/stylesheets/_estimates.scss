@@ -49,3 +49,25 @@
 .lux-card-content .lux-data-table {
   width: 100%;
 }
+
+@media (max-width: 599px) {
+  .lux-data-table {
+    table-layout: fixed;
+  }
+  // hide the notes and the cost per occurance
+  .lux-data-table tr td:nth-child(2),
+  .lux-data-table tr th:nth-child(2),
+  .lux-data-table tr td:nth-child(3),
+  .lux-data-table tr td:nth-child(3) lux-data-table-number,
+  .lux-data-table tr th:nth-child(3)
+  {
+		display: none;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .lux-data-table {
+    table-layout: fixed;
+  }
+
+}
