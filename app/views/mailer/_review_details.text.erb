@@ -1,3 +1,4 @@
-<% @request.review_details.each do |key, value| %>
+<% details ||= @request.review_details %>
+<% details.each do |key, value| %>
 <%=key%>: <%=value%>
 <% end %>
