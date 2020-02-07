@@ -6,6 +6,7 @@
       mode="range"
       width="expand"
       placeholder="9/2/2019 - 9/12/2019"
+      :holidays="holidays"
       @updateInput="setHours($event)"
       :defaultDates="defaultDates">
       </date-picker>
@@ -14,12 +15,13 @@
     <input type="hidden" id="absence_request_start_date" name="absence_request[start_date]" :value="localStartDate">
     <input type="hidden" id="absence_request_end_date" name="absence_request[end_date]" :value="localEndDate">
 
-    <input-text id="absence_request_hours_requested" 
-                name="absence_request[hours_requested]" 
-                width="expand" 
-                label="Total hours requested" 
-                placeholder="111 hours" 
-                :value="localHoursReqested" 
+    <input-text id="absence_request_hours_requested"
+                name="absence_request[hours_requested]"
+                width="expand"
+                label="Total hours requested"
+                :helper="helperCaption"
+                @input="updateCaption($event)"
+                :value="localHoursReqested"
                 required></input-text>
   </div>
 </template>
@@ -29,6 +31,8 @@ export default {
   name: "hoursCalculator",
   data: function () {
     return {
+      nonWorkDays: 0,
+      helperCaption: "",
       localHoursReqested: this.hoursRequested,
       localStartDate: this.startDate,
       localEndDate: this.endDate,
@@ -43,11 +47,16 @@ export default {
     name: {},
     startDate: {},
     endDate: {},
-    hoursRequested: { }
+    hoursRequested: {
+     type: Number,
+     default: 0,
+    },
   },
   methods: {
     setHours(date_range) {
+      this.nonWorkDays = 0;
       this.localHoursReqested = this.calculateTotalHours(date_range);
+      this.updateCaption(this.localHoursReqested);
     },
     calculateTotalHours(date_range) {
       var range = date_range.split(' - ');
@@ -81,6 +90,8 @@ export default {
     isWorkday(value) {
       if(value.getUTCDay() != 0 && value.getUTCDay() != 6 && !this.isHoliday(value)){
         return value;
+      } else {
+        this.nonWorkDays = this.nonWorkDays + 1;
       }
     },
     totalHours(filtered) {
@@ -91,6 +102,16 @@ export default {
     isHoliday(date){
       var date_str = [date.getUTCFullYear(), this.pad(date.getUTCMonth()+1,2), this.pad(date.getUTCDate(),2)].join('-');
       return this.holidays.includes(date_str);
+    },
+    hoursToDays(hours){
+      return hours / this.hoursPerDay;
+    },
+    updateCaption(value){
+      let val = Number(value)
+      if(val) {
+        this.localHoursReqested = val;
+        this.helperCaption = this.localHoursReqested + " hours = " + this.hoursToDays(this.localHoursReqested) + " days (" + this.nonWorkDays + " holiday and weekend dates excluded.)";
+      }
     },
     pad(num, size) {
       var s = "0" + num;
