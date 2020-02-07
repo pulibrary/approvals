@@ -73,6 +73,25 @@ namespace :approvals do
     LocationLoader.load
   end
 
+  desc "Make a delegate record so delegate_uid can act on behalf of delegator_uid"
+  task :make_delegate, [:delegate_uid, :delegator_uid] => [:environment] do |_t, args|
+    delegate_uid = args[:delegate_uid]
+    delegator_uid = args[:delegator_uid]
+    if delegate_uid.blank? || delegator_uid.blank?
+      message = "you must specify both a delegate_uid and a delegator_uid!!! \n" \
+                "rake approvals:make_delegate[ab1,cd2]"
+      abort message
+    end
+    delegate = StaffProfile.find_by(uid: delegate_uid)
+    abort "Invalid delegate uid (netid) #{delegate_uid}" if delegate.blank?
+
+    delegator = StaffProfile.find_by(uid: delegator_uid)
+    abort "Invalid delegator uid (netid) #{delegator_uid}" if delegator.blank?
+
+    Delegate.create!(delegate: delegate, delegator: delegator)
+    puts "created #{delegate} can not act on behalf of #{delegator}"
+  end
+
   def make_requests(staff_profile:)
     1.upto(Random.rand(5...20)) do
       status = ["pending", "approved", "denied", "changes_requested", "canceled"].sample
