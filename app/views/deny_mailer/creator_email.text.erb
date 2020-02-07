@@ -2,4 +2,4 @@ The following request was submitted on <%= @request.formatted_created_at %>.  <%
 
 To view your request go to <%= @request.show_path %>
 
-<%= render "mailer/review_details" %>
+<%= render "mailer/review_details", details: @request.deny_or_change_details %>

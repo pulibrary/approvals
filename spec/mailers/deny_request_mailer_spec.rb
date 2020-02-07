@@ -18,6 +18,7 @@ RSpec.describe DenyMailer, type: :mailer do
   context "denied absence" do
     before do
       absence_request.deny!(agent: supervisor)
+      absence_request.notes << Note.create(content: "Too many people away")
     end
 
     it "sends creator email" do
@@ -28,11 +29,12 @@ RSpec.describe DenyMailer, type: :mailer do
       expect(mail.html_part.body.to_s).to have_content("Travel and Leave Request - Denied")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}. It has been Denied by Jane Smith on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Type\n    Absence Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
+      expect(mail.html_part.body.to_s).to have_content("Note\n    Too many people away")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/absence_requests/#{absence_request.id}\"]")
       expect(mail.text_part.body.to_s).to eq("The following request was submitted on #{today_formatted}.  It has been Denied by Jane Smith on #{today_formatted}.\n\n" \
                                              "To view your request go to http://localhost:3000/absence_requests/#{absence_request.id}\n\n" \
                                              "Type: Absence Request\nDates Away: 12/30/2019 to 12/31/2019\n" \
-                                             "Total absence time in hours: 8.0\n\n")
+                                             "Total absence time in hours: 8.0\nNote: Too many people away\n\n")
     end
 
     it "does not send supervisor email" do

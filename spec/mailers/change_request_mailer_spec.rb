@@ -17,6 +17,7 @@ RSpec.describe ChangeRequestMailer, type: :mailer do
   context "change_request on a travel request" do
     before do
       travel_request.change_request!(agent: supervisor)
+      travel_request.notes << Note.create(content: "Hotel is too expensive")
     end
 
     it "sends creator email" do
@@ -28,12 +29,14 @@ RSpec.describe ChangeRequestMailer, type: :mailer do
       expect(mail.html_part.body.to_s).to have_content("Travel and Leave Request - Changes Requested")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}. Changes Requested by Jane Smith on #{today_formatted}. ")
       expect(mail.html_part.body.to_s).to have_content("Type\n    Travel Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n")
+      expect(mail.html_part.body.to_s).to have_content("Note\n    Hotel is too expensive")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}/edit\"]")
       expect(mail.text_part.body.to_s).to eq("The following request was submitted on #{today_formatted}.  Changes Requested by Jane Smith on #{today_formatted}.\n\n" \
                                              "To edit your request go to http://localhost:3000/travel_requests/#{travel_request.id}/edit\n\n" \
                                              "Type: Travel Request\nDates Away: 12/30/2019 to 12/31/2019\n" \
-        "Destination: Location\n" \
-        "Event: #{decorated_travel_request.event_title}\n\n")
+                                             "Destination: Location\n" \
+                                             "Event: #{decorated_travel_request.event_title}\n" \
+                                             "Note: Hotel is too expensive\n\n")
     end
 
     it "does not send supervisor email" do

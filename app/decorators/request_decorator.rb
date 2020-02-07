@@ -103,6 +103,12 @@ class RequestDecorator
     ordered_state_changes[count - 2]
   end
 
+  def deny_or_change_details
+    details = review_details
+    details = details.merge("Note" => notes.last.content) if notes.last.present?
+    details
+  end
+
   private
 
     def title_for_state(state:, phrase: "has been")
