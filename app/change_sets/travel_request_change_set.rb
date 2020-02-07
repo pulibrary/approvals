@@ -77,18 +77,14 @@ class TravelRequestChangeSet < RequestChangeSet
   end
 
   def recurring_event_list
-    @values ||= RecurringEvent.all.limit(50).map do |event|
-      "{ id: '#{event.id}', label: '#{event.name}' }"
-    end.join(",")
-    "[#{@values}]"
+    if @previous_count != RecurringEvent.count
+      @values = RecurringEvent.all.map do |event|
+        "{ id: '#{event.id}', label: '#{event.name}' }"
+      end.join(",")
+      @previous_count = RecurringEvent.count
+    end
 
-    # "[
-    #             { value: 'Code4Lib', label: 'Code4Lib Annual Conference' },
-    #             { value: 'ALA', label: 'American Library Association Annual' },
-    #             { value: 'DLF', label: 'Digital Library Federation' },
-    #             { value: 'SAA', label: 'Society of American Archivists Annual Conference' },
-    #             { value: 'Access', label: 'Access Annual Conference' }
-    # ]"
+    "[#{@values}]"
   end
 
   def supervisor
