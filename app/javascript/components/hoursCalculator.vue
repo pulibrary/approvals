@@ -32,7 +32,7 @@ export default {
   data: function () {
     return {
       nonWorkDays: 0,
-      helperCaption: "Holiday and weekend dates are not calculated.",
+      helperCaption: "",
       localHoursReqested: this.hoursRequested,
       localStartDate: this.startDate,
       localEndDate: this.endDate,
@@ -108,7 +108,7 @@ export default {
     },
     updateCaption(value){
       let val = Number(value)
-      if(Number.isInteger(val)) {
+      if(val) {
         this.localHoursReqested = val;
         this.helperCaption = this.localHoursReqested + " hours = " + this.hoursToDays(this.localHoursReqested) + " days (" + this.nonWorkDays + " holiday and weekend dates excluded.)";
       }

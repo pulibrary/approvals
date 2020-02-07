@@ -17,7 +17,9 @@
         <hours-calculator start-date="<%= request_change_set.start_date_js %>"
                           end-date="<%= request_change_set.end_date_js %>"
                           <% if request_change_set.hours_requested %>
-                          :hours-requested="<%= request_change_set.hours_requested %>"
+                            :hours-requested="<%= request_change_set.hours_requested %>"
+                          <% else %>
+                            :hours-requested="<%= request_change_set.hours_per_day(current_staff_profile)%>"
                           <% end %>
                           :holidays="<%=request_change_set.holidays %>"
                           hours-per-day=<%= request_change_set.hours_per_day(current_staff_profile)%>>
