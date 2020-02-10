@@ -30,6 +30,23 @@
     float: left;
     margin-right: 1rem;
   }
+
+  .title-card.full-width .lux-card-media+.lux-card-header {
+    padding-left: 1rem;
+    flex-basis: 100%;
+  }
+
+  .title-card .lux-card-media {
+    order: 1;
+  }
+  .title-card .lux-card-content {
+    order: 2;
+    margin-left: auto;
+  }
+  .title-card .lux-card-header {
+    order: 3;
+    width: 100%;
+  }
 }
 
 .request .lux-card,

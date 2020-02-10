@@ -42,8 +42,11 @@
 .travel-estimates tr:last-child td,
 .expense-total .lux-text-style {
   font-weight: bold;
-  font-size: 28px;
   line-height: 1;
+
+  @media (min-width: 600px) {
+    font-size: 28px;
+  }
 }
 
 .lux-card-content .lux-data-table {

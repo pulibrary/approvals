@@ -23,3 +23,13 @@ body {
 .lux-alert ul {
   margin: 1rem 0 0 2rem;
 }
+
+@media (max-width: 599px) {
+  .lux-button {
+    width: 100%;
+  }
+
+  .sm-12.auto {
+    flex-basis: 100%;
+  }
+}
