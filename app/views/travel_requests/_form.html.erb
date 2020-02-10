@@ -1,15 +1,7 @@
 
 <%= form_with(model: request_change_set.model, local: true) do |form| %>
 <% if request_change_set.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(request_change_set.errors.count, "error") %> prohibited this request from being saved:</h2>
-
-    <ul>
-    <% request_change_set.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
-    <% end %>
-    </ul>
-  </div>
+  <%=render 'errors', request_change_set: request_change_set %>
 <% end %>
 <grid-container>
   <grid-item columns="lg-12 sm-12">

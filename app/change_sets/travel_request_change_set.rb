@@ -4,6 +4,10 @@ class TravelRequestChangeSet < RequestChangeSet
   property :purpose
   property :participation
 
+  # to allow for error messages to be attached to the form fields
+  property :travel_dates
+  property :event_dates
+
   collection :event_requests, form: EventRequestChangeSet, populator: EventRequestChangeSet::EventRequestPopulator, prepopulator: EventRequestChangeSet::EventRequestPrepopulator
   collection :estimates, form: EstimateChangeSet, populator: EstimateChangeSet::EstimatePopulator
 
