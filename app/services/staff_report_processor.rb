@@ -97,9 +97,10 @@ class StaffReportProcessor
           next if department.blank?
 
           department_head = StaffProfile.find_by(uid: attributes["head_uid"])
-          department.head = department_head
+          department.head = department_head  if department_head.present?
           attributes["admin_assistant"].each do |net_id|
-            department.admin_assistants << StaffProfile.find_by(uid: net_id)
+            aa = StaffProfile.find_by(uid: net_id)
+            department.admin_assistants << aa if aa.present?
           end
           department.admin_assistants = department.admin_assistants.uniq
           department.save

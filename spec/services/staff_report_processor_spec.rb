@@ -6,7 +6,10 @@ RSpec.describe StaffReportProcessor, type: :model do
   let(:user_line) { "90009\tTest Department\tPUHRS\t99999999\ttesti\tTest\tI\tam\tBiw\tR=BenElig\t000000000\tLibrary Office Assistant II\tManager, I Am.\timanager" }
   let(:manager_line) { "90009\tTest Department\tPUHRS\t99999991\timanager\tManager\tI\tam\tBiw\tR=BenElig\t000000000\tManager II\tLibrary, Dean of\tajarvis" }
   let(:dean_line) { "41000\tTest Department\tPUHRS\t99999991\tajarvis\tJarvis\tAnn\t\tBiw\tR=BenElig\t000000000\tManager II\tLibrary, Dean of\tomanager" }
-  let(:department_config) { "41000:\n  head_uid: ajarvis\n  admin_assistant: \n    - testi\n    - testi\n    - imanager\n" }
+  let(:department_config) do
+    "41000:\n  head_uid: ajarvis\n  admin_assistant: \n    - testi\n    - testi\n    - imanager\n"\
+                            "90009:\n  admin_assistant: \n    - testabc"
+  end
   class FakeLdapClass
     class << self
       def find_by_netid(net_id)
