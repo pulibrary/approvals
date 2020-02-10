@@ -26,3 +26,41 @@
 .filter-applied .lux-tag.filter li {
   margin-right: 0.5rem;
 }
+
+.search-filter-sort .lux-date-picker {
+  margin-bottom: 0;
+  @media (min-width: 600px) {
+    width: 210px;
+  }
+}
+
+.lux-search-box .lux-button {
+  width: auto;
+  background-color: lighten($color-grayscale-warm-light, 20%);
+}
+
+.date-filter form {
+  display: flex;
+}
+
+.pagination a {
+  box-shadow: $box-shadow-small;
+  border-radius: $border-radius-default;
+  background-color: $color-white;
+  padding: $space-xx-small $space-x-small;
+  margin-left: $space-xx-small;
+  text-decoration: none;
+  color: $color-rich-black;
+  &:hover,
+  &:focus {
+    box-shadow: $box-shadow-selected;
+    outline: 0;
+  }
+}
+
+.page.current {
+  background-color: initial;
+  box-shadow: none;
+  padding: $space-xx-small;
+  text-align: center;
+}

@@ -1,0 +1,13 @@
+<%= form_tag(search_path, method: :get) do %>
+  <% params_manager.date_form_hidden_field.each do |key, value|%>
+    <input type="hidden" id="<%=key%>" name="<%=key%>" value="<%=value%>"/>
+  <% end %>
+  <search-box>
+      <date-picker id="dateRange" name="filters[date]" aria-label="date filter mm-dd-yyyy - mm-dd-yyyy" mode="range" 
+      <% if params_manager.date_defaults.present? %>
+        :default-dates="<%= params_manager.date_defaults%>"
+      <% end %>
+      ></date-picker> 
+      <input-button type="filter" id="date-filter" aria-label="submit date filter">Filter by Date</input-button>
+  </search-box>
+<% end %>

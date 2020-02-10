@@ -5,6 +5,7 @@ class ApprovalRequestList < RequestList
       records = Request
                 .where(request_filters(request_filters: request_filters))
                 .where_contains_text(search_query: search_query)
+                .where_filtered_by_date(start_date: start_date_filter, end_date: end_date_filter)
                 .where(creator: list_supervised(list: [], supervisor: approver).map(&:id))
                 .order(my_request_order(order))
 

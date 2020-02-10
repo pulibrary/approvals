@@ -323,4 +323,89 @@ RSpec.describe RequestsController, type: :controller do
       expect(assigns(:requests).count).to eq 1
     end
   end
+
+  describe "GET #my_requests with date range" do
+    let(:day_before_yesterday) { Time.zone.yesterday.yesterday }
+    let(:yesterday) { Time.zone.yesterday }
+    let(:today) { Time.zone.today }
+    let(:tomorrow) { Time.zone.tomorrow }
+    let(:day_after_tomorrow) { Time.zone.tomorrow.tomorrow }
+
+    # using let! to make sure the requests exist
+    # rubocop:disable RSpec/LetSetup
+    let!(:r1) { FactoryBot.create(:travel_request, creator: staff_profile, start_date: today, end_date: today) }
+    let!(:r2) { FactoryBot.create(:travel_request, creator: staff_profile, start_date: tomorrow, end_date: tomorrow) }
+    let!(:r3) { FactoryBot.create(:travel_request, creator: staff_profile, start_date: yesterday, end_date: yesterday) }
+    let!(:r4) { FactoryBot.create(:travel_request, creator: staff_profile, start_date: today, end_date: tomorrow) }
+    let!(:r5) { FactoryBot.create(:travel_request, creator: staff_profile, start_date: yesterday, end_date: today) }
+    # rubocop:enable RSpec/LetSetup
+
+    it "retrieves the results from yesterday" do
+      get :my_requests, params: { filters: { date: "#{yesterday.strftime('%m/%d/%Y')} - #{yesterday.strftime('%m/%d/%Y')}" } }, session: valid_session
+      expect(assigns(:requests).request_list.map(&:id)).to eq [r5.id, r3.id]
+    end
+
+    it "retrieves the results from yesterday when start does not match, but end does" do
+      get :my_requests, params: { sort: "created_at_asc", filters: { date: "#{day_before_yesterday.strftime('%m/%d/%Y')} - #{yesterday.strftime('%m/%d/%Y')}" } }, session: valid_session
+      expect(assigns(:requests).request_list.map(&:id)).to eq [r3.id, r5.id]
+    end
+
+    it "retrieves the results from today" do
+      get :my_requests, params: { filters: { date: "#{today.strftime('%m/%d/%Y')} - #{today.strftime('%m/%d/%Y')}" } }, session: valid_session
+      expect(assigns(:requests).request_list.map(&:id)).to eq [r5.id, r4.id, r1.id]
+    end
+
+    it "retrieves the results from yesterday and today" do
+      get :my_requests, params: { filters: { date: "#{yesterday.strftime('%m/%d/%Y')} - #{today.strftime('%m/%d/%Y')}" } }, session: valid_session
+      expect(assigns(:requests).request_list.map(&:id)).to eq [r5.id, r4.id, r3.id, r1.id]
+    end
+
+    it "retrieves the results from a wider range" do
+      get :my_requests, params: { filters: { date: "#{day_before_yesterday.strftime('%m/%d/%Y')} - #{day_after_tomorrow.strftime('%m/%d/%Y')}" } }, session: valid_session
+      expect(assigns(:requests).request_list.map(&:id)).to eq [r5.id, r4.id, r3.id, r2.id, r1.id]
+    end
+  end
+
+  describe "GET #my_approval_requests with date range" do
+    let(:profile) { FactoryBot.create :staff_profile, supervisor: staff_profile, given_name: "Haley" }
+    let(:day_before_yesterday) { Time.zone.yesterday.yesterday }
+    let(:yesterday) { Time.zone.yesterday }
+    let(:today) { Time.zone.today }
+    let(:tomorrow) { Time.zone.tomorrow }
+    let(:day_after_tomorrow) { Time.zone.tomorrow.tomorrow }
+
+    # using let! to make sure the requests exist
+    # rubocop:disable RSpec/LetSetup
+    let!(:r1) { FactoryBot.create(:travel_request, creator: profile, start_date: today, end_date: today) }
+    let!(:r2) { FactoryBot.create(:travel_request, creator: profile, start_date: tomorrow, end_date: tomorrow) }
+    let!(:r3) { FactoryBot.create(:travel_request, creator: profile, start_date: yesterday, end_date: yesterday) }
+    let!(:r4) { FactoryBot.create(:travel_request, creator: profile, start_date: today, end_date: tomorrow) }
+    let!(:r5) { FactoryBot.create(:travel_request, creator: profile, start_date: yesterday, end_date: today) }
+    # rubocop:enable RSpec/LetSetup
+
+    it "retrieves the results from yesterday" do
+      get :my_approval_requests, params: { filters: { date: "#{yesterday.strftime('%m/%d/%Y')} - #{yesterday.strftime('%m/%d/%Y')}" } }, session: valid_session
+      expect(assigns(:requests).request_list.map(&:id)).to eq [r3.id, r5.id]
+    end
+
+    it "retrieves the results from yesterday when start does not match, but end does" do
+      get :my_approval_requests, params: { sort: "created_at_asc", filters: { date: "#{day_before_yesterday.strftime('%m/%d/%Y')} - #{yesterday.strftime('%m/%d/%Y')}" } }, session: valid_session
+      expect(assigns(:requests).request_list.map(&:id)).to eq [r3.id, r5.id]
+    end
+
+    it "retrieves the results from today" do
+      get :my_approval_requests, params: { filters: { date: "#{today.strftime('%m/%d/%Y')} - #{today.strftime('%m/%d/%Y')}" } }, session: valid_session
+      expect(assigns(:requests).request_list.map(&:id)).to eq [r5.id, r4.id, r1.id]
+    end
+
+    it "retrieves the results from yesterday and today" do
+      get :my_approval_requests, params: { filters: { date: "#{yesterday.strftime('%m/%d/%Y')} - #{today.strftime('%m/%d/%Y')}" } }, session: valid_session
+      expect(assigns(:requests).request_list.map(&:id)).to eq [r3.id, r5.id, r1.id, r4.id]
+    end
+
+    it "retrieves the results from a wider range" do
+      get :my_approval_requests, params: { filters: { date: "#{day_before_yesterday.strftime('%m/%d/%Y')} - #{day_after_tomorrow.strftime('%m/%d/%Y')}" } }, session: valid_session
+      expect(assigns(:requests).request_list.map(&:id)).to eq [r3.id, r5.id, r1.id, r4.id, r2.id]
+    end
+  end
 end

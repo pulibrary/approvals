@@ -33,6 +33,10 @@ class Request < ApplicationRecord
     joins(:creator).left_joins(:notes).where("notes.content ilike #{query} or event_title ilike #{query} or staff_profiles.given_name ilike #{query} or staff_profiles.surname ilike #{query}").distinct
   end
 
+  def self.where_filtered_by_date(start_date:, end_date:)
+    return all if start_date.blank? || end_date.blank?
+    where(start_date: start_date..end_date).or(where(end_date: start_date..end_date))
+  end
   enum status: {
     pending: "pending",
     canceled: "canceled",

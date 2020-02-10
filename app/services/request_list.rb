@@ -5,8 +5,21 @@ class RequestList
       record_scope = Request
                      .where(request_filters(creator: creator, request_filters: request_filters))
                      .where_contains_text(search_query: search_query)
+                     .where_filtered_by_date(start_date: start_date_filter, end_date: end_date_filter)
                      .order(my_request_order(order))
       paginate(record_scope: record_scope, page: page)
+    end
+
+    def parse_date_range_filter(filter:)
+      return {} if filter.blank?
+      dates = filter.split(" - ")
+      start_date = Date.strptime(dates.first, "%m/%d/%Y")
+      end_date = if dates.count > 1
+                   Date.strptime(dates.last, "%m/%d/%Y")
+                 else
+                   start_date
+                 end
+      { start: start_date, end: end_date }
     end
 
     private
@@ -35,10 +48,26 @@ class RequestList
 
       # all filters from params
       def filters_hash(request_filters)
+        @date_filter = nil
         return {} if request_filters.blank?
 
         filters = request_filters.to_hash
+        @date_filter = filters.delete("date")
         map_request_type_filters(filters)
+      end
+
+      def start_date_filter
+        hash = parse_date_range_filter(filter: @date_filter)
+        hash[:start]
+      rescue ArgumentError
+        nil
+      end
+
+      def end_date_filter
+        hash = parse_date_range_filter(filter: @date_filter)
+        hash[:end]
+      rescue ArgumentError
+        nil
       end
 
       # These couple methods will likely be reused; consider making it into a class like
