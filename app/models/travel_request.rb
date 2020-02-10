@@ -5,6 +5,8 @@
 class TravelRequest < Request
   include AasmConfig
 
+  attr_accessor :travel_dates, :event_dates # to allow for error messages to be attached to the form fields
+
   def to_s
     "#{creator}  #{event_requests.first.recurring_event.name}"
   end

@@ -56,6 +56,10 @@ class TravelRequestsController < CommonRequestController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def travel_request_params
+      @travel_request_params ||= clean_and_require_params
+    end
+
+    def clean_and_require_params
       clean_params
       params.require(:travel_request).permit(
         :creator_id,
@@ -95,7 +99,13 @@ class TravelRequestsController < CommonRequestController
       return if hash.blank? || hash[field].blank?
       dates = hash[field].split(" - ")
       hash[:start_date] = Date.strptime(dates[0], "%m/%d/%Y")
-      hash[:end_date] = Date.strptime(dates[1], "%m/%d/%Y")
+      hash[:end_date] = if dates.length == 2
+                          Date.strptime(dates[1], "%m/%d/%Y")
+                        else
+                          hash[:start_date]
+                        end
+    rescue ArgumentError
+      request_change_set.errors.add(field, "must be in a valid format (mm/dd/yyyy)")
     end
 
     def processed_params
