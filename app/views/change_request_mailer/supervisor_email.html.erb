@@ -3,12 +3,12 @@
     <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
       <tr>
         <td style="padding: 20px 20px 0; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #001123;">
-          <h1 style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 25px; line-height: 30px; font-weight: normal;">Travel and Leave Request - <%= @request.latest_status.titleize %></h1>
+          <h1 style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 25px; line-height: 30px; font-weight: normal;">Leave and Travel Request - <%= @request.latest_status.titleize %></h1>
         </td>
       </tr>
       <tr>
         <td style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #001123;">
-          <p style="margin: 0 0 30px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #333333;">The following request was submitted by <%= @request.creator %> on <%= @request.formatted_created_at %>. <%= @request.latest_state_change.title %>. Please review the full details of the request on the <a href="<%= @request.show_path %>" style="text-decoration: underline; color: #333333;font-weight: bold;">Travel and Leave Request</a> system.</p>
+          <p style="margin: 0 0 30px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #333333;">The following request was submitted by <%= @request.creator %> on <%= @request.formatted_created_at %>. <%= @request.latest_state_change.title %>. Please review the full details of the request on the <a href="<%= @request.show_path %>" style="text-decoration: underline; color: #333333;font-weight: bold;">Leave and Travel Request</a> system.</p>
           
           <%= render "mailer/review_details" %>
         </td>
