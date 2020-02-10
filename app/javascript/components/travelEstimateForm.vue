@@ -46,6 +46,7 @@
           <input-text label="Occurrences" name="travel_request[estimates][][recurrence]"
               :id="'travel_request_estimates_recurrence_' + expense.id"
               @input="updateRecurrence($event, expense)"
+              placeholder="0"
               :value="expense.recurrence" width="expand" required hideLabel></input-text>
         </grid-item>
         <grid-item vertical="center" columns="lg-2 sm-12">
@@ -53,7 +54,9 @@
               :id="'travel_request_estimates_amount_' + expense.id"
               @input="updateAmount($event, expense)"
               :value="expense.amount" width="expand"
-              :readonly="isAmountReadonly(expense)" required hideLabel></input-text>
+              :readonly="isAmountReadonly(expense)" 
+              placeholder="$ 0.00"
+              required hideLabel></input-text>
         </grid-item>
         <grid-item vertical="center" columns="lg-4 sm-12">
           <input-text label="Note" name="travel_request[estimates][][description]"
