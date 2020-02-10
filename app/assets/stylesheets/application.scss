@@ -26,12 +26,17 @@
   visibility: hidden;
   opacity: 0;
  }
- 
- .js {
+
+.js {
   visibility: visible;
   opacity: 1;
- }
+}
 
- .form-button {
-   display: inline;
- }
+.form-button {
+  display: inline;
+}
+
+html {
+  visibility: visible;
+  opacity: 1;
+}

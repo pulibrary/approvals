@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html>
   <head>
     <title>Leave and Travel Requests</title>
+    <style>html{visibility: hidden;opacity:0;}</style>
     <%= javascript_pack_tag 'application' %>
     <%= stylesheet_pack_tag 'application' %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
@@ -25,7 +26,7 @@
           {name: 'Help', component: 'Help', href: '/help'},
           {name: 'Logout', component: 'Logout', href: '/sign_out'}
         <% end %>
-      ]"/>
+      ]"></menu-bar>
     </library-header>
     <% if current_delegate %>
       <div class="lux">
