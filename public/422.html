@@ -1,67 +1,87 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>The change you wanted was rejected (422)</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>
-  .rails-default-error-page {
-    background-color: #EFEFEF;
-    color: #2E2F30;
-    text-align: center;
-    font-family: arial, sans-serif;
-    margin: 0;
-  }
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Error | Princeton University Library</title>
+    <style>
+      body {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
 
-  .rails-default-error-page div.dialog {
-    width: 95%;
-    max-width: 33em;
-    margin: 4em auto 0;
-  }
+        align-items: center;
+        background-color: #f9f7ee;
+        display: flex;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+          "Segoe UI Symbol";
+        font-size: 18px;
+        height: 100vh;
+        justify-content: center;
+      }
 
-  .rails-default-error-page div.dialog > div {
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #BBB;
-    border-top: #B00100 solid 4px;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    background-color: white;
-    padding: 7px 12% 0;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+      main {
+        background: #fff;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        max-width: 95vw;
+        min-height: 25vh;
+        padding: 5rem;
+        position: relative;
+        text-align: center;
+      }
 
-  .rails-default-error-page h1 {
-    font-size: 100%;
-    color: #730E15;
-    line-height: 1.5em;
-  }
+      h1 {
+        margin: 0;
+        padding: 0;
+      }
 
-  .rails-default-error-page div.dialog > p {
-    margin: 0 0 1em;
-    padding: 1em;
-    background-color: #F7F7F7;
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #999;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-top-color: #DADADA;
-    color: #666;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
-  </style>
-</head>
+      p {
+        color: rgba(0, 0, 0, 0.75);
+        font-size: 1.2rem;
+        line-height: 1.4;
+        margin: 0 auto;
+        max-width: 55ch;
+        padding: 2rem 0 0;
+      }
 
-<body class="rails-default-error-page">
-  <!-- This file lives in public/422.html -->
-  <div class="dialog">
-    <div>
-      <h1>The change you wanted was rejected.</h1>
-      <p>Maybe you tried to change something you didn't have access to.</p>
-    </div>
-    <p>If you are the application owner check the logs for more information.</p>
-  </div>
-</body>
+      a,
+      a:visited {
+        color: rgb(45, 112, 180);
+        font-size: 1rem;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      a:hover,
+      a:focus {
+        text-decoration: underline;
+      }
+
+      img {
+        margin-top: 3rem;
+        width: 250px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="wrapper">
+        <h1>Access Denied</h1>
+        <p>
+          The request you wanted was rejected. Maybe you tried to change something you didn't have access to.
+        </p>
+        <p>
+          <a href="mailto:lsupport@princeton.edu?subject=Getting an error"
+            >Contact Library Support</a>
+            &mdash;
+          <a href="/">Go Back Home</a>
+        </p>
+        <a href="https://library.princeton.edu"
+          ><img src="/assets/pul-logo-new.svg" alt="Princeton University Library"
+        /></a>
+      </div>
+    </main>
+  </body>
 </html>
