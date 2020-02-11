@@ -74,6 +74,7 @@ class TravelRequestDecorator < RequestDecorator
 
   def review_details
     {
+      "Trip ID" => request.id,
       "Type" => request_type.titleize,
       "Dates Away" => event_dates,
       "Destination" => event_requests[0].location,
