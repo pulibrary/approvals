@@ -24,11 +24,11 @@ RSpec.describe FixRequestedChangesMailer, type: :mailer do
     expect(mail.to).to eq [supervisor.email]
     expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Updated")
     expect(mail.html_part.body.to_s).to have_content("The following request was updated by Doe, Joe (jd4) on #{today_formatted}.")
-    expect(mail.html_part.body.to_s).to have_content("Type\n    Travel Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Destination\n    Location\n")
+    expect(mail.html_part.body.to_s).to have_content("Trip ID\n    #{travel_request.id}\n    Type\n    Travel Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Destination\n    Location\n")
     expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}/review\"]")
     expect(mail.text_part.body.to_s).to eq("The following request was updated by Doe, Joe (jd4) on #{today_formatted}.\n\n" \
                                            "To review the request for approval go to http://localhost:3000/travel_requests/#{travel_request.id}/review\n\n" \
-                                           "Type: Travel Request\nDates Away: 12/30/2019 to 12/31/2019\n" \
+                                           "Trip ID: #{travel_request.id}\nType: Travel Request\nDates Away: 12/30/2019 to 12/31/2019\n" \
                                            "Destination: Location\n" \
                                            "Event: #{decorated_travel_request.event_title}\n\n")
   end
