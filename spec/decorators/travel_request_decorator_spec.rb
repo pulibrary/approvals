@@ -317,4 +317,20 @@ RSpec.describe TravelRequestDecorator, type: :model do
       expect(travel_request_decorator.absent_staff).to eq(["No team members absent"])
     end
   end
+
+  describe "#forward_statement" do
+    it "returns a forward statement with out admin" do
+      staff_profile = FactoryBot.create(:staff_profile)
+      travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
+      travel_request_decorator = described_class.new(travel_request)
+      expect(travel_request_decorator.forward_statement).to eq("The approval has been forwarded to your supervisor for their information.")
+    end
+
+    it "returns a forward statement with admin" do
+      staff_profile = FactoryBot.create(:staff_profile, :with_department)
+      travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
+      travel_request_decorator = described_class.new(travel_request)
+      expect(travel_request_decorator.forward_statement).to eq("The approval has been forwarded to your supervisor and administrative assistant for their information.")
+    end
+  end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class TravelRequestDecorator < RequestDecorator
-  delegate :participation, :purpose, :travel_category,
-           :event_requests, :estimates, :status, :can_modify_attributes?, to: :request
+  delegate :participation, :purpose, :event_requests, :estimates,
+           :status, :can_modify_attributes?, to: :request
   delegate :full_name, :department, to: :creator
   attr_reader :travel_request
 
@@ -87,6 +87,17 @@ class TravelRequestDecorator < RequestDecorator
     supervisors = request.creator.supervisor_chain
     last_agent_index = supervisors.find_index(last_supervisor_to_approve) || -1
     supervisors[last_agent_index + 1]
+  end
+
+  def approve_details
+    details = {}
+    details["Travel Category"] = travel_category.humanize if travel_category.present?
+    details.merge(review_details)
+  end
+
+  def travel_category
+    return @request.travel_category if @request.travel_category.blank?
+    @request.travel_category.humanize
   end
 
   private

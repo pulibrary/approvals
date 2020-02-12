@@ -88,6 +88,10 @@ class Request < ApplicationRecord
     end
   end
 
+  def travel?
+    false
+  end
+
   private
 
     def raise_invalid_argument(property_name:)
