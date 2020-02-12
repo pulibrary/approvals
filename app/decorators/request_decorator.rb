@@ -77,7 +77,7 @@ class RequestDecorator
 
   def notes_and_changes
     both = notes.to_a
-    delegate_note = both.shift if both.first.present? && both.first.creator_id != creator_id
+    delegate_note = both.shift if created_by_delegate
     both.concat(state_changes.to_a)
     both = both.sort_by(&:created_at)
     json = both.map { |item| item_json(item) }
@@ -167,5 +167,10 @@ class RequestDecorator
                 "Created by #{creator.full_name} on #{created_at.strftime(date_format)}"
               end
       json.prepend(title: title, content: nil, icon: "add")
+    end
+
+    def created_by_delegate
+      first_note = notes.first
+      first_note.present? && first_note.creator_id != creator_id && first_note.content.start_with?("This request was created by")
     end
 end
