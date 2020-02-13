@@ -87,7 +87,7 @@ class CommonRequestController < ApplicationController
       request_change_set.errors.add(:notes, "are required to deny a request") if processed_params[:notes].blank?
       run_action(action: :deny, change_method: :supervisor_can_change?)
     elsif params[:cancel]
-      run_action(action: :cancel, change_method: :creator_can_change?)
+      run_action(action: :cancel, change_method: :creator_can_cancel?)
     end
   end
 
@@ -180,6 +180,11 @@ class CommonRequestController < ApplicationController
       respond_to_change_error(action: action, allowed_to_change: allowed_to_change)
     end
 
+    def creator_can_cancel?(action:)
+      allowed_to_change = request_change_set.model.can_cancel?(agent: current_staff_profile)
+      respond_to_change_error(action: action, allowed_to_change: allowed_to_change)
+    end
+
     def supervisor_can_change?(action:)
       allowed_to_change = request_change_set.model.only_supervisor(agent: current_staff_profile)
       respond_to_change_error(action: action, allowed_to_change: allowed_to_change)
@@ -190,7 +195,7 @@ class CommonRequestController < ApplicationController
 
       respond_to do |format|
         @request = request_change_set.model
-        format.html { redirect_to @request, notice: "You are not allowed access to #{action} this absence" }
+        format.html { redirect_to @request, notice: "You are not allowed access to #{action} this request" }
         format.json { render :show, status: :invalid_review, location: @request }
       end
       allowed_to_change

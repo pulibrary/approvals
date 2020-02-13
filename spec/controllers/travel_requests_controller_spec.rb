@@ -576,6 +576,14 @@ RSpec.describe TravelRequestsController, type: :controller do
       expect(travel_request).to be_canceled
     end
 
+    it "cancels an approved request and returns a success response" do
+      travel_request = FactoryBot.create(:travel_request, creator: creator, action: :approve)
+      put :decide, params: { id: travel_request.to_param, cancel: "" }, session: valid_session
+      travel_request.reload
+      expect(travel_request.notes.count).to eq 0
+      expect(travel_request).to be_canceled
+    end
+
     it "does not cancel a canceled request" do
       travel_request = FactoryBot.create(:travel_request, creator: creator, action: :cancel)
       put :decide, params: { id: travel_request.to_param, cancel: "" }, session: valid_session
