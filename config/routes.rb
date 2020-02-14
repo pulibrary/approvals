@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :staff_profiles
-  resources :state_changes
-  resources :departments
   root "welcome#index"
   get "welcome/index"
 
@@ -14,7 +11,8 @@ Rails.application.routes.draw do
     get "sign_out", to: "devise/sessions#destroy", as: :destroy_user_session
   end
 
-  resources :recurring_events
+  # Turn off access to pages we are not currently using
+  # resources :recurring_events
 
   resources :travel_requests, except: [:index] do
     member do
