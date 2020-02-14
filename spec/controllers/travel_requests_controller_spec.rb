@@ -462,11 +462,23 @@ RSpec.describe TravelRequestsController, type: :controller do
       staff_profile.department.head = creator
       staff_profile.department.save
       travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
-      notes = { notes: [{ content: "Important message" }] }
+      notes = { notes: [{ content: "Important message" }], travel_category: "business" }
       put :decide, params: { id: travel_request.to_param, travel_request: notes, approve: "" }, session: valid_session
       travel_request.reload
       expect(travel_request.notes.count).to eq 1
       expect(travel_request).to be_approved
+    end
+
+    it "requires a travel category for a department head to fully approve" do
+      staff_profile = FactoryBot.create :staff_profile, :with_department, supervisor: creator
+      staff_profile.department.head = creator
+      staff_profile.department.save
+      travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
+      notes = { notes: [{ content: "Important message" }] }
+      put :decide, params: { id: travel_request.to_param, travel_request: notes, approve: "" }, session: valid_session
+      expect(assigns(:request_change_set).errors.messages).to eq(travel_category: ["is required to approve."])
+      expect(travel_request.notes.count).to eq 0
+      expect(travel_request).not_to be_approved
     end
 
     it "does not allow the creator to approve" do

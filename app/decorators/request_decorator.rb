@@ -78,10 +78,16 @@ class RequestDecorator
   def notes_and_changes
     both = notes.to_a
     delegate_note = both.shift if created_by_delegate
+    both.pop if both.last && both.last.created_at.blank?
     both.concat(state_changes.to_a)
     both = both.sort_by(&:created_at)
     json = both.map { |item| item_json(item) }
     created_state(json: json, delegate_note: delegate_note)
+  end
+
+  def current_note
+    return "" unless notes.last && notes.last.created_at.blank?
+    notes.last.content
   end
 
   def last_supervisor_to_approve
