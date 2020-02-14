@@ -4,7 +4,7 @@ class RequestDecorator
 
   delegate :created_at, :end_date, :id, :request_type, :start_date, :status, :to_model, :state_changes,
            :creator, :creator_id, :notes, :latest_state_change, :ordered_state_changes, :updated_at,
-           :approved?, :canceled?, :recorded?, to: :request
+           :approved?, :canceled?, :recorded?, :travel?, to: :request
   attr_reader :request
 
   def initialize(request)
@@ -107,6 +107,16 @@ class RequestDecorator
     details = review_details
     details = details.merge("Note" => notes.last.content) if notes.last.present?
     details
+  end
+
+  def approve_details
+    review_details
+  end
+
+  def forward_statement
+    statement = "The approval has been forwarded to your supervisor"
+    statement += " and administrative assistant" if creator.admin_assistants.present?
+    statement +  " for their information."
   end
 
   private
