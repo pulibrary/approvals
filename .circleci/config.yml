@@ -16,7 +16,7 @@ executors:
         environment:
           POSTGRES_USER: approvals
           POSTGRES_DB: approvals_test
-          POSTGRES_PASSWORD: ""
+          POSTGRES_HOST_AUTH_METHOD: trust
     working_directory: ~/project
 
 commands:
