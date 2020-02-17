@@ -11,6 +11,14 @@ class RequestList
 
     private
 
+      def list_supervised(list:, supervisor:)
+        supervised = StaffProfile.where(supervisor: supervisor)
+        return list if supervised.empty?
+        list |= supervised
+        supervised.each { |staff| list = list_supervised(list: list, supervisor: staff) }
+        list
+      end
+
       def paginate(record_scope:, page:)
         offset = page_number(page) * per_page
         total_count = record_scope.count

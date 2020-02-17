@@ -13,14 +13,6 @@ class ApprovalRequestList < RequestList
 
     private
 
-      def list_supervised(list:, supervisor:)
-        supervised = StaffProfile.where(supervisor: supervisor)
-        return list if supervised.empty?
-        list |= supervised
-        supervised.each { |staff| list = list_supervised(list: list, supervisor: staff) }
-        list
-      end
-
       def request_filters(request_filters:)
         { status: "pending" }.merge(filters_hash(request_filters))
       end
