@@ -33,6 +33,11 @@
                 <% end %>
               ]"></dropdown-menu>
             </grid-item>
+
+            <grid-item columns="sm-12 auto" class="date-filter">
+              <%= render "date_filter", search_path: search_path, params_manager: @requests.params_manager %>
+            </grid-item>
+
             <grid-item columns="sm-12 auto">
               <dropdown-menu type="links" id="sort-menu" button-label="<%= @requests.current_sort_label %>" :menu-items="[
                 <% @requests.sort_urls.each do |key, url| %>
@@ -40,11 +45,6 @@
                 <% end %>
               ]"></dropdown-menu>
             </grid-item>
-            <% if @requests.total_pages >= 2 %>
-              <grid-item columns="sm-12 auto">
-                <%= paginate @requests %>
-              </grid-item>
-            <% end %>
 
           </grid-container>
 
@@ -61,6 +61,15 @@
         </card-content>
       </card>
     </grid-item>
+  </grid-container>
+</wrapper>
+<wrapper :max-width=1440 class="my-request">
+<grid-container>
+            <% if @requests.total_pages >= 2 %>
+              <grid-item columns="auto sm-12" offset=true>
+                <%= paginate @requests %>
+              </grid-item>
+            <% end %>
   </grid-container>
 </wrapper>
 

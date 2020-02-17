@@ -22,7 +22,7 @@ class RequestsController < ApplicationController
 
     # all params for this controller
     def request_params
-      params.permit(:query, :sort, filters: [:status, :request_type, :department])
+      params.permit(:query, :sort, filters: [:status, :request_type, :department, :date])
     end
 
     # objects to return to my_request action

@@ -97,13 +97,9 @@ class TravelRequestsController < CommonRequestController
 
     def parse_date(hash, field)
       return if hash.blank? || hash[field].blank?
-      dates = hash[field].split(" - ")
-      hash[:start_date] = Date.strptime(dates[0], "%m/%d/%Y")
-      hash[:end_date] = if dates.length == 2
-                          Date.strptime(dates[1], "%m/%d/%Y")
-                        else
-                          hash[:start_date]
-                        end
+      dates = RequestList.parse_date_range_filter(filter: hash[field])
+      hash[:start_date] = dates[:start]
+      hash[:end_date] = dates[:end]
     rescue ArgumentError
       request_change_set.errors.add(field, "must be in a valid format (mm/dd/yyyy)")
     end
