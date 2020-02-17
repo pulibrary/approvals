@@ -8,6 +8,7 @@ class TravelRequestsController < CommonRequestController
       request_change_set.errors.add(:notes, "are required to specify requested changes.") if processed_params[:notes].blank?
       run_action(action: :change_request, change_method: :supervisor_can_change?)
     else
+      request_change_set.errors.add(:travel_category, "is required to approve.") if params[:approve] && processed_params[:travel_category].blank? && current_staff_profile.department_head?
       super
     end
   end

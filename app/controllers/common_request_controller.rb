@@ -125,16 +125,30 @@ class CommonRequestController < ApplicationController
       model.class.name.underscore.humanize
     end
 
+    def setup_change_set_for_view
+      clear_error_data
+      copy_model_errors_to_change_set
+      sync_data_to_model
+    end
+
+    def sync_data_to_model
+      note = request_change_set.notes.last.dup unless request_change_set.notes.blank? || request_change_set.notes.empty?
+      request_change_set.sync(exclude: ["notes"])
+      request_change_set.model.notes << Note.new(content: note.content) unless note.blank? || note.id.present?
+    end
+
     # change set does not implement each_key, which this rubocop error is requesting
     # rubocop:disable Performance/HashEachMethods
     def copy_model_errors_to_change_set
-      request_change_set.errors.each do |key, _value|
-        request_change_set.send("#{key}=", nil)
-      end
       request_change_set.model.errors.each do |key, value|
         request_change_set.errors.add(key, value)
       end
-      request_change_set.sync
+    end
+
+    def clear_error_data
+      request_change_set.errors.each do |key, _value|
+        request_change_set.send("#{key}=", nil)
+      end
     end
     # rubocop:enable Performance/HashEachMethods
 
@@ -146,7 +160,7 @@ class CommonRequestController < ApplicationController
           format.html { redirect_to @request, notice: "#{model_instance_to_name(@request)} was successfully #{success_verb}." }
           format.json { render :show, status: :ok, location: @request }
         else
-          copy_model_errors_to_change_set
+          setup_change_set_for_view
           format.html { render error_action }
           format.json { render json: request_change_set.errors, status: :unprocessable_entity }
         end
