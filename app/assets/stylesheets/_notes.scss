@@ -8,6 +8,9 @@
   margin: 1rem 0;
   border-bottom: 1px solid $color-grayscale-light;
   display: flex;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .notes li:last-child {
