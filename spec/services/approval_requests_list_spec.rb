@@ -2,7 +2,7 @@
 require "rails_helper"
 
 RSpec.describe ApprovalRequestList, type: :model do
-  let(:user) { FactoryBot.create :user }
+  let(:user) { FactoryBot.create :user, uid: "abc123" }
   let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, user: user }
 
   let(:other_absence) { FactoryBot.create(:absence_request) }
@@ -211,6 +211,16 @@ RSpec.describe ApprovalRequestList, type: :model do
 
       list = ApprovalRequestList.list_requests(approver: staff_profile.supervisor, request_filters: { "status" => "pending" }, search_query: "balloons", order: nil)
       expect(list.count).to eq 1
+    end
+
+    it "retrieves a result by netid" do
+      FactoryBot.create(:travel_request, creator: staff_profile)
+      FactoryBot.create(:absence_request, creator: staff_profile, action: :deny)
+      FactoryBot.create(:travel_request, creator: staff_profile)
+
+      list = ApprovalRequestList.list_requests(approver: staff_profile.supervisor, request_filters: { "status" => "pending" },
+                                               search_query: "abc123", order: nil)
+      expect(list.count).to eq 2
     end
   end
 end

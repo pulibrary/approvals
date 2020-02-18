@@ -30,7 +30,11 @@ class Request < ApplicationRecord
     query = connection.quote("%#{search_query}%")
 
     # ilike is a case insensitive like
-    joins(:creator).left_joins(:notes).where("notes.content ilike #{query} or event_title ilike #{query} or staff_profiles.given_name ilike #{query} or staff_profiles.surname ilike #{query}").distinct
+    joins(creator: :user).left_joins(:notes).where("notes.content ilike #{query} " \
+                                                   "or event_title ilike #{query} " \
+                                                   "or staff_profiles.given_name ilike #{query} " \
+                                                   "or staff_profiles.surname ilike #{query} " \
+                                                   "or users.uid ilike #{query}").distinct
   end
 
   def self.where_filtered_by_date(start_date:, end_date:)
