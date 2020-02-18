@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 class ReportRequestList < RequestList
   class << self
-    def list_requests(request_filters:, search_query:, order:, page: 1)
+    def list_requests(current_staff_profile:, request_filters:, search_query:, order:, page: 1)
       record_scope = Request.joins(creator: :department)
                             .where(request_filters(request_filters: request_filters))
                             .where_contains_text(search_query: search_query)
+                            .where(creator: list_supervised(list: [current_staff_profile], supervisor: current_staff_profile).map(&:id))
                             .order(request_order(order))
       paginate(record_scope: record_scope, page: page)
     end

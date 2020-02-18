@@ -171,22 +171,32 @@ RSpec.describe RequestsController, type: :controller do
   end
 
   describe "GET #reports" do
+    let(:supervisor) { FactoryBot.create :staff_profile, user: user }
+    let(:staff_profile) { FactoryBot.create :staff_profile, supervisor: supervisor }
+    let(:supervisor_absence) { FactoryBot.create(:absence_request, creator: supervisor, start_date: Time.zone.tomorrow) }
     before do
       # create all the requests
       other_absence
       other_travel
       my_absence
       my_travel
+      supervisor_absence
     end
     it "returns a success response" do
       get :reports, params: {}, session: valid_session
       expect(response).to be_successful
-      expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_travel, my_absence, other_absence, other_travel].map(&:id))
+      expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_travel, my_absence, supervisor_absence].map(&:id))
     end
 
     it "accepts paging" do
       Kaminari.config.default_per_page = 1
-      get :my_requests, params: { format: :json, page: 2 }, session: valid_session
+      get :reports, params: { page: 1 }, session: valid_session
+      expect(response).to be_successful
+      expect(assigns(:requests).map(&:id)).to contain_exactly(supervisor_absence.id)
+      get :reports, params: { page: 2 }, session: valid_session
+      expect(response).to be_successful
+      expect(assigns(:requests).map(&:id)).to contain_exactly(my_travel.id)
+      get :reports, params: { page: 3 }, session: valid_session
       expect(response).to be_successful
       expect(assigns(:requests).map(&:id)).to contain_exactly(my_absence.id)
     end
