@@ -1,0 +1,9 @@
+<wrapper :max-width=1440 class="my-request">
+  <grid-container>
+    <% if requests.total_pages >= 2 %>
+      <grid-item columns="auto sm-12" offset=true>
+        <%= paginate requests %>
+      </grid-item>
+    <% end %>
+  </grid-container>
+</wrapper>
