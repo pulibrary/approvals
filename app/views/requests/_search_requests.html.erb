@@ -1,0 +1,8 @@
+<grid-item columns="lg-12 sm-12">
+  <%= form_tag(search_path, method: :get) do %>
+    <search-box>
+      <input-text id="query" name="query" value="<%= current_query%>" :hide-label=true label="search" placeholder="Search title, notes, and creator..."></input-text>
+      <input-button type="submit" id="search" variation="icon" icon="search" aria-label="submit search"></input-button>
+    </search-box>
+  <% end %>
+</grid-item>

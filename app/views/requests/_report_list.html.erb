@@ -4,34 +4,17 @@
       <card size="full-width" class="search-filter-sort">
         <card-content>
           <grid-container>
-            <grid-item columns="lg-12 sm-12">
-            <%= form_tag(search_path, method: :get) do %>
-              <search-box>
-                <input-text id="query" name="query" value="<%=params[:query]%>" :hide-label=true label="search" placeholder="Search..."></input-text>
-                <input-button type="submit" id="search" variation="icon" icon="search" aria-label="submit search"></input-button>
-              </search-box>
-            <% end %>
-            </grid-item>
+            <%= render 'search_requests', search_path: search_path, current_query: params[:query]%>
 
             <grid-item columns="sm-12 auto">
-              <% if show_status %>
-                <dropdown-menu type="links" id="status-menu" button-label="<%= @requests.current_status_filter_label %>" :menu-items="[
-                  <% @requests.status_filter_urls.each do |key, url| %>
-                    {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
-                  <% end %>
-                ]"></dropdown-menu>
-              <% end %>
+              <%= render 'status_filter', status_filter_urls: @requests.status_filter_urls, current_status_filter_label: @requests.current_status_filter_label%>
 
-              <dropdown-menu type="links" id="request-type-menu" button-label="<%= @requests.current_request_type_filter_label %>" :menu-items="[
-                {name: 'Absence', component: 'Absence', href: '<%= @requests.absence_filter_url %>'},
-                <% @requests.absence_filter_urls.each do |key, url| %>
-                  {name: '<%= key %>', component: '<%= key %>', parent: 'Absence', href: '<%= url %>'},
-                <% end %>
-                {name: 'Travel', component: 'Travel', href: '<%= @requests.travel_filter_url %>'},
-                <% @requests.travel_filter_urls.each do |key, url| %>
-                  {name: '<%= key %>', component: '<%= key %>', parent: 'Travel', href: '<%= url %>'},
-                <% end %>
-              ]"></dropdown-menu>
+              <%= render 'request_type_filter', current_request_type_filter_label: @requests.current_request_type_filter_label, 
+                                                filters: {
+                                                  #'Absence' => { url: @requests.absence_filter_url, children: @requests.absence_filter_urls },
+                                                  'Travel' => { url: @requests.travel_filter_url, children: @requests.travel_filter_urls }
+                                                }
+              %>
 
               <dropdown-menu type="links" id="department-menu" button-label="<%= @requests.current_department_filter_label %>" :menu-items="[
                   <% @requests.department_filter_urls.each do |key, url| %>
@@ -39,36 +22,17 @@
                   <% end %>
                 ]"></dropdown-menu>
             </grid-item>
-            <grid-item columns="sm-12 auto">
-              <dropdown-menu type="links" id="sort-menu" button-label="<%= @requests.current_sort_label %>" :menu-items="[
-                <% @requests.sort_urls.each do |key, url| %>
-                  {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
-                <% end %>
-              ]"></dropdown-menu>
-            </grid-item>
-            <% if @requests.total_pages >= 2 %>
-              <grid-item columns="sm-12 auto">
-                <%= paginate @requests %>
-              </grid-item>
-            <% end %>
+            <%= render 'sort_menu', current_sort_label: @requests.current_sort_label, sort_urls: @requests.sort_urls%>
 
           </grid-container>
 
-        <% if @requests.filter_removal_urls.present? %>
-          <div class="filter-applied">
-            <span class="filter-label">Filtered by</span>
-            <tag type="filter" :tag-items="[
-              <% @requests.filter_removal_urls.each do |key, url| %>
-              {name: '<%= key %>', href: '<%= url %>'},
-              <% end %>
-            ]"></tag>
-          </div>
-        <% end %>
+          <%= render 'filter_removal', filter_removal_urls: @requests.filter_removal_urls %>
         </card-content>
       </card>
     </grid-item>
   </grid-container>
 </wrapper>
+<%= render 'pagination', total_pages: @requests.total_pages, requests: @requests %>
 
 <wrapper :max-width=1440 class="my-request">
 <grid-container>
