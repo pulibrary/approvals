@@ -394,7 +394,7 @@ RSpec.describe RequestsController, type: :controller do
     # rubocop:enable RSpec/LetSetup
 
     it "retrieves the results from yesterday" do
-      get :my_approval_requests, params: { filters: { date: "#{yesterday.strftime('%m/%d/%Y')} - #{yesterday.strftime('%m/%d/%Y')}" } }, session: valid_session
+      get :my_approval_requests, params: { sort: "created_at_asc", filters: { date: "#{yesterday.strftime('%m/%d/%Y')} - #{yesterday.strftime('%m/%d/%Y')}" } }, session: valid_session
       expect(assigns(:requests).request_list.map(&:id)).to eq [r3.id, r5.id]
     end
 
@@ -404,18 +404,20 @@ RSpec.describe RequestsController, type: :controller do
     end
 
     it "retrieves the results from today" do
-      get :my_approval_requests, params: { filters: { date: "#{today.strftime('%m/%d/%Y')} - #{today.strftime('%m/%d/%Y')}" } }, session: valid_session
-      expect(assigns(:requests).request_list.map(&:id)).to eq [r5.id, r4.id, r1.id]
+      get :my_approval_requests, params: { sort: "created_at_asc", filters: { date: "#{today.strftime('%m/%d/%Y')} - #{today.strftime('%m/%d/%Y')}" } }, session: valid_session
+      expect(assigns(:requests).request_list.map(&:id)).to eq [r1.id, r4.id, r5.id]
     end
 
     it "retrieves the results from yesterday and today" do
-      get :my_approval_requests, params: { filters: { date: "#{yesterday.strftime('%m/%d/%Y')} - #{today.strftime('%m/%d/%Y')}" } }, session: valid_session
-      expect(assigns(:requests).request_list.map(&:id)).to eq [r3.id, r5.id, r1.id, r4.id]
+      get :my_approval_requests, params: { sort: "created_at_asc", filters: { date: "#{yesterday.strftime('%m/%d/%Y')} - #{today.strftime('%m/%d/%Y')}" } }, session: valid_session
+      expect(assigns(:requests).request_list.map(&:id)).to eq [r1.id, r3.id, r4.id, r5.id]
     end
 
     it "retrieves the results from a wider range" do
-      get :my_approval_requests, params: { filters: { date: "#{day_before_yesterday.strftime('%m/%d/%Y')} - #{day_after_tomorrow.strftime('%m/%d/%Y')}" } }, session: valid_session
-      expect(assigns(:requests).request_list.map(&:id)).to eq [r3.id, r5.id, r1.id, r4.id, r2.id]
+      get :my_approval_requests, params: { sort: "created_at_asc",
+                                           filters: { date: "#{day_before_yesterday.strftime('%m/%d/%Y')} - #{day_after_tomorrow.strftime('%m/%d/%Y')}" } },
+                                 session: valid_session
+      expect(assigns(:requests).request_list.map(&:id)).to eq [r1.id, r2.id, r3.id, r4.id, r5.id]
     end
   end
 end
