@@ -61,7 +61,15 @@ RSpec.describe Request, type: :model do
       travel_request = FactoryBot.create(:travel_request, action: :approve)
       FactoryBot.create(:note, content: "Flamingoes are pink, because they eat lots of shrimp.", request: travel_request)
       FactoryBot.create(:estimate, request: travel_request)
-      expect { travel_request.destroy }.to change(Note, :count).by(-1).and(change(Estimate, :count).by(-1)).and(change(StateChange, :count).by(-1))
+      expect { travel_request.destroy }.to(
+        change(Note, :count).by(-1).and(
+          change(Estimate, :count).by(-1)
+        ).and(
+          change(EventRequest, :count).by(-1)
+        ).and(
+          change(StateChange, :count).by(-1)
+        )
+      )
     end
   end
 
