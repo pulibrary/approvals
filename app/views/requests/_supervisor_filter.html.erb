@@ -1,0 +1,5 @@
+<dropdown-menu type="links" id="status-menu" button-label="<%= current_supervisor_filter_label %>" :menu-items="[
+  <% supervisor_filter_urls.each do |key, url| %>
+    {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
+  <% end %>
+]"></dropdown-menu>

@@ -2,22 +2,49 @@
 class ReportRequestList < RequestList
   class << self
     def list_requests(current_staff_profile:, request_filters:, search_query:, order:, page: 1)
+      request_filters ||= {}
+      supervisor_filter = request_filters.delete("supervisor")
+      supervisor_filter = StaffProfile.find_by_id(supervisor_filter) if supervisor_filter.is_a? String
+      supervisor = supervisor(current_staff_profile: current_staff_profile, supervisor_filter: supervisor_filter)
       record_scope = Request.joins(creator: :department)
                             .where(request_filters(request_filters: request_filters))
                             .where_contains_text(search_query: search_query)
-                            .where(creator: list_supervised(list: [current_staff_profile], supervisor: current_staff_profile).map(&:id))
+                            .where(creator: list_supervised(list: [supervisor], supervisor: supervisor).map(&:id))
                             .order(request_order(order))
       paginate(record_scope: record_scope, page: page)
     end
 
     private
 
+      def supervisor(current_staff_profile:, supervisor_filter:)
+        return current_staff_profile if supervisor_filter.blank?
+        if supervises(supervisor_profile: current_staff_profile, staff_profile: supervisor_filter)
+          supervisor_filter
+        else
+          current_staff_profile
+        end
+      end
+
+      def supervises(supervisor_profile:, staff_profile:)
+        return true if staff_profile.supervisor == supervisor_profile
+        return false if staff_profile.supervisor.blank?
+        supervises(supervisor_profile: supervisor_profile, staff_profile: staff_profile.supervisor)
+      end
+
       def request_filters(request_filters:)
-        department_filters(request_filters).merge(filters_hash(request_filters))
+        department_filters(request_filters).merge(employee_type_filters(request_filters)).merge(filters_hash(request_filters))
+      end
+
+      def employee_type_filters(request_filters)
+        filter = request_filters.delete("employee_type")
+        if filter.blank?
+          {}
+        else
+          { "staff_profiles.biweekly" => filter == "biweekly" }
+        end
       end
 
       def department_filters(request_filters)
-        return {} if request_filters.blank?
         department = request_filters.delete("department")
         if department.blank?
           {}

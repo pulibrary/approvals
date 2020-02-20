@@ -12,6 +12,7 @@ class StaffReportProcessor
       csv.each do |row|
         manager_hash = process_staff_entry(staff_entry: row, manager_hash: manager_hash, ldap_service_class: ldap_service_class, new_profiles: new_profiles)
       end
+      @library_dean = StaffProfile.find_by(uid: LIBRARY_DEAN_UID)
       connect_staff_to_managers(manager_hash: manager_hash)
       connect_managers_to_department(manager_hash: manager_hash)
       process_department_config(department_config: department_config)
@@ -95,24 +96,37 @@ class StaffReportProcessor
         overrides.each do |department_no, attributes|
           department = Department.find_by(number: department_no)
           next if department.blank?
-
-          department_head = StaffProfile.find_by(uid: attributes["head_uid"])
-          department.head = department_head  if department_head.present?
-          attributes["admin_assistant"].each do |net_id|
-            aa = StaffProfile.find_by(uid: net_id)
-            department.admin_assistants << aa if aa.present?
-          end
-          department.admin_assistants = department.admin_assistants.uniq
+          department = set_department_head(department: department, head_uid: attributes["head_uid"])
+          department = set_admin_assistants(department: department, admin_assistants: attributes["admin_assistant"])
           department.save
         end
       end
 
+      def set_department_head(department:, head_uid:)
+        department_head = StaffProfile.find_by(uid: head_uid)
+        return department unless department_head.present?
+        department.head = department_head
+        if @library_dean != department_head
+          department_head.supervisor = @library_dean
+          department_head.save
+        end
+        department
+      end
+
+      def set_admin_assistants(department:, admin_assistants:)
+        admin_assistants.each do |net_id|
+          aa = StaffProfile.find_by(uid: net_id)
+          department.admin_assistants << aa if aa.present?
+        end
+        department.admin_assistants = department.admin_assistants.uniq
+        department
+      end
+
       def connect_managers_to_department(manager_hash:)
-        library_dean = StaffProfile.find_by(uid: LIBRARY_DEAN_UID)
         manager_hash.each_key do |manager_net_id|
           manager_profile = StaffProfile.find_by(uid: manager_net_id)
           next if manager_profile.blank?
-          if manager_profile.supervisor == library_dean
+          if manager_profile.supervisor == @library_dean
             manager_profile.department.head = manager_profile
             manager_profile.department.save
           end
@@ -120,8 +134,7 @@ class StaffReportProcessor
       end
 
       def set_vacant_supervisors_to_department_head
-        library_dean = StaffProfile.find_by(uid: LIBRARY_DEAN_UID)
-        StaffProfile.where.not(id: library_dean).where(supervisor: nil).each do |profile|
+        StaffProfile.where.not(id: @library_dean).where(supervisor: nil).each do |profile|
           profile.supervisor = profile.department.head
           profile.save
         end
