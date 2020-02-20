@@ -220,11 +220,11 @@ RSpec.describe ReportListDecorator, type: :model do
 
     let(:status_filter) { "" }
     let(:filters) do
-      {
-        supervisor.full_name => "/reports?#{status_filter}filters%5Bsupervisor%5D=#{supervisor.id}",
-        mid_level.full_name => "/reports?#{status_filter}filters%5Bsupervisor%5D=#{mid_level.id}",
-        mid_level2.full_name => "/reports?#{status_filter}filters%5Bsupervisor%5D=#{mid_level2.id}"
-      }
+      [
+        [supervisor.full_name, "/reports?#{status_filter}filters%5Bsupervisor%5D=#{supervisor.id}"],
+        [mid_level.full_name, "/reports?#{status_filter}filters%5Bsupervisor%5D=#{mid_level.id}"],
+        [mid_level2.full_name, "/reports?#{status_filter}filters%5Bsupervisor%5D=#{mid_level2.id}"]
+      ]
     end
 
     before do
@@ -292,7 +292,7 @@ RSpec.describe ReportListDecorator, type: :model do
     end
 
     context "supervisor filter applied" do
-      let(:supervisor) { FactoryBot.create :staff_profile, :with_department }  
+      let(:supervisor) { FactoryBot.create :staff_profile, :with_department }
       let(:params_hash) { { "filters" => { "supervisor" => supervisor.id } } }
       it "returns a link to clear the approved status filter" do
         expect(report_list_decorator.filter_removal_urls).to eq("Supervisor: #{supervisor.full_name}" => "/reports")

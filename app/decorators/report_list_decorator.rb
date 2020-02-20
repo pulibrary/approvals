@@ -21,7 +21,7 @@ class ReportListDecorator < RequestListDecorator
   def filter_label(key, value)
     if key == :department
       "#{key.to_s.humanize}: #{clean_department_name(value)}"
-    elsif (key == :supervisor)
+    elsif key == :supervisor
       profile = StaffProfile.find(value)
       "#{key.to_s.humanize}: #{profile.full_name}"
     else
@@ -72,7 +72,7 @@ class ReportListDecorator < RequestListDecorator
     supervised = current_staff_profile.list_supervised(list: [])
     supervised.select(&:supervisor?).map do |staff|
       [staff.full_name, params_manager.url_with_filter(field: :supervisor, new_option: staff.id)]
-    end.to_h
+    end.to_h.sort
   end
 
   private

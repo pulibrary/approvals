@@ -1,5 +1,7 @@
-<dropdown-menu type="links" id="status-menu" button-label="<%= current_supervisor_filter_label %>" :menu-items="[
+<input-select value="<%= current_supervisor_filter_label %>" onchange="location.href = this.children[0].value; //jump to link location on select" 
+ id="supervisor-menu" :options="[
+  {label: '<%= current_supervisor_filter_label %>', value: '<%= current_supervisor_filter_label %>'},
   <% supervisor_filter_urls.each do |key, url| %>
-    {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
+    {label: '<%= key %>', value: '<%= url %>'},
   <% end %>
-]"></dropdown-menu>
+]"></input-select>
