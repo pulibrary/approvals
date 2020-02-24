@@ -1,20 +1,13 @@
-<card id="<%= delegate.id %>" size="full-width">
+<card id="<%= delegate.id %>" size="full-width" class="delegate">
   <card-media>
-    <lux-icon-base
-      width="50"
-      height="50"
-      icon-color="rgb(65, 70, 78)"
-    ><lux-icon-person></lux-icon-person></lux-icon-base>
+    <%= link_to delegate, method: :delete do %>
+      <lux-icon-base width="50" height="50" icon-name="Remove Delegate" icon-color="red">
+        <lux-icon-denied></lux-icon-denied>
+      </lux-icon-base>
+    <% end %>
   </card-media>
   <card-header>
     <heading level="h2" size="h3"><%= delegate.delegate.full_name %></heading>
     <text-style><%= delegate.delegate.uid %></text-style>
   </card-header>
-  <card-content>
-    <%= link_to delegate, method: :delete do %>
-      <lux-icon-base width="25" height="25" icon-name="Remove Delegate" icon-color="red">
-        <lux-icon-denied></lux-icon-denied>
-      </lux-icon-base>
-    <% end %>
-  </card-content>
 </card>
