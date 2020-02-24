@@ -9,7 +9,7 @@
         </ul>
 
     <% if render_edit %>
-      <input-text id="travel_request_notes_content" name="travel_request[notes][content]" label="Notes" type="textarea" maxlength="9999" rows="10" width="expand" value="<%= request.current_note%>" ></input-text>
+      <input-text id="travel_request_notes_content" name="travel_request[notes][content]" label="Notes" type="textarea" :maxlength=9999 rows="10" width="expand" value="<%= request.current_note%>" ></input-text>
     <% end %>
     </card-content>
   </card>

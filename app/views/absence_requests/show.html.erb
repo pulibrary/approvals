@@ -1,14 +1,12 @@
 <wrapper :max-width=1440 class="request">
   <grid-container>
-    <grid-item columns="lg-12 sm-12">
+    <grid-item columns="lg-12 sm-12" order="order-lg-1">
       <%= render 'title_card', request: @request %>
     </grid-item>
-  </grid-container>
-  <grid-container>
-    <grid-item columns="lg-6 sm-12">
+    <grid-item columns="lg-6 sm-12" order="order-lg-2 order-sm-3">
       <%= render 'notes_card', request: @request, render_edit: false %>
     </grid-item>
-    <grid-item columns="lg-6 sm-12" :offset="true">
+    <grid-item columns="lg-6 sm-12" order="order-lg-3 order-sm-2" :offset="true">
       <card size="full-width">
         <card-content>
             <text-style variation="strong">Team members absent during this time period</text-style>
@@ -17,9 +15,7 @@
       </card>
 
     </grid-item>
-  </grid-container>
-  <grid-container>
-    <grid-item>
+    <grid-item order="order-lg-4 order-sm-4">
       <% if @request.request.can_edit?(agent: current_staff_profile) %>
         <hyperlink href="<%= edit_absence_request_path(@request.request) %>" variation="button solid">Edit</hyperlink>
       <% end %>

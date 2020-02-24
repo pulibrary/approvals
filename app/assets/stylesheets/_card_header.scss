@@ -24,16 +24,16 @@
 }
 
 .title-card .lux-card-content .status-red {
-  background: #facec8;
+  background: $red;
   padding: 1.5rem;
 }
 
 .title-card .lux-card-content .status-yellow {
-  background: #ffecbd;
+  background: $yellow;
   padding: 1.5rem;
 }
 
 .title-card .lux-card-content .status-green {
-  background: #c3ed79;
+  background: $green;
   padding: 1.5rem;
 }

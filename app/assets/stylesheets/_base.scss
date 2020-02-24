@@ -1,3 +1,8 @@
+
+$red: #facec8;
+$yellow: #ffecbd;
+$green: #c3ed79;
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -25,12 +30,12 @@ body {
 }
 
 @media (max-width: 599px) {
-  .lux-button {
-    width: 100%;
-  }
-
+  .lux-button.medium,
   .lux-link.button.medium {
     display: block;
+    width: 100%;
+    min-height: 44px;
+    margin: 0 0 0.5rem;
   }
 
   .sm-12.auto {
