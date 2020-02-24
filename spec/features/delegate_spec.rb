@@ -20,6 +20,7 @@ RSpec.feature "Delegate", type: :feature, js: true do
 
     visit "/my_requests"
     assert_selector ".my-request .lux-card", count: 1
+    click_on user.to_s
     assert_selector "a", text: "Delegations", count: 1
     assert_selector "a", text: "My Delegates", count: 1
 
@@ -36,6 +37,7 @@ RSpec.feature "Delegate", type: :feature, js: true do
     assert_selector "a", text: "Delegations", count: 0
     assert_selector "a", text: "My Delegates", count: 0
 
+    click_on "Requests"
     click_link "My Requests"
     assert_selector "div.lux-alert", text: "You are acting on behalf of #{delegate_staff_profile}"
     assert_selector ".my-request .lux-card", count: 2
@@ -55,6 +57,7 @@ RSpec.feature "Delegate", type: :feature, js: true do
 
     visit "/my_requests"
     assert_selector ".my-request .lux-card", count: 1
+    click_on user.to_s
     assert_selector "a", text: "Delegations", count: 1
     assert_selector "a", text: "My Delegates", count: 1
 
@@ -72,6 +75,7 @@ RSpec.feature "Delegate", type: :feature, js: true do
     assert_selector "a", text: "My Delegates", count: 0
 
     pending("absence fully implemented")
+    click_on "Requests"
     click_link "New travel request"
     assert_selector "div.lux-alert", text: "You are acting on behalf of #{delegate_staff_profile}"
     find("#absence_request_absence_type option[value='sick']").select_option
