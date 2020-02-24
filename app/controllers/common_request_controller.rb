@@ -147,6 +147,7 @@ class CommonRequestController < ApplicationController
 
     def clear_error_data
       request_change_set.errors.each do |key, _value|
+        next if key.to_s.include?(".") # skip clearing nested objects
         request_change_set.send("#{key}=", nil)
       end
     end
