@@ -35,3 +35,15 @@
  .form-button {
    display: inline;
  }
+
+ .estimates .row td:nth-child(4)>span::before {
+    content: "$";
+ }
+
+ .estimates .row:last-child td:nth-child(4)>span::before {
+    content: "";
+ }
+
+ .estimates .row:last-child td:last-child {
+    white-space: nowrap;
+ }

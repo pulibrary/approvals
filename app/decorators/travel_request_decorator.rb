@@ -34,7 +34,7 @@ class TravelRequestDecorator < RequestDecorator
       { 'name': 'note', 'display_name': 'Note' },
       { 'name': 'recurrence', 'display_name': 'Occurrences', 'datatype': 'number' },
       { 'name': 'amount', 'display_name': 'Cost per Occurrence', 'datatype': 'number' },
-      { 'name': 'total', 'display_name': 'Total', 'datatype': 'number' } ]"
+      { 'name': 'total', 'display_name': 'Total', 'datatype': 'currency' } ]"
   end
 
   def travel_category_icon
