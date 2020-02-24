@@ -27,6 +27,23 @@
   margin-right: 0.5rem;
 }
 
+.search-filter-sort .lux-dropdown-menu {
+  width: 100%;
+  @media (min-width: 600px) {
+    width: auto;
+  }
+}
+
+.search-filter-sort .lux-dropdown-menu + .lux-dropdown-menu,
+.search-filter-sort .lux-dropdown-menu:last-child {
+  margin-bottom: 0;
+  margin-left: 0;
+  @media (min-width: 1025px) {
+    margin-bottom: 1rem;
+    margin-left: 0.25rem;
+  }
+}
+
 .search-filter-sort .lux-date-picker {
   margin-bottom: 0;
   @media (min-width: 600px) {
@@ -34,23 +51,42 @@
   }
 }
 
-.lux-search-box .lux-button {
+.lux-search-box .lux-button,
+.lux-search-box .lux-button.text {
   width: auto;
   background-color: lighten($color-grayscale-warm-light, 20%);
 }
 
 .date-filter form {
   display: flex;
+
+  @media (max-width: 599px) {
+    .lux-search-box {
+      flex-wrap: wrap;
+      width: 100%;
+
+      .lux-date-picker,
+      .lux-button {
+        width: 100%;
+      }
+    }
+  }
 }
 
 .pagination a {
   box-shadow: $box-shadow-small;
   border-radius: $border-radius-default;
   background-color: $color-white;
-  padding: $space-xx-small $space-x-small;
+  padding: $space-x-small $space-small;
   margin-left: $space-xx-small;
   text-decoration: none;
   color: $color-rich-black;
+  display: inline-block;
+
+  @media (max-width: 599px) {
+    margin-bottom: $space-x-small;
+  }
+
   &:hover,
   &:focus {
     box-shadow: $box-shadow-selected;

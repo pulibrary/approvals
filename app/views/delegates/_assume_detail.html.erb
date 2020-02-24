@@ -1,4 +1,4 @@
-<card id="<%= delegator.id %>" size="full-width">
+<card id="<%= delegator.id %>" size="full-width" class="delegate">
   <card-media>
     <lux-icon-base
       width="50"
@@ -10,9 +10,4 @@
     <heading level="h2" size="h3"><hyperlink href="<%= assume_delegate_path(delegator) %>"><%= delegator.delegator.full_name %></hyperlink></heading>
     <text-style><%= delegator.delegator.uid %></text-style>
   </card-header>
-  <card-content>
-      <lux-icon-base icon-name="person">
-        <lux-icon-person></lux-icon-person>
-      </lux-icon-base>
-  </card-content>
 </card>

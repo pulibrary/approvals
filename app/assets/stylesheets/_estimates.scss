@@ -26,8 +26,10 @@
   flex-basis: auto;
 }
 
-.expense-add {
-  margin-left: 85px;
+@media (min-width: 900px) {
+  .expense-add {
+    margin-left: 85px;
+  }
 }
 
 .expense-add .lux-icon {
@@ -49,28 +51,109 @@
   }
 }
 
-.lux-card-content .lux-data-table {
+.lux-card-content .anticipated-expenses {
   width: 100%;
+  table-layout: fixed;
 }
 
-@media (max-width: 599px) {
-  .lux-data-table {
-    table-layout: fixed;
-  }
-  // hide the notes and the cost per occurance
-  .lux-data-table tr td:nth-child(2),
-  .lux-data-table tr th:nth-child(2),
-  .lux-data-table tr td:nth-child(3),
-  .lux-data-table tr td:nth-child(3) lux-data-table-number,
-  .lux-data-table tr th:nth-child(3)
-  {
-		display: none;
-  }
-}
+@media (max-width: 899px) {
+  .expenses {
+    .expense-row-header {
+      left: -9999px;
+      position: absolute;
+      visibility: hidden;
+    }
 
-@media screen and (min-width: 600px) {
-  .lux-data-table {
-    table-layout: fixed;
+    .expense-row .lux-col {
+      &:nth-of-type(1):before { content: "Delete"; }
+      &:nth-of-type(2):before { content: "Expense Type"; }
+      &:nth-of-type(3):before { content: "Notes"; }
+      &:nth-of-type(4):before { content: "Occurrence"; }
+      &:nth-of-type(5):before { content: "Cost per Occurrence"; }
+      &:nth-of-type(6):before { content: "Total"; } 
+
+      &:before {
+        display: block;
+        font-size: 16px;
+        color: #33414f;
+        margin-bottom: 8px;
+      }
+    }
   }
 
+  .anticipated-expenses.lux-data-table {
+    border: 0;
+
+    thead {
+      left: -9999px;
+      position: absolute;
+      visibility: hidden;
+    }
+
+    tbody tr {
+      border-bottom: 0;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin-bottom: 1.75rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    td {
+      border: 1px solid $color-grayscale-light;
+      margin: 0 0 -1px 0;
+      padding-top: 2.25rem;
+      position: relative;
+      width: 50%;
+
+      &:nth-child(1),
+      &:nth-child(2),
+      &:nth-child(5) {
+        width: 100%;
+      }
+
+      &:nth-of-type(1):before { content: "Expense Type"; }
+      &:nth-of-type(2):before { content: "Notes"; }
+      &:nth-of-type(3):before { content: "Occurrence"; }
+      &:nth-of-type(4):before { content: "Cost per Occurrence"; }
+      &:nth-of-type(5):before { content: "Total"; } 
+
+      &:before {
+        background: $color-grayscale-warm-lighter;
+        border-bottom: 1px solid $color-grayscale-light;
+        border-right: 1px solid $color-grayscale-light;
+        color: $color-grayscale-dark;
+        font-size: 10px;
+        font-weight: bold;
+        padding: 5px;
+        position: absolute;
+        text-transform: uppercase;
+        top: 0;
+        left: 0;
+      }
+    }
+
+    tbody tr:last-child td {
+      border: 0;
+      font-size: 1.25rem;
+      padding: 0.5rem 0.5rem 0;
+
+      &:nth-child(1),
+      &:nth-child(2),
+      &:nth-child(3) {
+        display: none;
+      }
+
+      &:nth-child(5) {
+        width: 50%;
+      }
+
+      &:before {
+        display: none;
+      }
+    }
+  }
 }

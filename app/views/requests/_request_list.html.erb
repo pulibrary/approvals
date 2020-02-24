@@ -32,7 +32,6 @@
     </grid-item>
   </grid-container>
 </wrapper>
-<%= render 'pagination', total_pages: @requests.total_pages, requests: @requests %>
 
 <wrapper :max-width=1440 class="my-request">
 <grid-container>
@@ -50,3 +49,5 @@
     </grid-item>
   </grid-container>
 </wrapper>
+
+<%= render 'pagination', total_pages: @requests.total_pages, requests: @requests %>

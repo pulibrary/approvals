@@ -7,11 +7,11 @@
       <% end %>
 
 
-      <grid-item columns="lg-12 sm-12">
+      <grid-item columns="lg-12 sm-12" order="order-lg-1">
             <%= render 'title_card', request: request_change_set %>
       </grid-item>
 
-      <grid-item columns="lg-4 sm-12">
+      <grid-item columns="lg-4 sm-12" order="order-lg-2">
         <card size="full-width">
           <card-content>
             <heading level="h3" size="h5">
@@ -33,14 +33,14 @@
                 Travel Category
               </heading>
               <input-select label="Travel Category" name="travel_request[travel_category]"
-                  id="travel_request_travel_category" width="expand"
+                  id="travel_request_travel_category" width="expand" hide-label
                   value="<%= request_change_set.travel_category %>"
                   :options="<%= request_change_set.travel_category_options %>"></input-select>
             <% end %>
           </card-content>
         </card>
       </grid-item>
-      <grid-item columns="lg-4 sm-12">
+      <grid-item columns="lg-4 sm-12" order="order-lg-3">
         <card size="full-width">
           <card-content>
             <heading level="h3" size="h5">
@@ -53,7 +53,7 @@
           </card-content>
         </card>
       </grid-item>
-      <grid-item columns="lg-4 sm-12">
+      <grid-item columns="lg-4 sm-12" order="order-lg-4">
         <card size="full-width">
           <card-content>
             <heading level="h3" size="h5">
@@ -66,23 +66,24 @@
           </card-content>
         </card>
       </grid-item>
-      <grid-item columns="lg-4 sm-12">
+      <grid-item columns="lg-4 sm-12" order="order-sm-6 order-lg-5">
         <%= render 'notes_card', request: request_change_set, render_edit: true %>
       </grid-item>
-      <grid-item columns="lg-8 sm-12" :offset="true" class="travel-estimates">
+      <grid-item columns="lg-8 sm-12" :offset=true class="travel-estimates" order="order-sm-5 order-lg-6">
         <card size="full-width">
           <card-content>
             <data-table
               caption="Anticipated Expenses"
               :columns="<%= request_change_set.estimate_fields_json %>"
               :json-data="<%= request_change_set.estimates_json %>"
+              class="anticipated-expenses"
             >
             </data-table>
           </card-content>
         </card>
       </grid-item>
 
-      <grid-item columns="lg-12 sm-12">
+      <grid-item columns="lg-12 sm-12" order="order-sm-7 order-lg-7">
         <card size="full-width">
           <card-content>
             <input-button type="submit" variation="solid" name="approve">Approve</input-button>

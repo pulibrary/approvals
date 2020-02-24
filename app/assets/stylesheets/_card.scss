@@ -9,6 +9,10 @@
 
 .lux-card-header {
   flex-basis: calc(100% - 90px);
+
+  .lux-heading {
+    line-height: 1.2;
+  }
 }
 
 .lux-card-content .lux-tag .lux-tag-item {
@@ -29,6 +33,17 @@
   .my-request .lux-tag.end {
     float: left;
     margin-right: 1rem;
+  }
+
+  .my-request .lux-card-header .lux-heading+.lux-text-style {
+    padding-top: 1rem;
+    line-height: 1.2;
+  }
+
+  .lux-card-content .lux-tag {
+    width: 100%;
+    justify-content: flex-start;
+    margin-bottom: 0.5rem;
   }
 
   .title-card.full-width .lux-card-media+.lux-card-header {
@@ -52,6 +67,10 @@
 .request .lux-card,
 .review .lux-card {
   height: 100%;
+}
+
+.review .lux-heading.h5 {
+  margin: 0.5rem 0 1rem 0;
 }
 
 @media screen and (min-width: 600px) {
@@ -101,5 +120,21 @@
   
   a {
     font-weight: normal;
+  }
+}
+
+.delegate .lux-card-media {
+  align-self: center;
+
+  a:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: auto;
+    content: "";
+    background-color: rgba(0, 0, 0, 0);
   }
 }

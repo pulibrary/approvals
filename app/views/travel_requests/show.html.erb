@@ -1,9 +1,9 @@
 <wrapper :max-width="1440" class="request">
   <grid-container>
-    <grid-item columns="lg-12 sm-12">
+    <grid-item columns="lg-12 sm-12" order="order-lg-1">
       <%= render 'title_card', request: @request %>
     </grid-item>
-    <grid-item columns="lg-4 sm-12">
+    <grid-item columns="lg-4 sm-12" order="order-lg-2">
       <card size="full-width">
         <card-content>
           <heading level="h3" size="h5">
@@ -27,7 +27,7 @@
         </card-content>
       </card>
     </grid-item>
-    <grid-item columns="lg-4 sm-12">
+    <grid-item columns="lg-4 sm-12" order="order-lg-3">
       <card size="full-width">
         <card-content>
           <heading level="h3" size="h5">
@@ -40,7 +40,7 @@
         </card-content>
       </card>
     </grid-item>
-    <grid-item columns="lg-4 sm-12">
+    <grid-item columns="lg-4 sm-12" order="order-lg-4">
       <card size="full-width">
         <card-content>
           <heading level="h3" size="h5">
@@ -53,22 +53,23 @@
         </card-content>
       </card>
     </grid-item>
-    <grid-item columns="lg-4 sm-12">
+    <grid-item columns="lg-4 sm-12" order="order-lg-5 order-sm-6">
       <%= render 'notes_card', request: @request, render_edit: false %>
     </grid-item>
-    <grid-item columns="lg-8 sm-12" :offset="true" class="travel-estimates">
+    <grid-item columns="lg-8 sm-12" :offset=true class="travel-estimates" order="order-lg-6 order-sm-5">
       <card size="full-width">
         <card-content>
           <data-table
             caption="Anticipated Expenses"
             :columns="<%= @request.estimate_fields_json %>"
             :json-data="<%= @request.estimates_json %>"
+            class="anticipated-expenses"
           >
           </data-table>
         </card-content>
       </card>
     </grid-item>
-    <grid-item>
+    <grid-item order="order-lg-7 order-sm-7">
       <% if @request.request.can_edit?(agent: current_staff_profile) %>
         <hyperlink
           href="<%= edit_travel_request_path(@request.id) %>"
