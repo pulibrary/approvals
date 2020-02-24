@@ -19,7 +19,7 @@
           {name: 'Requests', component: 'My Requests', children: [
             {name: 'New Travel Requests', component: 'New Travel Requests', href: '/travel_requests/new/'},
             {name: 'My Requests', component: 'My Requests', href: '/my_requests/'},
-            {name: 'Reports', component: 'Reports', href: '/reports/'},
+            <!--{name: 'Reports', component: 'Reports', href: '/reports/'},-->
           ]},
           <%= "{name: 'Requests to Review', component: 'Requests to Review', href: '/my_approval_requests/'}," if current_staff_profile.supervisor? %>
           {name: '<%= current_user %>', component: 'My Requests', children: [
