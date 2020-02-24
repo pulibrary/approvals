@@ -7,7 +7,7 @@
   <grid-item columns="lg-12 sm-12">
     <alert status="info">Please make sure your request complies with <hyperlink href="https://library.princeton.edu/staff/ofa/finance-and-budget/travel" target="_blank">the official Princeton University Library Travel Policy</hyperlink> before submitting this form.</alert>
   </grid-item>
-  <grid-item columns="lg-3 sm-6">
+  <grid-item columns="lg-3 md-6 sm-12">
     <%# # TODO This should really be creating fields like: params[:travel_request][:event_requests]{:id, :recurring_event_id, :start_date, :end_date, :location, :url}
         # wanted to see the validations sbhow up on the screen, but did not want to put any effort into the form %>
     <%= form.fields_for :event_requests do |ff| %>
@@ -38,7 +38,7 @@
 
     <% end %>
   </grid-item>
-  <grid-item columns="lg-3 sm-6">
+  <grid-item columns="lg-3 md-6 sm-12">
       <input-text label="Location" type="text" name="travel_request[event_requests_attributes][0][location]" required
               id="travel_request_event_requests_attributes_0_location" width="expand" value="<%= request_change_set.model.event_requests[0].location %>">
         </input-text>
