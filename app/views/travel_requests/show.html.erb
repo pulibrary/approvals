@@ -60,11 +60,10 @@
       <card size="full-width">
         <card-content>
           <data-table
-            class="estimates"
             caption="Anticipated Expenses"
             :columns="<%= @request.estimate_fields_json %>"
             :json-data="<%= @request.estimates_json %>"
-            class="anticipated-expenses"
+            class="anticipated-expenses estimates"
           >
           </data-table>
         </card-content>
