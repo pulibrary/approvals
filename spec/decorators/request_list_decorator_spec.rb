@@ -94,7 +94,6 @@ RSpec.describe RequestListDecorator, type: :model do
     let(:sick_filter) { "/my_requests?filters%5Brequest_type%5D=sick#{status_filter}" }
     let(:personal_filter) { "/my_requests?filters%5Brequest_type%5D=personal#{status_filter}" }
     let(:research_days_filter) { "/my_requests?filters%5Brequest_type%5D=research_days#{status_filter}" }
-    let(:work_from_home_filter) { "/my_requests?filters%5Brequest_type%5D=work_from_home#{status_filter}" }
     let(:consulting_filter) { "/my_requests?filters%5Brequest_type%5D=consulting#{status_filter}" }
     let(:jury_duty_filter) { "/my_requests?filters%5Brequest_type%5D=jury_duty#{status_filter}" }
     let(:death_in_family_filter) { "/my_requests?filters%5Brequest_type%5D=death_in_family#{status_filter}" }
@@ -106,7 +105,6 @@ RSpec.describe RequestListDecorator, type: :model do
         "Sick" => sick_filter,
         "Personal" => personal_filter,
         "Research days" => research_days_filter,
-        "Work from home" => work_from_home_filter,
         "Consulting" => consulting_filter,
         "Jury duty" => jury_duty_filter,
         "Death in family" => death_in_family_filter

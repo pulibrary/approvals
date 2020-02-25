@@ -15,7 +15,6 @@ class AbsenceRequestDecorator < RequestDecorator
       "sick" => "lux-icon-hospital",
       "personal" => "lux-icon-relax",
       "research_days" => "lux-icon-research",
-      "work_from_home" => "lux-icon-user-home",
       "consulting" => "lux-icon-consulting",
       "jury_duty" => "lux-icon-scales",
       "death_in_family" => "lux-icon-flower"
@@ -29,12 +28,11 @@ class AbsenceRequestDecorator < RequestDecorator
       "sick" => "sick leave",
       "personal" => "personal days",
       "research_days" => "research days",
-      "work_from_home" => "work from home time",
       "consulting" => "consulting leave",
       "jury_duty" => "jury duty leave",
       "death_in_family" => "death in the family leave"
     }
-    title_map[absence_type].titleize
+    title_map[absence_type]&.titleize
   end
 
   def event_title_brief
