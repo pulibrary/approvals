@@ -426,14 +426,22 @@ RSpec.describe ReportListDecorator, type: :model do
   end
 
   describe "#report_json" do
-    subject(:report_list_decorator) { described_class.new([absence_request], params_hash: params_hash) }
+    subject(:report_list_decorator) { described_class.new([absence_request.request, travel_request.request], params_hash: params_hash) }
     let(:absence_request) { AbsenceRequestDecorator.new(FactoryBot.create(:absence_request)) }
-    it "a json array" do
-      expect(report_list_decorator.report_json).to eq("[{\"id\":#{absence_request.id},\"request_type\":\"Vacation\"," \
-                                                       "\"start_date\":\"#{absence_request.start_date.strftime('%B %-d, %Y')}\"," \
-                                                       "\"end_date\":\"#{absence_request.end_date.strftime('%B %-d, %Y')}\"," \
-                                                       "\"status\":\"Pending\",\"staff\":\"#{absence_request.creator.full_name}\"," \
-                                                       "\"department\":\"#{absence_request.department.name}\"}]")
+    let(:travel_request) { TravelRequestDecorator.new(FactoryBot.create(:travel_request)) }
+    it "is a json array for an absence and travel request" do
+      expect(report_list_decorator.report_json).to eq(
+        "[{\"id\":#{absence_request.id},\"request_type\":{\"value\":\"Vacation\",\"link\":\"http://localhost:3000/absence_requests/#{absence_request.id}\"}," \
+        "\"start_date\":\"#{absence_request.start_date.strftime('%B %-d, %Y')}\"," \
+        "\"end_date\":\"#{absence_request.end_date.strftime('%B %-d, %Y')}\"," \
+        "\"status\":\"Pending\",\"staff\":\"#{absence_request.creator.full_name}\"," \
+        "\"department\":\"#{absence_request.department.name}\"}," \
+        "{\"id\":#{travel_request.id},\"request_type\":{\"value\":\"#{travel_request.title}\",\"link\":\"http://localhost:3000/travel_requests/#{travel_request.id}\"}," \
+        "\"start_date\":\"#{travel_request.start_date.strftime('%B %-d, %Y')}\"," \
+        "\"end_date\":\"#{travel_request.end_date.strftime('%B %-d, %Y')}\"," \
+        "\"status\":\"Pending\",\"staff\":\"#{travel_request.creator.full_name}\"," \
+        "\"department\":\"#{travel_request.department.name}\"}]"
+      )
     end
   end
 end

@@ -50,7 +50,7 @@ class ReportListDecorator < RequestListDecorator
     request_list.map do |request|
       {
         'id': request.id,
-        'request_type': request.title,
+        'request_type': { value: request.title, link: Rails.application.routes.url_helpers.url_for(request) },
         'start_date': request.formatted_full_start_date,
         'end_date': request.formatted_full_end_date,
         'status': request.latest_status,
