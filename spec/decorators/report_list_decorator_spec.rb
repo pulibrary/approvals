@@ -212,6 +212,58 @@ RSpec.describe ReportListDecorator, type: :model do
     end
   end
 
+  describe "#supervisor_filter_urls" do
+    subject(:report_list_decorator) { described_class.new([FactoryBot.create(:absence_request)], params_hash: params_hash, params_manager_class: ReportsParamsManager) }
+    let(:supervisor) { FactoryBot.create :staff_profile, :with_department }
+    let(:mid_level) { FactoryBot.create :staff_profile, supervisor: supervisor }
+    let(:mid_level2) { FactoryBot.create :staff_profile, supervisor: supervisor }
+
+    let(:status_filter) { "" }
+    let(:filters) do
+      [
+        [supervisor.full_name, "/reports?#{status_filter}filters%5Bsupervisor%5D=#{supervisor.id}"],
+        [mid_level.full_name, "/reports?#{status_filter}filters%5Bsupervisor%5D=#{mid_level.id}"],
+        [mid_level2.full_name, "/reports?#{status_filter}filters%5Bsupervisor%5D=#{mid_level2.id}"]
+      ]
+    end
+
+    before do
+      FactoryBot.create :staff_profile, supervisor: mid_level
+      FactoryBot.create :staff_profile, supervisor: mid_level
+      FactoryBot.create :staff_profile, supervisor: mid_level2
+      FactoryBot.create :staff_profile, supervisor: mid_level2
+    end
+
+    it "returns a list of supervisor filter urls" do
+      expect(report_list_decorator.supervisor_filter_urls(current_staff_profile: supervisor.supervisor)).to eq(filters)
+    end
+
+    context "a status filter has been applied" do
+      let(:status_filter) { "filters%5Bstatus%5D=approved&" }
+      let(:params_hash) { { "filters" => { "status" => "approved" } } }
+
+      it "returns a list of supervisor filter urls that include the status filter" do
+        expect(report_list_decorator.supervisor_filter_urls(current_staff_profile: supervisor.supervisor)).to eq(filters)
+      end
+    end
+
+    context "a status filter and travel filter has been applied" do
+      let(:status_filter) { "filters%5Brequest_type%5D=travel&filters%5Bstatus%5D=approved&" }
+      let(:params_hash) { { "filters" => { "request_type" => "travel", "status" => "approved" } } }
+      it "returns a list of supervisor filter urls that include the status filter, and the request type filter" do
+        expect(report_list_decorator.supervisor_filter_urls(current_staff_profile: supervisor.supervisor)).to eq(filters)
+      end
+    end
+
+    context "a status filter, travel filter and supervisor filter has been applied" do
+      let(:status_filter) { "filters%5Brequest_type%5D=travel&filters%5Bstatus%5D=approved&" }
+      let(:params_hash) { { "filters" => { "request_type" => "travel", "status" => "approved", "supervisor" => mid_level.id } } }
+      it "returns a list of supervisor filter urls that include the status filter, and the request type filter" do
+        expect(report_list_decorator.supervisor_filter_urls(current_staff_profile: supervisor.supervisor)).to eq(filters)
+      end
+    end
+  end
+
   describe "#filter_removal_urls" do
     it "returns an empty list when no filters are selected" do
       expect(report_list_decorator.filter_removal_urls).to eq({})
@@ -228,6 +280,22 @@ RSpec.describe ReportListDecorator, type: :model do
       let(:params_hash) { { "filters" => { "request_type" => "travel" } } }
       it "returns a link to clear the approved status filter" do
         expect(report_list_decorator.filter_removal_urls).to eq("Request type: Travel" => "/reports")
+      end
+    end
+
+    context "department filter applied" do
+      let(:department)  { FactoryBot.create :department }
+      let(:params_hash) { { "filters" => { "department" => department.number } } }
+      it "returns a link to clear the approved status filter" do
+        expect(report_list_decorator.filter_removal_urls).to eq("Department: #{department.name}" => "/reports")
+      end
+    end
+
+    context "supervisor filter applied" do
+      let(:supervisor) { FactoryBot.create :staff_profile, :with_department }
+      let(:params_hash) { { "filters" => { "supervisor" => supervisor.id } } }
+      it "returns a link to clear the approved status filter" do
+        expect(report_list_decorator.filter_removal_urls).to eq("Supervisor: #{supervisor.full_name}" => "/reports")
       end
     end
 

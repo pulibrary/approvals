@@ -86,6 +86,32 @@ RSpec.describe ReportRequestList, type: :model do
       list = ReportRequestList.list_requests(current_staff_profile: supervisor, request_filters: { "department" => staff_profile.department.number }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(*[my_absence, my_travel, supervisor_absence].map(&:id))
     end
+
+    it "accepts limit by employee type" do
+      biweekly_profile = FactoryBot.create :staff_profile, supervisor: supervisor, department: supervisor.department, biweekly: true
+      bi_weekly_absence = FactoryBot.create(:absence_request, creator: biweekly_profile)
+      bi_weekly_travel = FactoryBot.create(:travel_request, creator: biweekly_profile)
+      list = ReportRequestList.list_requests(current_staff_profile: supervisor, request_filters: { "employee_type" => "biweekly" }, search_query: nil, order: nil)
+      expect(list.map(&:id)).to contain_exactly(*[bi_weekly_absence, bi_weekly_travel].map(&:id))
+      list = ReportRequestList.list_requests(current_staff_profile: supervisor, request_filters: { "employee_type" => "monthly" }, search_query: nil, order: nil)
+      expect(list.map(&:id)).to contain_exactly(*[my_absence, my_travel, supervisor_absence].map(&:id))
+    end
+
+    it "accepts limit by supervisor" do
+      sub_staff = FactoryBot.create :staff_profile, supervisor: staff_profile, department: supervisor.department
+      sub_absence = FactoryBot.create(:absence_request, creator: sub_staff)
+      sub_travel = FactoryBot.create(:travel_request, creator: sub_staff)
+      list = ReportRequestList.list_requests(current_staff_profile: supervisor, request_filters: { "supervisor" => staff_profile }, search_query: nil, order: nil)
+      expect(list.map(&:id)).to contain_exactly(*[my_absence, my_travel, sub_absence, sub_travel].map(&:id))
+    end
+
+    it "accepts limit by supervisor and does not filter if the supervisor is not part of the logged in user's reporting chain" do
+      sub_staff = FactoryBot.create :staff_profile, supervisor: staff_profile, department: supervisor.department
+      sub_absence = FactoryBot.create(:absence_request, creator: sub_staff)
+      sub_travel = FactoryBot.create(:travel_request, creator: sub_staff)
+      list = ReportRequestList.list_requests(current_staff_profile: supervisor, request_filters: { "supervisor" => other_absence.creator }, search_query: nil, order: nil)
+      expect(list.map(&:id)).to contain_exactly(*[my_absence, my_travel, sub_absence, sub_travel, supervisor_absence].map(&:id))
+    end
   end
 
   describe "GET #list_requests with sort params" do

@@ -57,6 +57,16 @@ class StaffProfile < ApplicationRecord
     supervisor_chain(agent: agent.supervisor, list: list)
   end
 
+  def list_supervised(list:)
+    supervised = StaffProfile.where(supervisor: self)
+    return list if supervised.empty?
+    list |= supervised
+    supervised.each do |staff|
+      list = staff.list_supervised(list: list)
+    end
+    list
+  end
+
   def admin_assistants
     return [location.admin_assistant] if location&.admin_assistant
     department.admin_assistants

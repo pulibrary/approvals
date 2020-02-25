@@ -21,6 +21,12 @@
                     {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
                   <% end %>
                 ]"></dropdown-menu>
+
+              <%= render 'supervisor_filter', supervisor_filter_urls: @requests.supervisor_filter_urls(current_staff_profile: current_staff_profile), current_supervisor_filter_label: @requests.current_supervisor_filter_label%>
+
+            </grid-item>
+            <grid-item columns="sm-12 auto" class="date-filter">
+              <%= render "date_filter", search_path: search_path, params_manager: @requests.params_manager %>
             </grid-item>
             <%= render 'sort_menu', current_sort_label: @requests.current_sort_label, sort_urls: @requests.sort_urls%>
 

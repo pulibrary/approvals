@@ -21,6 +21,9 @@ class ReportListDecorator < RequestListDecorator
   def filter_label(key, value)
     if key == :department
       "#{key.to_s.humanize}: #{clean_department_name(value)}"
+    elsif key == :supervisor
+      profile = StaffProfile.find(value)
+      "#{key.to_s.humanize}: #{profile.full_name}"
     else
       super
     end
@@ -55,6 +58,21 @@ class ReportListDecorator < RequestListDecorator
         'department': request.department.name
       }
     end.to_json
+  end
+
+  def current_supervisor_filter_label
+    filters = params_manager.filter_params
+    supervisor = StaffProfile.find_by_id(filters[:supervisor])
+    return "Supervisor" if supervisor.blank?
+
+    "Supervisor: #{supervisor.full_name}"
+  end
+
+  def supervisor_filter_urls(current_staff_profile:)
+    supervised = current_staff_profile.list_supervised(list: [])
+    supervised.select(&:supervisor?).map do |staff|
+      [staff.full_name, params_manager.url_with_filter(field: :supervisor, new_option: staff.id)]
+    end.to_h.sort
   end
 
   private

@@ -172,7 +172,7 @@ RSpec.describe RequestsController, type: :controller do
 
   describe "GET #reports" do
     let(:supervisor) { FactoryBot.create :staff_profile, user: user }
-    let(:staff_profile) { FactoryBot.create :staff_profile, supervisor: supervisor }
+    let(:staff_profile) { FactoryBot.create :staff_profile, supervisor: supervisor, biweekly: true }
     let(:supervisor_absence) { FactoryBot.create(:absence_request, creator: supervisor, start_date: Time.zone.tomorrow) }
     before do
       # create all the requests
@@ -186,6 +186,21 @@ RSpec.describe RequestsController, type: :controller do
       get :reports, params: {}, session: valid_session
       expect(response).to be_successful
       expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_travel, my_absence, supervisor_absence].map(&:id))
+    end
+
+    it "filters based on employee type" do
+      get :reports, params: { filters: { employee_type: "biweekly" } }, session: valid_session
+      expect(response).to be_successful
+      expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_travel, my_absence].map(&:id))
+    end
+
+    it "filters based on supervisor" do
+      sub_staff = FactoryBot.create :staff_profile, supervisor: staff_profile, department: supervisor.department
+      sub_absence = FactoryBot.create(:absence_request, creator: sub_staff)
+      sub_travel = FactoryBot.create(:travel_request, creator: sub_staff)
+      get :reports, params: { filters: { supervisor:  staff_profile.id } }, session: valid_session
+      expect(response).to be_successful
+      expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_travel, my_absence, sub_absence, sub_travel].map(&:id))
     end
 
     it "accepts paging" do
