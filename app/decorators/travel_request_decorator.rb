@@ -33,8 +33,8 @@ class TravelRequestDecorator < RequestDecorator
     "[{ 'name': 'cost_type', 'display_name': 'Expense Type' },
       { 'name': 'note', 'display_name': 'Note' },
       { 'name': 'recurrence', 'display_name': 'Occurrences', 'datatype': 'number' },
-      { 'name': 'amount', 'display_name': 'Cost per Occurrence', 'datatype': 'number' },
-      { 'name': 'total', 'display_name': 'Total', 'datatype': 'number' } ]"
+      { 'name': 'amount', 'display_name': 'Cost per Occurrence', 'datatype': 'currency' },
+      { 'name': 'total', 'display_name': 'Total', 'datatype': 'currency' } ]"
   end
 
   def travel_category_icon
