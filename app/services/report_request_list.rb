@@ -6,12 +6,11 @@ class ReportRequestList < RequestList
       supervisor_filter = request_filters.delete("supervisor")
       supervisor_filter = StaffProfile.find_by_id(supervisor_filter) if supervisor_filter.is_a? String
       supervisor = supervisor(current_staff_profile: current_staff_profile, supervisor_filter: supervisor_filter)
-      record_scope = Request.joins(creator: :department)
-                            .where(request_filters(request_filters: request_filters))
-                            .where_contains_text(search_query: search_query)
-                            .where(creator: list_supervised(list: [supervisor], supervisor: supervisor).map(&:id))
-                            .order(request_order(order))
-      paginate(record_scope: record_scope, page: page)
+      Request.joins(creator: :department)
+        .where(request_filters(request_filters: request_filters))
+        .where_contains_text(search_query: search_query)
+        .where(creator: list_supervised(list: [supervisor], supervisor: supervisor).map(&:id))
+        .order(request_order(order))
     end
 
     private

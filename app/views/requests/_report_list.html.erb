@@ -9,7 +9,7 @@
             <grid-item columns="sm-12 auto">
               <%= render 'status_filter', status_filter_urls: @requests.status_filter_urls, current_status_filter_label: @requests.current_status_filter_label%>
 
-              <%= render 'request_type_filter', current_request_type_filter_label: @requests.current_request_type_filter_label, 
+              <%= render 'request_type_filter', current_request_type_filter_label: @requests.current_request_type_filter_label,
                                                 filters: {
                                                   #'Absence' => { url: @requests.absence_filter_url, children: @requests.absence_filter_urls },
                                                   'Travel' => { url: @requests.travel_filter_url, children: @requests.travel_filter_urls }
@@ -49,17 +49,15 @@
         <card-content>
           <data-table caption="<%= @requests.data_table_heading%>"
             :columns="[
-              { 'name': 'request_type', 'display_name': 'Request Type'},
+              { 'name': 'request_type', 'display_name': 'Request Type', 'sortable': true},
               { 'name': 'start_date', 'display_name': 'Start Date'},
               { 'name': 'end_date', 'display_name': 'End Date'},
-              { 'name': 'status', 'display_name': 'Status'},
-              { 'name': 'staff', 'display_name': 'Staff'},
-              { 'name': 'department', 'display_name': 'Department'}]"
+              { 'name': 'status', 'display_name': 'Status', 'sortable': true},
+              { 'name': 'staff', 'display_name': 'Staff', 'sortable': true},
+              { 'name': 'department', 'display_name': 'Department', 'sortable': true}]"
             :json-data="<%= @requests.report_json %>"/>
         </card-content>
       </card>
     </grid-item>
   </grid-container>
 </wrapper>
-
-<%= render 'pagination', total_pages: @requests.total_pages, requests: @requests %>

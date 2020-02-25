@@ -1,4 +1,4 @@
-<input-select value="<%= current_supervisor_filter_label %>" onchange="location.href = this.children[0].value; //jump to link location on select" 
+<input-select name="supervisor_filter" value="<%= current_supervisor_filter_label %>" onchange="location.href = this.children[0].value; //jump to link location on select" 
  id="supervisor-menu" :options="[
   {label: '<%= current_supervisor_filter_label %>', value: '<%= current_supervisor_filter_label %>'},
   <% supervisor_filter_urls.each do |key, url| %>
