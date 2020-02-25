@@ -9,7 +9,7 @@ class CommonRequestController < ApplicationController
     else
       respond_to do |format|
         @request = nil
-        format.html { redirect_to my_requests_path, notice: "Only the requestor or reviewer can view a request" }
+        format.html { redirect_to my_requests_path, flash: { error: "Only the requestor or reviewer can view a request" } }
         format.json { redirect_to my_requests_path(format: :json) }
       end
     end
@@ -57,7 +57,7 @@ class CommonRequestController < ApplicationController
   def destroy
     @request.destroy
     respond_to do |format|
-      format.html { redirect_to list_url, notice: "#{model_instance_to_name(@request)} was successfully destroyed." }
+      format.html { redirect_to list_url, flash: { success: "#{model_instance_to_name(@request)} was successfully destroyed." } }
       format.json { head :no_content }
     end
   end
@@ -111,7 +111,7 @@ class CommonRequestController < ApplicationController
     def respond_with_show_error(message:, status:)
       respond_to do |format|
         @request = request_change_set.model
-        format.html { redirect_to @request, notice: message }
+        format.html { redirect_to @request, flash: { error: message } }
         format.json { render :show, status: status, location: @request }
       end
       false
@@ -158,7 +158,7 @@ class CommonRequestController < ApplicationController
       respond_to do |format|
         if valid
           @request = request_change_set.model
-          format.html { redirect_to @request, notice: "#{model_instance_to_name(@request)} was successfully #{success_verb}." }
+          format.html { redirect_to @request, flash: { success: "#{model_instance_to_name(@request)} was successfully #{success_verb}." } }
           format.json { render :show, status: :ok, location: @request }
         else
           setup_change_set_for_view
@@ -210,7 +210,7 @@ class CommonRequestController < ApplicationController
 
       respond_to do |format|
         @request = request_change_set.model
-        format.html { redirect_to @request, notice: "You are not allowed access to #{action} this request" }
+        format.html { redirect_to @request, flash: { error: "You are not allowed access to #{action} this request" } }
         format.json { render :show, status: :invalid_review, location: @request }
       end
       allowed_to_change

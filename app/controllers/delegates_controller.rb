@@ -22,13 +22,13 @@ class DelegatesController < ApplicationController
   def assume
     if @delegate && (@delegate.delegate == current_staff_profile)
       session[:approvals_delegate] = @delegate.id.to_s
-      message = "You are now acting on behalf of #{@delegate.delegator}"
+      flash[:success] = "You are now acting on behalf of #{@delegate.delegator}"
     else
       session[:approvals_delegate] = nil
-      message = "Invalid delegation attempt!"
+      flash[:error] = "Invalid delegation attempt!"
     end
     respond_to do |format|
-      format.html { redirect_to my_requests_path, notice: message }
+      format.html { redirect_to my_requests_path }
       format.json { head :no_content }
     end
   end
@@ -37,7 +37,7 @@ class DelegatesController < ApplicationController
   def cancel
     session[:approvals_delegate] = nil
     respond_to do |format|
-      format.html { redirect_to my_requests_path, notice: "You are now acting on your own behalf" }
+      format.html { redirect_to my_requests_path, flash: { success: "You are now acting on your own behalf" } }
       format.json { head :no_content }
     end
   end
@@ -49,7 +49,7 @@ class DelegatesController < ApplicationController
 
     respond_to do |format|
       if @delegate.save
-        format.html { redirect_to delegates_path, notice: "Delegate was successfully created." }
+        format.html { redirect_to delegates_path, flash: { success: "Delegate was successfully created." } }
         format.json { render :show, status: :created, location: @delegate }
       else
         delegates_for_current_profile
@@ -62,14 +62,14 @@ class DelegatesController < ApplicationController
   # DELETE /delegates/1
   # DELETE /delegates/1.json
   def destroy
-    notice = if @delegate.blank?
-               "Invalid delegate #{params[:id]} can not be destroyed"
-             else
-               @delegate.destroy
-               "Delegate was successfully destroyed."
-             end
+    if @delegate.blank?
+      flash[:error] = "Invalid delegate #{params[:id]} can not be destroyed"
+    else
+      @delegate.destroy
+      flash[:success] = "Delegate was successfully destroyed."
+    end
     respond_to do |format|
-      format.html { redirect_to delegates_url, notice: notice }
+      format.html { redirect_to delegates_url }
       format.json { head :no_content }
     end
   end
@@ -107,7 +107,7 @@ class DelegatesController < ApplicationController
       return unless current_delegate
 
       respond_to do |format|
-        format.html { redirect_to my_requests_path, notice: "You can not modify delegations as a delegate" }
+        format.html { redirect_to my_requests_path, flash: { error: "You can not modify delegations as a delegate" } }
         format.json { head :no_content }
       end
       false

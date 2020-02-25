@@ -162,7 +162,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       get :review, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_request)
       expect(assigns(:request)).to eq(absence_request)
-      expect(flash[:notice]).to eq "Absence request can not be reviewed after it has been approved."
+      expect(flash[:error]).to eq "Absence request can not be reviewed after it has been approved."
     end
 
     it "does not allow the creator to review" do

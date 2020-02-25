@@ -33,7 +33,7 @@ RSpec.describe DelegatesController, type: :controller do
       get :assume, params: { id: delegate.to_param }, session: valid_session
       expect(response).to redirect_to(my_requests_path)
       expect(session["approvals_delegate"]).to eq delegate.id.to_s
-      expect(flash[:notice]).to eq "You are now acting on behalf of #{delegate.delegator}"
+      expect(flash[:success]).to eq "You are now acting on behalf of #{delegate.delegator}"
     end
 
     context "invalid delegate id" do
@@ -41,7 +41,7 @@ RSpec.describe DelegatesController, type: :controller do
         get :assume, params: { id: 1234 }, session: valid_session
         expect(response).to redirect_to(my_requests_path)
         expect(session["approvals_delegate"]).to be_blank
-        expect(flash[:notice]).to eq "Invalid delegation attempt!"
+        expect(flash[:error]).to eq "Invalid delegation attempt!"
       end
     end
 
@@ -51,7 +51,7 @@ RSpec.describe DelegatesController, type: :controller do
         get :assume, params: { id: delegate.to_param }, session: valid_session
         expect(response).to redirect_to(my_requests_path)
         expect(response.headers["APPROVALS-DELEGATE"]).not_to eq delegate.to_s
-        expect(flash[:notice]).to eq "Invalid delegation attempt!"
+        expect(flash[:error]).to eq "Invalid delegation attempt!"
       end
     end
 
@@ -63,7 +63,7 @@ RSpec.describe DelegatesController, type: :controller do
         get :assume, params: { id: delegate2.to_param }, session: valid_session
         expect(response).to redirect_to(my_requests_path)
         expect(response.headers["APPROVALS-DELEGATE"]).not_to eq delegate.to_s
-        expect(flash[:notice]).to eq "You can not modify delegations as a delegate"
+        expect(flash[:error]).to eq "You can not modify delegations as a delegate"
       end
     end
   end
@@ -75,7 +75,7 @@ RSpec.describe DelegatesController, type: :controller do
       get :cancel, session: valid_session
       expect(response).to redirect_to(my_requests_path)
       expect(session["approvals_delegate"]).to be_blank
-      expect(flash[:notice]).to eq "You are now acting on your own behalf"
+      expect(flash[:success]).to eq "You are now acting on your own behalf"
     end
   end
 
@@ -117,7 +117,7 @@ RSpec.describe DelegatesController, type: :controller do
         post :create, params: { delegate: valid_attributes }, session: valid_session
         expect(response).to redirect_to(my_requests_path)
         expect(response.headers["APPROVALS-DELEGATE"]).not_to eq delegate.to_s
-        expect(flash[:notice]).to eq "You can not modify delegations as a delegate"
+        expect(flash[:error]).to eq "You can not modify delegations as a delegate"
       end
     end
   end
@@ -150,7 +150,7 @@ RSpec.describe DelegatesController, type: :controller do
       end.to change(Delegate, :count).by(0)
       expect(response).to redirect_to(my_requests_path)
       expect(response.headers["APPROVALS-DELEGATE"]).not_to eq delegate.to_s
-      expect(flash[:notice]).to eq "You can not modify delegations as a delegate"
+      expect(flash[:error]).to eq "You can not modify delegations as a delegate"
     end
   end
 end
