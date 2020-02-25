@@ -50,7 +50,7 @@ RSpec.describe TravelRequestsController, type: :controller do
   end
 
   let(:invalid_attributes) do
-    { participation: "", purpose: "Travel to campus for in-person meetings", travel_dates: "N/A" }
+    { participation: "", purpose: "Travel to campus for in-person meetings", travel_dates: "N/A", event_requests: [event_dates: "N/A"] }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -297,10 +297,23 @@ RSpec.describe TravelRequestsController, type: :controller do
         post :create, params: { travel_request: invalid_attributes }, session: valid_session
         expect(response).to be_successful
         expect(assigns(:request_change_set)).to be_a(TravelRequestChangeSet)
-        expect(assigns(:request_change_set).errors.messages).to eq(event_requests: ["can't be blank"],
+        expect(assigns(:request_change_set).errors.messages).to eq("event_requests.location": ["can't be blank"],
+                                                                   "event_requests.recurring_event_id": ["can't be blank"],
+                                                                   "event_requests.start_date": ["can't be blank"],
                                                                    participation: ["is not included in the list"],
-                                                                   travel_dates: ["must be in a valid format (mm/dd/yyyy)"])
+                                                                   travel_dates: ["must be in a valid format (mm/dd/yyyy - mm/dd/yyyy)"],
+                                                                   event_dates: ["must be in a valid format (mm/dd/yyyy - mm/dd/yyyy)"])
         expect(assigns(:request_change_set).model.purpose).to eq("Travel to campus for in-person meetings")
+      end
+
+      it "bad character in the event date" do
+        invalid_attributes = valid_attributes.dup
+        invalid_attributes[:event_requests].first[:event_dates] = "‎2‎/‎25/2020 - 2/25/2020" # there is a bad character in this string
+        post :create, params: { travel_request: invalid_attributes }, session: valid_session
+        expect(response).to be_successful
+        expect(assigns(:request_change_set)).to be_a(TravelRequestChangeSet)
+        expect(assigns(:request_change_set).errors.messages).to eq(event_dates: ["must be in a valid format (mm/dd/yyyy - mm/dd/yyyy)"], "event_requests.start_date": ["can't be blank"])
+        expect(assigns(:request_change_set).event_requests.first.errors.messages).to eq(start_date: ["can't be blank"])
       end
     end
   end
@@ -498,7 +511,8 @@ RSpec.describe TravelRequestsController, type: :controller do
         put :decide, params: { id: travel_request.to_param, travel_request: invalid_attributes, approve: "" }, session: valid_session
         expect(response).to be_successful
         expect(assigns(:request_change_set).errors.messages).to eq(participation: ["is not included in the list"],
-                                                                   travel_dates: ["must be in a valid format (mm/dd/yyyy)"])
+                                                                   travel_dates: ["must be in a valid format (mm/dd/yyyy - mm/dd/yyyy)"],
+                                                                   event_dates: ["must be in a valid format (mm/dd/yyyy - mm/dd/yyyy)"])
         travel_request.reload
         expect(travel_request).to be_pending
       end
@@ -532,7 +546,8 @@ RSpec.describe TravelRequestsController, type: :controller do
         expect(response).to be_successful
         expect(assigns(:request_change_set).errors.messages).to eq(participation: ["is not included in the list"],
                                                                    notes: ["are required to deny a request"],
-                                                                   travel_dates: ["must be in a valid format (mm/dd/yyyy)"])
+                                                                   travel_dates: ["must be in a valid format (mm/dd/yyyy - mm/dd/yyyy)"],
+                                                                   event_dates: ["must be in a valid format (mm/dd/yyyy - mm/dd/yyyy)"])
         travel_request.reload
         expect(travel_request).to be_pending
       end
@@ -565,8 +580,9 @@ RSpec.describe TravelRequestsController, type: :controller do
         put :decide, params: { id: travel_request.to_param, travel_request: invalid_attributes, change_request: "" }, session: valid_session
         expect(response).to be_successful
         expect(assigns(:request_change_set).errors.messages).to eq(participation: ["is not included in the list"],
-                                                                   travel_dates: ["must be in a valid format (mm/dd/yyyy)"],
-                                                                   notes: ["are required to specify requested changes."])
+                                                                   travel_dates: ["must be in a valid format (mm/dd/yyyy - mm/dd/yyyy)"],
+                                                                   notes: ["are required to specify requested changes."],
+                                                                   event_dates: ["must be in a valid format (mm/dd/yyyy - mm/dd/yyyy)"])
         travel_request.reload
         expect(travel_request).to be_pending
       end

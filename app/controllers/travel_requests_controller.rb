@@ -102,7 +102,7 @@ class TravelRequestsController < CommonRequestController
       hash[:start_date] = dates[:start]
       hash[:end_date] = dates[:end]
     rescue ArgumentError
-      request_change_set.errors.add(field, "must be in a valid format (mm/dd/yyyy)")
+      request_change_set.errors.add(field, "must be in a valid format (mm/dd/yyyy - mm/dd/yyyy)")
     end
 
     def processed_params
