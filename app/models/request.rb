@@ -75,7 +75,6 @@ class Request < ApplicationRecord
     sick: "sick",
     personal: "personal",
     research_days: "research_days",
-    work_from_home: "work_from_home",
     consulting: "consulting",
     jury_duty: "jury_duty",
     death_in_family: "death_in_family"

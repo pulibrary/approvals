@@ -139,7 +139,6 @@ RSpec.describe AbsenceRequestChangeSet, type: :model do
       "{label: 'Sick', value: 'sick'},"\
       "{label: 'Personal', value: 'personal'},"\
       "{label: 'Research days', value: 'research_days'},"\
-      "{label: 'Work from home', value: 'work_from_home'},"\
       "{label: 'Consulting', value: 'consulting'},"\
       "{label: 'Jury duty', value: 'jury_duty'},"\
       "{label: 'Death in family', value: 'death_in_family'}"\
