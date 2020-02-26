@@ -10,7 +10,7 @@ RSpec.describe Users::OmniauthCallbacksController do
       allow(User).to receive(:from_cas) { FactoryBot.create(:user) }
       get :cas
       expect(response).to redirect_to(my_requests_path)
-      expect(flash[:notice]).to eq("Successfully authenticated from from Princeton Central Authentication Service account.")
+      expect(flash[:success]).to eq("Successfully authenticated from from Princeton Central Authentication Service account.")
     end
 
     context "invalid user" do
@@ -18,7 +18,7 @@ RSpec.describe Users::OmniauthCallbacksController do
         allow(User).to receive(:from_cas) { nil }
         get :cas
         expect(response).to redirect_to(root_path)
-        expect(flash[:notice]).to eq("You are not authorized to view this material")
+        expect(flash[:error]).to eq("You are not authorized to view this material")
       end
     end
   end

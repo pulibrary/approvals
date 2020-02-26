@@ -192,7 +192,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       get :review, params: { id: travel_request.to_param }, session: valid_session
       expect(response).to redirect_to(travel_request)
       expect(assigns(:request)).to eq(travel_request)
-      expect(flash[:notice]).to eq "You have already reviewed the request."
+      expect(flash[:error]).to eq "You have already reviewed the request."
     end
 
     it "Does allow review after request changes have been fixed" do
