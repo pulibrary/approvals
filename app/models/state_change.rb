@@ -12,7 +12,6 @@ class StateChange < ApplicationRecord
     changes_requested: "changes_requested",
     approved: "approved",
     denied: "denied",
-    pending_cancelation: "pending_cancelation",
     recorded: "recorded"
   }
 

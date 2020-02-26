@@ -26,8 +26,7 @@ class RequestDecorator
       "denied" => "red",
       "changes_requested" => "yellow",
       "canceled" => "gray",
-      "recorded" => "green",
-      "pending_cancelation" => "yellow"
+      "recorded" => "green"
     }
     color_map[status]
   end
@@ -39,8 +38,7 @@ class RequestDecorator
       "denied" => "denied",
       "changes_requested" => "refresh",
       "canceled" => "alert",
-      "recorded" => "reported",
-      "pending_cancelation" => "remove"
+      "recorded" => "reported"
     }
     icon_map[status]
   end
@@ -129,11 +127,7 @@ class RequestDecorator
 
     def title_for_state(state:, phrase: "has been")
       return "" if state.blank?
-      if state.pending_cancelation?
-        "Cancelation #{phrase} requested by #{state.actor_and_date}."
-      else
-        "It #{phrase} #{state.title}."
-      end
+      "It #{phrase} #{state.title}."
     end
 
     def date_format

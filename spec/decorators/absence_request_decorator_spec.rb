@@ -168,13 +168,6 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
         expect(absence_request_decorator.status_icon).to eq "reported"
       end
     end
-
-    context "when absence is pending cancelation" do
-      let(:absence_request) { FactoryBot.create(:absence_request, action: :pending_cancel) }
-      it "returns the correct lux icon" do
-        expect(absence_request_decorator.status_icon).to eq "remove"
-      end
-    end
   end
 
   describe "#latest_status" do
@@ -213,37 +206,6 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
                                                                   { title: "Approved by Sally Supervisor on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
                                                                     icon: "approved" }
                                                                 ])
-    end
-
-    context "pending cancelation" do
-      let(:admin_assistant) { FactoryBot.create(:staff_profile, given_name: "Admin", surname: "Assistant", department: department_head.department) }
-      let(:absence_request) do
-        request = FactoryBot.create(:absence_request, creator: staff)
-        request.notes << FactoryBot.build(:note, content: "Please approve", creator: staff)
-        request.notes << FactoryBot.build(:note, content: "looks good", creator: supervisor)
-        supervisor.current_delegate = admin_assistant
-        request.approve(agent: supervisor)
-        request.record(agent: admin_assistant)
-        request.pending_cancel(agent: staff)
-        request
-      end
-
-      it "returns the combined data" do
-        expect(absence_request_decorator.notes_and_changes).to eq([
-                                                                    { title: "Created by Staff Person on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
-                                                                      icon: "add" },
-                                                                    { title: "Staff Person on #{Time.zone.now.strftime('%m/%d/%Y')}", content: "Please approve",
-                                                                      icon: "note" },
-                                                                    { title: "Sally Supervisor on #{Time.zone.now.strftime('%m/%d/%Y')}", content: "looks good",
-                                                                      icon: "note" },
-                                                                    { title: "Approved by Admin Assistant on behalf of Sally Supervisor on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
-                                                                      icon: "approved" },
-                                                                    { title: "Recorded by Admin Assistant on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
-                                                                      icon: "reported" },
-                                                                    { title: "Pending Cancelation by Staff Person on #{Time.zone.now.strftime('%m/%d/%Y')}", content: nil,
-                                                                      icon: "remove" }
-                                                                  ])
-      end
     end
   end
 end

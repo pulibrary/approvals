@@ -131,13 +131,6 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       expect(assigns(:request)).to eq(absence_request)
     end
 
-    it "can not edit a pending cancelation request" do
-      absence_request = FactoryBot.create(:absence_request, creator: creator, action: "pending_cancel")
-      get :edit, params: { id: absence_request.to_param }, session: valid_session
-      expect(response).to redirect_to(absence_request)
-      expect(assigns(:request)).to eq(absence_request)
-    end
-
     it "can not edit a request created by another user" do
       absence_request = FactoryBot.create(:absence_request)
       get :edit, params: { id: absence_request.to_param }, session: valid_session
