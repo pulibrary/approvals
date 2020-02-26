@@ -5,7 +5,7 @@ RSpec.describe AbsentStaff, type: :model do
   let(:supervisor) { FactoryBot.create :staff_profile, given_name: "Goose" }
   let(:jack) { FactoryBot.create :staff_profile, given_name: "Jack", supervisor: supervisor }
   let(:jill) { FactoryBot.create :staff_profile, given_name: "Jill", supervisor: supervisor }
-  let(:mary) { FactoryBot.create :staff_profile, given_name: "Mary", supervisor: supervisor }
+  let(:mary) { FactoryBot.create :staff_profile, given_name: "Mary", supervisor: jill }
   let(:peter) { FactoryBot.create :staff_profile, given_name: "Peter", supervisor: supervisor }
   let(:mary_sick_2020) do
     start_date = Time.zone.now + 1.year
@@ -55,7 +55,7 @@ RSpec.describe AbsentStaff, type: :model do
     end
 
     it "returns no one when the supervisor is other" do
-      expect(AbsentStaff.list(start_date: Time.zone.now + 2.days, end_date: Time.zone.now + 5.days, supervisor: jill)).to be_empty
+      expect(AbsentStaff.list(start_date: Time.zone.now + 2.days, end_date: Time.zone.now + 5.days, supervisor: peter)).to be_empty
     end
   end
 end
