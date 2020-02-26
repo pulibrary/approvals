@@ -35,7 +35,7 @@
     margin-right: 1rem;
   }
 
-  .my-request .lux-card-header .lux-heading+.lux-text-style {
+  .my-request .lux-card-header .lux-heading + .lux-text-style {
     padding-top: 1rem;
     line-height: 1.2;
   }
@@ -46,7 +46,7 @@
     margin-bottom: 0.5rem;
   }
 
-  .title-card.full-width .lux-card-media+.lux-card-header {
+  .title-card.full-width .lux-card-media + .lux-card-header {
     padding-left: 1rem;
     flex-basis: 100%;
   }
@@ -117,7 +117,7 @@
   li {
     margin-bottom: 0.5rem;
   }
-  
+
   a {
     font-weight: normal;
   }
@@ -136,5 +136,34 @@
     pointer-events: auto;
     content: "";
     background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+.tip-card {
+  background: $color-white;
+  border-color: transparent;
+  border-left: 4px solid $color-bleu-de-france;
+  border-radius: 0;
+  box-shadow: $box-shadow-small;
+  color: $color-rich-black;
+  line-height: 1.6;
+  padding: 12px 24px 12px 30px;
+  position: relative;
+
+  &::before {
+    content: "i";
+    background-color: $color-bleu-de-france;
+
+    position: absolute;
+    top: 14px;
+    left: -12px;
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 20px;
+    font-weight: $font-weight-bold;
+    font-size: 14px;
   }
 }

@@ -54,6 +54,12 @@ body {
       float: right;
     }
   }
+
+  p {
+    line-height: 1.6;
+    font-weight: $font-weight-regular;
+    margin-top: 1rem;
+  }
 }
 
 @media (max-width: 599px) {
