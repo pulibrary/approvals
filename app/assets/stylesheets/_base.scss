@@ -29,6 +29,33 @@ body {
   margin: 1rem 0 0 2rem;
 }
 
+.current-delegate span {
+  display: block;
+  font-weight: $font-weight-bold;
+  line-height: 40px;
+  margin: 0 auto;
+  max-width: 1400px;
+
+  .lux-link.button.outline {
+    background-color: $color-white;
+    border: 0;
+    line-height: 1;
+
+    &:hover,
+    &:focus {
+      color: $color-bleu-de-france-darker;
+    }
+
+    @media (max-width: 899px) {
+      display: inline-block;
+    }
+
+    @media (min-width: 900px) {
+      float: right;
+    }
+  }
+}
+
 @media (max-width: 599px) {
   .lux-button.medium,
   .lux-link.button.medium, .lux-select.medium {
