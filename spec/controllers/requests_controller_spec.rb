@@ -202,19 +202,6 @@ RSpec.describe RequestsController, type: :controller do
       expect(response).to be_successful
       expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_travel, my_absence, sub_absence, sub_travel].map(&:id))
     end
-
-    it "accepts paging" do
-      Kaminari.config.default_per_page = 1
-      get :reports, params: { page: 1 }, session: valid_session
-      expect(response).to be_successful
-      expect(assigns(:requests).map(&:id)).to contain_exactly(supervisor_absence.id)
-      get :reports, params: { page: 2 }, session: valid_session
-      expect(response).to be_successful
-      expect(assigns(:requests).map(&:id)).to contain_exactly(my_travel.id)
-      get :reports, params: { page: 3 }, session: valid_session
-      expect(response).to be_successful
-      expect(assigns(:requests).map(&:id)).to contain_exactly(my_absence.id)
-    end
   end
 
   describe "GET #records" do

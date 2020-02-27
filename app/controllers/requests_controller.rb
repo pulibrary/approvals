@@ -50,8 +50,7 @@ class RequestsController < ApplicationController
       ReportRequestList.list_requests(current_staff_profile: current_staff_profile,
                                       request_filters: report_params[:filters],
                                       search_query: report_params[:query],
-                                      order: report_params["sort"],
-                                      page: report_params[:page])
+                                      order: report_params["sort"])
     end
 
     def recording_request_objects
