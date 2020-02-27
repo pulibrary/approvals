@@ -39,8 +39,7 @@ CREATE TYPE public.request_absence_type AS ENUM (
     'sick',
     'jury_duty',
     'death_in_family',
-    'research_days',
-    'work_from_home'
+    'research_days'
 );
 
 
@@ -944,6 +943,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191203144321'),
 ('20200124122301'),
 ('20200124122321'),
-('20200129183415');
+('20200129183415'),
+('20200227204519');
 
 
