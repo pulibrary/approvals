@@ -107,4 +107,15 @@ RSpec.describe TravelRequestChangeSet, type: :model do
       expect(values_after).to be(values_before)
     end
   end
+
+  describe "#existing_notes" do
+    it "gathers existing notes and filters blank notes" do
+      travel_request = described_class.new(FactoryBot.create(:travel_request))
+      travel_request.notes << Note.new
+      expect(travel_request.existing_notes).to be_empty
+      note = FactoryBot.create(:note, request: travel_request.model, content: "My Note")
+      travel_request.notes << note
+      expect(travel_request.existing_notes).to eq [{ content: "My Note", icon: "note", title: "#{note.creator.full_name} on #{note.created_at.strftime(Rails.configuration.short_date_format)}" }]
+    end
+  end
 end

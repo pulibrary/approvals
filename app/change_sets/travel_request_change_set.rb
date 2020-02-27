@@ -22,7 +22,7 @@ class TravelRequestChangeSet < RequestChangeSet
   attr_reader :current_staff_profile
 
   def existing_notes
-    sorted_notes = notes.map(&:model).sort_by(&:created_at)
+    sorted_notes = notes.map(&:model).select { |n| n.creator.present? }.sort_by(&:created_at)
     sorted_notes.map do |item|
       {
         title: "#{item.creator.full_name} on #{item.created_at.strftime(Rails.configuration.short_date_format)}",
