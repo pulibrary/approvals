@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 class ReportRequestList < RequestList
   class << self
-    def list_requests(current_staff_profile:, request_filters:, search_query:, order:, page: 1)
+    def list_requests(current_staff_profile:, request_filters:, search_query:, order:)
       request_filters ||= {}
       supervisor_filter = request_filters.delete("supervisor")
       supervisor_filter = StaffProfile.find_by_id(supervisor_filter) if supervisor_filter.is_a? String
       supervisor = supervisor(current_staff_profile: current_staff_profile, supervisor_filter: supervisor_filter)
       Request.joins(creator: :department)
-        .where(request_filters(request_filters: request_filters))
-        .where_contains_text(search_query: search_query)
-        .where(creator: list_supervised(list: [supervisor], supervisor: supervisor).map(&:id))
-        .order(request_order(order))
+             .where(request_filters(request_filters: request_filters))
+             .where_contains_text(search_query: search_query)
+             .where(creator: list_supervised(list: [supervisor], supervisor: supervisor).map(&:id))
+             .order(request_order(order))
     end
 
     private
