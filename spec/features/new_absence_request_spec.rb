@@ -33,6 +33,19 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
     expect(page).to have_content "Pending"
     Percy.snapshot(page, name: "Leave Request - Show", widths: [375, 768, 1440])
 
+    # Approve in the background
+    Request.last.approve!(agent: staff_profile.supervisor)
+    page.refresh
+    expect(page).to have_content "Sick Leave"
+    expect(page).to have_content "Total Hours\n21.75"
+    expect(page).to have_content "Approved"
+
+    click_on "Mark as Recorded"
+
+    expect(page).to have_content "Sick Leave"
+    expect(page).to have_content "Total Hours\n21.75"
+    expect(page).to have_content "Recorded"
+
     click_on "Cancel"
     expect(page).to have_content "Sick Leave"
     expect(page).to have_content "Total Hours\n21.75"

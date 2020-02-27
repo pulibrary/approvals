@@ -1,0 +1,5 @@
+<% if request.can_record?(agent: current_staff_profile) %>
+  <%= form_with(model: request, local: true, url: decide_absence_request_path(request), method: :put, class: 'form-button') do |form| %>
+    <input-button type="submit" variation="solid" name="record">Mark as Recorded</input-button>
+  <% end %>
+<% end %>

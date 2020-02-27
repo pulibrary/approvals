@@ -75,4 +75,8 @@ class AbsenceRequest < Request
   def can_modify_attributes?
     pending?
   end
+
+  def can_record?(agent:)
+    approved? && only_creator(agent: agent) || in_supervisor_chain(supervisor: creator.supervisor, agent: agent)
+  end
 end

@@ -1,0 +1,3 @@
+<% if request.can_edit?(agent: current_staff_profile) %>
+  <hyperlink href="<%= path %>" variation="button solid">Edit</hyperlink>
+<% end %>

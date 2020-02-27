@@ -2,6 +2,15 @@
 class AbsenceRequestsController < CommonRequestController
   before_action :set_absence_request, only: [:show, :destroy, :review, :approve, :deny, :decide]
 
+  # PATCH/PUT
+  def decide
+    if params[:record]
+      run_action(action: :record, change_method: :can_record?)
+    else
+      super
+    end
+  end
+
   private
 
     def request_decorator_class
@@ -40,5 +49,10 @@ class AbsenceRequestsController < CommonRequestController
 
     def process_request_params?
       params.include?(:absence_request)
+    end
+
+    def can_record?(action:)
+      allowed_to_change = request_change_set.model.can_record?(agent: current_staff_profile)
+      respond_to_change_error(action: action, allowed_to_change: allowed_to_change)
     end
 end
