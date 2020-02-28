@@ -3,6 +3,9 @@ The following request was submitted on <%= @request.formatted_created_at %>.  <%
 <% if @request.travel? %>
 Your request has been assigned to <%= @request.travel_category%> travel category.  To find more information about Travel Categories see https://library.princeton.edu/staff/ofa/finance-and-budget/travel/categories
 <% end %>
+<% if @request.request_type == 'AbsenceRequest' %>
+Please proceed with recording your leave in the HR Self Service system (http://www.princeton.edu/hr/progserv/sds/applications/selfservice.html) as soon as possible. Your supervisor will be confirming that you have reported this information at the end of the month.
+<% end %>
 
 To view your request go to <%= @request.show_path %>
 
