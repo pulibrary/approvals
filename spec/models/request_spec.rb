@@ -48,9 +48,8 @@ RSpec.describe Request, type: :model do
       expect(absence_request.approved?).to eq true
       absence_request.record(agent: staff_profile.department.head)
       expect(absence_request.recorded?).to eq true
-      absence_request.pending_cancel(agent: absence_request.creator)
-      expect(absence_request.pending_cancelation?).to eq true
     end
+
     it "errors for invalid values" do
       expect { travel_request.status = "invalid_status" }.to raise_error AASM::NoDirectAssignmentError
     end

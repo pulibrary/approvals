@@ -10,16 +10,15 @@ class AbsenceRequest < Request
   end
 
   aasm column: "status" do
-    # add in an additional states pending_cancelation & recorded which are only valid for an absence request
-    state :pending_cancelation
+    # add in an additional state recorded which is only valid for an absence request
     state :recorded
 
     event :record do
       transitions from: :approved, to: :recorded
     end
 
-    event :pending_cancel do
-      transitions from: :recorded, to: :pending_cancelation
+    event :cancel do
+      transitions from: [:pending, :approved, :recorded], to: :canceled, guard: :only_creator
     end
   end
 
@@ -75,5 +74,9 @@ class AbsenceRequest < Request
 
   def can_modify_attributes?
     pending?
+  end
+
+  def can_record?(agent:)
+    approved? && only_creator(agent: agent) || in_supervisor_chain(supervisor: creator.supervisor, agent: agent)
   end
 end

@@ -1,0 +1,5 @@
+<% if request.can_cancel?(agent: current_staff_profile) %>
+  <%= form_with(model: request, local: true, url: path, method: :put, class: 'form-button') do |form| %>
+    <input-button type="submit" variation="solid" name="cancel">Cancel</input-button>
+  <% end %>
+<% end %>

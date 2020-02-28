@@ -131,13 +131,6 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       expect(assigns(:request)).to eq(absence_request)
     end
 
-    it "can not edit a pending cancelation request" do
-      absence_request = FactoryBot.create(:absence_request, creator: creator, action: "pending_cancel")
-      get :edit, params: { id: absence_request.to_param }, session: valid_session
-      expect(response).to redirect_to(absence_request)
-      expect(assigns(:request)).to eq(absence_request)
-    end
-
     it "can not edit a request created by another user" do
       absence_request = FactoryBot.create(:absence_request)
       get :edit, params: { id: absence_request.to_param }, session: valid_session
@@ -280,6 +273,42 @@ RSpec.describe AbsenceRequestsController, type: :controller do
         expect(response).to be_successful
         expect(assigns(:request_change_set).errors.messages).to eq(absence_type: ["is not included in the list"])
       end
+    end
+
+    it "allows the creator to record an approved request" do
+      absence_request = FactoryBot.create(:absence_request, creator: creator, action: :approve)
+      put :decide, params: { id: absence_request.to_param, record: "" }, session: valid_session
+      absence_request.reload
+      expect(absence_request).to be_recorded
+    end
+
+    it "allows the supervisor to record an approved request" do
+      employee = FactoryBot.create(:staff_profile, supervisor: creator)
+      absence_request = FactoryBot.create(:absence_request, creator: employee, action: :approve)
+      put :decide, params: { id: absence_request.to_param, record: "" }, session: valid_session
+      absence_request.reload
+      expect(absence_request).to be_recorded
+    end
+
+    it "does not allow the creator to record an pending request" do
+      absence_request = FactoryBot.create(:absence_request, creator: creator)
+      put :decide, params: { id: absence_request.to_param, record: "" }, session: valid_session
+      absence_request.reload
+      expect(absence_request).to be_pending
+    end
+
+    it "does not allow the creator to record an canceled request" do
+      absence_request = FactoryBot.create(:absence_request, creator: creator, action: :cancel)
+      put :decide, params: { id: absence_request.to_param, record: "" }, session: valid_session
+      absence_request.reload
+      expect(absence_request).to be_canceled
+    end
+
+    it "does not allow a random person to record an approved request" do
+      absence_request = FactoryBot.create(:absence_request, action: :approve)
+      put :decide, params: { id: absence_request.to_param, record: "" }, session: valid_session
+      absence_request.reload
+      expect(absence_request).to be_approved
     end
   end
 

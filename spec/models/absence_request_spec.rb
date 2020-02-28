@@ -20,7 +20,6 @@ RSpec.describe AbsenceRequest, type: :model do
     it { is_expected.to respond_to :canceled? }
     it { is_expected.to respond_to :approved? }
     it { is_expected.to respond_to :denied? }
-    it { is_expected.to respond_to :pending_cancelation? }
     it { is_expected.to respond_to :recorded? }
   end
 
@@ -69,13 +68,6 @@ RSpec.describe AbsenceRequest, type: :model do
         expect { absence_request.approve!(agent: user) }.to raise_error AASM::InvalidTransition
       end
 
-      it "Does not approve a pending canceled event" do
-        absence_request.approve!(agent: supervisor)
-        absence_request.record!(agent: user)
-        absence_request.pending_cancel!(agent: user)
-        expect { absence_request.approve!(agent: supervisor) }.to raise_error AASM::InvalidTransition
-      end
-
       it "Does not approve a canceled event" do
         absence_request.cancel!(agent: creator)
         expect { absence_request.approve!(agent: supervisor) }.to raise_error AASM::InvalidTransition
@@ -114,13 +106,6 @@ RSpec.describe AbsenceRequest, type: :model do
         expect { absence_request.deny!(agent: supervisor) }.to raise_error AASM::InvalidTransition
       end
 
-      it "Does not deny a pending canceled event" do
-        absence_request.approve!(agent: supervisor)
-        absence_request.record!(agent: user)
-        absence_request.pending_cancel!(agent: user)
-        expect { absence_request.deny!(agent: supervisor) }.to raise_error AASM::InvalidTransition
-      end
-
       it "Does not deny a canceled event" do
         absence_request.cancel!(agent: creator)
         expect { absence_request.deny!(agent: supervisor) }.to raise_error AASM::InvalidTransition
@@ -154,37 +139,6 @@ RSpec.describe AbsenceRequest, type: :model do
       it "Does not record a denied event" do
         absence_request.deny!(agent: supervisor)
         expect { absence_request.record!(agent: user) }.to raise_error AASM::InvalidTransition
-      end
-    end
-
-    describe "#pending_cancel!" do
-      it "pending cancel a recorded event" do
-        expect do
-          absence_request.approve!(agent: supervisor)
-          absence_request.record!(agent: user)
-          absence_request.pending_cancel!(agent: user)
-        end.to change(StateChange, :count).by(3)
-        expect(absence_request.status).to eq("pending_cancelation")
-        expect(absence_request.persisted?).to be_truthy
-      end
-
-      it "Does not pending cancel a pending event" do
-        expect { absence_request.pending_cancel!(agent: user) }.to raise_error AASM::InvalidTransition
-      end
-
-      it "Does not pending cancel a canceled event" do
-        absence_request.cancel!(agent: creator)
-        expect { absence_request.pending_cancel!(agent: user) }.to raise_error AASM::InvalidTransition
-      end
-
-      it "Does not pending cancel an approved event" do
-        absence_request.approve!(agent: supervisor)
-        expect { absence_request.pending_cancel!(agent: user) }.to raise_error AASM::InvalidTransition
-      end
-
-      it "Does not pending cancel an denied event" do
-        absence_request.deny!(agent: supervisor)
-        expect { absence_request.pending_cancel!(agent: user) }.to raise_error AASM::InvalidTransition
       end
     end
 

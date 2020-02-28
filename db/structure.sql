@@ -53,7 +53,6 @@ CREATE TYPE public.request_action AS ENUM (
     'changes_requested',
     'denied',
     'recorded',
-    'pending_cancelation',
     'pending'
 );
 
@@ -85,9 +84,8 @@ CREATE TYPE public.request_status AS ENUM (
     'canceled',
     'changes_requested',
     'denied',
-    'pending',
-    'pending_cancelation',
-    'recorded'
+    'recorded',
+    'pending'
 );
 
 
@@ -944,6 +942,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200124122301'),
 ('20200124122321'),
 ('20200129183415'),
+('20200226200516'),
 ('20200227204519');
 
 
