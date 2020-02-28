@@ -27,7 +27,10 @@ RSpec.feature "My Requests", type: :feature, js: true do
     FactoryBot.create(:travel_request, creator: staff_profile, action: "approve",
                                        travel_category: "professional_development", start_date: Date.parse("2020-05-21"), end_date: Date.parse("2020-05-23"), event_requests: [event_request3])
 
-    visit "/reports"
+    visit "/"
+
+    click_on "Requests"
+    click_on "Reports"
 
     Percy.snapshot(page, name: "Reports - show", widths: [375, 768, 1440])
     assert_selector ".my-request tr", count: Request.count # header row included in count
