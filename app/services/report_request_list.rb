@@ -8,6 +8,7 @@ class ReportRequestList < RequestList
       supervisor = supervisor(current_staff_profile: current_staff_profile, supervisor_filter: supervisor_filter)
       Request.joins(creator: :department)
              .where(request_filters(request_filters: request_filters))
+             .where_filtered_by_date(start_date: start_date_filter, end_date: end_date_filter)
              .where_contains_text(search_query: search_query)
              .where(creator: list_supervised(list: [supervisor], supervisor: supervisor).map(&:id))
              .order(request_order(order))
