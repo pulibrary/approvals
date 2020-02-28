@@ -79,19 +79,41 @@ class CommonRequestController < ApplicationController
     respond_with_show_error(message: message, status: :invalid_edit)
   end
 
+  def comment
+    @request_change_set = request_change_set
+
+    # render the default
+    return true if @request_change_set.model.only_creator_or_supervisor?(agent: current_staff_profile)
+
+    message = "You are not allowed access to comment on this #{model_instance_to_name(@request)}"
+
+    # handle the error
+    respond_with_show_error(message: message, status: :invalid_edit)
+  end
+
   # PATCH/PUT
   def decide
+    validate_for_action
     if params[:approve]
       run_action(action: :approve, change_method: :supervisor_can_change?)
     elsif params[:deny]
-      request_change_set.errors.add(:notes, "are required to deny a request") if processed_params[:notes].blank?
       run_action(action: :deny, change_method: :supervisor_can_change?)
     elsif params[:cancel]
       run_action(action: :cancel, change_method: :creator_can_cancel?)
+    elsif params[:comment]
+      update_model_and_respond(handle_deletes: false, success_verb: "Commented On", error_action: :comment)
     end
   end
 
   private
+
+    def validate_for_action
+      if params[:deny] && processed_params[:notes].blank?
+        request_change_set.errors.add(:notes, "are required to deny a request")
+      elsif params[:comment] && processed_params[:notes].blank?
+        request_change_set.errors.add(:notes, "are required to comment on a request")
+      end
+    end
 
     def allowed_to_review
       @allowed_to_review ||= @request.only_supervisor(agent: current_staff_profile)
@@ -202,6 +224,11 @@ class CommonRequestController < ApplicationController
 
     def supervisor_can_change?(action:)
       allowed_to_change = request_change_set.model.only_supervisor(agent: current_staff_profile)
+      respond_to_change_error(action: action, allowed_to_change: allowed_to_change)
+    end
+
+    def can_comment?(action:)
+      allowed_to_change = request_change_set.model.only_creator_or_supervisor?(agent: current_staff_profile)
       respond_to_change_error(action: action, allowed_to_change: allowed_to_change)
     end
 

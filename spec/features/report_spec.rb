@@ -40,6 +40,10 @@ RSpec.feature "My Requests", type: :feature, js: true do
 
     click_link("Status: Approved")
     assert_selector ".my-request tr", count: 4
+
+    fill_in "dateRange", with: "10/10/2019 - 10/25/2019"
+    click_on "Filter by Date"
+    assert_selector ".my-request tr", count: 2
   end
 
   def select_drop_down(menu:, item:)

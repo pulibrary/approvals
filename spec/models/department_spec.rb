@@ -21,4 +21,11 @@ RSpec.describe Department, type: :model do
       expect { department.destroy }.to change(AdminAssistantsDepartment, :count).by(-1)
     end
   end
+
+  describe "#to_s" do
+    it "displays the name" do
+      department = described_class.new(name: "My Name")
+      expect(department.to_s).to eq("My Name")
+    end
+  end
 end

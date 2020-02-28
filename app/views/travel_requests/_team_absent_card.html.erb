@@ -1,0 +1,11 @@
+<card size="full-width">
+  <card-content>
+    <heading level="h3" size="h5">
+      Team members absent during this time period
+    </heading>
+    <ul class="staff">
+      <%= render partial: "shared/absent_staff", collection:
+      absent_staff, as: :staff %>
+    </ul>
+  </card-content>
+</card>
