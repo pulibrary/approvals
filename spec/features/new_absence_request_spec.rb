@@ -46,6 +46,12 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
     expect(page).to have_content "Total Hours\n21.75"
     expect(page).to have_content "Recorded"
 
+    click_on "Comment"
+    fill_in "absence_request_notes_content", with: "Snakes Love Balloons too!"
+    click_on "Comment"
+
+    expect(page).to have_content "Snakes Love Balloons too!"
+
     click_on "Cancel"
     expect(page).to have_content "Sick Leave"
     expect(page).to have_content "Total Hours\n21.75"

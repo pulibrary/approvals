@@ -67,8 +67,8 @@ class RequestDecorator
     end_date.strftime(full_date_format)
   end
 
-  def absent_staff
-    @absent_staff ||= AbsentStaff.list(start_date: start_date, end_date: end_date, supervisor: creator.supervisor).uniq - [creator]
+  def absent_staff(supervisor: creator.supervisor)
+    @absent_staff ||= AbsentStaff.list(start_date: start_date, end_date: end_date, supervisor: supervisor).uniq - [creator]
     @absent_staff << "No team members absent" if @absent_staff.empty?
     @absent_staff
   end

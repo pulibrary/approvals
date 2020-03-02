@@ -28,50 +28,21 @@
       </card>
     </grid-item>
     <grid-item columns="lg-4 sm-12" order="order-lg-3">
-      <card size="full-width">
-        <card-content>
-          <heading level="h3" size="h5">
-            Others who requested to go
-          </heading>
-          <ul class="staff">
-            <%= render partial: "other_staff", collection:
-            @request.event_attendees, as: :staff %>
-          </ul>
-        </card-content>
-      </card>
+      <%= render 'others_card', event_attendees: @request.event_attendees%>
     </grid-item>
     <grid-item columns="lg-4 sm-12" order="order-lg-4">
-      <card size="full-width">
-        <card-content>
-          <heading level="h3" size="h5">
-            Team members absent during this time period
-          </heading>
-          <ul class="staff">
-            <%= render partial: "shared/absent_staff", collection:
-            @request.absent_staff, as: :staff %>
-          </ul>
-        </card-content>
-      </card>
+      <%= render 'team_absent_card', absent_staff: @request.absent_staff(supervisor: current_staff_profile)%>
     </grid-item>
     <grid-item columns="lg-4 sm-12" order="order-lg-5 order-sm-6">
       <%= render 'notes_card', request: @request, render_edit: false %>
     </grid-item>
     <grid-item columns="lg-8 sm-12" :offset=true class="travel-estimates" order="order-lg-6 order-sm-5">
-      <card size="full-width">
-        <card-content>
-          <data-table
-            caption="Anticipated Expenses"
-            :columns="<%= @request.estimate_fields_json %>"
-            :json-data="<%= @request.estimates_json %>"
-            class="anticipated-expenses estimates"
-          >
-          </data-table>
-        </card-content>
-      </card>
+      <%= render 'expense_card', estimate_fields_json: @request.estimate_fields_json, estimates_json: @request.estimates_json %>
     </grid-item>
     <grid-item order="order-lg-7 order-sm-7">
       <%= render 'shared/edit_button', request: @request.request, path: edit_travel_request_path(@request.request) %>
       <%= render 'shared/cancel_button', request: @request.request, path: decide_travel_request_path(@request.request) %>
+      <%= render 'shared/comment_button', request: @request.request, path: comment_travel_request_path(@request.request) %>
     </grid-item>
   </grid-container>
 </wrapper>

@@ -24,10 +24,6 @@ RSpec.describe CancelMailer, type: :mailer do
       expect { described_class.with(request: absence_request).admin_assistant_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
     end
 
-    it "does not send creator emails" do
-      expect { described_class.with(request: absence_request).creator_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
-    end
-
     it "Sends supervisor emails" do
       expect { described_class.with(request: absence_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
       mail = ActionMailer::Base.deliveries.last
@@ -63,10 +59,6 @@ RSpec.describe CancelMailer, type: :mailer do
       expect(mail.text_part.body.to_s).to eq("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.  " \
                                              "It has been Canceled by Joe Doe on #{today_formatted}.  It was Approved by Jane Smith on #{today_formatted}.\n\n" \
                                              "To view the request go to http://localhost:3000/absence_requests/#{absence_request.id}\n")
-    end
-
-    it "does not send creator emails" do
-      expect { described_class.with(request: absence_request).creator_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
     end
 
     it "sends supervisor emails" do
@@ -110,10 +102,6 @@ RSpec.describe CancelMailer, type: :mailer do
                                              "To view the request go to http://localhost:3000/absence_requests/#{absence_request.id}\n")
     end
 
-    it "does not send creator emails" do
-      expect { described_class.with(request: absence_request).creator_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
-    end
-
     it "sends supervisor emails" do
       expect { described_class.with(request: absence_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
       mail = ActionMailer::Base.deliveries.last
@@ -152,10 +140,6 @@ RSpec.describe CancelMailer, type: :mailer do
                                              "To view the request go to http://localhost:3000/travel_requests/#{travel_request.id}\n")
     end
 
-    it "does not send a creator email" do
-      expect { described_class.with(request: travel_request).creator_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
-    end
-
     it "sends a supervisor email" do
       expect { described_class.with(request: travel_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
       mail = ActionMailer::Base.deliveries.last
@@ -192,10 +176,6 @@ RSpec.describe CancelMailer, type: :mailer do
       expect(mail.text_part.body.to_s).to eq("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.  It has been Canceled by Joe Doe on #{today_formatted}.  "\
                                              "It was Approved by Department Head on #{today_formatted}.\n\n" \
                                              "To view the request go to http://localhost:3000/travel_requests/#{travel_request.id}\n")
-    end
-
-    it "does not send a creator email" do
-      expect { described_class.with(request: travel_request).creator_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
     end
 
     it "sends a supervisor email" do

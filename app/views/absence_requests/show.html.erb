@@ -24,6 +24,7 @@
     <grid-item order="order-lg-4 order-sm-4">
       <%= render 'shared/edit_button', request: @request.request, path: edit_absence_request_path(@request.request) %>
       <%= render 'shared/cancel_button', request: @request.request, path: decide_absence_request_path(@request.request) %>
+      <%= render 'shared/comment_button', request: @request.request, path: comment_absence_request_path(@request.request) %>
       <%= render 'record_button', request: @request.request %>
     </grid-item>
   </gird-container>

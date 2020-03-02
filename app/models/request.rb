@@ -98,6 +98,10 @@ class Request < ApplicationRecord
     false
   end
 
+  def only_creator_or_supervisor?(agent:)
+    in_supervisor_chain(supervisor: creator, agent: agent)
+  end
+
   private
 
     def raise_invalid_argument(property_name:)

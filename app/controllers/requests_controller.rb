@@ -10,10 +10,6 @@ class RequestsController < ApplicationController
     @requests = RequestListDecorator.new(my_approval_request_objects, params_hash: request_params.to_h, params_manager_class: ::ApprovalsParamsManager)
   end
 
-  def records
-    @requests = RequestListDecorator.new(recording_request_objects, params_hash: request_params.to_h, params_manager_class: ::RecordsParamsManager)
-  end
-
   def reports
     @requests = ReportListDecorator.new(report_request_objects, params_hash: report_params.to_h, params_manager_class: ::ReportsParamsManager)
   end
@@ -51,12 +47,5 @@ class RequestsController < ApplicationController
                                       request_filters: report_params[:filters],
                                       search_query: report_params[:query],
                                       order: report_params["sort"])
-    end
-
-    def recording_request_objects
-      RecordingRequestList.list_requests(request_filters: request_params[:filters],
-                                         search_query: request_params[:query],
-                                         order: request_params["sort"],
-                                         page: request_params[:page])
     end
 end
