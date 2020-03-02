@@ -110,7 +110,7 @@ export default {
       let val = Number(value)
       if(val) {
         this.localHoursReqested = val;
-        this.helperCaption = this.localHoursReqested + " hours = " + this.hoursToDays(this.localHoursReqested) + " days (" + this.nonWorkDays + " holiday and weekend dates excluded.)";
+        this.helperCaption = this.localHoursReqested + " hours = " + this.hoursToDays(this.localHoursReqested).toFixed(2) + " days (" + this.nonWorkDays + " holiday and weekend dates excluded.)";
       }
     },
     pad(num, size) {
