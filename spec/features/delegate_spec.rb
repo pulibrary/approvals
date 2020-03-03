@@ -27,7 +27,7 @@ RSpec.feature "Delegate", type: :feature, js: true do
     click_on "Delegations"
     Percy.snapshot(page, name: "Delegations - Show", widths: [375, 768, 1440])
 
-    assert_selector ".lux-card-header", text: /^Joe Schmo*/, count: 1
+    assert_selector ".lux-card-header", text: /^Schmo, Joe*/, count: 1
     assert_selector ".lux-card-header a", count: 1
 
     find(".lux-card-header a").click
@@ -64,7 +64,7 @@ RSpec.feature "Delegate", type: :feature, js: true do
     click_on "Delegations"
     Percy.snapshot(page, name: "Delegations - Show", widths: [375, 768, 1440])
 
-    assert_selector ".lux-card-header", text: /^Joe Schmo*/, count: 1
+    assert_selector ".lux-card-header", text: /^Schmo, Joe*/, count: 1
     assert_selector ".lux-card-header a", count: 1
 
     find(".lux-card-header a").click

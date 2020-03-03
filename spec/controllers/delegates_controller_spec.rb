@@ -19,11 +19,14 @@ RSpec.describe DelegatesController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
-      delegate = FactoryBot.create :delegate, delegator: staff_profile
+      sally_smith = FactoryBot.create :staff_profile, given_name: "Sally", surname: "Smith"
+      jane_doe = FactoryBot.create :staff_profile, given_name: "Jane", surname: "Doe"
+      delegate = FactoryBot.create :delegate, delegator: staff_profile, delegate: sally_smith
+      delegate2 = FactoryBot.create :delegate, delegator: staff_profile, delegate: jane_doe
       FactoryBot.create :delegate
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
-      expect(assigns[:delegates]).to eq [delegate]
+      expect(assigns[:delegates]).to eq [delegate2, delegate]
     end
   end
 
@@ -81,11 +84,14 @@ RSpec.describe DelegatesController, type: :controller do
 
   describe "GET #to_assume" do
     it "returns a success response" do
-      delegate = FactoryBot.create :delegate, delegate: staff_profile
+      sally_smith = FactoryBot.create :staff_profile, given_name: "Sally", surname: "Smith"
+      jane_doe = FactoryBot.create :staff_profile, given_name: "Jane", surname: "Doe"
+      delegate = FactoryBot.create :delegate, delegate: staff_profile, delegator: sally_smith
+      delegate2 = FactoryBot.create :delegate, delegate: staff_profile, delegator: jane_doe
       FactoryBot.create :delegate
       get :to_assume, params: {}, session: valid_session
       expect(response).to be_successful
-      expect(assigns[:delegators]).to eq [delegate]
+      expect(assigns[:delegators]).to eq [delegate2, delegate]
     end
   end
 
