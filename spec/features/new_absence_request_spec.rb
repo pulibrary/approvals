@@ -15,6 +15,7 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
 
   scenario "I can submit a sick day request and cancel it" do
     visit "/absence_requests/new"
+    expect(page).to have_content "Balances as of the end of your last pay period"
     expect(page).to have_content "Vacation\n90.1 Hours"
     expect(page).to have_content "Sick\n100.0 Hours"
     expect(page).to have_content "Personal\n16.0 Hours"

@@ -15,8 +15,7 @@ class AbsenceRequestChangeSet < RequestChangeSet
            to: :decorated_model
 
   def balance_title
-    last_month = (Time.zone.today - 1.month).end_of_month
-    "Balances as of #{last_month.strftime('%B %-d, %Y')}"
+    "Balances as of the end of your last pay period"
   end
 
   def absence_type_options
