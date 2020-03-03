@@ -423,11 +423,11 @@ RSpec.describe ReportListDecorator, type: :model do
 
   describe "#report_json" do
     subject(:report_list_decorator) { described_class.new([absence_request.request, travel_request.request], params_hash: params_hash) }
-    let(:absence_request) { AbsenceRequestDecorator.new(FactoryBot.create(:absence_request)) }
+    let(:absence_request) { AbsenceRequestDecorator.new(FactoryBot.create(:absence_request, hours_requested: 7.25)) }
     let(:travel_request) { TravelRequestDecorator.new(FactoryBot.create(:travel_request)) }
     it "is a json array for an absence and travel request" do
       expect(report_list_decorator.report_json).to eq(
-        "[{\"id\":#{absence_request.id},\"request_type\":{\"value\":\"Vacation\",\"link\":\"http://localhost:3000/absence_requests/#{absence_request.id}\"}," \
+        "[{\"id\":#{absence_request.id},\"request_type\":{\"value\":\"Vacation (7.25 hours)\",\"link\":\"http://localhost:3000/absence_requests/#{absence_request.id}\"}," \
         "\"start_date\":\"#{absence_request.start_date.strftime('%B %-d, %Y')}\"," \
         "\"end_date\":\"#{absence_request.end_date.strftime('%B %-d, %Y')}\"," \
         "\"status\":\"Pending\",\"staff\":\"#{absence_request.creator.full_name}\"," \
