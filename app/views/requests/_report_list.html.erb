@@ -10,11 +10,7 @@
               <%= render 'status_filter', status_filter_urls: @requests.status_filter_urls, current_status_filter_label: @requests.current_status_filter_label%>
 
               <%= render 'request_type_filter', current_request_type_filter_label: @requests.current_request_type_filter_label,
-                                                filters: {
-                                                  #'Absence' => { url: @requests.absence_filter_url, children: @requests.absence_filter_urls },
-                                                  'Travel' => { url: @requests.travel_filter_url, children: @requests.travel_filter_urls }
-                                                }
-              %>
+                                                filters: @requests.request_type_filters %>
 
               <dropdown-menu type="links" id="department-menu" button-label="<%= @requests.current_department_filter_label %>" :menu-items="[
                   <% @requests.department_filter_urls.each do |key, url| %>
