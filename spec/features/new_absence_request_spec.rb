@@ -18,6 +18,7 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
     expect(page).to have_content "Vacation\n90.1 Hours"
     expect(page).to have_content "Sick\n100.0 Hours"
     expect(page).to have_content "Personal\n16.0 Hours"
+    expect(page).to have_content "7.25 hours = 1.00 days (0 holiday and weekend dates excluded.)"
 
     find("#absence_request_absence_type option[value='sick']").select_option
 

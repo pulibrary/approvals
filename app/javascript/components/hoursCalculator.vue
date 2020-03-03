@@ -52,6 +52,9 @@ export default {
      default: 0,
     },
   },
+  created: function () {
+    this.updateCaption(this.hoursPerDay);
+  },
   methods: {
     setHours(date_range) {
       this.nonWorkDays = 0;
