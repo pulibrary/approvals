@@ -50,7 +50,7 @@ class ReportListDecorator < RequestListDecorator
     request_list.map do |request|
       {
         'id': request.id,
-        'request_type': { value: request.title, link: Rails.application.routes.url_helpers.url_for(request) },
+        'request_type': { value: title(request), link: Rails.application.routes.url_helpers.url_for(request) },
         'start_date': request.formatted_full_start_date,
         'end_date': request.formatted_full_end_date,
         'status': request.latest_status,
@@ -83,5 +83,13 @@ class ReportListDecorator < RequestListDecorator
       heading = "#{filters[:status]} #{filters[:request_type]} requests"
       heading += " in #{clean_department_name(filters[:department])}" if filters[:department]
       heading
+    end
+
+    def title(request)
+      if request.travel?
+        request.title
+      else
+        "#{request.title} (#{request.hours_requested} hours)"
+      end
     end
 end
