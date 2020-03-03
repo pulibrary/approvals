@@ -42,8 +42,6 @@ RSpec.feature "Delegate", type: :feature, js: true do
     assert_selector "div.lux-alert", text: "You are acting on behalf of #{delegate_staff_profile}"
     assert_selector ".my-request .lux-card", count: 2
 
-    # Todo we really should not need to hand jam the url
-    # visit cancel_delegates_path
     find("a#cancel_delegation").click
 
     assert_selector "div.lux-alert", text: "You are now acting on your own behalf"
@@ -74,9 +72,8 @@ RSpec.feature "Delegate", type: :feature, js: true do
     assert_selector "a", text: "Delegations", count: 0
     assert_selector "a", text: "My Delegates", count: 0
 
-    pending("absence fully implemented")
     click_on "Requests"
-    click_link "New travel request"
+    click_link "New leave request"
     assert_selector "div.lux-alert", text: "You are acting on behalf of #{delegate_staff_profile}"
     find("#absence_request_absence_type option[value='sick']").select_option
     today = Date.parse("2019-10-21")
@@ -86,12 +83,11 @@ RSpec.feature "Delegate", type: :feature, js: true do
     click_on "Submit Request"
     expect(page).to have_content "Joe Schmo\nSick Leave (#{today.strftime(js_date_format)} to #{tomorrow.strftime(js_date_format)})"
 
+    click_on "Requests"
     click_link "My Requests"
     assert_selector "div.lux-alert", text: "You are acting on behalf of #{delegate_staff_profile}"
     assert_selector ".my-request .lux-card", count: 3
 
-    # Todo we really should not need to hand jam the url
-    # visit cancel_delegates_path
     find("a#cancel_delegation").click
 
     assert_selector "div.lux-alert", text: "You are now acting on your own behalf"

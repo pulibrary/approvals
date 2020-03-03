@@ -100,6 +100,13 @@ class RequestListDecorator
     sort_options_table.map { |value, label| [label, params_manager.url_with_sort(new_option: value)] }.to_h
   end
 
+  def request_type_filters
+    filters = {}
+    filters["Absence"] = { url: absence_filter_url, children: absence_filter_urls } if Rails.configuration.show_absence_button
+    filters["Travel"] = { url: travel_filter_url, children: travel_filter_urls }
+    filters
+  end
+
   private
 
     def sort_options_table
