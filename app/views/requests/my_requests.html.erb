@@ -4,7 +4,9 @@
       <heading level="h1" size="h2">My Requests</heading>
     </grid-item>
     <grid-item columns="md-7 sm-12 auto" :offset=true>
-      <!--<hyperlink href="<%= new_absence_request_path %>" variation="button solid">New leave request</hyperlink>-->
+      <% if Rails.configuration.show_absence_button %>
+      <hyperlink href="<%= new_absence_request_path %>" variation="button solid">New leave request</hyperlink>
+      <% end %>
       <hyperlink href="<%= new_travel_request_path %>" variation="button solid">New travel request</hyperlink>
     </grid-item>
   </grid-container>
