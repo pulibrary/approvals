@@ -24,7 +24,8 @@ CREATE TYPE public.estimate_cost_type AS ENUM (
     'taxi',
     'personal_auto',
     'transit_other',
-    'train'
+    'train',
+    'parking'
 );
 
 
@@ -943,6 +944,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200124122321'),
 ('20200129183415'),
 ('20200226200516'),
-('20200227204519');
+('20200227204519'),
+('20200303200344');
 
 

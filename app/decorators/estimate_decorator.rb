@@ -44,7 +44,8 @@ class EstimateDecorator
       taxi: "Taxi",
       personal_auto: "Mileage - personal car",
       transit_other: "Other transit",
-      train: "Train"
+      train: "Train",
+      parking: "Parking"
     }.freeze
   end
 end
