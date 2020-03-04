@@ -12,6 +12,7 @@ class Estimate < ApplicationRecord
     taxi: "taxi",
     personal_auto: "personal_auto",
     transit_other: "transit_other",
-    train: "train"
+    train: "train",
+    parking: "parking"
   }
 end
