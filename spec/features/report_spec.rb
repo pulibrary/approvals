@@ -56,6 +56,12 @@ RSpec.feature "My Requests", type: :feature, js: true do
     fill_in "dateRange", with: "10/10/2019 - 10/25/2019"
     click_on "Filter by Date"
     assert_selector ".my-request tr", count: 2
+
+    click_link("Request type: Travel")
+    assert_selector ".my-request tr", count: 6 # header row included in count
+
+    select_drop_down(menu: "#request-type-menu", item: "Absence")
+    assert_selector ".my-request tr", count: 5 # header row included in count
   end
 
   def select_drop_down(menu:, item:)
