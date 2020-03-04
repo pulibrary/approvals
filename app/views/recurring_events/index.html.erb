@@ -1,31 +1,41 @@
-<p id="notice"><%= notice %></p>
+<wrapper :max-width=1440>
+  <grid-container>
+    <grid-item columns="md-5 sm-12">
+      <heading level="h1" size="h2">Event Cleanup</heading>
+    </grid-item>
+  </grid-container>
+</wrapper>
 
-<h1>Recurring Events</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Url</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @recurring_events.each do |recurring_event| %>
-      <tr>
-        <td><%= recurring_event.name %></td>
-        <td><%= recurring_event.description %></td>
-        <td><%= recurring_event.url %></td>
-        <td><%= link_to 'Show', recurring_event %></td>
-        <td><%= link_to 'Edit', edit_recurring_event_path(recurring_event) %></td>
-        <td><%= link_to 'Destroy', recurring_event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+<wrapper :max-width=1440 class="my-request">
+<grid-container>
+  <grid-item columns="lg-12 sm-12">
+    <%= form_tag(recurring_events_path, method: :get) do %>
+      <search-box>
+        <input-text id="query" name="query" value="<%#= current_query%>" :hide-label=true label="search" placeholder="Search title"></input-text>
+        <input-button type="submit" id="search" variation="icon" icon="search" aria-label="submit search"></input-button>
+      </search-box>
     <% end %>
-  </tbody>
-</table>
+  </grid-item>
 
-<br>
-
-<%= link_to 'New recurring event', new_recurring_event_path %>
+    <grid-item columns="lg-12 sm-12">
+      <%= form_tag(combine_recurring_events_path, method: :put) do %>
+       <card size="full-width">
+          <input-button type="submit" id="search" aria-label="submit combine">Combine Selected</input-button>
+       </card>
+        <% @recurring_events.each do |event| %>
+          <card id="<%= event.id %>" size="full-width">
+            <card-media>
+              <input-checkbox label="selected_events[]" :options="[{name: 'selected_events[]', id: 'checkbox-<%= event.id %>', value: '<%=event.id%>'}]"></input-checkbox>
+            </card-media>
+            <card-header>
+              <heading level="h2" size="h3"><%= event.name %></heading>
+            </card-header>
+            <card-content class="right-align">
+              <text-style type="span" variation="small"><%= event.description %></text-style>
+            </card-content>
+          </card>
+        <% end %>
+      <% end %>
+    </grid-item>
+  </grid-container>
+</wrapper>
