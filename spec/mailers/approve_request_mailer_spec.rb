@@ -27,11 +27,11 @@ RSpec.describe ApproveMailer, type: :mailer do
       expect(mail.to).to eq [supervisor.email]
       expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Ready for Review")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.")
-      expect(mail.html_part.body.to_s).to have_content("Type\n    Absence Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
+      expect(mail.html_part.body.to_s).to have_content("Type\n    Vacation\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/absence_requests/#{absence_request.id}/review\"]")
       expect(mail.text_part.body.to_s).to eq("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.  \n\n" \
                                              "To review the request for approval go to http://localhost:3000/absence_requests/#{absence_request.id}/review\n\n" \
-                                             "Type: Absence Request\nDates Away: 12/30/2019 to 12/31/2019\n" \
+                                             "Type: Vacation\nDates Away: 12/30/2019 to 12/31/2019\n" \
                                              "Total absence time in hours: 8.0\n\n")
     end
 
@@ -57,11 +57,11 @@ RSpec.describe ApproveMailer, type: :mailer do
       expect(mail.to).to eq creator.admin_assistants.map(&:email)
       expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Approved")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.")
-      expect(mail.html_part.body.to_s).to have_content("Type\n    Absence Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
+      expect(mail.html_part.body.to_s).to have_content("Type\n    Vacation\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/absence_requests/#{absence_request.id}\"]")
       expect(mail.text_part.body.to_s).to eq("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.  It has been Approved by Jane Smith on #{today_formatted}.\n\n" \
                                              "To view the request go to http://localhost:3000/absence_requests/#{absence_request.id}\n\n" \
-                                             "Type: Absence Request\nDates Away: 12/30/2019 to 12/31/2019\n" \
+                                             "Type: Vacation\nDates Away: 12/30/2019 to 12/31/2019\n" \
                                              "Total absence time in hours: 8.0\n\n")
     end
 
@@ -77,14 +77,14 @@ RSpec.describe ApproveMailer, type: :mailer do
       expect(mail.to).to eq [creator.email]
       expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Approved")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.")
-      expect(mail.html_part.body.to_s).to have_content("Type\n    Absence Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
+      expect(mail.html_part.body.to_s).to have_content("Type\n    Vacation\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/absence_requests/#{absence_request.id}\"]")
       expect(mail.text_part.body.to_s).to eq("The following request was submitted on #{today_formatted}.  It has been Approved by Jane Smith on #{today_formatted}.\n" \
                                              "The approval has been forwarded to your supervisor and administrative assistant for their information.\n" \
                                              "Please proceed with recording your leave in the HR Self Service system (http://www.princeton.edu/hr/progserv/sds/applications/selfservice.html) " \
                                              "as soon as possible. Your supervisor will be confirming that you have reported this information at the end of the month.\n\n" \
                                              "To view your request go to http://localhost:3000/absence_requests/#{absence_request.id}\n\n" \
-                                             "Type: Absence Request\nDates Away: 12/30/2019 to 12/31/2019\n" \
+                                             "Type: Vacation\nDates Away: 12/30/2019 to 12/31/2019\n" \
                                              "Total absence time in hours: 8.0\n\n")
     end
 
