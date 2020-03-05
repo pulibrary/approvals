@@ -7,17 +7,22 @@
         </td>
       </tr>
       <tr>
+        <td>
+          <%= render "mailer/review_details", details: @request.approve_details %>
+        </td>
+      <tr/>
+      <tr>
         <td style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #001123;">
-          <p style="margin: 0 0 30px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #333333;">The following request was submitted by <%= @request.creator %> on <%= @request.formatted_created_at %>. <%= @request.latest_state_change_title %> Please review the full details of the request on the <a href="<%= @request.show_path %>" style="text-decoration: underline; color: #333333;font-weight: bold;">Leave and Travel Request</a> system.</p>
+          <p style="margin: 0 0 30px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #333333;">The following request was submitted by <%= @request.creator %> on <%= @request.formatted_created_at %>. <%= @request.latest_state_change_title %> <a href="<%= @request.show_path %>" style="text-decoration: underline; color: #333333;font-weight: bold;">Please review the full details of the request</a> on the Leave and Travel Request system.</p>
           <p style="margin: 0 0 30px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #333333;"><%= @request.forward_statement%></p>
           <% if @request.travel? %>
            <p style="margin: 0 0 30px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #333333;">Your request has been assigned to <%= @request.travel_category%> travel category.  To find more information about Travel Categories <a href="https://library.princeton.edu/staff/ofa/finance-and-budget/travel/categories">here</a></p>
           <% end %>
           <% if @request.request_type == 'AbsenceRequest' %>
+            <h2>Do Not Forget!</h2>
             <p style="margin: 0 0 30px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #333333;">Please proceed with recording your leave in the <a href="http://www.princeton.edu/hr/progserv/sds/applications/selfservice.html">HR Self Service system</a> as soon as possible. Your supervisor will be confirming that you have reported this information at the end of the month.</p>
           <% end %>
           
-          <%= render "mailer/review_details", details: @request.approve_details %>
         </td>
       </tr>
       <tr>
@@ -26,7 +31,11 @@
           <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: auto;">
             <tr>
               <td class="button-td button-td-primary" style="border-radius: 4px; background: #222222;">
-                <a class="button-a button-a-primary" href="<%= @request.show_path %>" style="background: #222222; border: 1px solid #000000; font-family: sans-serif; font-size: 15px; line-height: 15px; text-decoration: none; padding: 13px 17px; color: #ffffff; display: block; border-radius: 4px;">View the Request</a>
+                <% if @request.request_type == 'AbsenceRequest' %>
+                  <a class="button-a button-a-primary" href="http://www.princeton.edu/hr/progserv/sds/applications/selfservice.html" style="background: #222222; border: 1px solid #000000; font-family: sans-serif; font-size: 15px; line-height: 15px; text-decoration: none; padding: 13px 17px; color: #ffffff; display: block; border-radius: 4px;">Record In HR</a>
+                <% else %>
+                  <a class="button-a button-a-primary" href="<%= @request.show_path %>" style="background: #222222; border: 1px solid #000000; font-family: sans-serif; font-size: 15px; line-height: 15px; text-decoration: none; padding: 13px 17px; color: #ffffff; display: block; border-radius: 4px;">View the Request</a>
+                <% end %>
               </td>
             </tr>
           </table>
