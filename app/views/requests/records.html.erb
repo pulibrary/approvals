@@ -1,0 +1,7 @@
+<wrapper :max-width=1440>
+  <grid-container>
+    <grid-item columns="md-12 sm-12">
+      <heading level="h1" size="h2">Requests to Record in HR Self Service</heading>
+    </grid-item>
+</wrapper>
+<%=  render 'request_list', show_status: false, search_path: records_path, detail_partial: 'index_detail' %>

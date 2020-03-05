@@ -282,12 +282,12 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       expect(absence_request).to be_recorded
     end
 
-    it "allows the supervisor to record an approved request" do
+    it "supervisor is not allowed to record an approved request" do
       employee = FactoryBot.create(:staff_profile, supervisor: creator)
       absence_request = FactoryBot.create(:absence_request, creator: employee, action: :approve)
       put :decide, params: { id: absence_request.to_param, record: "" }, session: valid_session
       absence_request.reload
-      expect(absence_request).to be_recorded
+      expect(absence_request).not_to be_recorded
     end
 
     it "does not allow the creator to record an pending request" do

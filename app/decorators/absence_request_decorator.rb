@@ -67,4 +67,12 @@ class AbsenceRequestDecorator < RequestDecorator
     return if creator.blank?
     creator.supervisor
   end
+
+  def decorated_status
+    if status == "recorded"
+      "Recorded in HR Self Service"
+    else
+      super
+    end
+  end
 end

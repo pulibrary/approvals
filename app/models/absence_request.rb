@@ -77,6 +77,6 @@ class AbsenceRequest < Request
   end
 
   def can_record?(agent:)
-    approved? && in_supervisor_chain(supervisor: creator, agent: agent)
+    approved? && only_creator(agent: agent)
   end
 end

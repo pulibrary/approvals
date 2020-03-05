@@ -43,4 +43,5 @@ Rails.application.routes.draw do
   get "my_requests", action: :my_requests, controller: "requests"
   get "my_approval_requests", action: :my_approval_requests, controller: "requests"
   get "reports", action: :reports, controller: "requests"
+  get "records", action: :records, controller: "requests"
 end

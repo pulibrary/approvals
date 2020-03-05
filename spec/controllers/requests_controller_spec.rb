@@ -13,6 +13,7 @@ RSpec.describe RequestsController, type: :controller do
   let(:other_absence) { FactoryBot.create(:absence_request) }
   let(:other_travel) { FactoryBot.create(:travel_request) }
   let(:my_absence) { FactoryBot.create(:absence_request, creator: staff_profile, start_date: Time.zone.tomorrow) }
+  let(:my_second_absence) { FactoryBot.create(:absence_request, creator: staff_profile, start_date: Time.zone.today) }
   let(:my_travel) { FactoryBot.create(:travel_request, creator: staff_profile) }
 
   before do
@@ -201,6 +202,43 @@ RSpec.describe RequestsController, type: :controller do
       get :reports, params: { filters: { supervisor:  staff_profile.id } }, session: valid_session
       expect(response).to be_successful
       expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_travel, my_absence, sub_absence, sub_travel].map(&:id))
+    end
+  end
+
+  describe "GET #records" do
+    before do
+      # create all the requests
+      other_absence.approve!(agent: other_absence.creator.supervisor)
+      other_travel
+      my_absence.approve!(agent: staff_profile.supervisor)
+      my_second_absence
+      my_travel
+    end
+    it "returns a success response" do
+      get :records, params: {}, session: valid_session
+      expect(response).to be_successful
+      expect(assigns(:requests).first).to be_a AbsenceRequestDecorator
+      expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_absence].map(&:id))
+    end
+
+    it "returns a success response as json" do
+      get :records, params: { format: :json }, session: valid_session
+      expect(response).to be_successful
+      expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_absence].map(&:id))
+    end
+
+    it "accepts paging" do
+      my_second_absence.approve!(agent: staff_profile.supervisor)
+      Kaminari.config.default_per_page = 1
+      get :records, params: { format: :json, page: 2 }, session: valid_session
+      expect(response).to be_successful
+      expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_second_absence].map(&:id))
+    end
+
+    it "accepts limit by request type sick" do
+      my_sick_absence = FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick", action: :approve)
+      get :records, params: { filters: { request_type: "sick" } }, session: valid_session
+      expect(assigns(:requests).map(&:id)).to contain_exactly(my_sick_absence.id)
     end
   end
 
