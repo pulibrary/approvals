@@ -31,8 +31,12 @@
       <grid-item columns="lg-12 sm-12" order="order-lg-4 order-sm-4">
         <card size="full-width">
           <card-content>
-            <input-button type="submit" variation="solid" name="approve">Approve</input-button>
-            <input-button type="submit" variation="solid" name="deny">Deny</input-button>
+            <%if action == 'review' %>
+              <input-button type="submit" variation="solid" name="approve">Approve</input-button>
+              <input-button type="submit" variation="solid" name="deny">Deny</input-button>
+            <% else %>
+              <input-button type="submit" variation="solid" name="comment">Comment</input-button>
+            <% end %>
           </card-content>
         </card>
       </grid-item>

@@ -310,6 +310,22 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       absence_request.reload
       expect(absence_request).to be_approved
     end
+
+    it "comments and returns a success with notes response" do
+      absence_request = FactoryBot.create(:absence_request, creator: creator)
+      notes = { notes: [{ content: "Important message" }] }
+      put :decide, params: { id: absence_request.to_param, absence_request: notes, comment: "" }, session: valid_session
+      absence_request.reload
+      expect(response).to redirect_to(absence_request)
+      expect(assigns(:request)).to eq(absence_request)
+      expect(absence_request.notes.count).to eq 1
+    end
+
+    it "comments require notes" do
+      absence_request = FactoryBot.create(:absence_request, creator: creator)
+      put :decide, params: { id: absence_request.to_param, absence_request: { abc: "123" }, comment: "" }, session: valid_session
+      expect(assigns(:request_change_set).errors.messages).to eq(notes: ["are required to comment on a request"])
+    end
   end
 
   describe "POST #create" do

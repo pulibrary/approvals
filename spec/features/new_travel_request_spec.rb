@@ -49,6 +49,12 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
     expect(page).to have_content "Elephants Love Balloons"
     page.go_back
 
+    click_on "Comment"
+    fill_in "travel_request_notes_content", with: "Snakes Love Balloons too!"
+    click_on "Comment"
+
+    expect(page).to have_content "Snakes Love Balloons too!"
+
     click_on "Cancel"
     expect(page).to have_content "Super Event 2019, A Place To Be (10/01/2019 to 10/03/2019)"
     expect(page).to have_content "Airfare 2 20.00 40.00\nLodging (per night) 3 30.00 90.00\nTotal: 130.00"

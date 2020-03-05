@@ -18,9 +18,9 @@ RSpec.describe "delegates/index", type: :view do
 
   it "renders a list of delegates" do
     render
-    assert_select "card-header", text: /^#{delegate1.delegate.full_name}*/, count: 1
+    assert_select "card-header", text: /^#{delegate1.delegate}*/, count: 1
     assert_select "card-header", text: /#{delegate1.delegate.uid}/, count: 1
-    assert_select "card-header", text: /^#{delegate2.delegate.full_name}*/, count: 1
+    assert_select "card-header", text: /^#{delegate2.delegate}*/, count: 1
     assert_select "card-header", text: /#{delegate2.delegate.uid}/, count: 1
   end
 end

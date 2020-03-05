@@ -204,28 +204,6 @@ RSpec.describe RequestsController, type: :controller do
     end
   end
 
-  describe "GET #records" do
-    before do
-      # create all the requests
-      other_absence
-      other_travel
-      my_absence
-      my_travel
-    end
-    it "returns a success response" do
-      get :records, params: {}, session: valid_session
-      expect(response).to be_successful
-      expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_absence, other_absence].map(&:id))
-    end
-
-    it "accepts paging" do
-      Kaminari.config.default_per_page = 1
-      get :my_requests, params: { format: :json, page: 2 }, session: valid_session
-      expect(response).to be_successful
-      expect(assigns(:requests).map(&:id)).to contain_exactly(my_absence.id)
-    end
-  end
-
   describe "GET #my_requests with sort params" do
     let(:yesterday) { Time.zone.yesterday }
     let(:today) { Time.zone.today }

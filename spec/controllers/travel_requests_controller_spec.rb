@@ -629,6 +629,22 @@ RSpec.describe TravelRequestsController, type: :controller do
       expect(travel_request).not_to be_canceled
       expect(travel_request.notes.count).to eq 0
     end
+
+    it "comments and returns a success with notes response" do
+      travel_request = FactoryBot.create(:travel_request, creator: creator)
+      notes = { notes: [{ content: "Important message" }] }
+      put :decide, params: { id: travel_request.to_param, travel_request: notes, comment: "" }, session: valid_session
+      travel_request.reload
+      expect(response).to redirect_to(travel_request)
+      expect(assigns(:request)).to eq(travel_request)
+      expect(travel_request.notes.count).to eq 1
+    end
+
+    it "comments require notes" do
+      travel_request = FactoryBot.create(:travel_request, creator: creator)
+      put :decide, params: { id: travel_request.to_param, travel_request: { abc: "123" }, comment: "" }, session: valid_session
+      expect(assigns(:request_change_set).errors.messages).to eq(notes: ["are required to comment on a request"])
+    end
   end
 
   describe "DELETE #destroy" do

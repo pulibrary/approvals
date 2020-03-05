@@ -20,5 +20,6 @@ module Approvals
     config.active_record.schema_format = :sql
 
     config.short_date_format = "%m/%d/%Y"
+    config.show_absence_button = Rails.env != "production"
   end
 end

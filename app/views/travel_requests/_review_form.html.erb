@@ -28,7 +28,7 @@
               ><%= request_change_set.purpose.blank? ? 'Unknown' : request_change_set.purpose
               %></text-style
             >
-            <% if current_staff_profile.department_head? %>
+            <% if current_staff_profile.department_head? && action == "review" %>
               <heading level="h3" size="h5">
                 Travel Category
               </heading>
@@ -41,54 +41,28 @@
         </card>
       </grid-item>
       <grid-item columns="lg-4 sm-12" order="order-lg-3">
-        <card size="full-width">
-          <card-content>
-            <heading level="h3" size="h5">
-              Others who requested to go
-            </heading>
-            <ul class="staff">
-              <%= render partial: "other_staff", collection:
-              request_change_set.event_attendees, as: :staff %>
-            </ul>
-          </card-content>
-        </card>
+        <%= render 'others_card', event_attendees: request_change_set.event_attendees%>
       </grid-item>
       <grid-item columns="lg-4 sm-12" order="order-lg-4">
-        <card size="full-width">
-          <card-content>
-            <heading level="h3" size="h5">
-              Team members absent during this time period
-            </heading>
-            <ul class="staff">
-              <%= render partial: "shared/absent_staff", collection:
-              request_change_set.absent_staff, as: :staff %>
-            </ul>
-          </card-content>
-        </card>
+        <%= render 'team_absent_card', absent_staff: request_change_set.absent_staff(supervisor: current_staff_profile) %>
       </grid-item>
       <grid-item columns="lg-4 sm-12" order="order-sm-6 order-lg-5">
         <%= render 'notes_card', request: request_change_set, render_edit: true %>
       </grid-item>
       <grid-item columns="lg-8 sm-12" :offset=true class="travel-estimates" order="order-sm-5 order-lg-6">
-        <card size="full-width">
-          <card-content>
-            <data-table
-              caption="Anticipated Expenses"
-              :columns="<%= request_change_set.estimate_fields_json %>"
-              :json-data="<%= request_change_set.estimates_json %>"
-              class="anticipated-expenses estimates"
-            >
-            </data-table>
-          </card-content>
-        </card>
+        <%= render 'expense_card', estimate_fields_json: request_change_set.estimate_fields_json, estimates_json: request_change_set.estimates_json %>
       </grid-item>
 
       <grid-item columns="lg-12 sm-12" order="order-sm-7 order-lg-7">
         <card size="full-width">
           <card-content>
-            <input-button type="submit" variation="solid" name="approve">Approve</input-button>
-            <input-button type="submit" variation="solid" name="deny">Deny</input-button>
-            <input-button type="submit" variation="solid" name="change_request">Request Changes</input-button>
+            <% if action == "review" %>
+              <input-button type="submit" variation="solid" name="approve">Approve</input-button>
+              <input-button type="submit" variation="solid" name="deny">Deny</input-button>
+              <input-button type="submit" variation="solid" name="change_request">Request Changes</input-button>
+            <% else %>
+              <input-button type="submit" variation="solid" name="comment">Comment</input-button>
+            <% end %>
           </card-content>
         </card>
       </grid-item>

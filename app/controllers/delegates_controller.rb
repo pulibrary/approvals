@@ -15,7 +15,7 @@ class DelegatesController < ApplicationController
   # GET /delegates/to_assume
   # GET /delegates/to_assume.json
   def to_assume
-    @delegators = Delegate.where(delegate: current_staff_profile)
+    @delegators = Delegate.joins(:delegator).where(delegate: current_staff_profile).order("staff_profiles.surname")
   end
 
   # GET /delegates/1/assume
@@ -77,7 +77,7 @@ class DelegatesController < ApplicationController
   private
 
     def delegates_for_current_profile
-      @delegates = Delegate.where(delegator: current_staff_profile)
+      @delegates = Delegate.joins(:delegate).where(delegator: current_staff_profile).order("staff_profiles.surname")
     end
 
     # Use callbacks to share common setup or constraints between actions.

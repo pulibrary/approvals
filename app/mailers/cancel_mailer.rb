@@ -10,9 +10,4 @@ class CancelMailer < ApplicationMailer
     return if request.creator.admin_assistants.empty?
     mail(to: request.creator.admin_assistants.map(&:email), subject: "#{request.title} Canceled")
   end
-
-  def creator_email
-    return if request.canceled?
-    mail(to: request.creator.email, subject: "#{request.title} Cancelation Requested")
-  end
 end

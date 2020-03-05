@@ -12,11 +12,7 @@
               <% end %>
 
               <%= render 'request_type_filter', current_request_type_filter_label: @requests.current_request_type_filter_label, 
-                                                filters: {
-                                                  #'Absence' => { url: @requests.absence_filter_url, children: @requests.absence_filter_urls },
-                                                  'Travel' => { url: @requests.travel_filter_url, children: @requests.travel_filter_urls }
-                                                }
-              %>
+                                                filters: @requests.request_type_filters %>
             </grid-item>
 
             <grid-item columns="sm-12 auto" class="date-filter">
