@@ -73,7 +73,7 @@ RSpec.feature "Delegate", type: :feature, js: true do
     assert_selector "a", text: "My Delegates", count: 0
 
     click_on "Requests"
-    click_link "New leave request"
+    click_link "New absence request"
     assert_selector "div.lux-alert", text: "You are acting on behalf of #{delegate_staff_profile}"
     find("#absence_request_absence_type option[value='sick']").select_option
     today = Date.parse("2019-10-21")

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require "rails_helper"
 
-RSpec.feature "New Leave Request", type: :feature, js: true do
+RSpec.feature "New Travel Request", type: :feature, js: true do
   let(:user) { FactoryBot.create :user }
   let(:staff_profile) do
     FactoryBot.create :staff_profile, :with_department, user: user, given_name: "Sally", surname: "Smith",

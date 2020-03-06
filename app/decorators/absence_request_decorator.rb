@@ -36,7 +36,7 @@ class AbsenceRequestDecorator < RequestDecorator
   end
 
   def event_title_brief
-    title
+    "#{title} (#{hours_requested})"
   end
 
   def event_title
