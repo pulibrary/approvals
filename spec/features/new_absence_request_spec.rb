@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require "rails_helper"
 
-RSpec.feature "New Leave Request", type: :feature, js: true do
+RSpec.feature "New Absence Request", type: :feature, js: true do
   let(:user) { FactoryBot.create :user }
   let(:staff_profile) do
     FactoryBot.create :staff_profile, :with_department, user: user, given_name: "Sally", surname: "Smith",
@@ -14,7 +14,9 @@ RSpec.feature "New Leave Request", type: :feature, js: true do
   end
 
   scenario "I can submit a sick day request and cancel it" do
-    visit "/absence_requests/new"
+    visit "/"
+    click_on "New absence request"
+    expect(page).to have_content "New Absence Request"
     expect(page).to have_content "Balances as of the end of your last pay period"
     expect(page).to have_content "Vacation\n90.1 Hours"
     expect(page).to have_content "Sick\n100.0 Hours"

@@ -19,7 +19,7 @@
           {name: 'Requests', component: 'My Requests', children: [
             {name: 'New Travel Request', component: 'New Travel Request', href: '/travel_requests/new/'},
             <% if Rails.configuration.show_absence_button %>
-            {name: 'New Absence Request', component: 'New Leave Request', href: '/absence_requests/new/'},
+            {name: 'New Absence Request', component: 'New Absence Request', href: '/absence_requests/new/'},
             <% end %>
             {name: 'My Requests', component: 'My Requests', href: '/my_requests/'},
             {name: 'Reports', component: 'Reports', href: '/reports/'},
