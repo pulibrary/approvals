@@ -22,7 +22,7 @@ RSpec.describe FixRequestedChangesMailer, type: :mailer do
     mail = ActionMailer::Base.deliveries.last
     expect(mail.subject).to eq "#{decorated_travel_request.title} Updated and Ready For Review"
     expect(mail.to).to eq [supervisor.email]
-    expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Updated")
+    expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Updated")
     expect(mail.html_part.body.to_s).to have_content("The following request was updated by Doe, Joe (jd4) on #{today_formatted}.")
     expect(mail.html_part.body.to_s).to have_content("Trip ID\n    #{travel_request.id}\n    Type\n    Travel Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Destination\n    Location\n")
     expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}/review\"]")
