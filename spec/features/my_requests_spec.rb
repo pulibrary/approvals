@@ -37,8 +37,8 @@ RSpec.feature "My Requests", type: :feature, js: true do
 
     select_drop_down(menu: "#request-type-menu", item: "Absence")
     assert_selector ".my-request .lux-card", count: 2
-    expect(page).to have_content("Vacation (8.0)")
-    expect(page).to have_content("Sick Leave (8.0)")
+    expect(page).to have_content("Vacation (8.0 hours)")
+    expect(page).to have_content("Sick Leave (8.0 hours)")
 
     # clearing a filter
     click_link("Status: Approved")

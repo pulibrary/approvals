@@ -17,6 +17,14 @@
 
 .lux-card-content .lux-tag .lux-tag-item {
   margin: 0;
+
+  &.gray {
+    background: $color-grayscale-lighter;
+  }
+}
+
+.lux-tag .lux-tag-item.gray {
+  background: $color-grayscale-lighter;
 }
 
 .lux-tag.filter {

@@ -23,17 +23,45 @@
   justify-content: center;
 }
 
+.title-card .lux-card-content .status-red,
+.title-card .lux-card-content .status-yellow,
+.title-card .lux-card-content .status-green,
+.title-card .lux-card-content .status-gray {
+  padding: 1.5rem;
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
 .title-card .lux-card-content .status-red {
   background: $red;
-  padding: 1.5rem;
 }
 
 .title-card .lux-card-content .status-yellow {
   background: $yellow;
-  padding: 1.5rem;
 }
 
 .title-card .lux-card-content .status-green {
   background: $green;
-  padding: 1.5rem;
+}
+
+.title-card .lux-card-content .status-gray {
+  background: $color-grayscale-lighter;
+}
+
+.status-gray .total-hours-status {
+  color: $color-grayscale-dark;
+  position: relative;
+
+  &::after {
+    border-bottom: 0.125em solid rgba($color-grayscale-dark, 0.5);
+    content: "";
+    left: 0;
+    line-height: 1em;
+    margin-top: calc(0.125em / 2 * -1);
+    position: absolute;
+    right: 0;
+    top: 50%;
+  }
 }

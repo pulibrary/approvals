@@ -36,7 +36,7 @@ class AbsenceRequestDecorator < RequestDecorator
   end
 
   def event_title_brief
-    "#{title} (#{hours_requested})"
+    "#{title} <span class='total-hours-status'>(#{hours_requested} hours)</span>".html_safe
   end
 
   def event_title
