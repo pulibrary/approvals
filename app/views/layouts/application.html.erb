@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js">
   <head>
-    <title>Leave and Travel Requests</title>
+    <title>Absence and Travel Requests</title>
     <%= javascript_pack_tag 'application' %>
     <%= stylesheet_pack_tag 'application' %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
@@ -13,7 +13,7 @@
   </head>
 
   <body>
-    <library-header app-name="Leave and Travel Requests" abbr-name="LTR" app-url="<%= HomeURL.for(current_user: current_user) %>" class="lux" :max-width=1440 theme="dark">
+    <library-header app-name="Absence and Travel Requests" abbr-name="LTR" app-url="<%= HomeURL.for(current_user: current_user) %>" class="lux" :max-width=1440 theme="dark">
     <menu-bar type="main-menu" :menu-items="[
         <% if current_user %>
           {name: 'Requests', component: 'My Requests', children: [
@@ -28,7 +28,7 @@
           {name: '<%= current_user %>', component: 'My Requests', children: [
             <% unless current_delegate %>
             {name: 'My Delegates', component: 'My Delegates', href: '/delegates/'},
-            {name: 'Delegations', component: 'Delegations', href: '<%= to_assume_delegates_path %>'},
+            {name: 'My Delegations', component: 'Delegations', href: '<%= to_assume_delegates_path %>'},
           <% end %>
             {name: 'Help', component: 'Help', href: '/help'},
             {name: 'Logout', component: 'Logout', href: '/sign_out'},

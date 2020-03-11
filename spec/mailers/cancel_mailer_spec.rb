@@ -30,7 +30,7 @@ RSpec.describe CancelMailer, type: :mailer do
 
       expect(mail.subject).to eq "#{AbsenceRequestDecorator.new(absence_request).title} Canceled"
       expect(mail.to).to eq [supervisor.email]
-      expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Canceled")
+      expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Canceled")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.  It has been Canceled by Joe Doe on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Type\n    Vacation\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/absence_requests/#{absence_request.id}\"]")
@@ -51,7 +51,7 @@ RSpec.describe CancelMailer, type: :mailer do
 
       expect(mail.subject).to eq "#{AbsenceRequestDecorator.new(absence_request).title} Canceled"
       expect(mail.to).to eq creator.admin_assistants.map(&:email)
-      expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Canceled")
+      expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Canceled")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}. " \
                                                        "It has been Canceled by Joe Doe on #{today_formatted}. It was Approved by Jane Smith on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Type\n    Vacation\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
@@ -67,7 +67,7 @@ RSpec.describe CancelMailer, type: :mailer do
 
       expect(mail.subject).to eq "#{AbsenceRequestDecorator.new(absence_request).title} Canceled"
       expect(mail.to).to eq [supervisor.email]
-      expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Canceled")
+      expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Canceled")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.  " \
                                                        "It has been Canceled by Joe Doe on #{today_formatted}. It was Approved by Jane Smith on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Type\n    Vacation\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
@@ -91,7 +91,7 @@ RSpec.describe CancelMailer, type: :mailer do
 
       expect(mail.subject).to eq "#{AbsenceRequestDecorator.new(absence_request).title} Canceled"
       expect(mail.to).to eq creator.admin_assistants.map(&:email)
-      expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Canceled")
+      expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Canceled")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}. " \
                                                        "It has been Canceled by Joe Doe on #{today_formatted}. It was Recorded by Joe Doe on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Type\n    Vacation\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
@@ -108,7 +108,7 @@ RSpec.describe CancelMailer, type: :mailer do
 
       expect(mail.subject).to eq "#{AbsenceRequestDecorator.new(absence_request).title} Canceled"
       expect(mail.to).to eq [supervisor.email]
-      expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Canceled")
+      expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Canceled")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.  " \
                                                        "It has been Canceled by Joe Doe on #{today_formatted}. It was Recorded by Joe Doe on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Type\n    Vacation\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
@@ -131,7 +131,7 @@ RSpec.describe CancelMailer, type: :mailer do
 
       expect(mail.subject).to eq "#{TravelRequestDecorator.new(travel_request).title} Canceled"
       expect(mail.to).to eq creator.admin_assistants.map(&:email)
-      expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Canceled")
+      expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Canceled")
       expect(mail.html_part.body.to_s).to have_content("It has been Canceled by Joe Doe on #{today_formatted}. It was Approved by Jane Smith on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Type\n    Travel Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Destination\n    Location\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}\"]")
@@ -146,7 +146,7 @@ RSpec.describe CancelMailer, type: :mailer do
 
       expect(mail.subject).to eq "#{TravelRequestDecorator.new(travel_request).title} Canceled"
       expect(mail.to).to eq [supervisor.email]
-      expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Canceled")
+      expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Canceled")
       expect(mail.html_part.body.to_s).to have_content("It has been Canceled by Joe Doe on #{today_formatted}. It was Approved by Jane Smith on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Type\n    Travel Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Destination\n    Location\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}\"]")
@@ -169,7 +169,7 @@ RSpec.describe CancelMailer, type: :mailer do
 
       expect(mail.subject).to eq "#{TravelRequestDecorator.new(travel_request).title} Canceled"
       expect(mail.to).to eq creator.admin_assistants.map(&:email)
-      expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Canceled")
+      expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Canceled")
       expect(mail.html_part.body.to_s).to have_content("It has been Canceled by Joe Doe on #{today_formatted}. It was Approved by Department Head on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Type\n    Travel Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Destination\n    Location\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}\"]")
@@ -184,7 +184,7 @@ RSpec.describe CancelMailer, type: :mailer do
 
       expect(mail.subject).to eq "#{TravelRequestDecorator.new(travel_request).title} Canceled"
       expect(mail.to).to eq [supervisor.email]
-      expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Canceled")
+      expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Canceled")
       expect(mail.html_part.body.to_s).to have_content("It has been Canceled by Joe Doe on #{today_formatted}. It was Approved by Department Head on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Type\n    Travel Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Destination\n    Location\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}\"]")

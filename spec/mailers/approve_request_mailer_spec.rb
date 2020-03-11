@@ -25,7 +25,7 @@ RSpec.describe ApproveMailer, type: :mailer do
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{AbsenceRequestDecorator.new(absence_request).title} Ready For Review"
       expect(mail.to).to eq [supervisor.email]
-      expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Ready for Review")
+      expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Ready for Review")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Type\n    Vacation\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/absence_requests/#{absence_request.id}/review\"]")
@@ -55,7 +55,7 @@ RSpec.describe ApproveMailer, type: :mailer do
 
       expect(mail.subject).to eq "#{AbsenceRequestDecorator.new(absence_request).title} Approved"
       expect(mail.to).to eq creator.admin_assistants.map(&:email)
-      expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Approved")
+      expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Approved")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Type\n    Vacation\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/absence_requests/#{absence_request.id}\"]")
@@ -75,13 +75,13 @@ RSpec.describe ApproveMailer, type: :mailer do
 
       expect(mail.subject).to eq "#{AbsenceRequestDecorator.new(absence_request).title} Approved"
       expect(mail.to).to eq [creator.email]
-      expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Approved")
+      expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Approved")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Type\n    Vacation\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/absence_requests/#{absence_request.id}\"]")
       expect(mail.text_part.body.to_s).to eq("The following request was submitted on #{today_formatted}.  It has been Approved by Jane Smith on #{today_formatted}.\n" \
                                              "The approval has been forwarded to your supervisor and administrative assistant for their information.\n" \
-                                             "Please proceed with recording your leave in the HR Self Service system (http://www.princeton.edu/hr/progserv/sds/applications/selfservice.html) " \
+                                             "Please proceed with recording your absence in the HR Self Service system (http://www.princeton.edu/hr/progserv/sds/applications/selfservice.html) " \
                                              "as soon as possible. Your supervisor will be confirming that you have reported this information at the end of the month.\n\n" \
                                              "To view your request go to http://localhost:3000/absence_requests/#{absence_request.id}\n\n" \
                                              "Type: Vacation\nDates Away: 12/30/2019 to 12/31/2019\n" \
@@ -108,7 +108,7 @@ RSpec.describe ApproveMailer, type: :mailer do
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{decorated_travel_request.title} Approved by Jane Smith Pending Further Review"
       expect(mail.to).to eq [creator.email]
-      expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Pending Further Review")
+      expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Pending Further Review")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}. It has been Approved by Jane Smith on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Your request has been assigned to #{decorated_travel_request.travel_category} travel category.  " \
                                                        "To find more information about Travel Categories here")
@@ -132,7 +132,7 @@ RSpec.describe ApproveMailer, type: :mailer do
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{decorated_travel_request.title} Ready For Review"
       expect(mail.to).to eq [supervisor.department.head.email]
-      expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Ready for Review")
+      expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Ready for Review")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}. It has been Approved by Jane Smith on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Trip ID\n    #{travel_request.id}\n    Type\n    Travel Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Destination\n    Location\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}/review\"]")
@@ -161,7 +161,7 @@ RSpec.describe ApproveMailer, type: :mailer do
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{decorated_travel_request.title} Approved"
       expect(mail.to).to eq creator.admin_assistants.map(&:email)
-      expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Approved")
+      expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Approved")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}. It has been Approved by Department Head on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Travel Category\n    #{decorated_travel_request.travel_category}\n    Trip ID\n    #{travel_request.id}\n    Type\n    " \
                                                        "Travel Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Destination\n    Location\n")
@@ -181,7 +181,7 @@ RSpec.describe ApproveMailer, type: :mailer do
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{decorated_travel_request.title} Approved"
       expect(mail.to).to eq [creator.email]
-      expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Approved")
+      expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Approved")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}. It has been Approved by Department Head on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Your request has been assigned to #{decorated_travel_request.travel_category} travel category.  " \
                                                        "To find more information about Travel Categories here")
@@ -209,7 +209,7 @@ RSpec.describe ApproveMailer, type: :mailer do
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{decorated_travel_request.title} Approved"
       expect(mail.to).to eq [supervisor.email]
-      expect(mail.html_part.body.to_s).to have_content("Leave and Travel Request - Approved")
+      expect(mail.html_part.body.to_s).to have_content("Absence and Travel Request - Approved")
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}. It has been Approved by Department Head on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Travel Category\n    #{decorated_travel_request.travel_category}\n    Trip ID\n    #{travel_request.id}\n    " \
                                                        "Type\n    Travel Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Destination\n    Location\n")
