@@ -46,7 +46,7 @@
           <input-text label="Occurrences" name="travel_request[estimates][][recurrence]"
               :id="'travel_request_estimates_recurrence_' + expense.id"
               @input="updateRecurrence($event, expense)"
-              placeholder="0"
+              placeholder="1"
               :value="expense.recurrence" width="expand" required hideLabel></input-text>
         </grid-item>
         <grid-item vertical="center" columns="lg-2 sm-12">
@@ -103,7 +103,7 @@ export default {
   props: {
     expenses: {
      type: Array,
-     default: () => [{ id: null, cost_type: null, recurrence: null, amount: null, description: '', other_id: 'id_0' }]
+     default: () => [{ id: null, cost_type: null, recurrence: '1', amount: null, description: '', other_id: 'id_0' }]
     },
     cost_types: {
      type: Array,
@@ -115,7 +115,7 @@ export default {
       this.expenseData.push({
         id: null,
         cost_type: null,
-        recurrence: null,
+        recurrence: '1',
         amount: null,
         description: '',
         other_id: 'id_'+this.expenseData.length
