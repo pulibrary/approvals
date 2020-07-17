@@ -53,6 +53,16 @@ RSpec.describe TravelRequestDecorator, type: :model do
     it "returns a formated start date" do
       expect(travel_request_decorator.formatted_start_date).to eq "07/04/2019"
     end
+
+    context "when start date is nil, but event date is present" do
+      before do
+        travel_request.start_date = nil
+      end
+
+      it "returns a formated start date" do
+        expect(travel_request_decorator.formatted_start_date).to eq "07/04/2019"
+      end
+    end
   end
 
   describe "#formatted_full_start_date" do
@@ -66,6 +76,16 @@ RSpec.describe TravelRequestDecorator, type: :model do
     let(:travel_request) { FactoryBot.create(:travel_request, end_date: Time.zone.parse("2019-07-04 12:12")) }
     it "returns a formated end date" do
       expect(travel_request_decorator.formatted_end_date).to eq "07/04/2019"
+    end
+
+    context "when end date is nil, but event date is present" do
+      before do
+        travel_request.end_date = nil
+      end
+
+      it "returns a formated start date" do
+        expect(travel_request_decorator.formatted_end_date).to eq "07/04/2019"
+      end
     end
   end
 
