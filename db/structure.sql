@@ -103,8 +103,6 @@ CREATE TYPE public.request_travel_category AS ENUM (
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
-
 --
 -- Name: admin_assistants_departments; Type: TABLE; Schema: public; Owner: -
 --
