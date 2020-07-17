@@ -100,6 +100,22 @@ class TravelRequestDecorator < RequestDecorator
     @request.travel_category.humanize
   end
 
+  # The form does not require the start date
+  # Users have omitted this, which causes errors with the displays
+  # For display purposes we will just use the event date if the start date is missing
+  def start_date
+    return request.start_date unless request.start_date.blank?
+    event_requests.first&.start_date
+  end
+
+  # The form does not require the end date
+  # Users have omitted this, which causes errors with the displays
+  # For display purposes we will just use the event date if the end date is missing
+  def end_date
+    return request.end_date unless request.end_date.blank?
+    event_requests.first&.end_date
+  end
+
   private
 
     def list_event_attendees
