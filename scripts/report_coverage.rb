@@ -21,7 +21,7 @@ class SimpleCovHelper
   end
 
   def inspect_results
-    results = SimpleCov::Result.from_hash(JSON.parse(File.read(results_file)))
+    results = SimpleCov::Result.from_hash(JSON.parse(File.read(results_file))).first
     results.format!
     covered_percent = results.covered_percent.round(2)
     min_coverage = SimpleCov.minimum_coverage
