@@ -2,7 +2,6 @@
 
 set :rvm_ruby_string, :local # use the same ruby as used locally for deployment
 set :rails_env, "production"
-set :branch, ENV["BRANCH"] || "master"
 
 server "lib-approvals-prod1", user: "deploy", roles: %i[web app db]
 
