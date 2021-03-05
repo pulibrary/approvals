@@ -83,12 +83,12 @@ class TravelRequestChangeSet < RequestChangeSet
   def recurring_event_list
     if @previous_count != RecurringEvent.count
       @values = RecurringEvent.all.map do |event|
-        "{ id: '#{event.id}', label: '#{event.name}' }"
-      end.join(",")
+        { id: event.id, label: event.name }
+      end
       @previous_count = RecurringEvent.count
     end
 
-    "[#{@values}]"
+    @values.to_json
   end
 
   def supervisor
