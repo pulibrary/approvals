@@ -23,6 +23,7 @@ set :log_level, :debug
 
 # Default value for :pty is false
 # set :pty, true
+set :branch, ENV["BRANCH"] || "main"
 
 
 shared_path = "#{:deploy_to}/shared"
