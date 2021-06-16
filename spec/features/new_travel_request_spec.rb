@@ -17,7 +17,7 @@ RSpec.feature "New Travel Request", type: :feature, js: true do
     visit "/travel_requests/new"
 
     find("#travel_request_participation option[value='other']").select_option
-    fill_in "displayInput", with: "Super Event"
+    fill_in "displayInput", with: "Super Event's Are Us"
 
     fill_in "travel_request_event_requests_attributes_0_event_dates", with: "10/1/2019 - 10/3/2019"
     fill_in "travel_request_travel_dates", with: "10/1/2019 - 10/3/2019"
@@ -40,7 +40,7 @@ RSpec.feature "New Travel Request", type: :feature, js: true do
     Percy.snapshot(page, name: "Travel Request - New", widths: [375, 768, 1440])
     click_on "Submit Request"
 
-    expect(page).to have_content "Super Event 2019, A Place To Be (10/01/2019 to 10/03/2019)"
+    expect(page).to have_content "Super Event's Are Us 2019, A Place To Be (10/01/2019 to 10/03/2019)"
     expect(page).to have_content "Airfare 2 20.00 40.00\nLodging (per night) 3 30.00 90.00\nTotal: 130.00"
     expect(page).to have_content "Pending"
     expect(page).to have_content "Elephants Love Balloons"
@@ -56,7 +56,7 @@ RSpec.feature "New Travel Request", type: :feature, js: true do
     expect(page).to have_content "Snakes Love Balloons too!"
 
     click_on "Cancel"
-    expect(page).to have_content "Super Event 2019, A Place To Be (10/01/2019 to 10/03/2019)"
+    expect(page).to have_content "Super Event's Are Us 2019, A Place To Be (10/01/2019 to 10/03/2019)"
     expect(page).to have_content "Airfare 2 20.00 40.00\nLodging (per night) 3 30.00 90.00\nTotal: 130.00"
     expect(page).to have_content "Canceled"
     expect(page).not_to have_selector(:link_or_button, "Edit")

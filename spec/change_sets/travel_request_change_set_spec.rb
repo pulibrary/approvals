@@ -98,11 +98,11 @@ RSpec.describe TravelRequestChangeSet, type: :model do
   describe "#recurring_event_list" do
     it "responds with recurring events and will calculate new ones only if needed" do
       event1 = FactoryBot.create :recurring_event, name: "abc"
-      expect(travel_request.recurring_event_list).to eq("[{ id: '#{event1.id}', label: 'abc' }]")
+      expect(travel_request.recurring_event_list).to eq("[{\"id\":#{event1.id},\"label\":\"abc\"}]")
       event2 = FactoryBot.create :recurring_event, name: "two"
-      expect(travel_request.recurring_event_list).to eq("[{ id: '#{event1.id}', label: 'abc' },{ id: '#{event2.id}', label: 'two' }]")
+      expect(travel_request.recurring_event_list).to eq("[{\"id\":#{event1.id},\"label\":\"abc\"},{\"id\":#{event2.id},\"label\":\"two\"}]")
       values_before = travel_request.instance_variable_get(:@values)
-      expect(travel_request.recurring_event_list).to eq("[{ id: '#{event1.id}', label: 'abc' },{ id: '#{event2.id}', label: 'two' }]")
+      expect(travel_request.recurring_event_list).to eq("[{\"id\":#{event1.id},\"label\":\"abc\"},{\"id\":#{event2.id},\"label\":\"two\"}]")
       values_after = travel_request.instance_variable_get(:@values)
       expect(values_after).to be(values_before)
     end
