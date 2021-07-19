@@ -10,7 +10,7 @@
                       id="absence_request_absence_type"
                       width="expand"
                       value="<%= request_change_set.absence_type %>"
-                      :options="<%= request_change_set.absence_type_options %>"
+                      :options="<%= request_change_set.absence_type_options.to_json %>"
                       required=true
         ></input-select>
 

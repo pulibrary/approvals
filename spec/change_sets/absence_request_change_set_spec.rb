@@ -134,15 +134,15 @@ RSpec.describe AbsenceRequestChangeSet, type: :model do
 
   it "presents the absence type options the way lux wants them" do
     expect(absence_request.absence_type_options).to eq(
-      "["\
-      "{label: 'Vacation', value: 'vacation'},"\
-      "{label: 'Sick', value: 'sick'},"\
-      "{label: 'Personal', value: 'personal'},"\
-      "{label: 'Research days', value: 'research_days'},"\
-      "{label: 'Consulting', value: 'consulting'},"\
-      "{label: 'Jury duty', value: 'jury_duty'},"\
-      "{label: 'Death in family', value: 'death_in_family'}"\
-      "]"
+      [
+        { label: "Vacation", value: "vacation" },
+        { label: "Sick", value: "sick" },
+        { label: "Personal", value: "personal" },
+        { label: "Research days", value: "research_days" },
+        { label: "Consulting", value: "consulting" },
+        { label: "Jury duty", value: "jury_duty" },
+        { label: "Death in family", value: "death_in_family" }
+      ]
     )
   end
 
