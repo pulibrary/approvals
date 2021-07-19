@@ -20,10 +20,9 @@ class AbsenceRequestChangeSet < RequestChangeSet
 
   def absence_type_options
     # turn key, value into label, key
-    strings = model.class.absence_types.map do |key, value|
-      "{label: '#{value.humanize}', value: '#{key}'}"
+    model.class.absence_types.map do |key, value|
+      { label: value.humanize, value: key }
     end
-    "[#{strings.join(',')}]"
   end
 
   def time_options
