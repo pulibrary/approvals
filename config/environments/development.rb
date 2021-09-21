@@ -65,7 +65,7 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # location of the staff report (assuming current directory)
-  config.staff_report_location = 'Department Absence Manager Report - Library-en-us.csv'
+  config.staff_report_location = 'Department Absence Manager Report - Library-en.csv'
   config.balance_report_location = 'Balances for Employees Enrolled in Absence Management - Library-en-us.csv'
 
   Rails.application.routes.default_url_options[:host] = 'localhost:3000'
