@@ -125,62 +125,62 @@ class RequestDecorator
 
   private
 
-    def title_for_state(state:, phrase: "has been")
-      return "" if state.blank?
-      "It #{phrase} #{state.title}."
-    end
+  def title_for_state(state:, phrase: "has been")
+    return "" if state.blank?
+    "It #{phrase} #{state.title}."
+  end
 
-    def date_format
-      "%m/%d/%Y"
-    end
+  def date_format
+    "%m/%d/%Y"
+  end
 
-    def full_date_format
-      "%B %-d, %Y"
-    end
+  def full_date_format
+    "%B %-d, %Y"
+  end
 
-    def decorated_status
-      if (status == "pending") && state_changes.count.positive?
-        "Pending further review"
-      else
-        status.humanize
-      end
+  def decorated_status
+    if (status == "pending") && state_changes.count.positive?
+      "Pending further review"
+    else
+      status.humanize
     end
+  end
 
-    def date_of_status
-      if state_changes.empty?
-        created_at
-      else
-        state_changes.last.created_at
-      end
+  def date_of_status
+    if state_changes.empty?
+      created_at
+    else
+      state_changes.last.created_at
     end
+  end
 
-    def item_json(item)
-      if item.is_a? Note
-        {
-          title: "#{item.creator.full_name} on #{item.created_at.strftime(date_format)}",
-          content: item.content,
-          icon: "note"
-        }
-      else
-        {
-          title: item.title,
-          content: nil,
-          icon: status_icon(status: item.action)
-        }
-      end
+  def item_json(item)
+    if item.is_a? Note
+      {
+        title: "#{item.creator.full_name} on #{item.created_at.strftime(date_format)}",
+        content: item.content,
+        icon: "note"
+      }
+    else
+      {
+        title: item.title,
+        content: nil,
+        icon: status_icon(status: item.action)
+      }
     end
+  end
 
-    def created_state(json:, delegate_note:)
-      title = if delegate_note.present?
-                "Created by #{delegate_note.creator.full_name} on behalf of #{creator.full_name} on #{created_at.strftime(date_format)}"
-              else
-                "Created by #{creator.full_name} on #{created_at.strftime(date_format)}"
-              end
-      json.prepend(title: title, content: nil, icon: "add")
-    end
+  def created_state(json:, delegate_note:)
+    title = if delegate_note.present?
+              "Created by #{delegate_note.creator.full_name} on behalf of #{creator.full_name} on #{created_at.strftime(date_format)}"
+            else
+              "Created by #{creator.full_name} on #{created_at.strftime(date_format)}"
+            end
+    json.prepend(title: title, content: nil, icon: "add")
+  end
 
-    def created_by_delegate
-      first_note = notes.first
-      first_note.present? && first_note.creator_id != creator_id && first_note.content.start_with?("This request was created by")
-    end
+  def created_by_delegate
+    first_note = notes.first
+    first_note.present? && first_note.creator_id != creator_id && first_note.content.start_with?("This request was created by")
+  end
 end

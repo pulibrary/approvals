@@ -16,14 +16,14 @@ RSpec.describe "My Requests", type: :request do
         FactoryBot.create(:travel_request)
 
         get my_requests_path
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
     end
 
     context "Public user" do
       it "fails to allow access to page" do
         get my_requests_path
-        expect(response).to have_http_status(302)
+        expect(response).to have_http_status(:found)
         expect(response).to redirect_to(new_user_session_path)
       end
     end

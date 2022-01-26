@@ -16,36 +16,36 @@ class RequestsController < ApplicationController
 
   private
 
-    # all params for this controller
-    def request_params(filters: [:status, :request_type, :department, :date])
-      params.permit(:query, :sort, :page, filters: filters)
-    end
+  # all params for this controller
+  def request_params(filters: [:status, :request_type, :department, :date])
+    params.permit(:query, :sort, :page, filters: filters)
+  end
 
-    def report_params
-      request_params(filters: [:status, :request_type, :department, :date, :employee_type, :supervisor])
-    end
+  def report_params
+    request_params(filters: [:status, :request_type, :department, :date, :employee_type, :supervisor])
+  end
 
-    # objects to return to my_request action
-    def my_request_objects
-      RequestList.list_requests(creator: current_staff_profile,
-                                request_filters: request_params[:filters],
-                                search_query: request_params[:query],
-                                order: request_params["sort"],
-                                page: request_params[:page])
-    end
+  # objects to return to my_request action
+  def my_request_objects
+    RequestList.list_requests(creator: current_staff_profile,
+                              request_filters: request_params[:filters],
+                              search_query: request_params[:query],
+                              order: request_params["sort"],
+                              page: request_params[:page])
+  end
 
-    def my_approval_request_objects
-      ApprovalRequestList.list_requests(approver: current_staff_profile,
-                                        request_filters: request_params[:filters],
-                                        search_query: request_params[:query],
-                                        order: request_params["sort"],
-                                        page: request_params[:page])
-    end
+  def my_approval_request_objects
+    ApprovalRequestList.list_requests(approver: current_staff_profile,
+                                      request_filters: request_params[:filters],
+                                      search_query: request_params[:query],
+                                      order: request_params["sort"],
+                                      page: request_params[:page])
+  end
 
-    def report_request_objects
-      ReportRequestList.list_requests(current_staff_profile: current_staff_profile,
-                                      request_filters: report_params[:filters],
-                                      search_query: report_params[:query],
-                                      order: report_params["sort"])
-    end
+  def report_request_objects
+    ReportRequestList.list_requests(current_staff_profile: current_staff_profile,
+                                    request_filters: report_params[:filters],
+                                    search_query: report_params[:query],
+                                    order: report_params["sort"])
+  end
 end

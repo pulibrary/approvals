@@ -105,16 +105,16 @@ class TravelRequestChangeSet < RequestChangeSet
 
   private
 
-    def date_range_js(start_date, end_date)
-      "{ start: new Date('#{format_date_js(start_date)}'), end: new Date('#{format_date_js(end_date)}') }"
-    end
+  def date_range_js(start_date, end_date)
+    "{ start: new Date('#{format_date_js(start_date)}'), end: new Date('#{format_date_js(end_date)}') }"
+  end
 
-    def format_date_js(date)
-      ldate = date || Time.zone.today
-      ldate.strftime("%m/%d/%Y")
-    end
+  def format_date_js(date)
+    ldate = date || Time.zone.today
+    ldate.strftime("%m/%d/%Y")
+  end
 
-    def decorated_model
-      @decorated_model ||= TravelRequestDecorator.new(model)
-    end
+  def decorated_model
+    @decorated_model ||= TravelRequestDecorator.new(model)
+  end
 end

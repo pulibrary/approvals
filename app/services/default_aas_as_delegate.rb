@@ -9,14 +9,14 @@ class DefaultAasAsDelegate
 
     private
 
-      def update_profile(profile)
-        aas = profile.admin_assistants
-        return if aas.blank?
+    def update_profile(profile)
+      aas = profile.admin_assistants
+      return if aas.blank?
 
-        aas.each do |admin_assistant|
-          next if admin_assistant == profile
-          Delegate.create(delegate: admin_assistant, delegator: profile)
-        end
+      aas.each do |admin_assistant|
+        next if admin_assistant == profile
+        Delegate.create(delegate: admin_assistant, delegator: profile)
       end
+    end
   end
 end

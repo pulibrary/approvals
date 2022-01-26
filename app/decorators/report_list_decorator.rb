@@ -77,19 +77,19 @@ class ReportListDecorator < RequestListDecorator
 
   private
 
-    def data_table_heading_filters
-      filters = params_manager.filter_params
-      return "All requests" if filters.blank?
-      heading = "#{filters[:status]} #{filters[:request_type]} requests"
-      heading += " in #{clean_department_name(filters[:department])}" if filters[:department]
-      heading
-    end
+  def data_table_heading_filters
+    filters = params_manager.filter_params
+    return "All requests" if filters.blank?
+    heading = "#{filters[:status]} #{filters[:request_type]} requests"
+    heading += " in #{clean_department_name(filters[:department])}" if filters[:department]
+    heading
+  end
 
-    def title(request)
-      if request.travel?
-        request.title
-      else
-        "#{request.title} (#{request.hours_requested} hours)"
-      end
+  def title(request)
+    if request.travel?
+      request.title
+    else
+      "#{request.title} (#{request.hours_requested} hours)"
     end
+  end
 end

@@ -109,14 +109,14 @@ class RequestListDecorator
 
   private
 
-    def sort_options_table
-      {
-        "start_date_asc" => "Start date - ascending",
-        "start_date_desc" => "Start date - descending",
-        "created_at_asc" => "Date created - ascending",
-        "created_at_desc" => "Date created - descending",
-        "updated_at_asc" => "Date modified - ascending",
-        "updated_at_desc" => "Date modified - descending"
-      }
-    end
+  def sort_options_table
+    {
+      "start_date_asc" => "Start date - ascending",
+      "start_date_desc" => "Start date - descending",
+      "created_at_asc" => "Date created - ascending",
+      "created_at_desc" => "Date created - descending",
+      "updated_at_asc" => "Date modified - ascending",
+      "updated_at_desc" => "Date modified - descending"
+    }
+  end
 end

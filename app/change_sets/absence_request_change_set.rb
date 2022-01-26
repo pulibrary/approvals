@@ -84,7 +84,7 @@ class AbsenceRequestChangeSet < RequestChangeSet
 
   private
 
-    def decorated_model
-      @decorated_model ||= AbsenceRequestDecorator.new(model)
-    end
+  def decorated_model
+    @decorated_model ||= AbsenceRequestDecorator.new(model)
+  end
 end

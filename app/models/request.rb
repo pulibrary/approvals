@@ -2,9 +2,9 @@
 # This is a base class for TravelRequest and AbsenceRequest and is not intended
 # to be created directly
 class Request < ApplicationRecord
-  belongs_to :creator, class_name: "StaffProfile", foreign_key: "creator_id"
+  belongs_to :creator, class_name: "StaffProfile"
 
-  has_many :event_requests
+  has_many :event_requests, dependent: :destroy
   # we model this as many-to-many to allow for future feature enhancements if
   # needed. Initial intention is only one event request per request.
   has_many :recurring_events, through: :event_requests, dependent: :destroy
@@ -88,7 +88,7 @@ class Request < ApplicationRecord
 
   def ordered_state_changes(action: nil)
     ordered = state_changes.order("created_at ASC")
-    return ordered unless action.present?
+    return ordered if action.blank?
     ordered.select do |change|
       change.action == action
     end
@@ -104,7 +104,7 @@ class Request < ApplicationRecord
 
   private
 
-    def raise_invalid_argument(property_name:)
-      raise ActiveModel::UnknownAttributeError.new(self, property_name)
-    end
+  def raise_invalid_argument(property_name:)
+    raise ActiveModel::UnknownAttributeError.new(self, property_name)
+  end
 end

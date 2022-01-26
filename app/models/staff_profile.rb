@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 class StaffProfile < ApplicationRecord
-  belongs_to :user, required: true
-  belongs_to :department, required: true
+  belongs_to :user, optional: false
+  belongs_to :department, optional: false
   belongs_to :supervisor, class_name: "StaffProfile", optional: true
-  belongs_to :location, required: true
+  belongs_to :location, optional: false
 
   attr_accessor :current_delegate
 
@@ -19,12 +19,12 @@ class StaffProfile < ApplicationRecord
 
     private
 
-      def find_by_uid(*args)
-        user = User.find_by(*args)
-        return if user.blank?
+    def find_by_uid(*args)
+      user = User.find_by(*args)
+      return if user.blank?
 
-        user.staff_profile
-      end
+      user.staff_profile
+    end
   end
 
   def to_s

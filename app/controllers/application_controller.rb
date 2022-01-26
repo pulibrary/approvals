@@ -33,14 +33,14 @@ class ApplicationController < ActionController::Base
 
   private
 
-    def load_delegate(delegate_id)
-      @current_delegate = Delegate.find(delegate_id)
-      if @current_delegate && @current_delegate.delegate.user != current_user
-        session[:approvals_delegate] = nil
-        @current_delegate = nil
-      end
-    rescue ActiveRecord::RecordNotFound
+  def load_delegate(delegate_id)
+    @current_delegate = Delegate.find(delegate_id)
+    if @current_delegate && @current_delegate.delegate.user != current_user
       session[:approvals_delegate] = nil
       @current_delegate = nil
     end
+  rescue ActiveRecord::RecordNotFound
+    session[:approvals_delegate] = nil
+    @current_delegate = nil
+  end
 end

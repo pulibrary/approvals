@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "~>2.6.5"
+ruby "~>2.7"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~> 5.2.3"
@@ -60,7 +60,7 @@ gem "honeybadger"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem "bixby"
+  gem "bixby", "~> 3.0"
   gem "byebug", platforms: %i[mri mingw x64_mingw]
   gem "pry"
   gem "pry-byebug"

@@ -8,9 +8,9 @@ class Holidays
 
     private
 
-      def parse_list(config_file)
-        yaml = YAML.safe_load(File.read(config_file))
-        yaml.map { |date_str| Date.parse(date_str) }
-      end
+    def parse_list(config_file)
+      yaml = YAML.safe_load(File.read(config_file))
+      yaml.map { |date_str| Date.parse(date_str) }
+    end
   end
 end

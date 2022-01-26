@@ -29,91 +29,91 @@ class TravelRequestsController < CommonRequestController
 
   private
 
-    def current_profile_has_not_already_reviewed
-      @request.latest_state_change.blank? || @request.latest_state_change.agent != current_staff_profile
-    end
+  def current_profile_has_not_already_reviewed
+    @request.latest_state_change.blank? || @request.latest_state_change.agent != current_staff_profile
+  end
 
-    def request_decorator_class
-      TravelRequestDecorator
-    end
+  def request_decorator_class
+    TravelRequestDecorator
+  end
 
-    def list_url
-      travel_requests_url
-    end
+  def list_url
+    travel_requests_url
+  end
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_travel_request
-      @request = TravelRequest.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_travel_request
+    @request = TravelRequest.find(params[:id])
+  end
 
-    def request_change_set
-      @request_change_set ||=
-        if params[:id]
-          TravelRequestChangeSet.new(TravelRequest.find(params[:id]))
-        else
-          TravelRequestChangeSet.new(TravelRequest.new, current_staff_profile: current_staff_profile)
-        end
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def travel_request_params
-      @travel_request_params ||= clean_and_require_params
-    end
-
-    def clean_and_require_params
-      clean_params
-      params.require(:travel_request).permit(
-        :creator_id,
-        :start_date,
-        :end_date,
-        :purpose,
-        :participation,
-        :travel_category,
-        event_requests: [:id, :recurring_event_id, :start_date, :end_date, :location, :url],
-        notes: [:content],
-        estimates: [:id, :amount, :recurrence, :cost_type, :description]
-      )
-    end
-
-    def handle_nested_deletes
-      remove_estimates
-      super
-    end
-
-    def remove_estimates
-      return if params[:travel_request][:estimates].blank?
-      params_estimate_ids = params[:travel_request][:estimates].map { |estimate| estimate[:id] }
-      @request.estimates.each do |estimate|
-        estimate.destroy if params_estimate_ids.exclude? estimate.id.to_s
+  def request_change_set
+    @request_change_set ||=
+      if params[:id]
+        TravelRequestChangeSet.new(TravelRequest.find(params[:id]))
+      else
+        TravelRequestChangeSet.new(TravelRequest.new, current_staff_profile: current_staff_profile)
       end
-    end
+  end
 
-    # TODO: remove this when the form gets done correctly
-    def clean_params
-      return unless params[:travel_request].present?
-      params[:travel_request][:event_requests] = [params[:travel_request][:event_requests_attributes]["0"]] if params[:travel_request][:event_requests_attributes].present?
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def travel_request_params
+    @travel_request_params ||= clean_and_require_params
+  end
 
-      parse_date(params[:travel_request][:event_requests][0], :event_dates) if params[:travel_request][:event_requests].present?
-      parse_date(params[:travel_request], :travel_dates)
-    end
+  def clean_and_require_params
+    clean_params
+    params.require(:travel_request).permit(
+      :creator_id,
+      :start_date,
+      :end_date,
+      :purpose,
+      :participation,
+      :travel_category,
+      event_requests: [:id, :recurring_event_id, :start_date, :end_date, :location, :url],
+      notes: [:content],
+      estimates: [:id, :amount, :recurrence, :cost_type, :description]
+    )
+  end
 
-    def parse_date(hash, field)
-      return if hash.blank? || hash[field].blank?
-      dates = RequestList.parse_date_range_filter(filter: hash[field])
-      hash[:start_date] = dates[:start]
-      hash[:end_date] = dates[:end]
-    rescue ArgumentError
-      request_change_set.errors.add(field, "must be in a valid format (mm/dd/yyyy - mm/dd/yyyy)")
-    end
+  def handle_nested_deletes
+    remove_estimates
+    super
+  end
 
-    def processed_params
-      local = travel_request_params
-      local = local.merge(creator_id: current_staff_profile.id) if request_change_set.model.creator_id.blank?
-      local[:notes] = process_notes(local[:notes])
-      local
+  def remove_estimates
+    return if params[:travel_request][:estimates].blank?
+    params_estimate_ids = params[:travel_request][:estimates].map { |estimate| estimate[:id] }
+    @request.estimates.each do |estimate|
+      estimate.destroy if params_estimate_ids.exclude? estimate.id.to_s
     end
+  end
 
-    def process_request_params?
-      params.include?(:travel_request)
-    end
+  # TODO: remove this when the form gets done correctly
+  def clean_params
+    return if params[:travel_request].blank?
+    params[:travel_request][:event_requests] = [params[:travel_request][:event_requests_attributes]["0"]] if params[:travel_request][:event_requests_attributes].present?
+
+    parse_date(params[:travel_request][:event_requests][0], :event_dates) if params[:travel_request][:event_requests].present?
+    parse_date(params[:travel_request], :travel_dates)
+  end
+
+  def parse_date(hash, field)
+    return if hash.blank? || hash[field].blank?
+    dates = RequestList.parse_date_range_filter(filter: hash[field])
+    hash[:start_date] = dates[:start]
+    hash[:end_date] = dates[:end]
+  rescue ArgumentError
+    request_change_set.errors.add(field, "must be in a valid format (mm/dd/yyyy - mm/dd/yyyy)")
+  end
+
+  def processed_params
+    local = travel_request_params
+    local = local.merge(creator_id: current_staff_profile.id) if request_change_set.model.creator_id.blank?
+    local[:notes] = process_notes(local[:notes])
+    local
+  end
+
+  def process_request_params?
+    params.include?(:travel_request)
+  end
 end

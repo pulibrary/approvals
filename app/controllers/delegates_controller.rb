@@ -76,40 +76,40 @@ class DelegatesController < ApplicationController
 
   private
 
-    def delegates_for_current_profile
-      @delegates = Delegate.joins(:delegate).where(delegator: current_staff_profile).order("staff_profiles.surname")
+  def delegates_for_current_profile
+    @delegates = Delegate.joins(:delegate).where(delegator: current_staff_profile).order("staff_profiles.surname")
+  end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_delegate
+    @delegate = Delegate.find(params[:id])
+    @delegate = nil if @delegate.delegator != current_staff_profile
+  rescue ActiveRecord::RecordNotFound
+    nil
+  end
+
+  def set_delegator
+    @delegate = Delegate.find(params[:id])
+    @delegate = nil if @delegate.delegate != current_staff_profile
+  rescue ActiveRecord::RecordNotFound
+    nil
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def delegate_params
+    permitted_params = params.require(:delegate).permit(:delegate_id)
+
+    # the delegator can only be the logged in user
+    permitted_params.merge(delegator_id: current_staff_profile.id)
+  end
+
+  def check_for_delegation
+    return unless current_delegate
+
+    respond_to do |format|
+      format.html { redirect_to my_requests_path, flash: { error: "You can not modify delegations as a delegate" } }
+      format.json { head :no_content }
     end
-
-    # Use callbacks to share common setup or constraints between actions.
-    def set_delegate
-      @delegate = Delegate.find(params[:id])
-      @delegate = nil if @delegate.delegator != current_staff_profile
-    rescue ActiveRecord::RecordNotFound
-      nil
-    end
-
-    def set_delegator
-      @delegate = Delegate.find(params[:id])
-      @delegate = nil if @delegate.delegate != current_staff_profile
-    rescue ActiveRecord::RecordNotFound
-      nil
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def delegate_params
-      permitted_params = params.require(:delegate).permit(:delegate_id)
-
-      # the delegator can only be the logged in user
-      permitted_params.merge(delegator_id: current_staff_profile.id)
-    end
-
-    def check_for_delegation
-      return unless current_delegate
-
-      respond_to do |format|
-        format.html { redirect_to my_requests_path, flash: { error: "You can not modify delegations as a delegate" } }
-        format.json { head :no_content }
-      end
-      false
-    end
+    false
+  end
 end

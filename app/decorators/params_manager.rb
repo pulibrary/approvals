@@ -55,11 +55,11 @@ class ParamsManager
 
   private
 
-    def existing_params
-      params.deep_dup
-    end
+  def existing_params
+    params.deep_dup
+  end
 
-    def build_url(params)
-      Rails.application.routes.url_helpers.my_requests_path(params: params)
-    end
+  def build_url(params)
+    Rails.application.routes.url_helpers.my_requests_path(params: params)
+  end
 end
