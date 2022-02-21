@@ -12,7 +12,7 @@ RSpec.describe RecurringEventLoader, type: :model do
       file.rewind
       file.close
       RecurringEventLoader.load(config_file: file.path)
-      expect(RecurringEvent.all.map(&:name)).to eq(["Access Conference", "American Institute for Conservation (AIC)"])
+      expect(RecurringEvent.all.map(&:name)).to contain_exactly("Access Conference", "American Institute for Conservation (AIC)")
       file.unlink
     end
   end
