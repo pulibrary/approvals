@@ -26,6 +26,7 @@ This is an application that allows the library to create workflows that allow st
    
 ## Database creation
 
+   * Run `lando start` to start a local postgres server.
    * create, migrate and seed the database
      ```
      rake db:create 

@@ -10,15 +10,19 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
   timeout: 5000
 
-development:
+development: &development
   <<: *default
   database: approvals_development
+  host: <%= ENV["lando_approvals_database_conn_host"] %>
+  port: <%= ENV["lando_approvals_database_conn_port"] %>
+  username: <%= ENV["lando_approvals_database_creds_user"] %>
+  password: <%= ENV["lando_approvals_database_creds_password"] %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
+  <<: *development
   database: approvals_test
 
 production: &production
