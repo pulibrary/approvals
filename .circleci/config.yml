@@ -1,9 +1,11 @@
 ---
 version: 2.1
+orbs: 
+  node: circleci/node@5.0.0
 executors:
   approvals-executor:
     docker:
-      - image: circleci/ruby:2.6.5-node-browsers
+      - image: circleci/ruby:2.7.5-node-browsers
         environment:
           BUNDLER_VERSION: 2.0.1
           BUNDLE_JOBS: 3
@@ -59,6 +61,18 @@ jobs:
           at: '~/project'
       - checkout
       - setup-bundler
+
+      - run:
+          name: Install python 2 (needed to compile node-sass)
+          command: sudo apt-get install -y python2
+
+      - node/install:
+          install-yarn: true
+          node-version: '12.22.5'
+
+      - run:
+          name: Which node?
+          command: node -v
 
       # Only necessary if app uses webpacker or yarn in some other way
       - restore_cache:

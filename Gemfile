@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "~>2.6.5"
+ruby "~>2.7.5"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~> 5.2.3"
@@ -60,7 +60,7 @@ gem "honeybadger"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem "bixby"
+  gem "bixby", "~> 3.0"
   gem "byebug", platforms: %i[mri mingw x64_mingw]
   gem "pry"
   gem "pry-byebug"
@@ -84,7 +84,7 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem "capybara", ">= 2.15"
   gem "capybara-screenshot"
-  gem "factory_bot_rails", require: false
+  gem "factory_bot_rails", "~> 4.8", require: false
   gem "percy-capybara", "~> 4.0.0"
   gem "rails-controller-testing"
   gem "rspec_junit_formatter"
