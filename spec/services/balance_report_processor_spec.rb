@@ -2,12 +2,12 @@
 require "rails_helper"
 
 RSpec.describe BalanceReportProcessor, type: :model do
-  # rubocop:disable Metrics/LineLength
+  # rubocop:disable Layout/LineLength
   let(:heading_line) { "Business Unit\tDepartment\tNet ID\tEID\tEmployee Record Number\tName\tReg/Temp\tLatest Hire Dt\tTitle\tFLSA Status - Description\tSalary Administration Plan\tDuty Time\t# Pays\tStandard Hours\tUnion Code\tPay Group\tAbsence Grp\tBun Bal\tVac Bal\tSick Bal\tPer Bal\tAbsence Manager" }
   let(:user_line) { "PUHRS\tTest Department\ttesti\t99999999\t0\tTest, I am\tR\t2013-06-10 00:00:00\tLibrary Office Assistant II\tNonexempt\tBLR\t100\t26\t40\tLIB\tBCB\tPU_BCB\t\t118.783\t97.5\t15\tManager, I Am.\n" }
   let(:user2_line) { "PUHRS\tTest Department\ttest2\t99999999\t0\tTest, I too\tR\t2013-06-10 00:00:00\tLibrary Office Assistant II\tNonexempt\tBLR\t100\t26\t40\tLIB\tBCB\tPU_BCB\t\t108.783\t90.5\t16\tManager, I Am." }
   let(:user3_line) { "PUHRS\t41000 - Library - Main\ttest3\t99999999\t0\tTest,Exempt\tR\t2016-06-01 00:00:00\tExecutive Assistant\tExempt\tADM\t100\t12\t36.25\t \tMCM\tPU_MCM\t\t188.5\t108.75\t14.5\tJarvis,Anne E.\n" }
-  # rubocop:enable Metrics/LineLength
+  # rubocop:enable Layout/LineLength
 
   describe "#process" do
     it "Adds balances to staff profiles" do
