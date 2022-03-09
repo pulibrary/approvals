@@ -24,7 +24,7 @@ RSpec.describe "Home Page", type: :request do
     context "Public user" do
       it "allows access to home page" do
         get root_path
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
     end
   end

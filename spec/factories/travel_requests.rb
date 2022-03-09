@@ -13,7 +13,7 @@ FactoryBot.define do
     end
 
     after(:build) do |request, evaluator|
-      fire_event_safely(request: request, action: evaluator.action, agent: request.creator.department.head) unless evaluator.action.blank?
+      fire_event_safely(request: request, action: evaluator.action, agent: request.creator.department.head) if evaluator.action.present?
     end
 
     trait :with_note_and_estimate do

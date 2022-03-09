@@ -16,6 +16,12 @@ AllCops:
     - 'config/environments/**/*'
     - 'node_modules/**/*'
 
+Layout/IndentationConsistency:
+   Enabled: false
+
+Layout/IndentationWidth:
+   Enabled: false
+
 Style/StringLiterals:
    EnforcedStyle: double_quotes
 

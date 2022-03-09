@@ -104,7 +104,7 @@ class TravelRequestDecorator < RequestDecorator
   # Users have omitted this, which causes errors with the displays
   # For display purposes we will just use the event date if the start date is missing
   def start_date
-    return request.start_date unless request.start_date.blank?
+    return request.start_date if request.start_date.present?
     event_requests.first&.start_date
   end
 
@@ -112,7 +112,7 @@ class TravelRequestDecorator < RequestDecorator
   # Users have omitted this, which causes errors with the displays
   # For display purposes we will just use the event date if the end date is missing
   def end_date
-    return request.end_date unless request.end_date.blank?
+    return request.end_date if request.end_date.present?
     event_requests.first&.end_date
   end
 

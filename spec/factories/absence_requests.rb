@@ -12,7 +12,7 @@ FactoryBot.define do
     absence_type { "vacation" }
 
     after(:build) do |request, evaluator|
-      fire_event_safely(request: request, action: evaluator.action, agent: request.creator.supervisor) unless evaluator.action.blank?
+      fire_event_safely(request: request, action: evaluator.action, agent: request.creator.supervisor) if evaluator.action.present?
     end
 
     trait :with_note do

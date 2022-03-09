@@ -90,7 +90,7 @@ class TravelRequestsController < CommonRequestController
 
     # TODO: remove this when the form gets done correctly
     def clean_params
-      return unless params[:travel_request].present?
+      return if params[:travel_request].blank?
       params[:travel_request][:event_requests] = [params[:travel_request][:event_requests_attributes]["0"]] if params[:travel_request][:event_requests_attributes].present?
 
       parse_date(params[:travel_request][:event_requests][0], :event_dates) if params[:travel_request][:event_requests].present?

@@ -11,7 +11,7 @@ RSpec.describe RandomDirectReportsGenerator, type: :model do
   describe ".create_reports" do
     it "creates direct reports" do
       expect do
-        RandomDirectReportsGenerator.create_reports(supervisor: supervisor)
+        described_class.create_reports(supervisor: supervisor)
       end.to change(StaffProfile, :count).by(5)
       expect(StaffProfile.where(supervisor_id: supervisor.id).count).to eq(5)
     end
@@ -19,7 +19,7 @@ RSpec.describe RandomDirectReportsGenerator, type: :model do
     context "one report" do
       it "creates a direct report" do
         expect do
-          RandomDirectReportsGenerator.create_reports(supervisor: supervisor, number_of_people: 1)
+          described_class.create_reports(supervisor: supervisor, number_of_people: 1)
         end.to change(StaffProfile, :count).by(1)
         expect(StaffProfile.last.supervisor).to eq(supervisor)
         expect(StaffProfile.last.vacation_balance > 0).to be_truthy
@@ -32,7 +32,7 @@ RSpec.describe RandomDirectReportsGenerator, type: :model do
       it "creates a direct report" do
         allow(Random).to receive(:rand).with(1...50_000).and_return(10, 10, 100)
         expect do
-          RandomDirectReportsGenerator.create_reports(supervisor: supervisor, number_of_people: 2)
+          described_class.create_reports(supervisor: supervisor, number_of_people: 2)
         end.to change(StaffProfile, :count).by(2)
         expect(StaffProfile.last.supervisor).to eq(supervisor)
       end
@@ -42,7 +42,7 @@ RSpec.describe RandomDirectReportsGenerator, type: :model do
   describe ".create_populated_department" do
     it "creates a departmemt with supervisors and direct reports" do
       expect do
-        RandomDirectReportsGenerator.create_populated_department(head: supervisor, number_of_supervisors: 3)
+        described_class.create_populated_department(head: supervisor, number_of_supervisors: 3)
       end.to change(Department, :count).by(1).and change(StaffProfile, :count).by(18)
       expect(StaffProfile.where(supervisor_id: supervisor.id).count).to eq(3)
       expect(Department.where(head_id: supervisor.id).count).to eq(1)

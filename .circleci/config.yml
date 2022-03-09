@@ -1,9 +1,11 @@
 ---
 version: 2.1
+orbs: 
+  node: circleci/node@5.0.0
 executors:
   approvals-executor:
     docker:
-      - image: circleci/ruby:2.6.5-node-browsers
+      - image: circleci/ruby:2.7.5-browsers
         environment:
           BUNDLER_VERSION: 2.0.1
           BUNDLE_JOBS: 3
@@ -50,6 +52,20 @@ commands:
           key: approvals-bundle-v3-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
+  setup-node:
+    description: "Set up the correct version of node"
+    steps:
+      - run:
+          name: Install python 2 (needed to compile node-sass)
+          command: sudo apt-get install -y python2
+
+      - node/install:
+          install-yarn: true
+          node-version: '12.22.5'
+
+      - run:
+          name: Which node?
+          command: node -v
 
 jobs:
   build:
@@ -59,6 +75,7 @@ jobs:
           at: '~/project'
       - checkout
       - setup-bundler
+      - setup-node
 
       # Only necessary if app uses webpacker or yarn in some other way
       - restore_cache:
@@ -86,6 +103,7 @@ jobs:
       - attach_workspace:
           at: '~/project'
       - setup-bundler
+      - setup-node
 
       # ensure we have psql which we need for db:schema:load
       - run: sudo apt-get update --allow-releaseinfo-change
@@ -105,6 +123,10 @@ jobs:
       - run:
           name: Run jest tests
           command: yarn test
+
+      - run:
+          name: Run webpacker
+          command: bin/webpack
 
       # Run rspec with percy
       - run:
