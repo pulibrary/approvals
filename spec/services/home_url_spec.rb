@@ -6,10 +6,10 @@ RSpec.describe HomeURL, type: :model do
 
   describe "#for" do
     it "returns root path for empty current_user" do
-      expect(HomeURL.for(current_user: nil)).to eq("/")
+      expect(described_class.for(current_user: nil)).to eq("/")
     end
     it "returns my requests path for filled in current_user" do
-      expect(HomeURL.for(current_user: jack)).to eq("/my_requests")
+      expect(described_class.for(current_user: jack)).to eq("/my_requests")
     end
   end
 end

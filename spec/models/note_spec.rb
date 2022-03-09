@@ -16,7 +16,7 @@ RSpec.describe Note, type: :model do
       note2 = FactoryBot.create :note, request: travel_request
       note3 = FactoryBot.create :note, request: travel_request
       note4 = FactoryBot.create :note, request: absence_request
-      expect(Note.all).to eq([note1, note2, note3, note4])
+      expect(described_class.all).to eq([note1, note2, note3, note4])
       expect(absence_request.notes).to eq([note1, note4])
       expect(travel_request.notes).to eq([note2, note3])
     end

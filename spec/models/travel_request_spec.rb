@@ -188,7 +188,7 @@ RSpec.describe TravelRequest, type: :model do
       expect { travel_request.absence_type }.to raise_error ActiveModel::UnknownAttributeError
     end
     it "can assing absence_type in new" do
-      expect { TravelRequest.new(absence_type: "vacation") }.to raise_error ActiveModel::UnknownAttributeError
+      expect { described_class.new(absence_type: "vacation") }.to raise_error ActiveModel::UnknownAttributeError
     end
 
     it "can not assign hours_requested" do
@@ -198,7 +198,7 @@ RSpec.describe TravelRequest, type: :model do
       expect { travel_request.hours_requested }.to raise_error ActiveModel::UnknownAttributeError
     end
     it "can assing hours_requested in new" do
-      expect { TravelRequest.new(hours_requested: 40) }.to raise_error ActiveModel::UnknownAttributeError
+      expect { described_class.new(hours_requested: 40) }.to raise_error ActiveModel::UnknownAttributeError
     end
 
     it "can not assign end_time" do
@@ -208,7 +208,7 @@ RSpec.describe TravelRequest, type: :model do
       expect { travel_request.end_time }.to raise_error ActiveModel::UnknownAttributeError
     end
     it "can assing end_time in new" do
-      expect { TravelRequest.new(end_time: "10:00pm") }.to raise_error ActiveModel::UnknownAttributeError
+      expect { described_class.new(end_time: "10:00pm") }.to raise_error ActiveModel::UnknownAttributeError
     end
 
     it "can not assign start_time" do
@@ -218,7 +218,7 @@ RSpec.describe TravelRequest, type: :model do
       expect { travel_request.start_time }.to raise_error ActiveModel::UnknownAttributeError
     end
     it "can assing start_time in new" do
-      expect { TravelRequest.new(start_time: "10:00pm") }.to raise_error ActiveModel::UnknownAttributeError
+      expect { described_class.new(start_time: "10:00pm") }.to raise_error ActiveModel::UnknownAttributeError
     end
   end
 end

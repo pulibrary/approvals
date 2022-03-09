@@ -11,7 +11,7 @@ RSpec.describe RecurringEventLoader, type: :model do
       file.write("- American Institute for Conservation (AIC)\n")
       file.rewind
       file.close
-      RecurringEventLoader.load(config_file: file.path)
+      described_class.load(config_file: file.path)
       expect(RecurringEvent.all.map(&:name)).to contain_exactly("Access Conference", "American Institute for Conservation (AIC)")
       file.unlink
     end

@@ -87,40 +87,40 @@ RSpec.describe Request, type: :model do
     end
 
     it "finds all when search_query is blank" do
-      expect(Request.where_contains_text(search_query: nil).map(&:id)).to contain_exactly(absence_request.id, absence_request2.id, travel_request.id, travel_request2.id)
+      expect(described_class.where_contains_text(search_query: nil).map(&:id)).to contain_exactly(absence_request.id, absence_request2.id, travel_request.id, travel_request2.id)
     end
 
     it "finds an ending word" do
-      expect(Request.where_contains_text(search_query: "balloons").map(&:id)).to contain_exactly(absence_request.id, absence_request2.id)
+      expect(described_class.where_contains_text(search_query: "balloons").map(&:id)).to contain_exactly(absence_request.id, absence_request2.id)
     end
 
     it "finds a starting word" do
-      expect(Request.where_contains_text(search_query: "Flamingo").map(&:id)).to contain_exactly(travel_request.id)
+      expect(described_class.where_contains_text(search_query: "Flamingo").map(&:id)).to contain_exactly(travel_request.id)
     end
 
     it "finds a middle word" do
-      expect(Request.where_contains_text(search_query: "love").map(&:id)).to contain_exactly(absence_request.id, absence_request2.id)
+      expect(described_class.where_contains_text(search_query: "love").map(&:id)).to contain_exactly(absence_request.id, absence_request2.id)
     end
 
     it "finds a case insensitive word" do
-      expect(Request.where_contains_text(search_query: "elephant").map(&:id)).to contain_exactly(absence_request.id, absence_request2.id)
-      expect(Request.where_contains_text(search_query: "Elephant").map(&:id)).to contain_exactly(absence_request.id, absence_request2.id)
+      expect(described_class.where_contains_text(search_query: "elephant").map(&:id)).to contain_exactly(absence_request.id, absence_request2.id)
+      expect(described_class.where_contains_text(search_query: "Elephant").map(&:id)).to contain_exactly(absence_request.id, absence_request2.id)
     end
 
     it "finds a phrase with punctuation in a second note" do
-      expect(Request.where_contains_text(search_query: "Bears can't").map(&:id)).to contain_exactly(travel_request.id)
+      expect(described_class.where_contains_text(search_query: "Bears can't").map(&:id)).to contain_exactly(travel_request.id)
     end
 
     it "finds a travel event title" do
-      expect(Request.where_contains_text(search_query: "#{Time.zone.today.year}, Location").map(&:id)).to contain_exactly(travel_request.id, travel_request2.id)
+      expect(described_class.where_contains_text(search_query: "#{Time.zone.today.year}, Location").map(&:id)).to contain_exactly(travel_request.id, travel_request2.id)
     end
 
     it "finds a request by id" do
-      expect(Request.where_contains_text(search_query: travel_request.id.to_s).map(&:id)).to contain_exactly(travel_request.id)
+      expect(described_class.where_contains_text(search_query: travel_request.id.to_s).map(&:id)).to contain_exactly(travel_request.id)
     end
 
     it "finds none with a non existant phrase" do
-      expect(Request.where_contains_text(search_query: "Cats hate water").map(&:id)).to be_empty
+      expect(described_class.where_contains_text(search_query: "Cats hate water").map(&:id)).to be_empty
     end
   end
 end

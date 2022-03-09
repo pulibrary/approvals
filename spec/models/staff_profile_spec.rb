@@ -23,11 +23,11 @@ RSpec.describe StaffProfile, type: :model do
   describe "#find_by_uid" do
     it "returns the staff_profile" do
       profile = FactoryBot.create(:staff_profile)
-      expect(StaffProfile.find_by(uid: profile.user.uid)).to eq(profile)
+      expect(described_class.find_by(uid: profile.user.uid)).to eq(profile)
     end
 
     it "returns nil for a non existant uid" do
-      expect(StaffProfile.find_by(uid: "blah")).to eq(nil)
+      expect(described_class.find_by(uid: "blah")).to eq(nil)
     end
   end
 

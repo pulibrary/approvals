@@ -11,10 +11,10 @@ RSpec.describe Holidays, type: :model do
       file.rewind
       file.close
 
-      expect(Holidays.list(config_file: file.path, force_parse: true)).to eq([
-                                                                               Date.new(2019, 11, 28), Date.new(2019, 11, 29),
-                                                                               Date.new(2019, 12, 25)
-                                                                             ])
+      expect(described_class.list(config_file: file.path, force_parse: true)).to eq([
+                                                                                      Date.new(2019, 11, 28), Date.new(2019, 11, 29),
+                                                                                      Date.new(2019, 12, 25)
+                                                                                    ])
       file.unlink
     end
   end

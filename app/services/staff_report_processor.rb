@@ -56,8 +56,8 @@ class StaffReportProcessor
         staff_profile = StaffProfile.where(user_id: user.id).first
         profile_is_new = staff_profile.blank?
         staff_profile ||= StaffProfile.new
-        staff_profile.update_attributes(user: user, department: department, biweekly: biweekly,
-                                        given_name: given_name, surname: surname, email: email, location: location)
+        staff_profile.update(user: user, department: department, biweekly: biweekly,
+                             given_name: given_name, surname: surname, email: email, location: location)
         staff_profile.save
         new_profiles << staff_profile if profile_is_new
       end
@@ -104,7 +104,7 @@ class StaffReportProcessor
 
       def set_department_head(department:, head_uid:)
         department_head = StaffProfile.find_by(uid: head_uid)
-        return department unless department_head.present?
+        return department if department_head.blank?
         department.head = department_head
         if @library_dean != department_head
           department_head.supervisor = @library_dean

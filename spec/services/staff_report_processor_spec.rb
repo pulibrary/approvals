@@ -30,7 +30,7 @@ RSpec.describe StaffReportProcessor, type: :model do
   describe "#process" do
     it "creates users and staff profiles" do
       expect do
-        StaffReportProcessor.process(data: "#{heading_line}\n#{user_line}", ldap_service_class: FakeLdapClass, department_config: department_config)
+        described_class.process(data: "#{heading_line}\n#{user_line}", ldap_service_class: FakeLdapClass, department_config: department_config)
       end.to change(User, :count).by(1).and(
         change(StaffProfile, :count).by(1)
       ).and(
@@ -49,7 +49,7 @@ RSpec.describe StaffReportProcessor, type: :model do
 
     it "connects a user and their supervisor" do
       expect do
-        StaffReportProcessor.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass, department_config: department_config)
+        described_class.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass, department_config: department_config)
       end.to change(User, :count).by(3).and(
         change(StaffProfile, :count).by(3)
       ).and(
@@ -75,7 +75,7 @@ RSpec.describe StaffReportProcessor, type: :model do
       ajarvis_user = FactoryBot.create(:user, uid: "ajarvis")
       FactoryBot.create :staff_profile, user: ajarvis_user
       expect do
-        StaffReportProcessor.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass, department_config: department_config)
+        described_class.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass, department_config: department_config)
       end.to change(User, :count).by(1).and(
         change(StaffProfile, :count).by(1)
       ).and(
@@ -98,7 +98,7 @@ RSpec.describe StaffReportProcessor, type: :model do
 
       it "connects a user and the department head" do
         expect do
-          StaffReportProcessor.process(data: "#{heading_line}\n#{user_line}\n#{user_line2}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass, department_config: department_config)
+          described_class.process(data: "#{heading_line}\n#{user_line}\n#{user_line2}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass, department_config: department_config)
         end.to change(User, :count).by(4).and(
           change(StaffProfile, :count).by(4)
         ).and(

@@ -50,19 +50,19 @@ RSpec.describe AbsentStaff, type: :model do
 
   describe "#list" do
     it "returns absent staff" do
-      expect(AbsentStaff.list(start_date: Time.zone.now, end_date: Time.zone.now + 2.days, supervisor: supervisor)).to contain_exactly(mary, jack, jill, piper)
+      expect(described_class.list(start_date: Time.zone.now, end_date: Time.zone.now + 2.days, supervisor: supervisor)).to contain_exactly(mary, jack, jill, piper)
     end
 
     it "returns absent staff when window is inside the staff absence" do
-      expect(AbsentStaff.list(start_date: Time.zone.now - 2.days, end_date: Time.zone.now - 1.day, supervisor: supervisor)).to contain_exactly(jill, piper)
+      expect(described_class.list(start_date: Time.zone.now - 2.days, end_date: Time.zone.now - 1.day, supervisor: supervisor)).to contain_exactly(jill, piper)
     end
 
     it "returns absent staff when window is around end date of the absence" do
-      expect(AbsentStaff.list(start_date: Time.zone.now + 2.days, end_date: Time.zone.now + 5.days, supervisor: supervisor)).to contain_exactly(mary, jack)
+      expect(described_class.list(start_date: Time.zone.now + 2.days, end_date: Time.zone.now + 5.days, supervisor: supervisor)).to contain_exactly(mary, jack)
     end
 
     it "returns no one when the supervisor is other" do
-      expect(AbsentStaff.list(start_date: Time.zone.now + 2.days, end_date: Time.zone.now + 5.days, supervisor: piper)).to be_empty
+      expect(described_class.list(start_date: Time.zone.now + 2.days, end_date: Time.zone.now + 5.days, supervisor: piper)).to be_empty
     end
   end
 end

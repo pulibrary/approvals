@@ -16,7 +16,7 @@ RSpec.describe User, type: :model do
 
   describe "#from_cas" do
     it "returns a user object" do
-      expect(User.from_cas(access_token)).to be_a User
+      expect(described_class.from_cas(access_token)).to be_a described_class
     end
   end
 end

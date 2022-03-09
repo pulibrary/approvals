@@ -11,7 +11,7 @@ RSpec.describe LocationLoader, type: :model do
       file.write("- building: Other Library\n")
       file.rewind
       file.close
-      LocationLoader.load(config_file: file.path)
+      described_class.load(config_file: file.path)
       expect(Location.all.map(&:building)).to eq(["Firestone Library", "Other Library"])
       file.unlink
     end
@@ -22,7 +22,7 @@ RSpec.describe LocationLoader, type: :model do
       file.write("  admin_assistant: #{user.uid}\n")
       file.rewind
       file.close
-      LocationLoader.load(config_file: file.path)
+      described_class.load(config_file: file.path)
       expect(Location.count).to eq(2)
       location = Location.last
       expect(location.building).to eq("Firestone Library")
@@ -36,7 +36,7 @@ RSpec.describe LocationLoader, type: :model do
       file.write("  admin_assistant: #{user.uid}\n")
       file.rewind
       file.close
-      LocationLoader.load(config_file: file.path)
+      described_class.load(config_file: file.path)
       expect(Location.count).to eq(1)
       location = Location.last
       expect(location.building).to eq(staff_profile.location.building)
@@ -50,7 +50,7 @@ RSpec.describe LocationLoader, type: :model do
       file.write("  admin_assistant: abc123\n")
       file.rewind
       file.close
-      LocationLoader.load(config_file: file.path)
+      described_class.load(config_file: file.path)
       location = Location.last
       expect(location.building).to eq("Firestone Library")
       expect(location.admin_assistant).to be_nil

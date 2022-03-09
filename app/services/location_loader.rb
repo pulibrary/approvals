@@ -6,7 +6,7 @@ class LocationLoader
       yaml.each do |building_opts|
         location = Location.where(building: building_opts["building"]).first
         location ||= Location.new
-        location.update_attributes(clean_building_options(building_opts))
+        location.update(clean_building_options(building_opts))
         location.save!
       end
     end

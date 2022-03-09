@@ -59,7 +59,7 @@ namespace :approvals do
     report = file.read
     errors = BalanceReportProcessor.process(data: report)
     puts "Completed processing the balance report."
-    abort("There were unknown entries: #{errors[:unknown].join(', ')}") unless errors[:unknown].blank?
+    abort("There were unknown entries: #{errors[:unknown].join(', ')}") if errors[:unknown].present?
   end
 
   desc "process the balance report"
