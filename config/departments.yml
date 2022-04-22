@@ -2,8 +2,8 @@
   head_uid: ajarvis
   admin_assistant: 
     - esamios
-    - jbakemaa
-    - ddreyern
+    - jbakeman
+    - ddreyer
 41004:
   admin_assistant: 
     - nishc
@@ -21,3 +21,6 @@
   admin_assistant: 
     - rdunham
     - temanuel
+41034:
+  admin_assistant:
+    - ddreyer
