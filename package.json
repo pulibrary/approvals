@@ -2,7 +2,7 @@
   "name": "approvals",
   "private": true,
   "dependencies": {
-    "@rails/webpacker": "^4.0.2",
+    "@rails/webpacker": "~5.4.3",
     "lux-design-system": "^2.16.3",
     "vue": "^2.6.10",
     "vue-loader": "^15.7.0",
@@ -12,6 +12,7 @@
     "test": "jest"
   },
   "devDependencies": {
+    "babel-loader": "~8.2.5",
     "@babel/core": "^7.1.6",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-transform-runtime": "^7.6.0",
