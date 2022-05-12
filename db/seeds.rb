@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 #
@@ -15,7 +16,7 @@ StaffReportProcessor.process(data: report)
 file = File.open(Rails.application.config.balance_report_location, encoding: "UTF-16")
 report = file.read
 errors = BalanceReportProcessor.process(data: report)
-puts errors.inspect
+puts errors.inspect if errors[:unknown].any?
 
 # process the seeds a second time to put in the AAs since they should now exist
 LocationLoader.load
