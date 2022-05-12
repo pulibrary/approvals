@@ -55,7 +55,7 @@ This is an application that allows the library to create workflows that allow st
 
    * run foreman
      ```
-     bundle exec foreman start
+     foreman start
      ```
    * run mail catcher
      run once 
