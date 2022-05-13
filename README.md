@@ -78,6 +78,8 @@ This is an application that allows the library to create workflows that allow st
      
 ## How to run the test suite
 
+`bundle exec rake spec` will run the tests.
+
 ### Percy (Visual Regressions)
 
 [![This project is using Percy.io for visual regression testing.](https://percy.io/static/images/percy-badge.svg)](https://percy.io/Princeton-University-Library/approvals)
