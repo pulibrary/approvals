@@ -26,7 +26,7 @@ RSpec.feature "My Requests", type: :feature, js: true do
                                        travel_category: "professional_development", start_date: Date.parse("2020-05-21"), end_date: Date.parse("2020-05-23"), event_requests: [event_request3])
 
     visit "/my_requests"
-    Percy.snapshot(page, name: "My Requests - Show", widths: [375, 768, 1440])
+    page.percy_snapshot(page, name: "My Requests - Show")
     assert_selector ".my-request .lux-card", count: Request.count
 
     select_drop_down(menu: "#status-menu", item: "Approved")

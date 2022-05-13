@@ -34,7 +34,7 @@ RSpec.feature "My Requests", type: :feature, js: true do
     click_on "Requests"
     click_on "Reports"
 
-    Percy.snapshot(page, name: "Reports - show", widths: [375, 768, 1440])
+    page.percy_snapshot("Reports - show")
     assert_selector ".my-request tr", count: Request.count # header row included in count
     expect(page).to have_content "Wow 2020, Location (05/21/2020 to 05/23/2020) May 21, 2020 May 23, 2020 Approved Pat Doe ITIMS\n"
     expect(page).to have_content "Best Event Ever 2020, Location (10/21/2020 to 10/23/2020) October 20, 2020 October 23, 2012 Approved Pat Doe ITIMS"

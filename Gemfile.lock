@@ -199,7 +199,8 @@ GEM
     parallel (1.21.0)
     parser (3.1.1.0)
       ast (~> 2.4.1)
-    percy-capybara (4.0.2)
+    percy-capybara (5.0.0)
+      capybara (>= 3)
     pg (0.21.0)
     pry (0.12.2)
       coderay (~> 1.1.0)
@@ -402,7 +403,7 @@ DEPENDENCIES
   net-ldap
   omniauth-cas
   omniauth-rails_csrf_protection (~> 0.1)
-  percy-capybara (~> 4.0.0)
+  percy-capybara
   pg
   pry
   pry-byebug
