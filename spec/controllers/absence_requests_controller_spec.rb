@@ -367,7 +367,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
         post :create, params: { absence_request: invalid_attributes, format: :json }, session: valid_session
         expect(response).not_to be_successful
         expect(response.media_type).to eq("application/json")
-        expect(response.body).to eq('{"absence_type":["is not included in the list"],"hours_requested":["can\'t be blank"],"start_date":["can\'t be blank"],"end_date":["can\'t be blank"]}')
+        expect(response.body).to eq('{"absence_type":["is not included in the list"],"end_date":["can\'t be blank"],"hours_requested":["can\'t be blank"],"start_date":["can\'t be blank"]}')
       end
     end
 
@@ -390,7 +390,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
         post :create, params: { absence_request: valid_attributes, format: :json }, session: valid_session
         expect(response).not_to be_successful
         expect(response.media_type).to eq("application/json")
-        expect(response.body).to eq('{"request":["must exist"],"creator":["must exist"]}')
+        expect(response.body).to eq('{"creator":["must exist"],"request":["must exist"]}')
       end
     end
     # rubocop:enable RSpec/AnyInstance
@@ -455,7 +455,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
         put :update, params: { id: absence_request.to_param, absence_request: valid_attributes, format: :json }, session: valid_session
         expect(response).not_to be_successful
         expect(response.media_type).to eq("application/json")
-        expect(response.body).to eq('{"request":["must exist"],"creator":["must exist"]}')
+        expect(response.body).to eq('{"creator":["must exist"],"request":["must exist"]}')
       end
     end
     # rubocop:enable RSpec/AnyInstance
