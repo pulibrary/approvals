@@ -2,10 +2,11 @@
 version: 2.1
 orbs: 
   node: circleci/node@5.0.0
+  browser-tools: circleci/browser-tools@1.1
 executors:
   approvals-executor:
     docker:
-      - image: circleci/ruby:2.7.5-browsers
+      - image: cimg/ruby:2.7.5-browsers
         environment:
           BUNDLER_VERSION: 2.0.1
           BUNDLE_JOBS: 3
@@ -13,6 +14,7 @@ executors:
           BUNDLE_PATH: vendor/bundle
           PGHOST: 127.0.0.1
           PGUSER: approvals
+          PSQL_PAGER: ''
           RAILS_ENV: test
       - image: postgres:10
         environment:
@@ -40,8 +42,8 @@ commands:
       # Restore bundle cache
       - restore_cache:
           keys:
-            - approvals-bundle-v3-{{ checksum "Gemfile.lock" }}
-            - approvals-bundle-v3-
+            - approvals-bundle-v4-{{ checksum "Gemfile.lock" }}
+            - approvals-bundle-v4-
 
       - run:
           name: Bundle Install
@@ -49,16 +51,12 @@ commands:
 
       # Store bundle cache
       - save_cache:
-          key: approvals-bundle-v3-{{ checksum "Gemfile.lock" }}
+          key: approvals-bundle-v4-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
   setup-node:
     description: "Set up the correct version of node"
     steps:
-      - run:
-          name: Install python 2 (needed to compile node-sass)
-          command: sudo apt-get install -y python2
-
       - node/install:
           install-yarn: true
           node-version: '12.22.5'
@@ -100,14 +98,11 @@ jobs:
   test:
     executor: approvals-executor
     steps:
+      - browser-tools/install-browser-tools
       - attach_workspace:
           at: '~/project'
       - setup-bundler
       - setup-node
-
-      # ensure we have psql which we need for db:schema:load
-      - run: sudo apt-get update --allow-releaseinfo-change
-      - run: sudo apt-get install -y postgresql-client || true
 
       - run:
           name: Wait for DB
@@ -117,7 +112,7 @@ jobs:
           name: Database setup
           command: |
             bin/rails db:create
-            bin/rails db:structure:load
+            bin/rails db:schema:load
 
       # Run yarn test
       - run:
