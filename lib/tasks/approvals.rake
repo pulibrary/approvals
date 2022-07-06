@@ -92,6 +92,17 @@ namespace :approvals do
     puts "created #{delegate} can not act on behalf of #{delegator}"
   end
 
+  desc "Make sure this user is no longer anybody's delegate"
+  task :stop_being_a_delegate, [:delegate_uid] => [:environment] do |_t, args|
+    delegate_uid = args[:delegate_uid]
+    delegate = StaffProfile.find_by(uid: delegate_uid)
+    abort "Invalid delegate uid (netid) #{delegate_uid}" if delegate.blank?
+
+    results = Delegate.where(delegate_id: delegate.id).destroy_all
+    puts "#{delegate_uid} was previously a delegate for #{results.count} other users \n" \
+         "#{delegate_uid} is no longer serving as a delegate for anyone."
+  end
+
   def make_requests(staff_profile:)
     1.upto(Random.rand(5...20)) do
       status = ["pending", "approved", "denied", "changes_requested", "canceled"].sample
