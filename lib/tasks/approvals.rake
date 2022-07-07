@@ -103,6 +103,12 @@ namespace :approvals do
          "#{delegate_uid} is no longer serving as a delegate for anyone."
   end
 
+  desc "Remove a departing admin assistant from workflows"
+  task :remove_admin_assistant, [:uid] => :environment do |_t, args|
+    Rake::Task["approvals:stop_being_a_delegate"].invoke(args[:uid])
+    Rake::Task["approvals:process_staff_report"].invoke
+  end
+
   def make_requests(staff_profile:)
     1.upto(Random.rand(5...20)) do
       status = ["pending", "approved", "denied", "changes_requested", "canceled"].sample
