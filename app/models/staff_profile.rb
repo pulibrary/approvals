@@ -58,6 +58,7 @@ class StaffProfile < ApplicationRecord
   end
 
   def list_supervised(list:)
+    list |= StaffProfile.where(department: self.department)
     supervised = StaffProfile.where(supervisor: self)
     return list if supervised.empty?
     list |= supervised
