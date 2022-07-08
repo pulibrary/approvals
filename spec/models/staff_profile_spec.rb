@@ -90,5 +90,14 @@ RSpec.describe StaffProfile, type: :model do
       profile = FactoryBot.create(:staff_profile, location: location, department: department)
       expect(profile.admin_assistants).to eq([aa])
     end
+
+    it "returns all department members" do
+      aa = FactoryBot.create(:staff_profile, given_name: "Doug", surname: "Doe")
+      department1 = FactoryBot.create(:department, admin_assistants: [aa])
+      department2 = FactoryBot.create(:department, admin_assistants: [])
+      profile1 = FactoryBot.create(:staff_profile, given_name: "Sally", surname: "Smith", department: department1)
+      FactoryBot.create(:staff_profile, given_name: "Jane", surname: "Smith", department: department2)
+      expect(aa.list_supervised(list: [])).to include(aa, profile1)
+    end
   end
 end

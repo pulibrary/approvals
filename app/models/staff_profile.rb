@@ -50,6 +50,10 @@ class StaffProfile < ApplicationRecord
     StaffProfile.where(supervisor: id).count.positive?
   end
 
+  def admin_assistant?
+    AdminAssistantsDepartment.joins(:department).where(admin_assistants_departments: { admin_assistant_id: id }).count.positive?
+  end
+
   def supervisor_chain(agent: self, list: [])
     return list if agent.supervisor.blank?
 
@@ -58,6 +62,12 @@ class StaffProfile < ApplicationRecord
   end
 
   def list_supervised(list:)
+    if admin_assistant?
+      aa_departments = AdminAssistantsDepartment.joins(:department).where(admin_assistants_departments: { admin_assistant_id: id })
+      aa_departments.each do |dep|
+        list |= StaffProfile.where(department: dep.department_id)
+      end
+    end
     supervised = StaffProfile.where(supervisor: self)
     return list if supervised.empty?
     list |= supervised
