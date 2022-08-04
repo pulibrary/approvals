@@ -27,11 +27,10 @@ test:
 
 production: &production
   <<: *default
-  database: approvals_production
+  database: <%= ENV.fetch("APP_DB", "host") %>
   host: <%= ENV.fetch("APP_DB_HOST", "host") %>
   username: <%= ENV.fetch("APP_DB_USERNAME",'user') %>
   password: <%= ENV.fetch("APP_DB_PASSWORD",'password') %>
 
 staging:
   <<: *production
-  database: approvals_staging
