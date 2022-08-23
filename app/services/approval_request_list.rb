@@ -28,6 +28,7 @@ class ApprovalRequestList < RequestList
       def only_next_supervisor(request:, approver:)
         supervisors = request.creator.supervisor_chain
         approver_index = supervisors.index(approver)
+        return if approver_index.blank?
         previous_supervisors = supervisors.slice(0, approver_index)
         previous_supervisors.all? { |supervisor| already_approved?(request: request, approver: supervisor) }
       end
