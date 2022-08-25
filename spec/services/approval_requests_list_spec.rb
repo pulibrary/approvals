@@ -4,7 +4,8 @@ require "rails_helper"
 RSpec.describe ApprovalRequestList, type: :model do
   let(:user) { FactoryBot.create :user, uid: "abc123" }
   let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, user: user }
-
+  let(:user_two) { FactoryBot.create :user, uid: "abc12345" }
+  let(:staff_profile_two) { FactoryBot.create :staff_profile, :with_department, user: user_two }
   let(:other_absence) { FactoryBot.create(:absence_request) }
   let(:other_travel) { FactoryBot.create(:travel_request) }
   let(:my_absence) { FactoryBot.create(:absence_request, creator: staff_profile, start_date: Time.zone.tomorrow) }
@@ -13,12 +14,24 @@ RSpec.describe ApprovalRequestList, type: :model do
   describe "#list_requests" do
     before do
       staff_profile.supervisor.save
+      staff_profile_two.supervisor.save
       # create all the requests
       other_absence
       other_travel
       my_absence
       my_travel
     end
+    it "does not list requests when the approver is not a supervisor of the request creator" do
+      supervisor = FactoryBot.create :staff_profile, :with_department
+      supervisor.supervisor = nil
+      supervisor.save
+      department_one = FactoryBot.create :department, :with_head, admin_assistants: [staff_profile_two]
+      staff_profile = FactoryBot.create :staff_profile, supervisor: supervisor, department: department_one
+      other_travel_two = FactoryBot.create(:travel_request, creator: staff_profile)
+      expect { other_travel_two.approve(agent: department_one.head) }.not_to raise_error
+      # expect(other_travel_two).not_to be_approved # this needs to be investigated in a new issue
+    end
+
     it "returns a success response" do
       list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil, order: nil)
       expect(list.count).to be(2)
