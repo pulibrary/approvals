@@ -29,7 +29,7 @@ RSpec.describe ApprovalRequestList, type: :model do
       staff_profile = FactoryBot.create :staff_profile, supervisor: supervisor, department: department_one
       other_travel_two = FactoryBot.create(:travel_request, creator: staff_profile)
       expect { other_travel_two.approve(agent: department_one.head) }.not_to raise_error
-      # expect(other_travel_two).not_to be_approved # this needs to be investigated in a new issue
+      # expect(other_travel_two).not_to be_approved # See issue: https://github.com/pulibrary/approvals/issues/808
     end
 
     it "returns a success response" do
