@@ -2,16 +2,22 @@
 class TravelRequestsController < CommonRequestController
   before_action :set_travel_request, only: [:show, :update, :destroy, :review, :approve, :deny]
 
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/PerceivedComplexity
   # PATCH/PUT
   def decide
     if params[:change_request]
       request_change_set.errors.add(:notes, "are required to specify requested changes.") if processed_params[:notes].blank?
       run_action(action: :change_request, change_method: :supervisor_can_change?)
+    elsif params[:change_event]
+      update_event
     else
       request_change_set.errors.add(:travel_category, "is required to approve.") if params[:approve] && processed_params[:travel_category].blank? && current_staff_profile.department_head?
       super
     end
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/PerceivedComplexity
 
   # PATCH/PUT
   def update
@@ -71,6 +77,7 @@ class TravelRequestsController < CommonRequestController
         :travel_category,
         event_requests: [:id, :recurring_event_id, :start_date, :end_date, :location, :url],
         notes: [:content],
+        new_event: [:id],
         estimates: [:id, :amount, :recurrence, :cost_type, :description]
       )
     end
@@ -115,5 +122,21 @@ class TravelRequestsController < CommonRequestController
 
     def process_request_params?
       params.include?(:travel_request)
+    end
+
+    def update_event
+      set_travel_request
+
+      if processed_params[:new_event][:id].blank?
+        redirect_to({ action: "review", id: @request.id }, flash: { alert: "New event name is required to specify requested changes." })
+      else
+        new_recurring_event = RecurringEvent.find(processed_params[:new_event][:id])
+
+        @request.update_recurring_events!(target_recurring_event: new_recurring_event)
+
+        redirect_to({ action: "review", id: @request.id }, flash: { success: "Travel request event name was successfully updated." })
+      end
+    rescue ActiveRecord::RecordNotFound
+      redirect_to({ action: "review", id: @request.id }, flash: { alert: "Event name does not exist, please select an existing event name." }) unless new_recurring_event
     end
 end

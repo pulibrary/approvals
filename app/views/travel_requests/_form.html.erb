@@ -9,7 +9,7 @@
   </grid-item>
   <grid-item columns="lg-3 md-6 sm-12">
     <%# # TODO This should really be creating fields like: params[:travel_request][:event_requests]{:id, :recurring_event_id, :start_date, :end_date, :location, :url}
-        # wanted to see the validations sbhow up on the screen, but did not want to put any effort into the form %>
+        # wanted to see the validations show up on the screen, but did not want to put any effort into the form %>
     <%= form.fields_for :event_requests do |ff| %>
       <%= ff.hidden_field :id %>
         <input-autocomplete required

@@ -178,6 +178,22 @@ RSpec.describe TravelRequest, type: :model do
         expect { travel_request.cancel!(agent: supervisor) }.to raise_error AASM::InvalidTransition
       end
     end
+
+    describe "#update_recurring_events!" do
+      let(:recurring_event) { FactoryBot.create(:recurring_event, name: "Max's test event") }
+
+      it "can update the associated recurring event" do
+        expect do
+          travel_request.update_recurring_events!(target_recurring_event: recurring_event)
+        end.to change(travel_request.reload, :event_title).from(/Event \d* \d*, Location/).to(/Max's test event \d*, Location/)
+      end
+
+      it "does not update the nested event_requests" do
+        expect do
+          travel_request.update_recurring_events!(target_recurring_event: recurring_event)
+        end.not_to change { travel_request.reload.event_requests.first }
+      end
+    end
   end
 
   context "invalid attributes" do

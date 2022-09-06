@@ -34,6 +34,10 @@ class TravelRequest < Request
     end
   end
 
+  def update_recurring_events!(target_recurring_event:)
+    target_recurring_event.event_requests.replace(event_requests)
+  end
+
   ##########  Invalid Attributes ###########
   # Because we are using single table inheritance there are a number of fields in a Request
   # that are only valid for a absence request.

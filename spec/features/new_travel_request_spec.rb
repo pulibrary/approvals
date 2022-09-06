@@ -13,6 +13,34 @@ RSpec.feature "New Travel Request", type: :feature, js: true do
     staff_profile
   end
 
+  context "with other created events" do
+    let(:travel_request_1) { FactoryBot.create(:travel_request) }
+    let(:travel_request_2) { FactoryBot.create(:travel_request) }
+    before do
+      travel_request_1
+      travel_request_2
+    end
+    it "can autocomplete the Event Name" do
+      visit "/travel_requests/new"
+
+      fill_in "displayInput", with: "e"
+      event_titles = page.find_all("li", text: "Event")
+      expect(event_titles.size).to eq(2)
+      event_titles.first.select_option
+
+      fill_in "travel_request_event_requests_attributes_0_event_dates", with: "10/1/2019 - 10/3/2019"
+      fill_in "travel_request_travel_dates", with: "10/1/2019 - 10/3/2019"
+      fill_in "travel_request_event_requests_attributes_0_location", with: "A Place To Be"
+      find("#travel_request_participation option[value='other']").select_option
+      fill_in "travel_request_purpose", with: "A grand purpose"
+      find("select[id^='travel_request_estimates_cost_type_'] option[value='air']").select_option
+      find("input[id^='travel_request_estimates_recurrence_']").fill_in with: "2"
+      find("input[id^='travel_request_estimates_amount_']").fill_in with: "20"
+      click_on "Submit Request"
+      expect(TravelRequest.last.event_title).to match(/Event/)
+    end
+  end
+
   scenario "I can submit a travel request" do
     visit "/travel_requests/new"
 
