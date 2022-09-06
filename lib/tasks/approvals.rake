@@ -89,7 +89,7 @@ namespace :approvals do
     abort "Invalid delegator uid (netid) #{delegator_uid}" if delegator.blank?
 
     Delegate.create!(delegate: delegate, delegator: delegator)
-    puts "created #{delegate} can not act on behalf of #{delegator}"
+    puts "created #{delegate} can now act on behalf of #{delegator}"
   end
 
   desc "Make sure this user is no longer anybody's delegate"
