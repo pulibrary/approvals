@@ -33,6 +33,8 @@ This is an application that allows the library to create workflows that allow st
      rake db:migrate
      rake db:seed
      ```
+   * `rake db:seed` only creates accounts for users listed in the `Department Absence Manager Report - Library-en.csv` file.  If you are not yet listed in the file, you will have to add a row with your NetID in order to log
+   in to the system later.
    * There are additional rake tasks that allow you to create scenarios and requests in the system
      * make_me_a_department_head\[netid,number\]
         for example the following command will create a department for cac9 to be the head of and have 5 supervisors, each with 5 reports.
