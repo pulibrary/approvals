@@ -16,7 +16,7 @@ executors:
           PGUSER: approvals
           PSQL_PAGER: ''
           RAILS_ENV: test
-      - image: postgres:10
+      - image: postgres:13
         environment:
           POSTGRES_USER: approvals
           POSTGRES_DB: approvals_test

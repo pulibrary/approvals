@@ -1,5 +1,5 @@
 name: approvals
 services:
   approvals_database:
-    type: postgres:12
+    type: postgres:13
     portforward: true
