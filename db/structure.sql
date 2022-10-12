@@ -103,6 +103,8 @@ CREATE TYPE public.request_travel_category AS ENUM (
 
 SET default_tablespace = '';
 
+SET default_table_access_method = heap;
+
 --
 -- Name: admin_assistants_departments; Type: TABLE; Schema: public; Owner: -
 --
@@ -120,8 +122,8 @@ CREATE TABLE public.admin_assistants_departments (
 CREATE TABLE public.ar_internal_metadata (
     key character varying NOT NULL,
     value character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
