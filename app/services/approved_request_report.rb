@@ -11,6 +11,7 @@ class ApprovedRequestReport
   end
 
   def csv
-    CSV.new("")
+    headers = ["creator", "status", "start_date", "end_date", "notes", "request_type"]
+    CSV.new("", headers: headers)
   end
 end
