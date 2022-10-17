@@ -17,7 +17,7 @@ class ApprovedRequestReport
 
     CSV.open(file_path, "wb") do |csv|
       csv << headers
-      TravelRequest.find_each do |request|
+      TravelRequest.includes(:estimates, creator: [:department]).find_each do |request|
         next unless request.approved? && in_report_period?(request)
         csv << [request.start_date, request.end_date, request.event_title, request.id, request.creator.surname, request.creator.given_name,
                 request.creator.department.name, format("%.2f", request.estimated_total)]
