@@ -8,7 +8,7 @@ RSpec.describe ApprovedRequestReport, type: :model do
     FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
                                                                 start_date: "2022-10-12", end_date: "2022-10-14")
   end
-  let(:file_path) { Rails.root.join("tmp", "approved_request_report.csv") }
+  let(:file_path) { Rails.root.join("tmp", "approved_request_report_test.csv") }
   let(:department_head) { staff_member.department.head }
 
   around do |example|
@@ -17,22 +17,22 @@ RSpec.describe ApprovedRequestReport, type: :model do
     File.delete(file_path) if File.exist?(file_path)
   end
 
-  it "can be instantiated" do
-    expect(described_class.new(start_date: "06/01/2022", end_date: "12/31/2022", file_path: file_path))
-  end
   it "has a start date" do
     expect(report.start_date).to be_an_instance_of(Date)
     expect(report.start_date.day).to eq(1)
     expect(report.start_date.month).to eq(6)
   end
+
   it "has an end date" do
     expect(report.end_date).to be_an_instance_of(Date)
     expect(report.end_date.day).to eq(31)
     expect(report.end_date.month).to eq(12)
   end
+
   it "has a file path" do
     expect(report.file_path).to eq file_path
   end
+
   it "creates a CSV file" do
     expect(File.exist?(file_path)).to be false
     report.csv
@@ -62,7 +62,9 @@ RSpec.describe ApprovedRequestReport, type: :model do
       expect(report.in_report_period?(just_right_request)).to eq(true)
       expect(report.in_report_period?(end_in_reporting_period)).to eq(true)
       expect(report.in_report_period?(beginning_in_reporting_period)).to eq(true)
+    end
 
+    it "returns false if request dates are outside of reporting period" do
       expect(report.in_report_period?(too_early_request)).to eq(false)
       expect(report.in_report_period?(too_late_request)).to eq(false)
     end
