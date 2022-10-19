@@ -26,6 +26,8 @@ class ApprovedRequestReport
   end
 
   def in_report_period?(request)
+    return false unless request.start_date && request.end_date
+
     request.start_date.between?(@start_date, @end_date) || request.end_date.between?(@start_date, @end_date)
   end
 end

@@ -142,5 +142,26 @@ RSpec.describe ApprovedRequestReport, type: :model do
         expect(opened_csv.length).to eq(1)
       end
     end
+    context "with a request without a start date" do
+      let(:request_two) do
+        FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
+                                                                    start_date: nil, end_date: "2022-10-14")
+      end
+      before do
+        request_one.approve!(agent: department_head)
+        request_two.approve!(agent: department_head)
+        created_csv
+      end
+
+      it "does not raise an error" do
+        expect do
+          created_csv
+        end.not_to raise_error
+      end
+
+      it "only adds the request in the reporting period" do
+        expect(opened_csv.length).to eq(1)
+      end
+    end
   end
 end
