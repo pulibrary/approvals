@@ -89,7 +89,7 @@ namespace :approvals do
     abort "Invalid delegator uid (netid) #{delegator_uid}" if delegator.blank?
 
     Delegate.create!(delegate: delegate, delegator: delegator)
-    puts "created #{delegate} can not act on behalf of #{delegator}"
+    puts "created #{delegate} can now act on behalf of #{delegator}"
   end
 
   desc "Make sure this user is no longer anybody's delegate"
@@ -107,6 +107,23 @@ namespace :approvals do
   task :remove_admin_assistant, [:uid] => :environment do |_t, args|
     Rake::Task["approvals:stop_being_a_delegate"].invoke(args[:uid])
     Rake::Task["approvals:process_staff_report"].invoke
+  end
+
+  namespace :reports do
+    desc "Create a CSV report of approved trips within a date range"
+    task :approved_trips, [:start_date, :end_date, :file_path] => [:environment] do |_t, args|
+      abort "Please supply a start date and end date" unless args[:start_date] && args[:end_date]
+      begin
+        Date.strptime(args[:start_date], "%m/%d/%Y") && Date.strptime(args[:end_date], "%m/%d/%Y")
+      rescue Date::Error
+        abort "Invalid date -- please confirm that you are using MM/DD/YYYY format"
+      end
+      file_path = args[:file_path] || "./tmp/approved_request_report.csv"
+      ApprovedRequestReport.new(start_date: args[:start_date],
+                                end_date: args[:end_date],
+                                file_path: file_path).csv
+      puts "Report successfully generated and saved to #{file_path}"
+    end
   end
 
   def make_requests(staff_profile:)

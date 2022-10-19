@@ -38,6 +38,14 @@ class TravelRequest < Request
     target_recurring_event.event_requests.replace(event_requests)
   end
 
+  def estimated_total
+    total = 0
+    estimates.each do |estimate|
+      total += estimate.amount * estimate.recurrence
+    end
+    total
+  end
+
   ##########  Invalid Attributes ###########
   # Because we are using single table inheritance there are a number of fields in a Request
   # that are only valid for a absence request.

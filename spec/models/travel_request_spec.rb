@@ -28,6 +28,33 @@ RSpec.describe TravelRequest, type: :model do
     end
   end
 
+  context "A saved travel request" do
+    let(:user) { FactoryBot.create :staff_profile, :with_department }
+    let(:supervisor) { user.supervisor }
+    let(:department_head) { user.department.head }
+
+    context "with one estimate" do
+      let(:travel_request) { FactoryBot.create :travel_request, :with_note_and_estimate, creator: user }
+
+      it "gives a total estimate" do
+        expect(travel_request.estimated_total).to eq(150)
+      end
+    end
+    context "with multiple estimates" do
+      let(:travel_request) do
+        FactoryBot.create(
+          :travel_request,
+          :with_note_and_estimate,
+          creator: user,
+          estimates: [FactoryBot.build(:estimate), FactoryBot.build(:estimate)]
+        )
+      end
+      it "gives a total estimate" do
+        expect(travel_request.estimated_total).to eq(300)
+      end
+    end
+  end
+
   context "A saved absence request" do
     let(:user) { FactoryBot.create :staff_profile, :with_department }
     let(:travel_request) { FactoryBot.create :travel_request, creator: user }
