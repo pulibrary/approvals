@@ -35,7 +35,11 @@ class TravelRequest < Request
   end
 
   def update_recurring_events!(target_recurring_event:)
-    target_recurring_event.event_requests.replace(event_requests)
+    event_requests.each do |er|
+      er.recurring_event = target_recurring_event
+      er.update_event_title
+      er.save!
+    end
   end
 
   def estimated_total

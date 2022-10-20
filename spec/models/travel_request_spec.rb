@@ -220,6 +220,48 @@ RSpec.describe TravelRequest, type: :model do
           travel_request.update_recurring_events!(target_recurring_event: recurring_event)
         end.not_to change { travel_request.reload.event_requests.first }
       end
+
+      context "with two travel requests" do
+        let(:target_recurring_event) { FactoryBot.build(:recurring_event, name: "Target event name") }
+        let(:event_with_target_name) { FactoryBot.build(:event_request, recurring_event: target_recurring_event) }
+        let(:travel_request_unchanged) { FactoryBot.create(:travel_request, event_requests: [event_with_target_name]) }
+
+        let(:unwanted_recurring_event) { FactoryBot.build(:recurring_event, name: "Unwanted event name") }
+        let(:event_with_unwanted_name) { FactoryBot.build(:event_request, recurring_event: unwanted_recurring_event) }
+        let(:travel_request_unwanted_name) { FactoryBot.create(:travel_request, event_requests: [event_with_unwanted_name]) }
+
+        before do
+          travel_request_unchanged
+          travel_request_unwanted_name
+        end
+
+        it "does not change the properties of the unchanged travel request" do
+          # set and check the original properties of the travel request that should not change
+          tru = travel_request_unchanged
+          tru_recurring_event_before = tru.recurring_events.first
+          expect(tru_recurring_event_before).to eq(target_recurring_event)
+          tru_event_request_before = tru.event_requests.first
+          expect(tru_event_request_before).to eq(event_with_target_name)
+          # set and check the original properties of the travel request that *should* change
+          tr_uw = travel_request_unwanted_name
+          tr_uw_recurring_event_before = tr_uw.recurring_events.first
+          expect(tr_uw_recurring_event_before).to eq(unwanted_recurring_event)
+          tr_uw_event_request_before = tr_uw.event_requests.first
+          expect(tr_uw_event_request_before).to eq(event_with_unwanted_name)
+
+          # run the update
+          tr_uw.update_recurring_events!(target_recurring_event: target_recurring_event)
+
+          # ensure the travel request that should not change has not changed
+          expect(travel_request_unchanged.reload.recurring_events.first).to eq(tru_recurring_event_before)
+          expect(travel_request_unchanged.reload.event_requests.first).to eq(tru_event_request_before)
+
+          # ensure the travel request that should change has changed
+          expect(travel_request_unwanted_name.reload.recurring_events.first).to eq(target_recurring_event)
+          expect(travel_request_unwanted_name.reload.event_requests.first).to eq(tr_uw_event_request_before)
+          expect(travel_request_unwanted_name.reload.event_title).to include("Target event name")
+        end
+      end
     end
   end
 
