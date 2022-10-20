@@ -80,6 +80,17 @@ class TravelRequestChangeSet < RequestChangeSet
     event_requests[0].recurring_event.name
   end
 
+  def self.recurring_event_list
+    if @previous_count != RecurringEvent.count
+      @values = RecurringEvent.all.map do |event|
+        { id: event.id, label: event.name }
+      end
+      @previous_count = RecurringEvent.count
+    end
+
+    @values.to_json
+  end
+
   def recurring_event_list
     if @previous_count != RecurringEvent.count
       @values = RecurringEvent.all.map do |event|

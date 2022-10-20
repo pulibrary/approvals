@@ -1,15 +1,23 @@
 <card size="full-width">
-    <card-content>
-        <heading level="h3" size="h3">
-            History
-          </heading>
-          <ul class="notes">
-            <%= render partial: "shared/request_note", collection:
-              request.notes_and_changes, as: :note %>
-        </ul>
+  <card-content>
+      <heading level="h3" size="h3">
+          History
+        </heading>
+        <ul class="notes">
+          <%= render partial: "shared/request_note", collection:
+            request.notes_and_changes, as: :note %>
+      </ul>
 
-    <% if render_edit %>
-      <input-text id="travel_request_notes_content" name="travel_request[notes][content]" label="Notes" type="textarea" :maxlength=9999 rows="10" width="expand" value="<%= request.current_note%>" ></input-text>
-    <% end %>
-    </card-content>
-  </card>
+  <% if render_edit %>
+    <input-text id="travel_request_notes_content" name="travel_request[notes][content]" label="Notes" type="textarea" :maxlength=9999 rows="10" width="expand" value="<%= request.current_note%>" ></input-text>
+    <input-autocomplete
+      id="travel_request_new_event_id"
+      name="travel_request[new_event][id]"
+      label="New Event Name"
+      default-value=""
+      :items="<%= TravelRequestChangeSet.recurring_event_list %>"
+      autocomplete="off"
+    ></input-autocomplete>
+  <% end %>
+  </card-content>
+</card>
