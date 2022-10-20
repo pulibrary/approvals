@@ -235,6 +235,16 @@ RSpec.describe TravelRequest, type: :model do
           travel_request_unwanted_name
         end
 
+        it "deletes an orphaned recurring event" do
+          expect(target_recurring_event).to be
+          expect(unwanted_recurring_event).to be
+
+          travel_request_unwanted_name.update_recurring_events!(target_recurring_event: target_recurring_event)
+
+          expect(target_recurring_event.reload).to be
+          expect { unwanted_recurring_event.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+
         it "does not change the properties of the unchanged travel request" do
           # set and check the original properties of the travel request that should not change
           tru = travel_request_unchanged
@@ -260,6 +270,27 @@ RSpec.describe TravelRequest, type: :model do
           expect(travel_request_unwanted_name.reload.recurring_events.first).to eq(target_recurring_event)
           expect(travel_request_unwanted_name.reload.event_requests.first).to eq(tr_uw_event_request_before)
           expect(travel_request_unwanted_name.reload.event_title).to include("Target event name")
+        end
+        context "with three travel requests" do
+          let(:second_event_with_unwanted_name) { FactoryBot.build(:event_request, recurring_event: unwanted_recurring_event) }
+          let(:second_travel_request_with_unwanted_name) { FactoryBot.create(:travel_request, event_requests: [second_event_with_unwanted_name]) }
+
+          before do
+            second_travel_request_with_unwanted_name
+          end
+
+          it "does not delete a recurring event that is not orphaned" do
+            expect(second_travel_request_with_unwanted_name.recurring_events.first).to eq(unwanted_recurring_event)
+            expect(target_recurring_event).to be
+            expect(unwanted_recurring_event).to be
+
+            travel_request_unwanted_name.update_recurring_events!(target_recurring_event: target_recurring_event)
+
+            expect(target_recurring_event.reload).to be
+            expect(unwanted_recurring_event.reload).to be
+            expect { unwanted_recurring_event.reload }.not_to raise_error
+            expect(second_travel_request_with_unwanted_name.reload.recurring_events.first).to eq(unwanted_recurring_event)
+          end
         end
       end
     end

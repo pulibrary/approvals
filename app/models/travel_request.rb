@@ -35,10 +35,8 @@ class TravelRequest < Request
   end
 
   def update_recurring_events!(target_recurring_event:)
-    event_requests.each do |er|
-      er.recurring_event = target_recurring_event
-      er.update_event_title
-      er.save!
+    event_requests.each do |event_request|
+      event_request.replace_recurring_event(target_recurring_event: target_recurring_event)
     end
   end
 
