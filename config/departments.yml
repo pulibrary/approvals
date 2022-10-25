@@ -7,6 +7,7 @@
 41004:
   admin_assistant: 
     - nishc
+    - ddreyer
 41006:
   admin_assistant:
     - ddreyer
@@ -22,6 +23,7 @@
   admin_assistant: 
     - rdunham
     - temanuel
+    - ddreyer
 41034:
   head_uid: hwcowles
   admin_assistant:
@@ -30,3 +32,4 @@
   head_uid: nataliae
   admin_assistant:
     - nishc
+    - ddreyer
