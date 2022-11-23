@@ -11,6 +11,11 @@ RSpec.feature "New Absence Request", type: :feature, js: true do
   before do
     sign_in user
     staff_profile
+    Timecop.freeze(Time.utc(2022))
+  end
+
+  after do
+    Timecop.return
   end
 
   scenario "I can submit a sick day request and cancel it" do

@@ -9,6 +9,11 @@ RSpec.feature "My Approval Requests", type: :feature, js: true do
 
   before do
     sign_in user
+    Timecop.freeze(Time.utc(2022))
+  end
+
+  after do
+    Timecop.return
   end
 
   scenario "I can filter my requests" do
