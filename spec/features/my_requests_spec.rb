@@ -10,6 +10,8 @@ RSpec.feature "My Requests", type: :feature, js: true do
   end
 
   scenario "I can filter my requests" do
+    Timecop.freeze(Time.utc(2022))
+
     FactoryBot.create(:absence_request, creator: staff_profile, start_date: Date.parse("2019-10-12"), end_date: Date.parse("2019-10-13"))
     FactoryBot.create(:absence_request, creator: staff_profile, action: "approve", start_date: Date.parse("2019-10-13"), end_date: Date.parse("2019-10-14"))
     FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick", start_date: Date.parse("2019-10-14"), end_date: Date.parse("2019-10-15"))
@@ -46,6 +48,8 @@ RSpec.feature "My Requests", type: :feature, js: true do
 
     click_link("Request type: Absence")
     assert_selector ".my-request .lux-card", count: Request.count
+
+    Timecop.return
   end
 
   scenario "I can sort my requests" do
