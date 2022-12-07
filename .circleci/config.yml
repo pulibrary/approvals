@@ -59,7 +59,7 @@ commands:
     steps:
       - node/install:
           install-yarn: true
-          node-version: '12.22.5'
+          node-version: '16.18.1'
 
       - run:
           name: Which node?
