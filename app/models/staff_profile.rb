@@ -37,7 +37,7 @@ class StaffProfile < ApplicationRecord
 
   def staff_list_json
     @values ||= StaffProfile.all.map do |u|
-      "{ id: '#{u.id}', label: '#{u}' }"
+      "{ id: '#{u.id}', label: '#{escape_single_quotes(u.to_s)}' }"
     end.join(",")
     "[#{@values}]"
   end
@@ -80,5 +80,11 @@ class StaffProfile < ApplicationRecord
   def admin_assistants
     return [location.admin_assistant] if location&.admin_assistant
     department.admin_assistants
+  end
+
+  private
+
+  def escape_single_quotes(string)
+    string.gsub(/'/) { |x| "\\#{x}" }
   end
 end

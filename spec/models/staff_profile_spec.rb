@@ -100,4 +100,15 @@ RSpec.describe StaffProfile, type: :model do
       expect(aa.list_supervised(list: [])).to include(aa, profile1)
     end
   end
+
+  describe "#staff_list_json" do
+    it "handles staff names with apostrophes" do
+      profile = FactoryBot.create(:staff_profile, given_name: "Georgia",
+                                                  surname: "O'Keeffe",
+                                                  id: 100,
+                                                  user: FactoryBot.create(:user, uid: "uid123"))
+      profile.staff_list_json
+      expect(profile.staff_list_json).to eq("[{ id: '100', label: 'O\\'Keeffe, Georgia (uid123)' }]")
+    end
+  end
 end
