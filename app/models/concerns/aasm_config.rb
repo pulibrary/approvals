@@ -9,7 +9,7 @@ module AasmConfig
     include AASM
 
     aasm column: "status", enum: true, no_direct_assignment: true do
-      after_all_transitions :log_status_change
+      after_all_transitions Proc.new { |agent| log_status_change(agent: agent[:agent]) }
 
       state :pending, initial: true
       state :canceled
@@ -17,11 +17,11 @@ module AasmConfig
       state :denied
 
       event :approve do
-        transitions from: :pending, to: :approved, guard: :only_supervisor
+        transitions from: :pending, to: :approved, :guards => Proc.new { |agent| only_supervisor(agent: agent[:agent]) }
       end
 
       event :deny do
-        transitions from: :pending, to: :denied, guard: :only_supervisor
+        transitions from: :pending, to: :denied, :guards => Proc.new { |agent| only_supervisor(agent: agent[:agent]) }
       end
 
       event :cancel do

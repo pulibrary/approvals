@@ -24,7 +24,7 @@ class TravelRequest < Request
 
     # Redefined the approve event to allow only department heads the ability to make the final approval
     event :approve do
-      transitions from: :pending, to: :approved, guard: :only_department_head
+      transitions from: :pending, to: :approved, :guards => Proc.new { |agent| only_department_head(agent: agent[:agent]) }
       transitions from: :pending, to: :pending, guard: :only_supervisor
     end
 

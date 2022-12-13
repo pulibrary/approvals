@@ -10,5 +10,5 @@ def fire_event_safely(request:, action:, agent:)
     agent = request.creator
   end
 
-  request.aasm.fire(action, agent: agent)
+  request.aasm.fire(action, agent)
 end
