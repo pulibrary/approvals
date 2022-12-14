@@ -36,8 +36,12 @@ gem "bootsnap", ">= 1.1.0", require: false
 gem "faker"
 gem "reform"
 gem "reform-rails"
-gem "webpacker", ">= 4.0.x"
+gem "webpacker", "~> 4.0.x"
 gem "whenever", require: false
+
+# Psych 4 incompatable with ruby 3.1
+# patch in rails 7 fixes this issue
+gem "psych", "< 4"
 
 # Single sign on
 gem "devise"

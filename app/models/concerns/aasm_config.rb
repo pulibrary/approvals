@@ -9,7 +9,7 @@ module AasmConfig
     include AASM
 
     aasm column: "status", enum: true, no_direct_assignment: true do
-      after_all_transitions Proc.new { |agent| log_status_change(agent: agent[:agent]) }
+      after_all_transitions :log_status_change
 
       state :pending, initial: true
       state :canceled
@@ -17,11 +17,11 @@ module AasmConfig
       state :denied
 
       event :approve do
-        transitions from: :pending, to: :approved, :guards => Proc.new { |agent| only_supervisor(agent: agent[:agent]) }
+        transitions from: :pending, to: :approved, guard: :only_supervisor
       end
 
       event :deny do
-        transitions from: :pending, to: :denied, :guards => Proc.new { |agent| only_supervisor(agent: agent[:agent]) }
+        transitions from: :pending, to: :denied, guard: :only_supervisor
       end
 
       event :cancel do
@@ -30,7 +30,8 @@ module AasmConfig
     end
   end
 
-  def log_status_change(agent:)
+  def log_status_change(agent)
+    agent = agent[:agent] if agent.is_a?(Hash)
     StateChange.create(request: self, agent: agent, action: current_action, delegate: agent.current_delegate)
   end
 
@@ -40,11 +41,13 @@ module AasmConfig
     action
   end
 
-  def only_department_head(agent:)
+  def only_department_head(agent)
+    agent = agent[:agent] if agent.is_a?(Hash)
     agent.department_head?
   end
 
-  def only_supervisor(agent:)
+  def only_supervisor(agent)
+    agent = agent[:agent] if agent.is_a?(Hash)
     in_supervisor_chain(supervisor: creator.supervisor, agent: agent)
   end
 

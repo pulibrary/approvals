@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :user do
     sequence(:uid) { |n| "uid#{n}" }
-    provider "cas"
+    provider { "cas" }
   end
 end
