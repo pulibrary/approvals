@@ -4,7 +4,7 @@ inherit_gem:
 inherit_from: .rubocop_todo.yml
 
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 3.0
 
   Exclude:
     - 'db/**/*'
