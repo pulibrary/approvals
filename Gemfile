@@ -34,7 +34,7 @@ gem "jbuilder", "~> 2.5"
 gem "bootsnap", ">= 1.1.0", require: false
 
 gem "faker"
-gem "reform"
+gem "reform", "~> 2.2.4"
 gem "reform-rails"
 gem "webpacker", ">= 4.0.x"
 gem "whenever", require: false

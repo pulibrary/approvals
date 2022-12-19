@@ -31,15 +31,15 @@ class EventRequestChangeSet < Reform::Form
     self.start_date = Time.zone.today.to_date
   end
 
-  EventRequestPopulator = lambda { |collection:, **|
-    if collection.empty?
-      collection.append(EventRequest.new)
+  EventRequestPopulator = lambda { |options|
+    if options[:collection].empty?
+      options[:collection].append(EventRequest.new)
     else
-      collection.first
+      options[:collection].first
     end
   }
 
-  EventRequestPrepopulator = lambda { |**|
+  EventRequestPrepopulator = lambda { |_options|
     event_requests.append(EventRequest.new) if event_requests.empty?
   }
 
