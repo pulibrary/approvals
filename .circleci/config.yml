@@ -105,6 +105,10 @@ jobs:
       - setup-node
 
       - run:
+          name: install psql
+          command: sudo apt update && sudo apt install postgresql-client
+
+      - run:
           name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
