@@ -162,15 +162,15 @@ class CommonRequestController < ApplicationController
     # change set does not implement each_key, which this rubocop error is requesting
     # rubocop:disable Style/HashEachMethods
     def copy_model_errors_to_change_set
-      request_change_set.model.errors.each do |key, value|
-        request_change_set.errors.add(key, value)
+      request_change_set.model.errors.each do |error|
+        request_change_set.errors.add(error.attribute, error.message)
       end
     end
 
     def clear_error_data
-      request_change_set.errors.each do |key, _value|
-        next if key.to_s.include?(".") # skip clearing nested objects
-        request_change_set.send("#{key}=", nil)
+      request_change_set.errors.each do |error|
+        next if error.attribute.to_s.include?(".") # skip clearing nested objects
+        request_change_set.send("#{error.attribute}=", nil)
       end
     end
     # rubocop:enable Style/HashEachMethods

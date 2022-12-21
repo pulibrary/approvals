@@ -392,7 +392,7 @@ RSpec.describe TravelRequestsController, type: :controller do
           put :update, params: { id: travel_request.to_param, travel_request: valid_attributes, format: :json }, session: valid_session
           expect(response).not_to be_successful
           expect(response.media_type).to eq("application/json")
-          expect(response.body).to eq('{"creator":["must exist"],"request":["must exist"]}')
+          expect(response.body).to eq('{"request":["must exist"],"creator":["must exist"]}')
         end
       end
 
