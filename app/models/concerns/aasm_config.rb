@@ -30,7 +30,8 @@ module AasmConfig
     end
   end
 
-  def log_status_change(agent:)
+  def log_status_change(agent)
+    agent = agent[:agent] if agent.is_a?(Hash)
     StateChange.create(request: self, agent: agent, action: current_action, delegate: agent.current_delegate)
   end
 
@@ -40,15 +41,18 @@ module AasmConfig
     action
   end
 
-  def only_department_head(agent:)
+  def only_department_head(agent)
+    agent = agent[:agent] if agent.is_a?(Hash)
     agent.department_head?
   end
 
-  def only_supervisor(agent:)
+  def only_supervisor(agent)
+    agent = agent[:agent] if agent.is_a?(Hash)
     in_supervisor_chain(supervisor: creator.supervisor, agent: agent)
   end
 
-  def only_creator(agent:)
+  def only_creator(agent)
+    agent = agent[:agent] if agent.is_a?(Hash)
     creator == agent
   end
 

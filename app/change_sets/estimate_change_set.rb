@@ -6,11 +6,11 @@ class EstimateChangeSet < Reform::Form
   property :recurrence
   property :description
 
-  EstimatePopulator = lambda { |collection:, fragment:, **|
-    if fragment[:id].present?
-      collection.find { |x| x.id.to_s == (fragment["id"] || fragment[:id]) }
+  EstimatePopulator = lambda { |options|
+    if options[:fragment][:id].present?
+      options[:collection].find { |x| x.id.to_s == (options[:fragment]["id"] || options[:fragment][:id]) }
     else
-      collection.append(Estimate.new)
+      options[:collection].append(Estimate.new)
     end
   }
 end

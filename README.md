@@ -6,7 +6,7 @@ This is an application that allows the library to create workflows that allow st
 
 ## Ruby version
 
-  2.7.5
+  3.0.0
 
 ## System dependencies
 

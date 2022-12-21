@@ -45,7 +45,7 @@ RSpec.describe TravelRequestsController, type: :controller do
         location: "Mumbai",
         event_dates: "#{Time.zone.yesterday.strftime('%m/%d/%Y')} - #{Time.zone.today.strftime('%m/%d/%Y')}"
       ],
-      travel_category: "business" # note this field is not available on the create form; only on approval.
+      travel_category: "business" # NOTE: this field is not available on the create form; only on approval.
     }
   end
 
@@ -282,7 +282,7 @@ RSpec.describe TravelRequestsController, type: :controller do
             location: "Mumbai",
             event_dates: "#{Time.zone.yesterday.strftime('%m/%d/%Y')} - #{Time.zone.today.strftime('%m/%d/%Y')}"
           ],
-          travel_category: "business" # note this field is not available on the create form; only on approval.
+          travel_category: "business" # NOTE: this field is not available on the create form; only on approval.
         }
       end
 
@@ -392,7 +392,7 @@ RSpec.describe TravelRequestsController, type: :controller do
           put :update, params: { id: travel_request.to_param, travel_request: valid_attributes, format: :json }, session: valid_session
           expect(response).not_to be_successful
           expect(response.media_type).to eq("application/json")
-          expect(response.body).to eq('{"creator":["must exist"],"request":["must exist"]}')
+          expect(response.body).to eq('{"request":["must exist"],"creator":["must exist"]}')
         end
       end
 

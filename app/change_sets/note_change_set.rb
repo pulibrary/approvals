@@ -10,7 +10,7 @@ class NoteChangeSet < Reform::Form
     errors.add(:creator_id, "Creator must be a StaffProfile") if creator.blank?
   end
 
-  NotePopulator = lambda { |collection:, **|
-    collection.append(Note.new)
+  NotePopulator = lambda { |options|
+    options[:collection].append(Note.new)
   }
 end
