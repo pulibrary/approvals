@@ -53,6 +53,7 @@ class DelegatesController < ApplicationController
         format.json { render :show, status: :created, location: @delegate }
       else
         delegates_for_current_profile
+        @staff_list = current_staff_profile.staff_list_json
         format.html { render :index }
         format.json { render json: @delegate.errors, status: :unprocessable_entity }
       end
