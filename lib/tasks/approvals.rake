@@ -88,7 +88,12 @@ namespace :approvals do
     delegator = StaffProfile.find_by(uid: delegator_uid)
     abort "Invalid delegator uid (netid) #{delegator_uid}" if delegator.blank?
 
-    Delegate.create!(delegate: delegate, delegator: delegator)
+    begin
+      Delegate.create!(delegate: delegate, delegator: delegator)
+    rescue ActiveRecord::RecordInvalid => error
+      abort error.message
+    end
+
     puts "created #{delegate} can now act on behalf of #{delegator}"
   end
 
