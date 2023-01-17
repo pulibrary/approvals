@@ -3,5 +3,5 @@ class Delegate < ApplicationRecord
   belongs_to :delegate, class_name: "StaffProfile"
   belongs_to :delegator, class_name: "StaffProfile"
   validates :delegator, uniqueness: { scope: :delegate,
-                                      message: "Can not create a duplicate delegate" }
+                                      message: "Cannot create a duplicate delegate" }
 end

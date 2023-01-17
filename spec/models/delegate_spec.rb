@@ -11,7 +11,7 @@ RSpec.describe Delegate, type: :model do
   end
 
   describe "Delegate creation" do
-    it "Can not create duplicate Delegates" do
+    it "Cannot create duplicate Delegates" do
       delegator = FactoryBot.create(:staff_profile)
       delegate = FactoryBot.create(:staff_profile)
 
