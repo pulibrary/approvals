@@ -4,6 +4,7 @@
     - esamios
     - jbakeman
     - ddreyer
+    - az6987
 41004:
   admin_assistant: 
     - nishc
@@ -28,6 +29,7 @@
   head_uid: hwcowles
   admin_assistant:
     - ddreyer
+    - az6987
 26700:
   head_uid: nataliae
   admin_assistant:
