@@ -1,17 +1,12 @@
 41000:
   head_uid: ajarvis
   admin_assistant: 
-    - esamios
     - jbakeman
-    - ddreyer
-    - az6987
 41004:
   admin_assistant: 
-    - nishc
-    - ddreyer
+    - newalkar
 41006:
   admin_assistant:
-    - ddreyer
     - nishc
 41014:
   admin_assistant: 
@@ -22,16 +17,12 @@
     - francesj
 41032:
   admin_assistant: 
-    - rdunham
     - temanuel
-    - ddreyer
 41034:
   head_uid: hwcowles
   admin_assistant:
-    - ddreyer
     - az6987
 26700:
   head_uid: nataliae
   admin_assistant:
-    - nishc
-    - ddreyer
+    - esamios
