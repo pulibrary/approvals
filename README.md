@@ -52,6 +52,16 @@ This is an application that allows the library to create workflows that allow st
        rake approvals:make_requests_for_everyone
        ```
     
+## Testing User Accounts
+  * Users can have test requests created for them via rake. The following command creates 
+    ```
+    rake approvals:make_requests_for_user[netid]
+    ```
+  * Other users can subsume other user's roles by manipulating the system's delegation features. The following task allows the user with netid_delegate to review and make requests on behalf of netid. 
+    ```
+    rake approvals:make_delegate[netid_delegate,netid]
+    ```
+  * If the newly delegated individual then visits the "delegates/to_assume" route in the application they will be able select the user attached to 'netid' and see the requests they've made and make them on their behalf. 
 
 ## Development
 
