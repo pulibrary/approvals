@@ -41,7 +41,11 @@ class StaffReportProcessor
 
       def create_department(name:, number:)
         department = Department.where(number: number)
-        return department[0] unless department.empty?
+        unless department.empty?
+          department[0].name = name
+          department[0].save
+          return department[0]
+        end
 
         Department.create(name: name, number: number)
       end
