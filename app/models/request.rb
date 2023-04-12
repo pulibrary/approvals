@@ -65,8 +65,7 @@ class Request < ApplicationRecord
 
   enum travel_category: {
     business: "business",
-    professional_development: "professional_development",
-    discretionary: "discretionary"
+    professional_development: "professional_development"
   }
 
   enum absence_type: {

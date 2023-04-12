@@ -40,12 +40,6 @@ RSpec.describe TravelRequestDecorator, type: :model do
         expect(travel_request_decorator.travel_category_icon).to eq "lux-icon-globe"
       end
     end
-    context "when travel_category is discretionary" do
-      let(:travel_request) { FactoryBot.create(:travel_request, travel_category: :discretionary) }
-      it "returns the correct lux icon" do
-        expect(travel_request_decorator.travel_category_icon).to eq "lux-icon-globe"
-      end
-    end
   end
 
   describe "#formatted_start_date" do
