@@ -140,14 +140,12 @@ RSpec.describe RequestListDecorator, type: :model do
   describe "#travel_filter_urls" do
     let(:business_filter) { "/my_requests?filters%5Brequest_type%5D=business#{status_filter}" }
     let(:professional_development_filter) { "/my_requests?filters%5Brequest_type%5D=professional_development#{status_filter}" }
-    let(:discretionary_filter) { "/my_requests?filters%5Brequest_type%5D=discretionary#{status_filter}" }
 
     let(:status_filter) { "" }
     let(:filters) do
       {
         "Business" => business_filter,
-        "Professional development" => professional_development_filter,
-        "Discretionary" => discretionary_filter
+        "Professional development" => professional_development_filter
       }
     end
 

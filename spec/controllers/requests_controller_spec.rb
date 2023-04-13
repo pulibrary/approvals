@@ -82,7 +82,7 @@ RSpec.describe RequestsController, type: :controller do
 
     it "accepts limit by status and request type" do
       my_business_travel = FactoryBot.create(:travel_request, creator: staff_profile, action: "approve", travel_category: "business")
-      FactoryBot.create(:travel_request, creator: staff_profile, action: "approve", travel_category: "discretionary")
+      FactoryBot.create(:travel_request, creator: staff_profile, action: "approve", travel_category: "professional_development")
       get :my_requests, params: { filters: { request_type: "business", status: "approved" } }, session: valid_session
       expect(assigns(:requests).map(&:id)).to contain_exactly(my_business_travel.id)
     end

@@ -55,7 +55,7 @@ RSpec.describe RequestList, type: :model do
 
     it "accepts limit by status and request type" do
       my_business_travel = FactoryBot.create(:travel_request, creator: staff_profile, action: "approve", travel_category: "business")
-      FactoryBot.create(:travel_request, creator: staff_profile, action: "approve", travel_category: "discretionary")
+      FactoryBot.create(:travel_request, creator: staff_profile, action: "approve", travel_category: "professional_development")
       list = described_class.list_requests(creator: staff_profile, request_filters: { "request_type" => "business", "status" => "approved" }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(my_business_travel.id)
     end
