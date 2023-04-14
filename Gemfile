@@ -36,7 +36,6 @@ gem "bootsnap", ">= 1.1.0", require: false
 gem "faker"
 gem "reform", "~> 2.2.4"
 gem "reform-rails"
-gem "webpacker", ">= 4.0.x"
 gem "whenever", require: false
 
 # Single sign on
@@ -96,3 +95,7 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
+
+gem "vite_rails", "~> 3.0"
+
+gem "capistrano-yarn", "~> 2.0"

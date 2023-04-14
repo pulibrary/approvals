@@ -15,6 +15,9 @@ set :branch, 'master'
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/opt/approvals'
 
+# Install yarn devDependencies, not just the prod ones
+set :yarn_flags, '--silent --no-progress'
+
 # Default value for :format is :pretty
 # set :format, :pretty
 

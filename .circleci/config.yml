@@ -123,10 +123,6 @@ jobs:
           name: Run jest tests
           command: yarn test
 
-      - run:
-          name: Run webpacker
-          command: bin/webpack
-
       # Run rspec with percy
       - run:
           name: Run rspec
