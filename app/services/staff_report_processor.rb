@@ -118,6 +118,8 @@ class StaffReportProcessor
       end
 
       def set_admin_assistants(department:, admin_assistants:)
+        # Clear out old admin_assistants based on earlier configs
+        department.admin_assistants = []
         admin_assistants.each do |net_id|
           aa = StaffProfile.find_by(uid: net_id)
           department.admin_assistants << aa if aa.present?
