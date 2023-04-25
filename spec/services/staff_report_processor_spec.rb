@@ -113,5 +113,38 @@ RSpec.describe StaffReportProcessor, type: :model do
         expect(user_profile.supervisor).to eq(supervisor_profile)
       end
     end
+
+    context "updating the department config" do
+      let(:department_config_old) do
+        "41000:\n  head_uid: ajarvis\n  admin_assistant: \n    - old_assistant_one\n"\
+        "90009:\n  admin_assistant: \n    - assistant_two\n    - assistant_three\n"
+      end
+      let(:department_config_new) do
+        "41000:\n  head_uid: ajarvis\n  admin_assistant: \n    - new_assistant_one\n"\
+        "90009:\n  admin_assistant: \n    - assistant_two\n    - assistant_three\n"
+      end
+      let(:assistants) { ["old_assistant_one", "new_assistant_one", "assistant_two", "assistant_three"] }
+
+      before do
+        assistants.each do |uid|
+          user = FactoryBot.create(:user, uid: uid)
+          FactoryBot.create(:staff_profile, user: user)
+        end
+      end
+
+      it "removes admin assistants no longer associated with the department" do
+        described_class.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass, department_config: department_config_old)
+        changed_department = Department.find_by(number: 41_000)
+        unchanged_department = Department.find_by(number: 90_009)
+        expect(changed_department.admin_assistants.size).to eq(1)
+        expect(unchanged_department.admin_assistants.size).to eq(2)
+        expect(changed_department.admin_assistants.first.uid).to eq("old_assistant_one")
+
+        described_class.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass, department_config: department_config_new)
+        expect(changed_department.reload.admin_assistants.size).to eq(1)
+        expect(unchanged_department.reload.admin_assistants.size).to eq(2)
+        expect(changed_department.admin_assistants.last.uid).to eq("new_assistant_one")
+      end
+    end
   end
 end
