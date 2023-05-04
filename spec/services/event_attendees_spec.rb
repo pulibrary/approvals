@@ -10,7 +10,7 @@ RSpec.describe EventAttendees, type: :model do
   let(:peppers) { FactoryBot.create :recurring_event }
   let(:garden) { FactoryBot.create :recurring_event }
   let(:mary_garden_2020) do
-    start_date = Time.zone.now + 1.year
+    start_date = 1.year.from_now
     end_date = start_date + 2.days
     event_request = FactoryBot.build :event_request, recurring_event: garden, start_date: start_date, end_date: end_date
     FactoryBot.create :travel_request, creator: mary, event_requests: [event_request], start_date: start_date - 1.day, end_date: end_date
@@ -22,7 +22,7 @@ RSpec.describe EventAttendees, type: :model do
     FactoryBot.create :travel_request, creator: mary, event_requests: [event_request], start_date: start_date - 1.day, end_date: end_date
   end
   let(:jill_garden_2018) do
-    start_date = Time.zone.now - 1.year
+    start_date = 1.year.ago
     end_date = start_date + 2.days
     event_request = FactoryBot.build :event_request, recurring_event: garden, start_date: start_date, end_date: end_date
     FactoryBot.create :travel_request, creator: jill, event_requests: [event_request], start_date: start_date - 1.day, end_date: end_date
@@ -64,28 +64,28 @@ RSpec.describe EventAttendees, type: :model do
 
     context "date is within a week" do
       it "returns attendees" do
-        expect(described_class.list(recurring_event: garden, event_start_date: Time.zone.now - 5.days)).to contain_exactly(mary)
-        expect(described_class.list(recurring_event: garden, event_start_date: Time.zone.now - 7.days)).to contain_exactly(mary)
-        expect(described_class.list(recurring_event: garden, event_start_date: Time.zone.now + 5.days)).to contain_exactly(mary)
-        expect(described_class.list(recurring_event: garden, event_start_date: Time.zone.now + 7.days)).to contain_exactly(mary)
+        expect(described_class.list(recurring_event: garden, event_start_date: 5.days.ago)).to contain_exactly(mary)
+        expect(described_class.list(recurring_event: garden, event_start_date: 7.days.ago)).to contain_exactly(mary)
+        expect(described_class.list(recurring_event: garden, event_start_date: 5.days.from_now)).to contain_exactly(mary)
+        expect(described_class.list(recurring_event: garden, event_start_date: 7.days.from_now)).to contain_exactly(mary)
       end
     end
 
     context "date does not match" do
       it "returns no attendees" do
-        expect(described_class.list(recurring_event: garden, event_start_date: Time.zone.now - 8.days)).to be_empty
-        expect(described_class.list(recurring_event: garden, event_start_date: Time.zone.now - 1.month)).to be_empty
-        expect(described_class.list(recurring_event: garden, event_start_date: Time.zone.now + 8.days)).to be_empty
-        expect(described_class.list(recurring_event: garden, event_start_date: Time.zone.now + 1.month)).to be_empty
+        expect(described_class.list(recurring_event: garden, event_start_date: 8.days.ago)).to be_empty
+        expect(described_class.list(recurring_event: garden, event_start_date: 1.month.ago)).to be_empty
+        expect(described_class.list(recurring_event: garden, event_start_date: 8.days.from_now)).to be_empty
+        expect(described_class.list(recurring_event: garden, event_start_date: 1.month.from_now)).to be_empty
       end
     end
 
     context "changing the window" do
       it "returns the right attendees" do
-        expect(described_class.list(recurring_event: garden, event_start_date: Time.zone.now - 4.days, window: 5.days)).to contain_exactly(mary)
-        expect(described_class.list(recurring_event: garden, event_start_date: Time.zone.now - 4.days, window: 3.days)).to be_empty
-        expect(described_class.list(recurring_event: garden, event_start_date: Time.zone.now + 4.days, window: 5.days)).to contain_exactly(mary)
-        expect(described_class.list(recurring_event: garden, event_start_date: Time.zone.now + 4.days, window: 3.days)).to be_empty
+        expect(described_class.list(recurring_event: garden, event_start_date: 4.days.ago, window: 5.days)).to contain_exactly(mary)
+        expect(described_class.list(recurring_event: garden, event_start_date: 4.days.ago, window: 3.days)).to be_empty
+        expect(described_class.list(recurring_event: garden, event_start_date: 4.days.from_now, window: 5.days)).to contain_exactly(mary)
+        expect(described_class.list(recurring_event: garden, event_start_date: 4.days.from_now, window: 3.days)).to be_empty
       end
     end
   end

@@ -89,7 +89,7 @@ class TravelRequestsController < CommonRequestController
 
     def remove_estimates
       return if params[:travel_request][:estimates].blank?
-      params_estimate_ids = params[:travel_request][:estimates].map { |estimate| estimate[:id] }
+      params_estimate_ids = params[:travel_request][:estimates].pluck(:id)
       @request.estimates.each do |estimate|
         estimate.destroy if params_estimate_ids.exclude? estimate.id.to_s
       end
@@ -128,7 +128,7 @@ class TravelRequestsController < CommonRequestController
       set_travel_request
 
       if processed_params[:new_event][:id].blank?
-        redirect_to({ action: "review", id: @request.id }, flash: { alert: "New event name is required to specify requested changes." })
+        redirect_to({ action: "review", id: @request.id }, flash: { alert: t("travel_requests.event_name_required") })
       else
         new_recurring_event = RecurringEvent.find(processed_params[:new_event][:id])
 
@@ -137,6 +137,6 @@ class TravelRequestsController < CommonRequestController
         redirect_to({ action: "review", id: @request.id }, flash: { success: "Travel request event name was successfully updated." })
       end
     rescue ActiveRecord::RecordNotFound
-      redirect_to({ action: "review", id: @request.id }, flash: { alert: "Event name does not exist, please select an existing event name." }) unless new_recurring_event
+      redirect_to({ action: "review", id: @request.id }, flash: { alert: t("travel_requests.event_name_does_not_exist") }) unless new_recurring_event
     end
 end
