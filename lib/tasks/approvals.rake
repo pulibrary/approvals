@@ -124,9 +124,10 @@ namespace :approvals do
         abort "Invalid date -- please confirm that you are using MM/DD/YYYY format"
       end
       file_path = args[:file_path] || "./tmp/approved_request_report.csv"
-      ApprovedRequestReport.new(start_date: args[:start_date],
+      RequestReport.new(start_date: args[:start_date],
                                 end_date: args[:end_date],
-                                file_path: file_path).csv
+                                file_path: file_path,
+                                approved_only: true).csv
       puts "Report successfully generated and saved to #{file_path}"
     end
   end

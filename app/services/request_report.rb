@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 require "csv"
 
-class ApprovedRequestReport
+class RequestReport
   attr_reader :start_date
   attr_reader :end_date
   attr_reader :file_path
 
-  def initialize(start_date:, end_date:, file_path: "./tmp/approved_request_report.csv")
+  def initialize(start_date:, end_date:, file_path: "./tmp/approved_request_report.csv", approved_only: true)
     @start_date = Date.strptime(start_date, "%m/%d/%Y")
     @end_date = Date.strptime(end_date, "%m/%d/%Y")
     @file_path = file_path

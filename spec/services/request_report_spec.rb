@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require "rails_helper"
 
-RSpec.describe ApprovedRequestReport, type: :model do
-  let(:report) { described_class.new(start_date: "06/01/2022", end_date: "12/31/2022", file_path: file_path) }
+RSpec.describe RequestReport, type: :model do
+  let(:report) { described_class.new(start_date: "06/01/2022", end_date: "12/31/2022", file_path: file_path, approved_only: true) }
   let(:staff_member) { FactoryBot.create(:staff_profile, :with_department) }
   let(:request_one) do
     FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
