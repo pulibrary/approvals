@@ -11,7 +11,11 @@ LocationLoader.load
 
 file = File.open(Rails.application.config.staff_report_location, encoding: "UTF-16")
 report = file.read
-StaffReportProcessor.process(data: report)
+begin
+  StaffReportProcessor.process(data: report)
+rescue NoMethodError
+  raise "Could not seed the database -- are you connected to VPN?"
+end
 
 file = File.open(Rails.application.config.balance_report_location, encoding: "UTF-16")
 report = file.read
