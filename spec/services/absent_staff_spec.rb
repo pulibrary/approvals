@@ -9,12 +9,12 @@ RSpec.describe AbsentStaff, type: :model do
   let(:peter) { FactoryBot.create :staff_profile, given_name: "Peter", supervisor: supervisor }
   let(:piper) { FactoryBot.create :staff_profile, given_name: "Piper", supervisor: peter }
   let(:mary_sick_2020) do
-    start_date = Time.zone.now + 1.year
+    start_date = 1.year.from_now
     end_date = start_date + 2.days
     FactoryBot.create :absence_request, creator: mary, start_date: start_date, end_date: end_date
   end
   let(:peter_sick_2020) do
-    start_date = Time.zone.now + 1.year
+    start_date = 1.year.from_now
     end_date = start_date + 2.days
     FactoryBot.create :absence_request, creator: peter, start_date: start_date, end_date: end_date
   end
@@ -24,17 +24,17 @@ RSpec.describe AbsentStaff, type: :model do
     FactoryBot.create :absence_request, creator: mary, start_date: start_date, end_date: end_date
   end
   let(:jack_vacation_2019) do
-    start_date = Time.zone.now + 2.days
+    start_date = 2.days.from_now
     end_date = start_date + 4.days
     FactoryBot.create :absence_request, creator: jack, start_date: start_date, end_date: end_date
   end
   let(:jill_vacation_2019) do
-    start_date = Time.zone.now - 3.days
+    start_date = 3.days.ago
     end_date = start_date + 4.days
     FactoryBot.create :absence_request, creator: jill, start_date: start_date, end_date: end_date
   end
   let(:piper_vacation_2019) do
-    start_date = Time.zone.now - 3.days
+    start_date = 3.days.ago
     end_date = start_date + 4.days
     FactoryBot.create :absence_request, creator: piper, start_date: start_date, end_date: end_date
   end
@@ -50,19 +50,19 @@ RSpec.describe AbsentStaff, type: :model do
 
   describe "#list" do
     it "returns absent staff" do
-      expect(described_class.list(start_date: Time.zone.now, end_date: Time.zone.now + 2.days, supervisor: supervisor)).to contain_exactly(mary, jack, jill, piper)
+      expect(described_class.list(start_date: Time.zone.now, end_date: 2.days.from_now, supervisor: supervisor)).to contain_exactly(mary, jack, jill, piper)
     end
 
     it "returns absent staff when window is inside the staff absence" do
-      expect(described_class.list(start_date: Time.zone.now - 2.days, end_date: Time.zone.now - 1.day, supervisor: supervisor)).to contain_exactly(jill, piper)
+      expect(described_class.list(start_date: 2.days.ago, end_date: 1.day.ago, supervisor: supervisor)).to contain_exactly(jill, piper)
     end
 
     it "returns absent staff when window is around end date of the absence" do
-      expect(described_class.list(start_date: Time.zone.now + 2.days, end_date: Time.zone.now + 5.days, supervisor: supervisor)).to contain_exactly(mary, jack)
+      expect(described_class.list(start_date: 2.days.from_now, end_date: 5.days.from_now, supervisor: supervisor)).to contain_exactly(mary, jack)
     end
 
     it "returns no one when the supervisor is other" do
-      expect(described_class.list(start_date: Time.zone.now + 2.days, end_date: Time.zone.now + 5.days, supervisor: piper)).to be_empty
+      expect(described_class.list(start_date: 2.days.from_now, end_date: 5.days.from_now, supervisor: piper)).to be_empty
     end
   end
 end

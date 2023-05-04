@@ -30,4 +30,15 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  active_record:
+    errors:
+      models:
+        delegate:
+          taken: Cannot create a duplicate delegate
+  delegation:
+    delegate_destroyed: Delegate was successfully destroyed.
+    invalid_attempt: Invalid delegation attempt!
+  travel_requests:
+    event_name_does_not_exist: Event name does not exist, please select an existing event name.
+    event_name_required: New event name is required to specify requested changes.
+  not_authorized: You are not authorized to view this material

@@ -6,7 +6,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     if @user.nil?
       redirect_to root_path
-      flash[:error] = "You are not authorized to view this material"
+      flash[:error] = t("not_authorized")
     else
       sign_in_and_redirect @user, event: :authentication # this will throw if @user is not activated
       if is_navigational_format?

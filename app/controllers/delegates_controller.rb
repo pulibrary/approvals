@@ -25,7 +25,7 @@ class DelegatesController < ApplicationController
       flash[:success] = "You are now acting on behalf of #{@delegate.delegator}"
     else
       session[:approvals_delegate] = nil
-      flash[:error] = "Invalid delegation attempt!"
+      flash[:error] = t("delegation.invalid_attempt")
     end
     respond_to do |format|
       format.html { redirect_to my_requests_path }
@@ -67,7 +67,7 @@ class DelegatesController < ApplicationController
       flash[:error] = "Invalid delegate #{params[:id]} can not be destroyed"
     else
       @delegate.destroy
-      flash[:success] = "Delegate was successfully destroyed."
+      flash[:success] = t("delegation.delegate_destroyed")
     end
     respond_to do |format|
       format.html { redirect_to delegates_url }
