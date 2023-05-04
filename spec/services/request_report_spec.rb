@@ -82,7 +82,7 @@ RSpec.describe RequestReport, type: :model do
       end
 
       it "has headers and values" do
-        expect(opened_csv.headers.size).to eq(8)
+        expect(opened_csv.headers.size).to eq(9)
         expect(first_row_hash["start_date"]).to eq("2022-10-12")
         expect(first_row_hash["end_date"]).to eq("2022-10-14")
         expect(first_row_hash["event_name"]).to match(/Event \d* \d*, Location/)
@@ -91,6 +91,7 @@ RSpec.describe RequestReport, type: :model do
         expect(first_row_hash["given_name"]).to eq(staff_member.given_name)
         expect(first_row_hash["department"]).to eq(staff_member.department.name)
         expect(first_row_hash["estimated_cost"]).to eq("150.00")
+        expect(first_row_hash["status"]).to eq("approved")
       end
     end
     context "with two approved requests" do
@@ -119,8 +120,48 @@ RSpec.describe RequestReport, type: :model do
         created_csv
       end
 
-      it "only adds the approved request" do
-        expect(opened_csv.length).to eq(1)
+      context "with approved_only: true" do
+        it "only adds the approved request" do
+          expect(opened_csv.length).to eq(1)
+        end
+      end
+
+      context "with approved_only: false" do
+        let(:report) { described_class.new(start_date: "06/01/2022", end_date: "12/31/2022", file_path: file_path, approved_only: false) }
+        it "adds both requests" do
+          expect(opened_csv.length).to eq(2)
+        end
+        it "includes the correct status for the unapproved request" do
+          expect(opened_csv[1]["status"]).to eq "pending"
+        end
+      end
+    end
+
+    context "with one approved and one denied request" do
+      let(:request_two) do
+        FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
+                                                                    start_date: "2022-10-12", end_date: "2022-10-14")
+      end
+      before do
+        request_one.approve!(agent: department_head)
+        request_two.deny!(agent: department_head)
+        created_csv
+      end
+
+      context "with approved_only: true" do
+        it "only adds the approved request" do
+          expect(opened_csv.length).to eq(1)
+        end
+      end
+
+      context "with approved_only: false" do
+        let(:report) { described_class.new(start_date: "06/01/2022", end_date: "12/31/2022", file_path: file_path, approved_only: false) }
+        it "adds both requests" do
+          expect(opened_csv.length).to eq(2)
+        end
+        it "includes the correct status for the denied request" do
+          expect(opened_csv[1]["status"]).to eq "denied"
+        end
       end
     end
     context "with one request in reporting period and others not" do
