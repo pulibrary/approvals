@@ -31,7 +31,7 @@ This is an application that allows the library to create workflows that allow st
      ```
      rake db:create 
      rake db:migrate
-     rake db:seed
+     rake db:seed # you must be on the VPN for this step
      ```
    * `rake db:seed` only creates accounts for users listed in the `Department Absence Manager Report - Library-en.csv` file.  If you are not yet listed in the file, you will have to add a row with your NetID in order to log
    in to the system later.
