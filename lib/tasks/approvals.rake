@@ -117,17 +117,13 @@ namespace :approvals do
   namespace :reports do
     desc "Create a CSV report of approved trips within a date range"
     task :approved_trips, [:start_date, :end_date, :file_path] => [:environment] do |_t, args|
-      abort "Please supply a start date and end date" unless args[:start_date] && args[:end_date]
-      begin
-        Date.strptime(args[:start_date], "%m/%d/%Y") && Date.strptime(args[:end_date], "%m/%d/%Y")
-      rescue Date::Error
-        abort "Invalid date -- please confirm that you are using MM/DD/YYYY format"
-      end
       file_path = args[:file_path] || "./tmp/approved_request_report.csv"
-      ApprovedRequestReport.new(start_date: args[:start_date],
-                                end_date: args[:end_date],
-                                file_path: file_path).csv
-      puts "Report successfully generated and saved to #{file_path}"
+      run_report(args: args, file_path: file_path, approved_only: true)
+    end
+    desc "Create a CSV report of all trips, regardless of status, within a date range"
+    task :all_trips, [:start_date, :end_date, :file_path] => [:environment] do |_t, args|
+      file_path = args[:file_path] || "./tmp/all_request_report.csv"
+      run_report(args: args, file_path: file_path)
     end
   end
 
@@ -140,5 +136,23 @@ namespace :approvals do
       status = ["pending", "approved", "denied", "canceled", "recorded"].sample
       RandomRequestGenerator.generate_absence_request(creator: staff_profile, status: status)
     end
+  end
+end
+
+def run_report(args:, file_path:, approved_only: false)
+  validate_report_args(args)
+  RequestReport.new(start_date: args[:start_date],
+                    end_date: args[:end_date],
+                    file_path: file_path,
+                    approved_only: approved_only).csv
+  puts "Report successfully generated and saved to #{file_path}"
+end
+
+def validate_report_args(args)
+  abort "Please supply a start date and end date" unless args[:start_date] && args[:end_date]
+  begin
+    Date.strptime(args[:start_date], "%m/%d/%Y") && Date.strptime(args[:end_date], "%m/%d/%Y")
+  rescue Date::Error
+    abort "Invalid date -- please confirm that you are using MM/DD/YYYY format"
   end
 end
