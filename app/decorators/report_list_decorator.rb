@@ -55,7 +55,8 @@ class ReportListDecorator < RequestListDecorator
         'end_date': request.formatted_full_end_date,
         'status': request.latest_status,
         'staff': request.full_name,
-        'department': request.department.name
+        'department': request.department.name,
+        'event_format': request.event_format
       }
     end.to_json
   end

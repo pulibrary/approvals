@@ -8,6 +8,7 @@ FactoryBot.define do
     event_requests { [FactoryBot.build(:event_request, start_date: start_date, end_date: end_date)] }
     purpose { "My grand purpose" }
     participation { "other" }
+    virtual_event { false }
     transient do
       action { nil }
     end

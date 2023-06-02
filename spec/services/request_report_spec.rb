@@ -82,7 +82,7 @@ RSpec.describe RequestReport, type: :model do
       end
 
       it "has headers and values" do
-        expect(opened_csv.headers.size).to eq(9)
+        expect(opened_csv.headers.size).to eq(10)
         expect(first_row_hash["start_date"]).to eq("2022-10-12")
         expect(first_row_hash["end_date"]).to eq("2022-10-14")
         expect(first_row_hash["event_name"]).to match(/Event \d* \d*, Location/)
@@ -92,6 +92,7 @@ RSpec.describe RequestReport, type: :model do
         expect(first_row_hash["department"]).to eq(staff_member.department.name)
         expect(first_row_hash["estimated_cost"]).to eq("150.00")
         expect(first_row_hash["status"]).to eq("approved")
+        expect(first_row_hash["event_format"]).to eq(nil)
       end
     end
     context "with two approved requests" do
@@ -202,6 +203,34 @@ RSpec.describe RequestReport, type: :model do
 
       it "only adds the request in the reporting period" do
         expect(opened_csv.length).to eq(1)
+      end
+    end
+    context "with a request for a virtual event" do
+      before do
+        request_one.approve!(agent: department_head)
+        created_csv
+      end
+      let(:request_one) do
+        FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
+                                                                    virtual_event: true,
+                                                                    start_date: "2022-10-12", end_date: "2022-10-14")
+      end
+      it "adds Virtual to the event format column" do
+        expect(first_row_hash["event_format"]).to eq("Virtual")
+      end
+    end
+    context "with a request for an in-person event" do
+      before do
+        request_one.approve!(agent: department_head)
+        created_csv
+      end
+      let(:request_one) do
+        FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
+                                                                    virtual_event: false,
+                                                                    start_date: "2022-10-12", end_date: "2022-10-14")
+      end
+      it "adds Virtual to the event format column" do
+        expect(first_row_hash["event_format"]).to eq("In-person")
       end
     end
   end

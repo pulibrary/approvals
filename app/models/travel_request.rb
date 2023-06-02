@@ -96,4 +96,15 @@ class TravelRequest < Request
   def travel?
     true
   end
+
+  def event_format
+    case virtual_event
+    when true
+      "Virtual"
+    when false
+      "In-person"
+    when nil
+      nil
+    end
+  end
 end
