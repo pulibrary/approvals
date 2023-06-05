@@ -107,4 +107,16 @@ class TravelRequest < Request
       nil
     end
   end
+
+  def event_format_color
+    case virtual_event
+    when true
+      "green"
+    when false
+      "blue"
+    when nil
+      nil
+    end
+  end
+
 end
