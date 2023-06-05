@@ -10,6 +10,13 @@
     {name: '<%= request.latest_status %>', color: '<%= request.status_color %>', icon: '<%= request.status_icon %>'}
     ]"
     ></tag>
+    <tag
+      type="tag"
+      size="small"
+      :tag-items="[
+    {name: '<%= request.event_format %>', color: '<%= request.event_format_color %>'}
+    ]"
+    ></tag>
   </card-media>
   <card-header>
     <heading level="h1" size="h3">
