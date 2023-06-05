@@ -92,7 +92,7 @@ RSpec.describe RequestReport, type: :model do
         expect(first_row_hash["department"]).to eq(staff_member.department.name)
         expect(first_row_hash["estimated_cost"]).to eq("150.00")
         expect(first_row_hash["status"]).to eq("approved")
-        expect(first_row_hash["event_format"]).to eq(nil)
+        expect(first_row_hash["event_format"]).to eq("In-person")
       end
     end
     context "with two approved requests" do
