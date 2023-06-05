@@ -16,8 +16,8 @@ class TravelRequestChangeSet < RequestChangeSet
   validates :participation, inclusion: { in: Request.participations.keys }
 
   delegate :travel_category_icon, :current_note,
-           :estimate_fields_json, :estimates_json, 
-           :event_format, :event_format_color, 
+           :estimate_fields_json, :estimates_json,
+           :event_format, :event_format_color,
            to: :decorated_model
 
   attr_reader :current_staff_profile

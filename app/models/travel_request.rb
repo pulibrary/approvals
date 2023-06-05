@@ -118,5 +118,4 @@ class TravelRequest < Request
       nil
     end
   end
-
 end

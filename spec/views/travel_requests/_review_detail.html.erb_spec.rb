@@ -4,7 +4,7 @@ require "rails_helper"
 RSpec.describe "travel_requests/_review_detail", type: :view, js: true do
   describe "event format badge" do
     let(:creator) { FactoryBot.create(:staff_profile, :with_supervisor, given_name: "Sally", surname: "Smith") }
-    context 'when event is virtual' do
+    context "when event is virtual" do
       let(:travel_request) { TravelRequestDecorator.new(FactoryBot.create(:travel_request, :with_note_and_estimate, creator: creator, virtual_event: true)) }
       it "has a green Virtual badge" do
         without_partial_double_verification do
@@ -15,7 +15,7 @@ RSpec.describe "travel_requests/_review_detail", type: :view, js: true do
         expect(virtual_badge[":tag-items"]).to include("{name: 'Virtual', color: 'green'}")
       end
     end
-    context 'when event is in-person' do
+    context "when event is in-person" do
       let(:travel_request) { TravelRequestDecorator.new(FactoryBot.create(:travel_request, :with_note_and_estimate, creator: creator)) }
       it "has a blue In-person badge" do
         without_partial_double_verification do
