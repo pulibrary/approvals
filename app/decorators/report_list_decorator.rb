@@ -33,6 +33,8 @@ class ReportListDecorator < RequestListDecorator
     elsif key == :supervisor
       profile = StaffProfile.find(value)
       "#{key.to_s.humanize}: #{profile.full_name}"
+    elsif key == :virtual_event
+      current_event_format_filter_label
     else
       super
     end
