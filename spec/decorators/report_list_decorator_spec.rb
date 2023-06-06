@@ -19,6 +19,21 @@ RSpec.describe ReportListDecorator, type: :model do
     end
   end
 
+  describe "#event_format_filter_urls" do
+    let(:in_person_filter) { "/reports?filters%5Bvirtual_event%5D=false" }
+    let(:virtual_filter) { "/reports?filters%5Bvirtual_event%5D=true" }
+    let(:filters) do
+      {
+        "In-person" => in_person_filter,
+        "Virtual" => virtual_filter
+      }
+    end
+
+    it "returns a list of event format filter urls" do
+      expect(report_list_decorator.event_format_filter_urls).to eq(filters)
+    end
+  end
+
   describe "#status_filter_urls" do
     let(:approved_filter) { "/reports?#{travel_filter}filters%5Bstatus%5D=approved#{sort}" }
     let(:canceled_filter) { "/reports?#{travel_filter}filters%5Bstatus%5D=canceled#{sort}" }

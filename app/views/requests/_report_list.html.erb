@@ -20,6 +20,12 @@
 
               <%= render 'supervisor_filter', supervisor_filter_urls: @requests.supervisor_filter_urls(current_staff_profile: current_staff_profile), current_supervisor_filter_label: @requests.current_supervisor_filter_label%>
 
+              <dropdown-menu type="links" id="event-format-menu" button-label="<%= @requests.current_event_format_filter_label %>" :menu-items="[
+                  <% @requests.event_format_filter_urls.each do |key, url| %>
+                    {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
+                  <% end %>
+                ]"></dropdown-menu>
+
             </grid-item>
             <grid-item columns="sm-12 auto" class="date-filter">
               <%= render "date_filter", search_path: search_path, params_manager: @requests.params_manager %>
