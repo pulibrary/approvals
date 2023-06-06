@@ -3,6 +3,7 @@ class TravelRequestChangeSet < RequestChangeSet
   property :travel_category
   property :purpose
   property :participation
+  property :virtual_event
 
   # to allow for error messages to be attached to the form fields
   property :travel_dates
@@ -43,6 +44,11 @@ class TravelRequestChangeSet < RequestChangeSet
       "{label: '#{value.humanize}', value: '#{key}'}"
     end
     "[#{strings.join(',')}]"
+  end
+
+  def event_format_options
+    "[{label: 'In-person', value: false},
+      {label: 'Virtual', value: true}]"
   end
 
   def participation_options
