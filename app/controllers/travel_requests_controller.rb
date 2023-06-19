@@ -75,6 +75,7 @@ class TravelRequestsController < CommonRequestController
         :purpose,
         :participation,
         :travel_category,
+        :virtual_event,
         event_requests: [:id, :recurring_event_id, :start_date, :end_date, :location, :url],
         notes: [:content],
         new_event: [:id],

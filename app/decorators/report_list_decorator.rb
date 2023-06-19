@@ -18,12 +18,23 @@ class ReportListDecorator < RequestListDecorator
     end
   end
 
+  def current_event_format_filter_label
+    filters = params_manager.filter_params
+    if filters[:virtual_event].present?
+      return "Event format: Virtual" if filters[:virtual_event] == "true"
+      return "Event format: In-person" if filters[:virtual_event] == "false"
+    end
+    "Event format"
+  end
+
   def filter_label(key, value)
     if key == :department
       "#{key.to_s.humanize}: #{clean_department_name(value)}"
     elsif key == :supervisor
       profile = StaffProfile.find(value)
       "#{key.to_s.humanize}: #{profile.full_name}"
+    elsif key == :virtual_event
+      current_event_format_filter_label
     else
       super
     end
@@ -46,6 +57,14 @@ class ReportListDecorator < RequestListDecorator
     end.to_h
   end
 
+  # @returns [Hash] Labels and urls for the event format dropdown menu
+  def event_format_filter_urls
+    {
+      "In-person" => params_manager.url_with_filter(field: :virtual_event, new_option: false),
+      "Virtual" => params_manager.url_with_filter(field: :virtual_event, new_option: true)
+    }
+  end
+
   def report_json
     request_list.map do |request|
       {
@@ -55,7 +74,8 @@ class ReportListDecorator < RequestListDecorator
         'end_date': request.formatted_full_end_date,
         'status': request.latest_status,
         'staff': request.full_name,
-        'department': request.department.name
+        'department': request.department.name,
+        'event_format': request.event_format
       }
     end.to_json
   end

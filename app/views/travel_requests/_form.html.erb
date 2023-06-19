@@ -20,6 +20,12 @@
           :items="<%= request_change_set.recurring_event_list %>"
           autocomplete="off"
         ></input-autocomplete>
+
+        <input-select label="Event Format" name="travel_request[virtual_event]"
+          id="travel_request_event_format" width="expand"
+          value="<%= request_change_set.virtual_event %>"
+          :options="<%= request_change_set.event_format_options %>"></input-select>
+
         <!--
           Travel Request Date Pickers -->
         <travel-request-date-pickers

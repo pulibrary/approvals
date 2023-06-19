@@ -22,7 +22,7 @@ class RequestsController < ApplicationController
     end
 
     def report_params
-      request_params(filters: [:status, :request_type, :department, :date, :employee_type, :supervisor])
+      request_params(filters: [:status, :request_type, :department, :date, :employee_type, :virtual_event, :supervisor])
     end
 
     # objects to return to my_request action

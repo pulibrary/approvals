@@ -381,7 +381,8 @@ CREATE TABLE public.requests (
     start_time character varying,
     end_time character varying,
     hours_requested numeric,
-    participation public.request_participation_category
+    participation public.request_participation_category,
+    virtual_event boolean
 );
 
 
@@ -945,6 +946,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200129183415'),
 ('20200226200516'),
 ('20200227204519'),
-('20200303200344');
+('20200303200344'),
+('20230601221141');
 
 

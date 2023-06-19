@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class TravelRequestDecorator < RequestDecorator
-  delegate :participation, :purpose, :event_requests, :estimates,
+  delegate :participation, :purpose, :event_requests, :event_format, :event_format_color, :estimates,
            :status, :can_modify_attributes?, to: :request
   delegate :full_name, :department, to: :creator
   attr_reader :travel_request

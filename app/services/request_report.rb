@@ -14,14 +14,14 @@ class RequestReport
   end
 
   def csv
-    headers = ["start_date", "end_date", "event_name", "trip_id", "surname", "given_name", "department", "estimated_cost", "status"]
+    headers = ["start_date", "end_date", "event_name", "trip_id", "surname", "given_name", "department", "estimated_cost", "status", "event_format"]
 
     CSV.open(file_path, "wb") do |csv|
       csv << headers
       TravelRequest.includes(:estimates, creator: [:department]).find_each do |request|
         next unless valid_state?(request) && in_report_period?(request)
         csv << [request.start_date, request.end_date, request.event_title, request.id, request.creator.surname, request.creator.given_name,
-                request.creator.department.name, format("%.2f", request.estimated_total), request.status]
+                request.creator.department.name, format("%.2f", request.estimated_total), request.status, request.event_format]
       end
     end
   end
