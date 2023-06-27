@@ -64,8 +64,12 @@ class Request < ApplicationRecord
   }
 
   enum travel_category: {
-    business: "business",
-    professional_development: "professional_development"
+    acquisitions: "acquisitions",
+    business: "business", # not used anymore, keeping for backwards compat
+    conferences: "conferences",
+    education_and_training: "education_and_training",
+    professional_development: "professional_development",  # not used anymore, keeping for backwards compat
+    required_business: "required_business"
   }
 
   enum absence_type: {

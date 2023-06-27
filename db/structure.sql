@@ -90,17 +90,6 @@ CREATE TYPE public.request_status AS ENUM (
 );
 
 
---
--- Name: request_travel_category; Type: TYPE; Schema: public; Owner: -
---
-
-CREATE TYPE public.request_travel_category AS ENUM (
-    'business',
-    'professional_development',
-    'discretionary'
-);
-
-
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -374,7 +363,7 @@ CREATE TABLE public.requests (
     purpose character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    travel_category public.request_travel_category,
+    travel_category character varying,
     absence_type public.request_absence_type,
     status public.request_status,
     event_title character varying,
@@ -947,6 +936,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200226200516'),
 ('20200227204519'),
 ('20200303200344'),
-('20230601221141');
+('20230601221141'),
+('20230627193346');
 
 
