@@ -40,7 +40,7 @@ class TravelRequestChangeSet < RequestChangeSet
 
   def travel_category_options
     # turn key, value into label, key
-    strings = TravelCategoryList.categories.map do |category|
+    strings = TravelCategoryList.current_categories.map do |category|
       "{label: '#{category.humanize}', value: '#{category}'}"
     end
     "[#{strings.join(',')}]"
