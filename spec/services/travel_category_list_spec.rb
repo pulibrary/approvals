@@ -2,9 +2,9 @@
 require "rails_helper"
 
 RSpec.describe TravelCategoryList do
-  describe "valid_categories" do
-    it "includes the categories specified in the travel policy" do
-      expect(described_class.valid_categories).to contain_exactly(
+  describe "categories" do
+    it "includes both current and historical categories" do
+      expect(described_class.categories).to contain_exactly(
         "acquisitions", "business", "conferences", "education_and_training",
         "professional_development", "required_business"
       )

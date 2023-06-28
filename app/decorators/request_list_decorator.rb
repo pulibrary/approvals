@@ -75,7 +75,7 @@ class RequestListDecorator
 
   # @returns [Hash] Labels and urls for the travel entries in the request type dropdown menu
   def travel_filter_urls
-    TravelCategoryList.valid_categories.map do |category|
+    TravelCategoryList.categories.map do |category|
       [category.humanize, params_manager.url_with_filter(field: :request_type, new_option: category)]
     end.to_h
   end
