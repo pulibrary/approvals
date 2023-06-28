@@ -63,15 +63,6 @@ class Request < ApplicationRecord
     participant: "participant"
   }
 
-  enum travel_category: {
-    acquisitions: "acquisitions",
-    business: "business", # not used anymore, keeping for backwards compat
-    conferences: "conferences",
-    education_and_training: "education_and_training",
-    professional_development: "professional_development", # not used anymore, keeping for backwards compat
-    required_business: "required_business"
-  }
-
   enum absence_type: {
     vacation: "vacation",
     sick: "sick",

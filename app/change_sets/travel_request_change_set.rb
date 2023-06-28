@@ -12,7 +12,7 @@ class TravelRequestChangeSet < RequestChangeSet
   collection :event_requests, form: EventRequestChangeSet, populator: EventRequestChangeSet::EventRequestPopulator, prepopulator: EventRequestChangeSet::EventRequestPrepopulator
   collection :estimates, form: EstimateChangeSet, populator: EstimateChangeSet::EstimatePopulator
 
-  validates :travel_category, inclusion: { in: Request.travel_categories.keys, allow_blank: true }
+  validates :travel_category, inclusion: { in: TravelCategoryList.valid_categories, allow_blank: true }
   validates :event_requests, presence: true
   validates :participation, inclusion: { in: Request.participations.keys }
 
@@ -40,8 +40,8 @@ class TravelRequestChangeSet < RequestChangeSet
 
   def travel_category_options
     # turn key, value into label, key
-    strings = model.class.travel_categories.map do |key, value|
-      "{label: '#{value.humanize}', value: '#{key}'}"
+    strings = TravelCategoryList.valid_categories.map do |category|
+      "{label: '#{category.humanize}', value: '#{category}'}"
     end
     "[#{strings.join(',')}]"
   end

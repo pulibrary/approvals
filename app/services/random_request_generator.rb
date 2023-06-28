@@ -70,7 +70,7 @@ class RandomRequestGenerator
         return request unless request.is_a?(TravelRequest)
 
         request.aasm.fire(action, agent: request.creator.department.head) if supervisor_approved && (request.status != "approved")
-        request.travel_category = Request.travel_categories.keys.sample
+        request.travel_category = TravelCategoryList.valid_categories.sample
         request
       end
 
