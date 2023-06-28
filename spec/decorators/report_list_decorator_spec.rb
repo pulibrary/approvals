@@ -160,10 +160,10 @@ RSpec.describe ReportListDecorator, type: :model do
     let(:filters) do
       {
         "Acquisitions" => "/reports?filters%5Brequest_type%5D=acquisitions#{status_filter}",
-        "Business" => business_filter,
+        "Business (deprecated)" => business_filter,
         "Conferences" => "/reports?filters%5Brequest_type%5D=conferences#{status_filter}",
         "Education and training" => "/reports?filters%5Brequest_type%5D=education_and_training#{status_filter}",
-        "Professional development" => professional_development_filter,
+        "Professional development (deprecated)" => professional_development_filter,
         "Required business" => "/reports?filters%5Brequest_type%5D=required_business#{status_filter}"
       }
     end

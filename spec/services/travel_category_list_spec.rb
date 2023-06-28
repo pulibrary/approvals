@@ -10,4 +10,16 @@ RSpec.describe TravelCategoryList do
       )
     end
   end
+  describe "human_readable_categories" do
+    it "includes the humanized category name as the value" do
+      expect(described_class.human_readable_categories).to include(
+        "conferences" => "Conferences"
+      )
+    end
+    it "indicates when a category is deprecated" do
+      expect(described_class.human_readable_categories).to include(
+        "business" => "Business (deprecated)"
+      )
+    end
+  end
 end
