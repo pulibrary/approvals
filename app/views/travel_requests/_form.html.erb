@@ -1,5 +1,5 @@
 
-<%= form_with(model: request_change_set.model, local: true) do |form| %>
+<%= form_with(model: request_change_set.model, local: true, class: "travel-form") do |form| %>
 <% if request_change_set.errors.any? %>
   <%=render 'errors', request_change_set: request_change_set %>
 <% end %>
@@ -12,16 +12,14 @@
         # wanted to see the validations show up on the screen, but did not want to put any effort into the form %>
     <%= form.fields_for :event_requests do |ff| %>
       <%= ff.hidden_field :id %>
-        <input-autocomplete required
-          id="travel_request_event_requests_attributes_0_recurring_event_id"
-          name="travel_request[event_requests_attributes][0][recurring_event_id]"
-          label="Event Name"
-          default-value="<%= request_change_set.event_name %>"
+        <event-title-input-wrapper
+          <% unless request_change_set.event_name.empty? %>
+            default-value="<%= request_change_set.event_name %>"
+          <% end %>
           :items="<%= request_change_set.recurring_event_list %>"
-          autocomplete="off"
-        ></input-autocomplete>
-        <!--
-          Travel Request Date Pickers -->
+          >
+        </event-title-input-wrapper>
+        <!-- Travel Request Date Pickers -->
         <travel-request-date-pickers
           :event_disabled_dates="[{
             start: null,
@@ -85,7 +83,7 @@
   </grid-item>
   <grid-item columns="lg-3 sm-12 auto">
     <div class="actions">
-      <input-button type="submit" variation="solid" block>Submit Request</input-button>
+      <travel-request-button event-title="<%= request_change_set.event_name %>"></travel-request-button>
     </div>
   </grid-item>
 </grid-container>
