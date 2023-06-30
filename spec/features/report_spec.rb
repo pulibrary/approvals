@@ -36,9 +36,9 @@ RSpec.feature "My Requests", type: :feature, js: true do
 
     Percy.snapshot(page, name: "Reports - show", widths: [375, 768, 1440])
     assert_selector ".my-request tr", count: Request.count # header row included in count
-    expect(page).to have_content "Wow 2020, Location (05/21/2020 to 05/23/2020) May 21, 2020 May 23, 2020 Approved Pat Doe ITIMS\n"
+    expect(page).to have_content "Wow 2020, Location (05/21/2020 to 05/23/2020) May 21, 2020 May 23, 2020 Approved Pat Doe ITIMS In-person\n"
     expect(page).to have_content "Best Event Ever 2020, Location (10/21/2020 to 10/23/2020) October 20, 2020 October 23, 2012 Approved Pat Doe ITIMS"
-    expect(page).to have_content "Awesome Event 2019, Location (10/21/2019 to 10/23/2019) October 21, 2019 October 23, 2019 Pending Pat Doe ITIMS\n"
+    expect(page).to have_content "Awesome Event 2019, Location (10/21/2019 to 10/23/2019) October 21, 2019 October 23, 2019 Pending Pat Doe ITIMS In-person\n"
     expect(page).to have_content "Sick Leave (17.3 hours) October 15, 2019 October 16, 2019 Approved Pat Doe ITIMS"
     expect(page).to have_content "Sick Leave (10.0 hours) October 14, 2019 October 15, 2019 Pending Pat Doe ITIMS"
     expect(page).to have_content "Vacation (15.5 hours) October 13, 2019 October 14, 2019 Approved Sally Smith ITIMS\n"

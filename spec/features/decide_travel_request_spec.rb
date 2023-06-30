@@ -44,7 +44,7 @@ RSpec.feature "Review Travel Request", type: :feature, js: true do
     fill_in "travel_request_notes_content", with: "Elephants Love Balloons"
     click_on "Approve"
     expect(page).to have_content "Travel category is required to approve."
-    find("#travel_request_travel_category option[value='business']").select_option
+    find("#travel_request_travel_category option[value='acquisitions']").select_option
     click_on "Approve"
     expect(page).to have_content "Travel request was successfully updated."
     expect(page).to have_content "Approved"
@@ -65,7 +65,7 @@ RSpec.feature "Review Travel Request", type: :feature, js: true do
     expect(page).to have_content "Travel request event name was successfully updated."
 
     expect(page.find(:css, ".event-title").text).to include("Different test name #{DateTime.now.year}, Location")
-    find("#travel_request_travel_category option[value='business']").select_option
+    find("#travel_request_travel_category option[value='acquisitions']").select_option
     click_on "Approve"
     expect(page).to have_content "Travel request was successfully updated."
     expect(page).to have_content "Approved"

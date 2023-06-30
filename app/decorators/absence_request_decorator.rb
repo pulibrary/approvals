@@ -47,6 +47,10 @@ class AbsenceRequestDecorator < RequestDecorator
     "#{start_date.strftime(date_format)} to #{end_date.strftime(date_format)}"
   end
 
+  def event_format
+    ""
+  end
+
   def review_path
     Rails.application.routes.url_helpers.review_absence_request_url(request)
   end

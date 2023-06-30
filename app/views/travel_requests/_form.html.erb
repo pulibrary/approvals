@@ -17,9 +17,15 @@
             default-value="<%= request_change_set.event_name %>"
           <% end %>
           :items="<%= request_change_set.recurring_event_list %>"
-          >
-        </event-title-input-wrapper>
-        <!-- Travel Request Date Pickers -->
+          ></event-title-input-wrapper>
+
+        <input-select label="Event Format" name="travel_request[virtual_event]"
+          id="travel_request_event_format" width="expand"
+          value="<%= request_change_set.virtual_event %>"
+          :options="<%= request_change_set.event_format_options %>"></input-select>
+
+        <!--
+          Travel Request Date Pickers -->
         <travel-request-date-pickers
           :event_disabled_dates="[{
             start: null,
@@ -48,7 +54,7 @@
       <input-text label="Purpose" id="travel_request_purpose" width="expand"
         name="travel_request[purpose]" value="<%= request_change_set.purpose %>"
         helper="Specify the reason this trip is necessary for your job"
-        :options="<%= request_change_set.travel_category_options %>" required></input-text>
+        required></input-text>
   </grid-item>
   <grid-item columns="lg-6 sm-12">
     <% if request_change_set.existing_notes.any? %>

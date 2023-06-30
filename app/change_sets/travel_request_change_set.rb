@@ -3,6 +3,7 @@ class TravelRequestChangeSet < RequestChangeSet
   property :travel_category
   property :purpose
   property :participation
+  property :virtual_event
 
   # to allow for error messages to be attached to the form fields
   property :travel_dates
@@ -11,12 +12,13 @@ class TravelRequestChangeSet < RequestChangeSet
   collection :event_requests, form: EventRequestChangeSet, populator: EventRequestChangeSet::EventRequestPopulator, prepopulator: EventRequestChangeSet::EventRequestPrepopulator
   collection :estimates, form: EstimateChangeSet, populator: EstimateChangeSet::EstimatePopulator
 
-  validates :travel_category, inclusion: { in: Request.travel_categories.keys, allow_blank: true }
+  validates :travel_category, inclusion: { in: TravelCategoryList.categories, allow_blank: true }
   validates :event_requests, presence: true
   validates :participation, inclusion: { in: Request.participations.keys }
 
   delegate :travel_category_icon, :current_note,
            :estimate_fields_json, :estimates_json,
+           :event_format, :event_format_color,
            to: :decorated_model
 
   attr_reader :current_staff_profile
@@ -38,10 +40,15 @@ class TravelRequestChangeSet < RequestChangeSet
 
   def travel_category_options
     # turn key, value into label, key
-    strings = model.class.travel_categories.map do |key, value|
-      "{label: '#{value.humanize}', value: '#{key}'}"
+    strings = TravelCategoryList.current_categories.map do |category|
+      "{label: '#{category.humanize}', value: '#{category}'}"
     end
     "[#{strings.join(',')}]"
+  end
+
+  def event_format_options
+    "[{label: 'In-person', value: false},
+      {label: 'Virtual', value: true}]"
   end
 
   def participation_options
