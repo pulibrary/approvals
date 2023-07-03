@@ -20,7 +20,7 @@ RSpec.describe "travel_requests/edit", type: :view do
       assert_select "input-text[name=?]", "travel_request[notes][][content]"
       assert_select "input-text[name=?][value=?]", "travel_request[purpose]", travel_request.purpose
       assert_select "input-text[name=?][value=?]", "travel_request[event_requests_attributes][0][location]", travel_request.event_requests[0].location
-      assert_select 'input-button[type="submit"]'
+      assert_select "travel-request-button"
     end
   end
 end
