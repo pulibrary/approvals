@@ -13,7 +13,7 @@
     <%= form.fields_for :event_requests do |ff| %>
       <%= ff.hidden_field :id %>
         <event-title-input-wrapper
-          <% unless request_change_set.event_name.empty? %>
+          <% if request_change_set.event_name.present? %>
             default-value="<%= request_change_set.event_name %>"
           <% end %>
           :items="<%= request_change_set.recurring_event_list %>"
