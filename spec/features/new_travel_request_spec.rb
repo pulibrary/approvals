@@ -92,7 +92,6 @@ RSpec.feature "New Travel Request", type: :feature, js: true do
   end
 
   scenario "It does not create empty estimates" do
-    pending("Fixing validation bug")
     visit "/travel_requests/new"
 
     find("#travel_request_participation option[value='other']").select_option
@@ -107,7 +106,6 @@ RSpec.feature "New Travel Request", type: :feature, js: true do
     # We are purposely not entering any Anticipated Expenses
     click_on "Submit Request"
     # Expect this to raise a form validation in Javascript without hitting any rails errors
-    # It should not create a new TravelRequest or a new Estimate (but I think it is)
   end
 
   scenario "I get warned when I try to enter an event with a date" do
