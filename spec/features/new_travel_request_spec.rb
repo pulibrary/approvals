@@ -91,9 +91,25 @@ RSpec.feature "New Travel Request", type: :feature, js: true do
     expect(page).not_to have_selector(:link_or_button, "Cancel")
   end
 
-  scenario "I get warned when I try to enter an event with a date" do
+  scenario "It does not create empty estimates" do
     visit "/travel_requests/new"
 
+    find("#travel_request_participation option[value='other']").select_option
+    fill_in "displayInput", with: "My event has no expenses!"
+
+    fill_in "travel_request_event_requests_attributes_0_event_dates", with: "10/1/2019 - 10/3/2019"
+    fill_in "travel_request_travel_dates", with: "10/1/2019 - 10/3/2019"
+
+    fill_in "travel_request_event_requests_attributes_0_location", with: "A Place To Be"
+    fill_in "travel_request_purpose", with: "A grand purpose"
+    select("In-person", from: "Event Format")
+    # We are purposely not entering any Anticipated Expenses
+    click_on "Submit Request"
+    # Expect this to raise a form validation in Javascript without hitting any rails errors
+  end
+
+  scenario "I get warned when I try to enter an event with a date" do
+    visit "/travel_requests/new"
     find("#travel_request_participation option[value='other']").select_option
     fill_in "displayInput", with: "Geometry 360"
     expect(page).to have_content "It looks like you have a date in this field. Please remove."

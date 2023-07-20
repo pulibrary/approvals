@@ -38,8 +38,11 @@ export default {
           form.reportValidity()
         }
       } else {
-        form.reportValidity()
-        form.submit()
+        if (form.checkValidity()) {
+          form.submit()
+        } else {
+          form.reportValidity()
+        }
       }
       
     },
