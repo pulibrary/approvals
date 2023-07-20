@@ -12,6 +12,14 @@ RSpec.describe EstimateDecorator, type: :model do
     it { is_expected.to respond_to :amount }
   end
 
+  context "with a nil cost_type" do
+    let(:estimate) { FactoryBot.create(:estimate, cost_type: nil, request: request) }
+
+    it "raises an expected error" do
+        expect { estimate_decorator.data }.to raise_error(NoMethodError, "undefined method `to_sym' for nil:NilClass")
+    end
+  end
+
   describe "#data" do
     it "returns json data" do
       expect(estimate_decorator.data).to eq(cost_type: "Lodging (per night)", note: "", recurrence: 3, amount: "50.00", total: "150.00")
