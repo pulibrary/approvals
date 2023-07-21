@@ -450,13 +450,15 @@ RSpec.describe ReportListDecorator, type: :model do
         "\"end_date\":\"#{absence_request.end_date.strftime('%B %-d, %Y')}\"," \
         "\"status\":\"Pending\",\"staff\":\"#{absence_request.creator.full_name}\"," \
         "\"department\":\"#{absence_request.department.name}\"," \
-        "\"event_format\":\"#{absence_request.event_format}\"}," \
+        "\"event_format\":\"#{absence_request.event_format}\"," \
+        "\"approval_date\":\"\",\"total\":\"0.00\"}," \
         "{\"id\":#{travel_request.id},\"request_type\":{\"value\":\"#{travel_request.title}\",\"link\":\"http://localhost:3000/travel_requests/#{travel_request.id}\"}," \
         "\"start_date\":\"#{travel_request.start_date.strftime('%B %-d, %Y')}\"," \
         "\"end_date\":\"#{travel_request.end_date.strftime('%B %-d, %Y')}\"," \
         "\"status\":\"Pending\",\"staff\":\"#{travel_request.creator.full_name}\"," \
         "\"department\":\"#{travel_request.department.name}\"," \
-        "\"event_format\":\"#{travel_request.event_format}\"}]"
+        "\"event_format\":\"#{travel_request.event_format}\"," \
+        "\"approval_date\":\"\",\"total\":\"0.00\"}]"
       )
     end
   end

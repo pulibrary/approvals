@@ -10,6 +10,10 @@ RSpec.feature "My Requests", type: :feature, js: true do
     sign_in user
   end
 
+  after do
+    Timecop.return
+  end
+
   scenario "I can filter reports" do
     Timecop.freeze(Time.utc(2019, "oct", 20))
 
