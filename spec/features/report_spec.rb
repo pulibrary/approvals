@@ -59,7 +59,6 @@ RSpec.feature "My Requests", type: :feature, js: true do
 
     click_link("Status: Approved")
     assert_selector ".my-request tr", count: 4
-    expect(page).to have_content ""
 
     fill_in "dateRange", with: "10/10/2019 - 10/25/2019"
     click_on "Filter by Date"
