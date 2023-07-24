@@ -10,7 +10,13 @@ RSpec.feature "My Requests", type: :feature, js: true do
     sign_in user
   end
 
+  after do
+    Timecop.return
+  end
+
   scenario "I can filter reports" do
+    Timecop.freeze(Time.utc(2019, "oct", 20))
+
     direct_report = FactoryBot.create :staff_profile, supervisor: staff_profile, department: staff_profile.department, given_name: "Sally", surname: "Smith"
     FactoryBot.create(:absence_request, creator: staff_profile.supervisor, start_date: Date.parse("2019-10-12"), end_date: Date.parse("2019-10-13"))
     FactoryBot.create(:absence_request, creator: staff_profile, start_date: Date.parse("2019-10-12"), end_date: Date.parse("2019-10-13"), hours_requested: 10.3)
@@ -26,8 +32,9 @@ RSpec.feature "My Requests", type: :feature, js: true do
     FactoryBot.create(:travel_request, creator: staff_profile, action: "approve", start_date: Date.parse("2020-10-20"), end_date: Date.parse("2012-10-23"), event_requests: [event_request2])
     recurring_event3 = FactoryBot.create(:recurring_event, name: "Wow", description: "Wow you must go!!!")
     event_request3 = FactoryBot.build(:event_request, recurring_event: recurring_event3, start_date: Date.parse("2020-05-21"), end_date: Date.parse("2020-05-23"))
-    FactoryBot.create(:travel_request, creator: staff_profile, action: "approve",
-                                       travel_category: "professional_development", start_date: Date.parse("2020-05-21"), end_date: Date.parse("2020-05-23"), event_requests: [event_request3])
+    FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_profile, action: "approve",
+                                                                travel_category: "professional_development", start_date: Date.parse("2020-05-21"),
+                                                                end_date: Date.parse("2020-05-23"), event_requests: [event_request3])
 
     visit "/"
 
@@ -36,12 +43,12 @@ RSpec.feature "My Requests", type: :feature, js: true do
 
     Percy.snapshot(page, name: "Reports - show", widths: [375, 768, 1440])
     assert_selector ".my-request tr", count: Request.count # header row included in count
-    expect(page).to have_content "Wow 2020, Location (05/21/2020 to 05/23/2020) May 21, 2020 May 23, 2020 Approved Pat Doe ITIMS In-person\n"
+    expect(page).to have_content "Wow 2020, Location (05/21/2020 to 05/23/2020) May 21, 2020 May 23, 2020 Approved Pat Doe ITIMS In-person October 20, 2019 150.00"
     expect(page).to have_content "Best Event Ever 2020, Location (10/21/2020 to 10/23/2020) October 20, 2020 October 23, 2012 Approved Pat Doe ITIMS"
-    expect(page).to have_content "Awesome Event 2019, Location (10/21/2019 to 10/23/2019) October 21, 2019 October 23, 2019 Pending Pat Doe ITIMS In-person\n"
-    expect(page).to have_content "Sick Leave (17.3 hours) October 15, 2019 October 16, 2019 Approved Pat Doe ITIMS"
+    expect(page).to have_content "Awesome Event 2019, Location (10/21/2019 to 10/23/2019) October 21, 2019 October 23, 2019 Pending Pat Doe ITIMS In-person 0.00\n"
+    expect(page).to have_content "Sick Leave (17.3 hours) October 15, 2019 October 16, 2019 Approved Pat Doe ITIMS October 20, 2019"
     expect(page).to have_content "Sick Leave (10.0 hours) October 14, 2019 October 15, 2019 Pending Pat Doe ITIMS"
-    expect(page).to have_content "Vacation (15.5 hours) October 13, 2019 October 14, 2019 Approved Sally Smith ITIMS\n"
+    expect(page).to have_content "Vacation (15.5 hours) October 13, 2019 October 14, 2019 Approved Sally Smith ITIMS October 20, 2019"
     expect(page).to have_content "Vacation (10.3 hours) October 12, 2019 October 13, 2019 Pending Pat Doe ITIMS"
 
     select_drop_down(menu: "#status-menu", item: "Approved")

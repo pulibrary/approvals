@@ -75,7 +75,9 @@ class ReportListDecorator < RequestListDecorator
         'status': request.latest_status,
         'staff': request.full_name,
         'department': request.department.name,
-        'event_format': request.event_format
+        'event_format': request.event_format,
+        'approval_date': approval_date(request),
+        'total': total(request)
       }
     end.to_json
   end
@@ -110,6 +112,26 @@ class ReportListDecorator < RequestListDecorator
         request.title
       else
         "#{request.title} (#{request.hours_requested} hours)"
+      end
+    end
+
+    def approval_date(request)
+      if request.status == "approved"
+        request.updated_at.strftime("%B %-d, %Y")
+      else
+        ""
+      end
+    end
+
+    def total(request)
+      if request.is_a?(TravelRequestDecorator)
+        total = 0.00
+        request.estimates.each do |est|
+          total += est.amount * est.recurrence
+        end
+        format("%.2f", total)
+      else
+        "0.00"
       end
     end
 end
