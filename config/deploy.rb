@@ -7,7 +7,7 @@ set :application, 'approvals'
 set :repo_url, 'https://github.com/pulibrary/approvals.git'
 
 # gets overriden to development on staging deploy
-set :branch, 'master'
+set :branch, 'main'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
