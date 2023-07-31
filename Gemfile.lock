@@ -374,7 +374,7 @@ GEM
       net-ssh (>= 2.8.0)
     thor (1.2.1)
     tilt (2.0.10)
-    timecop (0.9.1)
+    timecop (0.9.6)
     timeout (0.3.2)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -462,7 +462,7 @@ DEPENDENCIES
   whenever
 
 RUBY VERSION
-   ruby 3.0.0p0
+   ruby 3.1.0p0
 
 BUNDLED WITH
    2.2.3
