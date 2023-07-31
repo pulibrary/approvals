@@ -49,6 +49,9 @@ gem "aasm"
 # ldap
 gem "net-ldap"
 
+# net-ssh
+gem 'net-ssh', '7.0.0.beta1'
+
 # pagination
 gem "kaminari"
 
