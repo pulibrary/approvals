@@ -49,9 +49,6 @@ gem "aasm"
 # ldap
 gem "net-ldap"
 
-# net-ssh
-gem 'net-ssh', '7.0.0.beta1'
-
 # pagination
 gem "kaminari"
 
@@ -102,3 +99,4 @@ gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "vite_rails", "~> 3.0"
 
 gem "capistrano-yarn", "~> 2.0"
+
