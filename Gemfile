@@ -30,8 +30,8 @@ gem "jbuilder", "~> 2.5"
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 # allow ssh
-gem "ed25519"
 gem "bcrypt_pbkdf"
+gem "ed25519"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.1.0", require: false
@@ -102,4 +102,3 @@ gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "vite_rails", "~> 3.0"
 
 gem "capistrano-yarn", "~> 2.0"
-
