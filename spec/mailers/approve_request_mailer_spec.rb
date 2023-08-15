@@ -118,7 +118,7 @@ RSpec.describe ApproveMailer, type: :mailer do
       expect(mail.text_part.body.to_s).to eq("The following request was submitted on #{today_formatted}.  It has been Approved by Jane Smith on #{today_formatted}.\n" \
                                              "The approval has been forwarded to your supervisor and administrative assistant for their information.\n" \
                                              "Your request has been assigned to #{decorated_travel_request.travel_category} travel category.  " \
-                                             "To find more information about Travel Categories see https://library.princeton.edu/staff/ofa/finance-and-budget/travel/categories\n\n"\
+                                             "To find more information about Travel Categories see https://lib-confluence.princeton.edu/display/LSC/Princeton+University+Library+Travel+Policy+and+Best+Practices\n\n"\
                                              "To view your request go to http://localhost:3000/travel_requests/#{travel_request.id}\n\n" \
                                              "Travel Category: #{decorated_travel_request.travel_category}\nTrip ID: #{travel_request.id}\n" \
                                              "Type: Travel Request\nDates Away: 12/30/2019 to 12/31/2019\n" \
@@ -191,7 +191,7 @@ RSpec.describe ApproveMailer, type: :mailer do
       expect(mail.text_part.body.to_s).to eq("The following request was submitted on #{today_formatted}.  It has been Approved by Department Head on #{today_formatted}.\n" \
                                              "The approval has been forwarded to your supervisor and administrative assistant for their information.\n" \
                                              "Your request has been assigned to #{decorated_travel_request.travel_category} travel category.  " \
-                                             "To find more information about Travel Categories see https://library.princeton.edu/staff/ofa/finance-and-budget/travel/categories\n\n"\
+                                             "To find more information about Travel Categories see https://lib-confluence.princeton.edu/display/LSC/Princeton+University+Library+Travel+Policy+and+Best+Practices\n\n"\
                                              "To view your request go to http://localhost:3000/travel_requests/#{travel_request.id}\n\n" \
                                              "Travel Category: #{decorated_travel_request.travel_category}\nTrip ID: #{travel_request.id}\n" \
                                              "Type: Travel Request\nDates Away: 12/30/2019 to 12/31/2019\n" \
