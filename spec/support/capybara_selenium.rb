@@ -1,19 +1,19 @@
 # frozen_string_literal: true
+
 require "capybara/rails"
-require "selenium-webdriver"
 require "capybara/rspec"
 require "capybara-screenshot/rspec"
+require "selenium-webdriver"
 
-Capybara.server = :puma, { Silent: true }
+#Capybara.server = :puma, { Silent: true }
 
-Capybara.register_driver(:chrome_headless) do |app|
-  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    'goog:chromeOptions': { args: %w[headless disable-gpu disable-setuid-sandbox window-size=7680,4320] }
-  )
-
+Capybara.register_driver(:selenium) do |app|
+  
   browser_options = ::Selenium::WebDriver::Chrome::Options.new
-  # browser_options.args << "--headless"
+  browser_options.args << "--headless"
   browser_options.args << "--disable-gpu"
+  browser_options.args << "--disable-setuid-sandbox"
+  browser_options.args << "--window-size=7680,4320"
 
   http_client = Selenium::WebDriver::Remote::Http::Default.new
   http_client.read_timeout = 120
@@ -21,9 +21,8 @@ Capybara.register_driver(:chrome_headless) do |app|
 
   Capybara::Selenium::Driver.new(app,
                                  browser: :chrome,
-                                 capabilities: capabilities,
-                                 http_client: http_client,
+                                 http_client:,
                                  options: browser_options)
 end
 
-Capybara.javascript_driver = :chrome_headless
+Capybara.javascript_driver = :selenium
