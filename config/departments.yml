@@ -13,6 +13,8 @@
     - ddreyer
 10001:
   head_uid: ibogus
+  admin_assistant:
+    - kr2
 41032:
   admin_assistant: 
     - francesj
