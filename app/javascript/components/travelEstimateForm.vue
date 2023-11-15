@@ -150,7 +150,7 @@ export default {
       let foundIndex = this.find_expense(expense)
       this.expenseData[foundIndex].cost_type = inputVal
       if(inputVal === 'personal_auto'){
-        this.expenseData[foundIndex].amount = 65.5
+        this.expenseData[foundIndex].amount = .655
       } else {
         this.expenseData[foundIndex].amount = null
       }
