@@ -25,6 +25,7 @@ import hoursCalculator from "../components/hoursCalculator.vue"
 import travelEstimateForm from "../components/travelEstimateForm.vue"
 import travelRequestButton from "../components/travelRequestButton.vue"
 import travelRequestDatePickers from "../components/travelRequestDatePickers.vue"
+import Rails from '@rails/ujs';
 
 Vue.use(system)
 
@@ -45,3 +46,5 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 })
+
+Rails.start();
