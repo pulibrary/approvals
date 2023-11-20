@@ -93,7 +93,6 @@ group :test do
   gem "selenium-webdriver"
   gem "simplecov", require: false
   gem "timecop"
-  gem "webdrivers"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
