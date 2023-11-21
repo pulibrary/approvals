@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@rails/ujs": "6.1.7-6",
-    "lux-design-system": "~3.0.1",
+    "lux-design-system": "^4.5.2",
     "vue": "^2.6.10",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10"
@@ -14,6 +14,7 @@
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.23.4",
     "@babel/preset-env": "^7.23.3",
+    "@happy-dom/jest-environment": "^12.10.3",
     "@percy/agent": "^0.19.1",
     "@vue/test-utils": "^1.0.0-beta.25",
     "babel-core": "^7.0.0-bridge",
@@ -28,7 +29,6 @@
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^5.1.0",
     "jest": "^28.1.2",
-    "@happy-dom/jest-environment": "^12.10.3",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^9.3.0",
     "sass": "^1.69.5",
