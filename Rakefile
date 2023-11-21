@@ -6,3 +6,8 @@
 require_relative "config/application"
 
 Rails.application.load_tasks
+
+# Prevent rake assets:precompile from installing all yarn dependencies
+# and devDependencies during deployment (since we only need the dependencies,
+# not the devDependencies)
+Rake::Task["yarn:install"].clear

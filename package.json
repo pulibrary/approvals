@@ -4,6 +4,9 @@
   "dependencies": {
     "@rails/ujs": "6.1.7-6",
     "lux-design-system": "~3.0.1",
+    "vite": "^4.3.0",
+    "vite-plugin-ruby": "^3.2.0",
+    "vite-plugin-vue2": "^2.0.3",
     "vue": "^2.6.10",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10"
@@ -32,9 +35,6 @@
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^9.3.0",
     "sass": "^1.69.5",
-    "vite": "^4.3.0",
-    "vite-plugin-ruby": "^3.2.0",
-    "vite-plugin-vue2": "^2.0.3",
     "vue-jest": "^3.0.0"
   },
   "jest": {

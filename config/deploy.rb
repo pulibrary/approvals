@@ -15,9 +15,6 @@ set :branch, 'main'
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/opt/approvals'
 
-# Install yarn devDependencies, not just the prod ones
-set :yarn_flags, '--silent --no-progress'
-
 # Default value for :format is :pretty
 # set :format, :pretty
 
@@ -45,9 +42,7 @@ set :linked_dirs, %w{tmp/pids tmp/sockets log}
 # Default value for linked_dirs is []
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
-# Default value for default_env is {}
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
-# set :default_env, { path: "/home/vagrant/.rvm/gems/ruby-x.x.x/bin:$PATH" }
+set :default_env, { NODE_ENV: 'production' }
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
@@ -156,16 +151,4 @@ namespace :deploy do
 #   after :publishing, :robots_txt
 
   after :finishing, 'deploy:cleanup'
-
-  # # We shouldn't need this because it should be built in to Rails 5.1
-  # # see https://github.com/rails/webpacker/issues/1037
-  # desc 'Run yarn install'
-  # task :yarn_install do
-  #   on roles(:web) do
-  #     within release_path do
-  #       execute("cd #{release_path} && yarn install")
-  #     end
-  #   end
-  # end
-  # before "deploy:assets:precompile", "deploy:yarn_install"
 end
