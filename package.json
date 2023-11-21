@@ -3,7 +3,6 @@
   "private": true,
   "dependencies": {
     "@rails/ujs": "6.1.7-6",
-    "jest-environment-jsdom": "^28.1.2",
     "lux-design-system": "~3.0.1",
     "vue": "^2.6.10",
     "vue-loader": "^15.7.0",
@@ -29,8 +28,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^5.1.0",
     "jest": "^28.1.2",
-    "jest-canvas-mock": "^1.1.0",
-    "jest-serializer-vue": "^2.0.2",
+    "@happy-dom/jest-environment": "^12.10.3",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^9.3.0",
     "sass": "^1.69.5",
@@ -47,7 +45,7 @@
       "node_modules",
       "app/javascript"
     ],
-    "testEnvironment": "jsdom",
+    "testEnvironment": "@happy-dom/jest-environment",
     "moduleNameMapper": {
       "^@/(.*)$": "app/javascript/$1"
     },
@@ -60,12 +58,6 @@
       "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
       ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
     },
-    "snapshotSerializers": [
-      "<rootDir>/node_modules/jest-serializer-vue"
-    ],
-    "setupFiles": [
-      "jest-canvas-mock"
-    ],
     "setupFilesAfterEnv": [
       "./app/javascript/test/setup.js"
     ]
