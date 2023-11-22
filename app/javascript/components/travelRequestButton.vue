@@ -1,7 +1,17 @@
 <template>
   <div>
-    <input-button id="submit-travel-request" @button-clicked="submitTravelRequest($event)" type="button" variation="solid">Submit Request</input-button>
-    <event-date-modal :showModal="showModal" v-on:closeModal="close">
+    <input-button
+      id="submit-travel-request"
+      type="button"
+      variation="solid"
+      @button-clicked="submitTravelRequest($event)"
+    >
+      Submit Request
+    </input-button>
+    <event-date-modal
+      :show-modal="showModal"
+      @closeModal="close"
+    >
       <div slot="body">
         <p>It looks like you have a date in the event title. Please remove before submitting</p>
         <br>
@@ -12,53 +22,54 @@
 </template>
 
 <script>
-import eventDateModal from './eventDateModal.vue'
+/* eslint-disable vue/require-default-prop, no-unused-vars, vue/require-prop-type-constructor */
+import eventDateModal from './eventDateModal.vue';
 
 export default {
-  name: "travelEventButton",
-  components: {
-    eventDateModal
-  },
-  data: function() {
-    return {
-      showModal: false
-    }
-  },
-  props: {
-    eventTitle: "",
-    form: HTMLDivElement
-  },
-  methods: {
-    submitTravelRequest(event) {
-      var form = document.querySelector(".travel-form")
-      if (/\d{2,4}/.test(document.querySelector("#displayInput").value)) {
-        if (form.checkValidity()) {
-          this.showModal = true
-        } else {
-          form.reportValidity()
-        }
-      } else {
-        if (form.checkValidity()) {
-          form.submit()
-        } else {
-          form.reportValidity()
-        }
-      }
+    name: "TravelEventButton",
+    components: {
+        eventDateModal
+    },
+    props: {
+        eventTitle: "",
+        form: HTMLDivElement
+    },
+    data: function() {
+        return {
+            showModal: false
+        };
+    },
+    methods: {
+        submitTravelRequest(event) {
+            const form = document.querySelector(".travel-form");
+            if (/\d{2,4}/.test(document.querySelector("#displayInput").value)) {
+                if (form.checkValidity()) {
+                    this.showModal = true;
+                } else {
+                    form.reportValidity();
+                }
+            } else {
+                if (form.checkValidity()) {
+                    form.submit();
+                } else {
+                    form.reportValidity();
+                }
+            }
       
-    },
-    close() {
-      this.showModal = false
-    },
-    matchedDate() {
-      var title = document.querySelector("#displayInput")
-      if (title === null) {
-        return ""
-      }
+        },
+        close() {
+            this.showModal = false;
+        },
+        matchedDate() {
+            const title = document.querySelector("#displayInput");
+            if (title === null) {
+                return "";
+            }
 
-      return title.value.match(/\d{2,4}/)[0]
+            return title.value.match(/\d{2,4}/)[0];
+        }
     }
-  }
-}
+};
 </script>
 
 <style scoped>

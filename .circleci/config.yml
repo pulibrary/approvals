@@ -139,6 +139,16 @@ jobs:
           root: '~/project'
           paths: '*'
 
+  eslint:
+    executor: approvals-executor
+    steps:
+      - attach_workspace:
+          at: '~/project'
+      - run:
+          name: Run eslint
+          command: yarn lint
+    
+
   rubocop:
     executor: approvals-executor
     steps:
@@ -174,3 +184,6 @@ workflows:
       - coverage_report:
          requires:
           - test
+      - eslint:
+          requires:
+            - build

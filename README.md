@@ -92,6 +92,9 @@ This is an application that allows the library to create workflows that allow st
 
 `bundle exec rake spec` will run the tests.
 
+`yarn test` will run the javascript tests, and `yarn lint` will run the javascript
+linter.
+
 ### Percy (Visual Regressions)
 
 [![This project is using Percy.io for visual regression testing.](https://percy.io/static/images/percy-badge.svg)](https://percy.io/Princeton-University-Library/approvals)
