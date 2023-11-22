@@ -15,9 +15,6 @@ set :branch, 'main'
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/opt/approvals'
 
-# Install yarn devDependencies, not just the prod ones
-set :yarn_flags, '--silent --no-progress'
-
 # Default value for :format is :pretty
 # set :format, :pretty
 
@@ -144,6 +141,18 @@ namespace :deploy do
     end
   end
 
+  after 'deploy:updated', :compile_assets do
+    on roles(:web) do
+      with :rails_env => fetch(:rails_env) do
+        within current_path do
+          execute "cd #{release_path} && npm install"
+          execute "cd #{release_path} && bundle exec vite build"
+          execute :rake, 'assets:precompile'  
+        end
+      end
+    end
+  end
+
 # TODO - We likely need a robot.txt
 #   task :robots_txt do
 #     on roles(:app) do
@@ -156,16 +165,4 @@ namespace :deploy do
 #   after :publishing, :robots_txt
 
   after :finishing, 'deploy:cleanup'
-
-  # # We shouldn't need this because it should be built in to Rails 5.1
-  # # see https://github.com/rails/webpacker/issues/1037
-  # desc 'Run yarn install'
-  # task :yarn_install do
-  #   on roles(:web) do
-  #     within release_path do
-  #       execute("cd #{release_path} && yarn install")
-  #     end
-  #   end
-  # end
-  # before "deploy:assets:precompile", "deploy:yarn_install"
 end
