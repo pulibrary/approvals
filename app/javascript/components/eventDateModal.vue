@@ -1,6 +1,9 @@
 <template>
   <transition name="eventDateModal">
-    <div v-if="showModal" class="modal-mask">
+    <div
+      v-if="showModal"
+      class="modal-mask"
+    >
       <div class="modal-wrapper">
         <div class="modal-container">
           <div class="modal-header">
@@ -12,8 +15,22 @@
             </slot>
           </div>
           <div class="modal-footer">
-            <input-button @button-clicked="submit" type="button" variation="solid" size="small">Continue</input-button>
-            <input-button @button-clicked="$emit('closeModal')" type="button" variation="outline" size="small">Go Back</input-button>
+            <input-button
+              type="button"
+              variation="solid"
+              size="small"
+              @button-clicked="submit"
+            >
+              Continue
+            </input-button>
+            <input-button
+              type="button"
+              variation="outline"
+              size="small"
+              @button-clicked="$emit('closeModal')"
+            >
+              Go Back
+            </input-button>
           </div>
         </div>
       </div>
@@ -22,21 +39,22 @@
 </template>
 
 <script>
+/* eslint-disable vue/require-default-prop, vue/require-prop-type-constructor */
 export default {
-  name: "eventDateModal",
-  data: function(){
-    return {}
-  },
-  props: {
-    showModal: false
-  },
-  emits: ['closeModal'],
-  methods: {
-    submit() {
-      document.querySelector(".travel-form").submit()
+    name: "EventDateModal",
+    props: {
+        showModal: false
+    },
+    emits: ['closeModal'],
+    data: function(){
+        return {};
+    },
+    methods: {
+        submit() {
+            document.querySelector(".travel-form").submit();
+        }
     }
-  }
-}
+};
 </script>
 
 <style scoped>

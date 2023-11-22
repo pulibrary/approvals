@@ -1,42 +1,48 @@
 <template>
   <div class="event-title-container">
-    <input-autocomplete required
+    <input-autocomplete
       id="travel_request_event_requests_attributes_0_recurring_event_id"
+      required
       name="travel_request[event_requests_attributes][0][recurring_event_id]"
       label="Event Name"
       :default-value="defaultValue"
       :items="items"
       autocomplete="off"
       :helper="helperText"
-      v-on:input="checkForDate($event)"
+      @input="checkForDate($event)"
+    />
+    <div
+      v-if="helperText"
+      class="lux-helper"
     >
-    </input-autocomplete>
-    <div class="lux-helper" v-if="helperText">{{ helperText }}</div>
+      {{ helperText }}
+    </div>
   </div>
 </template>
 
 <script>
+/* eslint-disable vue/require-default-prop, vue/require-prop-types,  vue/require-prop-type-constructor */
 export default {
-  name: "eventTitleInputWrapper",
-  data: function(){
-    return {
-      helperText: ""
+    name: "EventTitleInputWrapper",
+    props: {
+        defaultValue: "",
+        items: Array
+    },
+    data: function(){
+        return {
+            helperText: ""
+        };
+    },
+    methods: {
+        checkForDate(e) {
+            if(/\d{2,4}/.test(e)){
+                this.helperText = "It looks like you have a date in this field. Please remove.";
+            } else {
+                this.helperText = "";
+            }
+        }
     }
-  },
-  props: {
-    defaultValue: "",
-    items: Array
-  },
-  methods: {
-    checkForDate(e) {
-      if(/\d{2,4}/.test(e)){
-        this.helperText = "It looks like you have a date in this field. Please remove."
-      } else {
-        this.helperText = ""
-      }
-    }
-  }
-}
+};
 </script>
 
 <style>
