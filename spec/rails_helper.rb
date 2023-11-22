@@ -12,7 +12,7 @@ require "rspec/rails"
 require "devise"
 require Rails.root.join("spec", "support", "capybara_selenium.rb")
 require Rails.root.join("spec", "support", "mailer.rb")
-require "percy"
+require "percy/capybara"
 require "capybara/rspec"
 
 # Requires supporting ruby files with custom matchers and macros, etc, in

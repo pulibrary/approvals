@@ -87,7 +87,7 @@ group :test do
   gem "capybara", ">= 2.15"
   gem "capybara-screenshot"
   gem "factory_bot_rails", "~> 4.8", require: false
-  gem "percy-capybara", "~> 4.0.0"
+  gem "percy-capybara", "~> 5.0.0"
   gem "rails-controller-testing"
   gem "rspec_junit_formatter"
   gem "selenium-webdriver"
