@@ -34,13 +34,13 @@ RSpec.feature "New Absence Request", type: :feature, js: true do
     tomorrow = Date.parse("2019-10-23")
     js_date_format = "%m/%d/%Y"
     fill_in "absence_request_date", with: "#{today.strftime(js_date_format)} - #{tomorrow.strftime(js_date_format)}"
-    Percy.snapshot(page, name: "Leave Request - New", widths: [375, 768, 1440])
+    page.percy_snapshot("Leave Request - New", widths: [375, 768, 1440])
     click_on "Submit Request"
 
     expect(page).to have_content "Sick Leave"
     expect(page).to have_content "Total Hours\n21.75"
     expect(page).to have_content "Pending"
-    Percy.snapshot(page, name: "Leave Request - Show", widths: [375, 768, 1440])
+    page.percy_snapshot("Leave Request - Show", widths: [375, 768, 1440])
 
     # Approve in the background
     Request.last.approve!(agent: staff_profile.supervisor)

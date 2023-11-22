@@ -65,7 +65,7 @@ RSpec.feature "New Travel Request", type: :feature, js: true do
     all("input[id^='travel_request_estimates_recurrence_']")[1].fill_in with: "3"
     all("input[id^='travel_request_estimates_amount_']")[1].fill_in with: "30"
     expect(page).to have_content "130.00"
-    Percy.snapshot(page, name: "Travel Request - New", widths: [375, 768, 1440])
+    page.percy_snapshot("Travel Request - New", widths: [375, 768, 1440])
     click_on "Submit Request"
 
     expect(page).to have_content "Super Event's Are Us 2019, A Place To Be (10/01/2019 to 10/03/2019)"
