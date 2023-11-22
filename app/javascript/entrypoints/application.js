@@ -26,6 +26,7 @@ import travelEstimateForm from "../components/travelEstimateForm.vue";
 import travelRequestButton from "../components/travelRequestButton.vue";
 import travelRequestDatePickers from "../components/travelRequestDatePickers.vue";
 import Rails from '@rails/ujs';
+import '../../assets/stylesheets/application.scss';
 
 Vue.use(system);
 
