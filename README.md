@@ -26,11 +26,9 @@ This is an application that allows the library to create workflows that allow st
    
 ## Database creation
 
-   * Run `lando start` to start a local postgres server.
-   * create, migrate and seed the database
+   * Run `rake servers:start` to start a local postgres server, create, and migrate.
+   * seed the database
      ```
-     rake db:create 
-     rake db:migrate
      rake db:seed # you must be on the VPN for this step
      ```
    * `rake db:seed` only creates accounts for users listed in the `Department Absence Manager Report - Library-en.csv` file.  If you are not yet listed in the file, you will have to add a row with your NetID in order to log
