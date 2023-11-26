@@ -1,4 +1,18 @@
 # frozen_string_literal: true
+namespace :servers do
+  task initialize: :environment do
+    Rake::Task["db:create"].invoke
+    Rake::Task["db:migrate"].invoke
+  end
+
+  desc "Starts development dependencies"
+  task start: :environment do
+    system("lando start")
+    system("rake servers:initialize")
+    system("rake servers:initialize RAILS_ENV=test")
+  end
+end
+
 namespace :approvals do
   desc "add fake users to give [:netid] someone to supervise"
   task :make_me_a_supervisor, [:netid, :number] => [:environment] do |_t, args|
