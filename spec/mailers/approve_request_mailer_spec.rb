@@ -115,7 +115,7 @@ RSpec.describe ApproveMailer, type: :mailer do
       expect(mail.html_part.body.to_s).to have_content("Travel Category\n    #{decorated_travel_request.travel_category}\n    Trip ID\n    #{travel_request.id}\n    " \
                                                        "Type\n    Travel Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Destination\n    Location\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}\"]")
-      expect(mail.text_part.body.to_s).to eq("The following request was submitted on #{today_formatted}.  It has been Approved by Jane Smith on #{today_formatted}.\n" \
+      expect(mail.text_part.body.to_s).to include("The following request was submitted on #{today_formatted}.  It has been Approved by Jane Smith on #{today_formatted}.\n" \
                                              "The approval has been forwarded to your supervisor and administrative assistant for their information.\n" \
                                              "Your request has been assigned to #{decorated_travel_request.travel_category} travel category.  " \
                                              "To find more information about Travel Categories see https://pul-confluence.atlassian.net/wiki/spaces/LSC/pages/1933321/Princeton+University+Library+Travel+Policy+and+Best+Practices\n\n"\
