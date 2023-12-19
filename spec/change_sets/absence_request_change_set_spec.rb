@@ -166,7 +166,7 @@ RSpec.describe AbsenceRequestChangeSet, type: :model do
         }
       end
 
-      it "is valid" do
+      it "is not valid" do
         absence_request.validate({})
         expect(absence_request.errors.messages).to eq(errors)
       end
