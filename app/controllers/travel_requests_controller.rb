@@ -7,12 +7,12 @@ class TravelRequestsController < CommonRequestController
   # PATCH/PUT
   def decide
     if params[:change_request]
-      request_change_set.errors.add(:notes, "are required to specify requested changes.") if processed_params[:notes].blank?
+      pending_errors.push({ attribute: :notes, type: "are required to specify requested changes." }) if processed_params[:notes].blank?
       run_action(action: :change_request, change_method: :supervisor_can_change?)
     elsif params[:change_event]
       update_event
     else
-      request_change_set.errors.add(:travel_category, "is required to approve.") if params[:approve] && processed_params[:travel_category].blank? && current_staff_profile.department_head?
+      pending_errors.push({ attribute: :travel_category, type: "is required to approve." }) if params[:approve] && processed_params[:travel_category].blank? && current_staff_profile.department_head?
       super
     end
   end
@@ -111,7 +111,7 @@ class TravelRequestsController < CommonRequestController
       hash[:start_date] = dates[:start]
       hash[:end_date] = dates[:end]
     rescue ArgumentError
-      request_change_set.errors.add(field, "must be in a valid format (mm/dd/yyyy - mm/dd/yyyy)")
+      pending_errors.push({ attribute: field, type: "must be in a valid format (mm/dd/yyyy - mm/dd/yyyy)" })
     end
 
     def processed_params

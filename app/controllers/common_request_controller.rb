@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+
+# rubocop:disable Metrics/ClassLength
 class CommonRequestController < ApplicationController
   # GET
   def show
@@ -107,11 +109,19 @@ class CommonRequestController < ApplicationController
 
   private
 
+    # The #validate method removes any existing errors that we've added manually.
+    # If we need to manually add errors, add them to this pending_errors array, and
+    # then we can add them to the errors list after calling #validate, allowing them
+    # to persist.
+    def pending_errors
+      @pending_errors ||= []
+    end
+
     def validate_for_action
       if params[:deny] && processed_params[:notes].blank?
-        request_change_set.errors.add(:notes, "are required to deny a request")
+        pending_errors.push({ attribute: :notes, type: "are required to deny a request" })
       elsif params[:comment] && processed_params[:notes].blank?
-        request_change_set.errors.add(:notes, "are required to comment on a request")
+        pending_errors.push({ attribute: :notes, type: "are required to comment on a request" })
       end
     end
 
@@ -197,7 +207,10 @@ class CommonRequestController < ApplicationController
                           else
                             {}
                           end
-      valid = request_change_set.validate(params_to_process)
+      valid = request_change_set.validate(params_to_process) && pending_errors.empty?
+      pending_errors.each do |error|
+        request_change_set.errors.add(error[:attribute], error[:type])
+      end
       handle_nested_deletes if valid && handle_deletes
       valid && request_change_set.save
     end

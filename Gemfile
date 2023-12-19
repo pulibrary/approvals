@@ -28,8 +28,8 @@ gem "ed25519"
 gem "bootsnap", ">= 1.1.0", require: false
 
 gem "faker"
-gem "reform", "~> 2.2.4"
-gem "reform-rails"
+gem "reform", "2.3.1"
+gem "reform-rails", "0.2.6"
 gem "whenever", require: false
 
 # Single sign on
