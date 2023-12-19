@@ -3,7 +3,6 @@ version: 2.1
 orbs: 
   node: circleci/node@5.0.0
   browser-tools: circleci/browser-tools@1.4.3
-  percy: percy/agent@0.1.3
 executors:
   approvals-executor:
     docker:
@@ -122,11 +121,10 @@ jobs:
           name: Run jest tests
           command: yarn test
 
-      # Run rspec with percy
       - run:
           name: Run rspec
           command: |
-            yarn percy exec -- bundle exec rspec --tag \~no_ci --profile 10 \
+            bundle exec rspec --tag \~no_ci --profile 10 \
                               --format RspecJunitFormatter \
                               --out test_results/rspec/results.xml \
                               --format progress \
@@ -182,9 +180,6 @@ workflows:
       - test:
          requires:
           - build
-      - percy/finalize_all:
-         requires:
-          - test
       - coverage_report:
          requires:
           - test

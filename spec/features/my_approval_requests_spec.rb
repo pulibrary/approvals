@@ -28,7 +28,6 @@ RSpec.feature "My Approval Requests", type: :feature, js: true do
                                        event_requests: [event_request])
 
     visit "/my_approval_requests"
-    page.percy_snapshot("My Approval Requests - Show", widths: [375, 768, 1440])
     assert_selector ".my-request .lux-card", count: Request.count
 
     select_drop_down(menu: "#request-type-menu", item: "Travel")
