@@ -15,7 +15,6 @@
     "@babel/plugin-transform-runtime": "^7.23.4",
     "@babel/preset-env": "^7.23.3",
     "@happy-dom/jest-environment": "^12.10.3",
-    "@percy/cli": "^1.27.4",
     "@vue/test-utils": "^1.0.0-beta.25",
     "babel-core": "^7.0.0-bridge",
     "babel-plugin-dynamic-import-node": "^2.3.3",
