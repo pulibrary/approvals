@@ -63,18 +63,13 @@ This is an application that allows the library to create workflows that allow st
 
 ## Development
 
-   * run foreman
+   * run the first time
      ```
-     foreman start
+     gem install foreman mailcatcher
      ```
-   * run mail catcher
-     run once 
+   * run every time
      ```
-     gem install mailcatcher
-     ```
-     run every time
-     ```
-     mailcatcher
+     mailcatcher && foreman start
      ```
    
      [you can see the mail that has been sent here]( http://localhost:1080/)

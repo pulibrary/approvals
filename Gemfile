@@ -28,8 +28,8 @@ gem "ed25519"
 gem "bootsnap", ">= 1.1.0", require: false
 
 gem "faker"
-gem "reform", "2.3.1"
-gem "reform-rails", "0.2.6"
+gem "reform"
+gem "reform-rails"
 gem "whenever", require: false
 
 # Single sign on
@@ -61,8 +61,8 @@ end
 
 group :development do
   gem "capistrano-passenger"
-  gem "capistrano-rails", "~> 1.1.6"
-  gem "foreman"
+  gem "capistrano-rails"
+  gem "capistrano-yarn"
   gem "rails_real_favicon"
   gem "rspec-rails", "~> 4.0.1"
   gem "web-console", ">= 3.3.0"
@@ -72,7 +72,7 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem "capybara", ">= 2.15"
   gem "capybara-screenshot"
-  gem "factory_bot_rails", "~> 4.8", require: false
+  gem "factory_bot_rails", require: false
   gem "rails-controller-testing"
   gem "rspec_junit_formatter"
   gem "selenium-webdriver"
@@ -84,5 +84,3 @@ end
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 
 gem "vite_rails"
-
-gem "capistrano-yarn", "~> 2.0"
