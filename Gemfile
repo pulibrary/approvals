@@ -10,7 +10,7 @@ gem "rails", "~> 6.0"
 # Use postgres as the database for Active Record
 gem "pg"
 # Use Puma as the app server
-gem "puma", "~> 5.6"
+gem "puma"
 
 gem "jbuilder"
 
@@ -29,7 +29,7 @@ gem "whenever", require: false
 # Single sign on
 gem "devise"
 gem "omniauth-cas"
-gem "omniauth-rails_csrf_protection", "~> 0.1"
+gem "omniauth-rails_csrf_protection"
 
 # workflow
 gem "aasm"
@@ -41,12 +41,12 @@ gem "net-ldap"
 gem "kaminari"
 
 # static pages
-gem "high_voltage", "~> 3.1"
+gem "high_voltage"
 
 gem "honeybadger"
 
 group :development, :test do
-  gem "bixby", "~> 5.0"
+  gem "bixby"
   gem "byebug", platforms: %i[mri mingw x64_mingw]
   gem "pry"
   gem "pry-byebug"
@@ -57,7 +57,7 @@ group :development do
   gem "capistrano-rails"
   gem "capistrano-yarn"
   gem "rails_real_favicon"
-  gem "rspec-rails", "~> 4.0.1"
+  gem "rspec-rails"
   gem "web-console", ">= 3.3.0"
 end
 
