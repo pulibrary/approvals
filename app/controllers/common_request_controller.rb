@@ -21,7 +21,9 @@ class CommonRequestController < ApplicationController
   def new
     # the sync is required since the form currently runs off of the change set model
     # prepopulate creates a default unsaved request event
-    request_change_set.prepopulate!.sync
+    # Reform 2.6.2 throws an error unless you send a Hash with at least one key in it
+    # to prepopulate!, although this is not in the documentation for Reform.
+    request_change_set.prepopulate!({ _unused_value: nil }).sync
   end
 
   # GET
