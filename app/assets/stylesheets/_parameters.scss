@@ -1,7 +1,7 @@
 .search-filter-sort.lux-card {
-  border: 1px solid $color-grayscale-warm-light;
+  border: 1px solid var(--color-grayscale-warm-light);
   box-shadow: none;
-  background: lighten($color-grayscale-warm-light, 17%);
+  background: lighten(rgb(210, 202, 173), 17%);
 }
 
 .lux-col .lux-search-box,
@@ -11,15 +11,15 @@
 }
 
 .filter-applied {
-  border-top: 1px solid $color-grayscale-warm-light;
+  border-top: 1px solid var(--color-grayscale-warm-light);
   margin-top: 1rem;
   padding-top: 1rem;
 }
 
 .filter-label {
-  color: $color-grayscale-darker;
+  color: var(--color-grayscale-darker);
   display: block;
-  font-size: $font-size-small;
+  font-size: var(--font-size-small);
   margin: 0 0 0.5rem 1rem;
 }
 
@@ -54,7 +54,7 @@
 .lux-search-box .lux-button,
 .lux-search-box .lux-button.text {
   width: auto;
-  background-color: lighten($color-grayscale-warm-light, 20%);
+  background-color: lighten(rgb(210, 202, 173), 20%);
 }
 
 .date-filter form {
@@ -74,22 +74,22 @@
 }
 
 .pagination a {
-  box-shadow: $box-shadow-small;
-  border-radius: $border-radius-default;
-  background-color: $color-white;
-  padding: $space-x-small $space-small;
-  margin-left: $space-xx-small;
+  box-shadow: var(--box-shadow-small);
+  border-radius: var(--border-radius-default);
+  background-color: var(--color-white);
+  padding: var(--space-x-small) var(--space-small);
+  margin-left: var(--space-xx-small);
   text-decoration: none;
-  color: $color-rich-black;
+  color: var(--color-rich-black);
   display: inline-block;
 
   @media (max-width: 599px) {
-    margin-bottom: $space-x-small;
+    margin-bottom: var(--space-x-small);
   }
 
   &:hover,
   &:focus {
-    box-shadow: $box-shadow-selected;
+    box-shadow: var(--box-shadow-selected);
     outline: 0;
   }
 }
@@ -97,6 +97,6 @@
 .page.current {
   background-color: initial;
   box-shadow: none;
-  padding: $space-xx-small;
+  padding: var(--space-xx-small);
   text-align: center;
 }
