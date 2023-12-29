@@ -2,10 +2,10 @@
   "name": "approvals",
   "private": true,
   "dependencies": {
+    "postcss-import": "^15.1.0",
     "@rails/ujs": "6.1.7-6",
-    "lux-design-system": "~3.0.1",
-    "vue": "^2.6.10",
-    "vue-template-compiler": "^2.6.10"
+    "lux-design-system": "5.0.0-alpha.10",
+    "vue": "^3.4.0"
   },
   "scripts": {
     "lint": "eslint app/javascript/**/*.{js,vue}",
@@ -15,6 +15,7 @@
     "@babel/plugin-transform-runtime": "^7.23.4",
     "@babel/preset-env": "^7.23.3",
     "@happy-dom/jest-environment": "^12.10.3",
+    "@vitejs/plugin-vue": "^5.0.1",
     "@vue/test-utils": "^1.0.0-beta.25",
     "babel-core": "^7.0.0-bridge",
     "babel-plugin-dynamic-import-node": "^2.3.3",
@@ -29,7 +30,6 @@
     "sass": "^1.69.5",
     "vite": "^5.0.12",
     "vite-plugin-ruby": "^5.0.0",
-    "vite-plugin-vue2": "^2.0.3",
     "vue-eslint-parser": "^9.3.2",
     "vue-jest": "^3.0.0"
   },

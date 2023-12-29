@@ -15,10 +15,9 @@
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-import Vue from "vue/dist/vue.esm";
+import Vue from "vue";
 import system from "lux-design-system";
-import "lux-design-system/dist/system/system.css";
-import "lux-design-system/dist/system/tokens/tokens.scss";
+import "lux-design-system/dist/style.css";
 import eventDateModal from "../components/eventDateModal.vue";
 import eventTitleInputWrapper from "../components/eventTitleInputWrapper.vue";
 import hoursCalculator from "../components/hoursCalculator.vue";
