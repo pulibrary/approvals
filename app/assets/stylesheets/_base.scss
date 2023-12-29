@@ -10,8 +10,8 @@ $green: #c3ed79;
 }
 
 body {
-  background-color: $color-grayscale-warm-lighter;
-  font-family: $font-family-system;
+  background-color: var(--color-grayscale-warm-lighter);
+  font-family: var(--font-family-system);
 }
 
 // Adds space to main-content of page
@@ -31,19 +31,19 @@ body {
 
 .current-delegate span {
   display: block;
-  font-weight: $font-weight-bold;
+  font-weight: var(--font-weight-bold);
   line-height: 40px;
   margin: 0 auto;
   max-width: 1400px;
 
   .lux-link.button.outline {
-    background-color: $color-white;
+    background-color: var(--color-white);
     border: 0;
     line-height: 1;
 
     &:hover,
     &:focus {
-      color: $color-bleu-de-france-darker;
+      color: var(--color-bleu-de-france-darker);
     }
 
     @media (max-width: 899px) {
@@ -57,7 +57,7 @@ body {
 
   p {
     line-height: 1.6;
-    font-weight: $font-weight-regular;
+    font-weight: var(--font-weight-regular);
     margin-top: 1rem;
   }
 }
