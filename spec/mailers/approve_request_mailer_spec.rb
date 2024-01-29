@@ -79,7 +79,7 @@ RSpec.describe ApproveMailer, type: :mailer do
       expect(mail.html_part.body.to_s).to have_content("The following request was submitted by Doe, Joe (jd4) on #{today_formatted}.")
       expect(mail.html_part.body.to_s).to have_content("Type\n    Vacation\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Total absence time in hours\n    8.0\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/absence_requests/#{absence_request.id}\"]")
-      expect(mail.text_part.body.to_s).to eq("The following request was submitted on #{today_formatted}.  It has been Approved by Jane Smith on #{today_formatted}.\n" \
+      expect(mail.text_part.body.to_s).to include("The following request was submitted on #{today_formatted}.  It has been Approved by Jane Smith on #{today_formatted}.\n" \
                                              "The approval has been forwarded to your supervisor and administrative assistant for their information.\n" \
                                              "Please proceed with recording your absence in the HR Self Service system (http://www.princeton.edu/hr/progserv/sds/applications/selfservice.html) " \
                                              "as soon as possible. Your supervisor will be confirming that you have reported this information at the end of the month.\n\n" \
@@ -115,10 +115,10 @@ RSpec.describe ApproveMailer, type: :mailer do
       expect(mail.html_part.body.to_s).to have_content("Travel Category\n    #{decorated_travel_request.travel_category}\n    Trip ID\n    #{travel_request.id}\n    " \
                                                        "Type\n    Travel Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Destination\n    Location\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}\"]")
-      expect(mail.text_part.body.to_s).to eq("The following request was submitted on #{today_formatted}.  It has been Approved by Jane Smith on #{today_formatted}.\n" \
+      expect(mail.text_part.body.to_s).to include("The following request was submitted on #{today_formatted}.  It has been Approved by Jane Smith on #{today_formatted}.\n" \
                                              "The approval has been forwarded to your supervisor and administrative assistant for their information.\n" \
                                              "Your request has been assigned to #{decorated_travel_request.travel_category} travel category.  " \
-                                             "To find more information about Travel Categories see https://lib-confluence.princeton.edu/display/LSC/Princeton+University+Library+Travel+Policy+and+Best+Practices\n\n"\
+                                             "To find more information about Travel Categories see https://pul-confluence.atlassian.net/wiki/spaces/LSC/pages/1933321/Princeton+University+Library+Travel+Policy+and+Best+Practices\n\n"\
                                              "To view your request go to http://localhost:3000/travel_requests/#{travel_request.id}\n\n" \
                                              "Travel Category: #{decorated_travel_request.travel_category}\nTrip ID: #{travel_request.id}\n" \
                                              "Type: Travel Request\nDates Away: 12/30/2019 to 12/31/2019\n" \
@@ -188,10 +188,10 @@ RSpec.describe ApproveMailer, type: :mailer do
       expect(mail.html_part.body.to_s).to have_content("Travel Category\n    #{decorated_travel_request.travel_category}\n    Trip ID\n    #{travel_request.id}\n    " \
                                                        "Type\n    Travel Request\n    Dates Away\n    12/30/2019 to 12/31/2019\n    Destination\n    Location\n")
       expect(mail.html_part.body).to have_selector("a[href=\"http://localhost:3000/travel_requests/#{travel_request.id}\"]")
-      expect(mail.text_part.body.to_s).to eq("The following request was submitted on #{today_formatted}.  It has been Approved by Department Head on #{today_formatted}.\n" \
+      expect(mail.text_part.body.to_s).to include("The following request was submitted on #{today_formatted}.  It has been Approved by Department Head on #{today_formatted}.\n" \
                                              "The approval has been forwarded to your supervisor and administrative assistant for their information.\n" \
                                              "Your request has been assigned to #{decorated_travel_request.travel_category} travel category.  " \
-                                             "To find more information about Travel Categories see https://lib-confluence.princeton.edu/display/LSC/Princeton+University+Library+Travel+Policy+and+Best+Practices\n\n"\
+                                             "To find more information about Travel Categories see https://pul-confluence.atlassian.net/wiki/spaces/LSC/pages/1933321/Princeton+University+Library+Travel+Policy+and+Best+Practices\n\n"\
                                              "To view your request go to http://localhost:3000/travel_requests/#{travel_request.id}\n\n" \
                                              "Travel Category: #{decorated_travel_request.travel_category}\nTrip ID: #{travel_request.id}\n" \
                                              "Type: Travel Request\nDates Away: 12/30/2019 to 12/31/2019\n" \

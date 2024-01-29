@@ -1,7 +1,7 @@
 The following request was submitted on <%= @request.formatted_created_at %>.  <%= @request.latest_state_change_title %>
 <%= @request.forward_statement %>
 <% if @request.travel? %>
-Your request has been assigned to <%= @request.travel_category%> travel category.  To find more information about Travel Categories see https://lib-confluence.princeton.edu/display/LSC/Princeton+University+Library+Travel+Policy+and+Best+Practices
+Your request has been assigned to <%= @request.travel_category%> travel category.  To find more information about Travel Categories see https://pul-confluence.atlassian.net/wiki/spaces/LSC/pages/1933321/Princeton+University+Library+Travel+Policy+and+Best+Practices
 <% end %>
 <% if @request.request_type == 'AbsenceRequest' %>
 Please proceed with recording your absence in the HR Self Service system (http://www.princeton.edu/hr/progserv/sds/applications/selfservice.html) as soon as possible. Your supervisor will be confirming that you have reported this information at the end of the month.
