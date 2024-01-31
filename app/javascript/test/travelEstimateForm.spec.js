@@ -1,13 +1,11 @@
-import { createLocalVue, mount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import TravelEstimateForm from "../components/travelEstimateForm.vue";
 
-const localVue = createLocalVue();
 let wrapper;
 describe("travelEstimateForm.vue", () => {
     beforeEach(() => {
 
         wrapper = mount(TravelEstimateForm, {
-            localVue,
             propsData: {
                 expenses: [
                     {"id":1,"cost_type":"registration","amount":"50.0","recurrence":2,"description":"","other_id":"id_1"},
