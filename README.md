@@ -31,7 +31,7 @@ This is an application that allows the library to create workflows that allow st
      ```
      rake db:seed # you must be on the VPN for this step
      ```
-   * `rake db:seed` only creates accounts for users listed in the `Department Absence Manager Report - Library-en.csv` file.  If you are not yet listed in the file, you will have to add a row with your NetID in order to log
+   * `rake db:seed` only creates accounts for users listed in the [Active Library Staff-Scheduled-en CSV](https://github.com/pulibrary/approvals/blob/main/Active%20Library%20Staff%20-%20Scheduled-en.csv) file.  If you are not yet listed in the file, you will have to add a row with your NetID in order to log
    in to the system later.
    * There are additional rake tasks that allow you to create scenarios and requests in the system
      * make_me_a_department_head\[netid,number\]
