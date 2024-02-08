@@ -26,7 +26,7 @@
       :value="localEndDate"
     >
 
-    <input-text
+    <lux-input-text
       id="absence_request_hours_requested"
       name="absence_request[hours_requested]"
       width="expand"
