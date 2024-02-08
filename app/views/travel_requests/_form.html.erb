@@ -43,9 +43,9 @@
     <% end %>
   </grid-item>
   <grid-item columns="lg-3 md-6 sm-12">
-      <input-text label="Location" type="text" name="travel_request[event_requests_attributes][0][location]" required
+      <lux-input-text label="Location" type="text" name="travel_request[event_requests_attributes][0][location]" required
               id="travel_request_event_requests_attributes_0_location" width="expand" value="<%= request_change_set.model.event_requests[0].location %>">
-        </input-text>
+        </lux-input-text>
       <input-select label="Participation" name="travel_request[participation]"
           id="travel_request_participation" width="expand"
           value="<%= request_change_set.participation %>"
@@ -66,9 +66,9 @@
             request_change_set.existing_notes, as: :note %>
       </ul>
     <% end %>
-    <input-text id="travel_request_notes_content" name="travel_request[notes][][content]"
+    <lux-input-text id="travel_request_notes_content" name="travel_request[notes][][content]"
       helper="Additional information that would help the approver understand the details of the trip (request for time off, desire to stay additional nights, etc.)"
-      label="Notes to Approvers (optional)" :maxlength="9999" width="expand" type="textarea"></input-text>
+      label="Notes to Approvers (optional)" :maxlength="9999" width="expand" type="textarea"></lux-input-text>
   </grid-item>
   <grid-item columns="lg-12 sm-12">
     <heading level="h2" size="h3">Anticipated Expenses</heading>
