@@ -24,7 +24,7 @@ describe("travelEstimateForm.vue", () => {
                 ]
             },
             stubs: [
-                "input-text",
+                "lux-input-text",
                 "input-select",
                 "input-button",
                 "lux-icon-denied",
