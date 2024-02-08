@@ -101,7 +101,7 @@
           vertical="center"
           columns="lg-1 sm-12"
         >
-          <input-text
+          <lux-input-text
             :id="'travel_request_estimates_recurrence_' + expense.id"
             label="Occurrences"
             name="travel_request[estimates][][recurrence]"
@@ -117,7 +117,7 @@
           vertical="center"
           columns="lg-2 sm-12"
         >
-          <input-text
+          <lux-input-text
             :id="'travel_request_estimates_amount_' + expense.id"
             label="Cost per Occurrence"
             name="travel_request[estimates][][amount]"
@@ -134,7 +134,7 @@
           vertical="center"
           columns="lg-4 sm-12"
         >
-          <input-text
+          <lux-input-text
             :id="'travel_request_estimates_description_' + expense.id"
             label="Note"
             name="travel_request[estimates][][description]"
@@ -148,7 +148,7 @@
           columns="lg-2 sm-12"
           class="expense-total-col"
         >
-          <input-text
+          <lux-input-text
             :id="'travel_request_estimates_total_' + expense.id"
             label="Total"
             name="travel_request[estimates][][total]"
