@@ -239,7 +239,7 @@ export default {
             });
             this.$nextTick(() => {
                 const index = this.expenseData.length - 1;
-                const input = this.$refs.expense_type[index].$el;
+                const input = this.$refs.expense_type[index];
                 if (typeof input.children[1] !== 'undefined'){
                     input.children[1].focus();
                 }
