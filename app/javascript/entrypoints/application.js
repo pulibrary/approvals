@@ -15,8 +15,8 @@
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-import Vue from "vue";
-import system from "lux-design-system";
+import {createApp} from "vue";
+import lux from "lux-design-system";
 import "lux-design-system/dist/style.css";
 import eventDateModal from "../components/eventDateModal.vue";
 import eventTitleInputWrapper from "../components/eventTitleInputWrapper.vue";
@@ -24,27 +24,24 @@ import hoursCalculator from "../components/hoursCalculator.vue";
 import travelEstimateForm from "../components/travelEstimateForm.vue";
 import travelRequestButton from "../components/travelRequestButton.vue";
 import travelRequestDatePickers from "../components/travelRequestDatePickers.vue";
-import Rails from '@rails/ujs';
 import '../../assets/stylesheets/application.scss';
 
-Vue.use(system);
+
 
 // create the LUX app and mount it to wrappers with class="lux"
 document.addEventListener("DOMContentLoaded", () => {
     const elements = document.getElementsByClassName("lux");
     for (let i = 0; i < elements.length; i++) {
-        new Vue({
-            el: elements[i],
-            components: {
-                'event-date-modal': eventDateModal,
-                'event-title-input-wrapper': eventTitleInputWrapper,
-                'hours-calculator': hoursCalculator,
-                'travel-estimate-form': travelEstimateForm,
-                'travel-request-button': travelRequestButton,
-                'travel-request-date-pickers': travelRequestDatePickers,
-            }
-        });
+        const app = createApp({});
+        app.use(lux);
+        app.component('event-date-modal', eventDateModal)
+            .component('event-title-input-wrapper', eventTitleInputWrapper)
+            .component('hours-calculator', hoursCalculator)
+            .component('travel-estimate-form', travelEstimateForm)
+            .component('travel-request-button', travelRequestButton)
+            .component('travel-request-date-pickers', travelRequestDatePickers)
+            console.log(app);
+        app.mount(elements[i]);
     }
 });
 
-Rails.start();
