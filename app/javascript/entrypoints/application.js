@@ -26,22 +26,25 @@ import travelRequestButton from "../components/travelRequestButton.vue";
 import travelRequestDatePickers from "../components/travelRequestDatePickers.vue";
 import '../../assets/stylesheets/application.scss';
 
+// Create a factory function that will create vue
+// apps, which we can then mount to any element with
+// the class .lux
+const app = createApp({});
+const createMyApp = () => createApp(app)
 
-
-// create the LUX app and mount it to wrappers with class="lux"
 document.addEventListener("DOMContentLoaded", () => {
     const elements = document.getElementsByClassName("lux");
     for (let i = 0; i < elements.length; i++) {
-        const app = createApp({});
-        app.use(lux);
-        app.component('event-date-modal', eventDateModal)
-            .component('event-title-input-wrapper', eventTitleInputWrapper)
-            .component('hours-calculator', hoursCalculator)
-            .component('travel-estimate-form', travelEstimateForm)
-            .component('travel-request-button', travelRequestButton)
-            .component('travel-request-date-pickers', travelRequestDatePickers)
-            console.log(app);
-        app.mount(elements[i]);
+        // Call our factory function, then add all the lux components
+        // and approvals components to it
+        createMyApp().use(lux)
+                     .component('event-date-modal', eventDateModal)
+                     .component('event-title-input-wrapper', eventTitleInputWrapper)
+                     .component('hours-calculator', hoursCalculator)
+                     .component('travel-estimate-form', travelEstimateForm)
+                     .component('travel-request-button', travelRequestButton)
+                     .component('travel-request-date-pickers', travelRequestDatePickers)
+                     .mount(elements[i]);
     }
 });
 

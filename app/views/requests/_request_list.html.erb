@@ -33,7 +33,7 @@
 <grid-container>
     <grid-item columns="lg-12 sm-12">
       <% if @requests.count == 0 %>
-        <heading id="no-results" level="h3" size="h3">No results found for your search</heading>
+        <lux-heading id="no-results" level="h3" size="h3">No results found for your search</lux-heading>
       <% end %>
       <% @requests.each do |request| %>
         <%= if request.request_type == 'TravelRequest'

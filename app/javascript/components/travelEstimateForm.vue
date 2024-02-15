@@ -10,7 +10,7 @@
           columns="lg-1 sm-12"
           class="expense-delete"
         >
-          <text-style>Delete</text-style>
+          <lux-text-style>Delete</lux-text-style>
         </grid-item>
         <grid-item
           vertical="center"
@@ -24,25 +24,25 @@
           vertical="center"
           columns="lg-1 sm-12"
         >
-          <text-style>Occurrences</text-style>
+          <lux-text-style>Occurrences</lux-text-style>
         </grid-item>
         <grid-item
           vertical="center"
           columns="lg-2 sm-12"
         >
-          <text-style>Cost per Occurrence</text-style>
+          <lux-text-style>Cost per Occurrence</lux-text-style>
         </grid-item>
         <grid-item
           vertical="center"
           columns="lg-4 sm-12"
         >
-          <text-style>Note</text-style>
+          <lux-text-style>Note</lux-text-style>
         </grid-item>
         <grid-item
           vertical="center"
           columns="lg-2 sm-12"
         >
-          <text-style>Total</text-style>
+          <lux-text-style>Total</lux-text-style>
         </grid-item>
       </grid-container>
     </grid-item>
