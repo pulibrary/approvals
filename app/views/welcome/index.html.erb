@@ -1,8 +1,8 @@
 <wrapper>
   <grid-container class="stretch-height">
     <grid-item vertical="center">
-      <heading level="h1">Absence and Travel Requests</heading>
-      <text-style variation="default">An Absence and Travel request workflow application for the Princeton University Library staff. Use this site to request vacation and other absence types from your supervisor, and to submit travel requests with cost estimates. Receive notifications as your request progresses through the required steps. Browse your upcoming and prior requests as needed.</text-style>
+      <lux-heading level="h1">Absence and Travel Requests</lux-heading>
+      <lux-text-style variation="default">An Absence and Travel request workflow application for the Princeton University Library staff. Use this site to request vacation and other absence types from your supervisor, and to submit travel requests with cost estimates. Receive notifications as your request progresses through the required steps. Browse your upcoming and prior requests as needed.</lux-text-style>
       <% if current_user.blank? %>
         <hyperlink href="/users/auth/cas" variation="button solid" data-method="post" size="large">LOGIN with NetID</hyperlink>
       <% else %>
