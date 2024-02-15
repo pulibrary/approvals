@@ -15,7 +15,7 @@
     <grid-item columns="lg-6 sm-12" order="order-lg-3 order-sm-2" :offset="true">
       <card size="full-width">
         <card-content>
-            <text-style variation="strong">Team members absent during this time period</text-style>
+            <lux-text-style variation="strong">Team members absent during this time period</lux-text-style>
             <ul class="staff"><%=  render partial: "shared/absent_staff", collection: @request.absent_staff, as: :staff %></ul>
         </card-content>
       </card>

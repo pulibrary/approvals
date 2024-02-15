@@ -19,7 +19,7 @@
     ></tag>
   </card-media>
   <card-header>
-    <heading level="h1" size="h3">
+    <lux-heading level="h1" size="h3">
       <span class="event-requestor"
         ><%= request.full_name %></span
       >
@@ -28,13 +28,13 @@
         ><%= request.formatted_full_start_date %> to <%=
         request.formatted_full_end_date %></span
       >
-    </heading>
+    </lux-heading>
   </card-header>
   <card-content>
     <div class="status-<%= request.status_color %>">
-      <heading level="h2" size="h3"
-        ><text-style variation="default">Trip ID</text-style><%=
-        request.id %></heading
+      <lux-heading level="h2" size="h3"
+        ><lux-text-style variation="default">Trip ID</lux-text-style><%=
+        request.id %></lux-heading
       >
     </div>
   </card-content>

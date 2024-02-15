@@ -6,21 +6,21 @@
     <grid-item columns="lg-4 sm-12" order="order-lg-2">
       <card size="full-width">
         <card-content>
-          <heading level="h3" size="h5">
+          <lux-heading level="h3" size="h5">
             Level of Participation
-          </heading>
+          </lux-heading>
           <text-style variation="default"
             ><%= @request.participation.blank? ? 'Unknown' :
             @request.participation.humanize %></text-style>
-          <heading level="h3" size="h5">
+          <lux-heading level="h3" size="h5">
             Purpose
-          </heading>
+          </lux-heading>
           <text-style variation="default"
             ><%= @request.purpose.blank? ? 'Unknown' : @request.purpose
             %></text-style>
-          <heading level="h3" size="h5">
+          <lux-heading level="h3" size="h5">
             Travel Category
-          </heading>
+          </lux-heading>
           <text-style variation="default"
             ><%= @request.travel_category.blank? ? 'Unknown' : @request.travel_category
             %></text-style>

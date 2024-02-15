@@ -14,24 +14,24 @@
       <grid-item columns="lg-4 sm-12" order="order-lg-2">
         <card size="full-width">
           <card-content>
-            <heading level="h3" size="h5">
+            <lux-heading level="h3" size="h5">
               Level of Participation
-            </heading>
+            </lux-heading>
             <text-style variation="default"
               ><%= request_change_set.participation.blank? ? 'Unknown' :
               request_change_set.participation.humanize %></text-style
             >
-            <heading level="h3" size="h5">
+            <lux-heading level="h3" size="h5">
               Purpose
-            </heading>
+            </lux-heading>
             <text-style variation="default"
               ><%= request_change_set.purpose.blank? ? 'Unknown' : request_change_set.purpose
               %></text-style
             >
             <% if current_staff_profile.department_head? && action == "review" %>
-              <heading level="h3" size="h5">
+              <lux-heading level="h3" size="h5">
                 Travel Category
-              </heading>
+              </lux-heading>
               <input-select label="Travel Category" name="travel_request[travel_category]"
                   id="travel_request_travel_category" width="expand" hide-label
                   value="<%= request_change_set.travel_category %>"
