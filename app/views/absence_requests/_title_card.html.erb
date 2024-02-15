@@ -10,18 +10,18 @@
           ]"></tag>
   </card-media>
   <card-header>
-      <heading level="h1" size="h3">
+      <lux-heading level="h1" size="h3">
         <span class="event-requestor"
           ><%= request.full_name %></span
         >
         <span class="event-title"><%= request.event_title %></span>
-      </heading>
+      </lux-heading>
     </card-header>
     <card-content>
         <div class="status-<%= request.status_color %>">
-          <heading level="h2" size="h3"
-            ><text-style variation="default">Total Hours</text-style><%=
-            request.hours_requested %></heading
+          <lux-heading level="h2" size="h3"
+            ><lux-text-style variation="default">Total Hours</lux-text-style><%=
+            request.hours_requested %></lux-heading
           >
         </div>
       </card-content>
