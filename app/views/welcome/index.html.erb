@@ -4,9 +4,9 @@
       <lux-heading level="h1">Absence and Travel Requests</lux-heading>
       <lux-text-style variation="default">An Absence and Travel request workflow application for the Princeton University Library staff. Use this site to request vacation and other absence types from your supervisor, and to submit travel requests with cost estimates. Receive notifications as your request progresses through the required steps. Browse your upcoming and prior requests as needed.</lux-text-style>
       <% if current_user.blank? %>
-        <hyperlink href="/users/auth/cas" variation="button solid" data-method="post" size="large">LOGIN with NetID</hyperlink>
+        <lux-hyperlink href="/users/auth/cas" variation="button solid" data-method="post" size="large">LOGIN with NetID</lux-hyperlink>
       <% else %>
-        <hyperlink href="/sign_out" variation="button solid" size="large">LOGOUT</hyperlink>
+        <lux-hyperlink href="/sign_out" variation="button solid" size="large">LOGOUT</lux-hyperlink>
       <% end %>
     </grid-item>
   </grid-container>
