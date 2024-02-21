@@ -44,10 +44,10 @@
             height="24"
             icon-color="rgb(65, 70, 78)"
           ><lux-icon-person></lux-icon-person></lux-icon-base> You are acting on behalf of <%= current_delegate.delegator %>. 
-          <hyperlink href="<%= cancel_delegates_path %>" variation="button outline" id="cancel_delegation"><lux-icon-base width="16" height="16" icon-name="Remove Delegate">
+          <lux-hyperlink href="<%= cancel_delegates_path %>" variation="button outline" id="cancel_delegation"><lux-icon-base width="16" height="16" icon-name="Remove Delegate">
             <lux-icon-denied></lux-icon-denied>
           </lux-icon-base> Stop acting on 
-          <%= current_delegate.delegator.given_name%>'s behalf.</hyperlink>
+          <%= current_delegate.delegator.given_name%>'s behalf.</lux-hyperlink>
           <p>Please use this feature with care as it allows other people whom you designate to act on your behalf. Delegation must never be used for approving any type of request, with the exception of sick time, which departmental assistants may record on behalf of employees who call in sick without notice.</p>
         </alert>
       </div>
