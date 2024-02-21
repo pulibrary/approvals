@@ -2,7 +2,7 @@
   <grid-container>
     <% if @request.approved? && @request.request.can_cancel?(agent: current_staff_profile) %>
     <grid-item columns="lg-12 sm-12">
-      <alert status="success" class="tip-card"><strong>Your <%= @request.title.downcase %> request has been approved.</strong> Please proceed with recording your absence in the <hyperlink href="http://www.princeton.edu/hr/progserv/sds/applications/selfservice.html" target="_blank">HR Self Service system</hyperlink> as soon as possible. Your supervisor will be confirming that you have reported this information at the end of the month.</alert>
+      <alert status="success" class="tip-card"><strong>Your <%= @request.title.downcase %> request has been approved.</strong> Please proceed with recording your absence in the <lux-hyperlink href="http://www.princeton.edu/hr/progserv/sds/applications/selfservice.html" target="_blank">HR Self Service system</lux-hyperlink> as soon as possible. Your supervisor will be confirming that you have reported this information at the end of the month.</alert>
     </grid-item>
     <% end %>
       
