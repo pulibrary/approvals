@@ -25,12 +25,15 @@ import travelEstimateForm from "../components/travelEstimateForm.vue";
 import travelRequestButton from "../components/travelRequestButton.vue";
 import travelRequestDatePickers from "../components/travelRequestDatePickers.vue";
 import '../../assets/stylesheets/application.scss';
+import Rails from "@rails/ujs";
 
 // Create a factory function that will create vue
 // apps, which we can then mount to any element with
 // the class .lux
 const app = createApp({});
 const createMyApp = () => createApp(app)
+
+Rails.start();
 
 document.addEventListener("DOMContentLoaded", () => {
     const elements = document.getElementsByClassName("lux");
