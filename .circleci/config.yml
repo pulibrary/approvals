@@ -59,7 +59,7 @@ commands:
     steps:
       - node/install:
           install-yarn: true
-          node-version: '18.17.0'
+          node-version: '20.11.1'
 
 jobs:
   build:
