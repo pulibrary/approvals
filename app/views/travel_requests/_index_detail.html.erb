@@ -7,7 +7,7 @@
       ><<%= travel_request.travel_category_icon %> /></lux-icon-base>
     </card-media>
     <card-header>
-      <lux-heading level="h2" size="h3"><hyperlink href="<%= travel_request_path(travel_request.to_model)%>" class="event-title"><%= travel_request.event_title %></hyperlink></lux-heading>
+      <lux-heading level="h2" size="h3"><lux-hyperlink href="<%= travel_request_path(travel_request.to_model)%>" class="event-title"><%= travel_request.event_title %></lux-hyperlink></lux-heading>
       <lux-text-style class="event-dates"><%= travel_request.formatted_full_start_date %> to <%= travel_request.formatted_full_end_date %></lux-text-style>
     </card-header>
     <card-content class="right-align">
