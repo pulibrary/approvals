@@ -48,7 +48,7 @@
         <lux-heading id="no-results" level="h3" size="h3">No results found for your search</lux-heading>
       <% end %>
       <article class="full-width">
-          <data-table caption="<%= @requests.data_table_heading%>"
+          <lux-data-table caption="<%= @requests.data_table_heading%>"
             :columns="[
               { 'name': 'request_type', 'display_name': 'Request', 'sortable': true},
               { 'name': 'start_date', 'datatype': 'date', 'display_name': 'Start Date', 'sortable': true},
