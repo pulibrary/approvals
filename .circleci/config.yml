@@ -77,6 +77,24 @@ jobs:
             - approvals-yarn-v1-{{ checksum "yarn.lock" }}
             - approvals-yarn-v1-
 
+      # The following steps should only be needed until we publish the new lux-styleguidist package
+      ## Start temporary steps
+      - run:
+          name: Clone lux-styleguidist repository
+          command: git clone https://github.com/pulibrary/lux-styleguidist.git ~/lux-styleguidist
+
+      - run:
+          name: Add yalc globally
+          command: yarn global add yalc
+
+      - run:
+          name: Build lux-styleguidist
+          command: cd ~/lux-styleguidist && npm install && npm run build && yarn exec yalc publish
+
+      - run:
+          name: Add lux-styleguidist to approvals using yalc
+          command: yarn exec yalc add lux-design-system
+      ## End temporary steps
       - run:
           name: Yarn Install
           command: yarn install --cache-folder ~/.cache/yarn
