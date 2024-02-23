@@ -31,7 +31,7 @@ import Rails from "@rails/ujs";
 // apps, which we can then mount to any element with
 // the class .lux
 const app = createApp({});
-const createMyApp = () => createApp(app)
+const createMyApp = () => createApp(app);
 
 Rails.start();
 
@@ -41,13 +41,13 @@ document.addEventListener("DOMContentLoaded", () => {
         // Call our factory function, then add all the lux components
         // and approvals components to it
         createMyApp().use(lux)
-                     .component('event-date-modal', eventDateModal)
-                     .component('event-title-input-wrapper', eventTitleInputWrapper)
-                     .component('hours-calculator', hoursCalculator)
-                     .component('travel-estimate-form', travelEstimateForm)
-                     .component('travel-request-button', travelRequestButton)
-                     .component('travel-request-date-pickers', travelRequestDatePickers)
-                     .mount(elements[i]);
+            .component('event-date-modal', eventDateModal)
+            .component('event-title-input-wrapper', eventTitleInputWrapper)
+            .component('hours-calculator', hoursCalculator)
+            .component('travel-estimate-form', travelEstimateForm)
+            .component('travel-request-button', travelRequestButton)
+            .component('travel-request-date-pickers', travelRequestDatePickers)
+            .mount(elements[i]);
     }
 });
 
