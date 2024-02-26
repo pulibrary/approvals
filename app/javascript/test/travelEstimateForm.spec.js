@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import TravelEstimateForm from "../components/travelEstimateForm.vue";
+import {LuxInputSelect, LuxGridContainer, LuxGridItem} from "lux-design-system";
 
 let wrapper;
 describe("travelEstimateForm.vue", () => {
@@ -22,18 +23,23 @@ describe("travelEstimateForm.vue", () => {
                     {label: 'other transit', value: 'transit_other'},
                     {label: 'train', value: 'train'}
                 ]
-            },
-            stubs: [
-                "lux-input-text",
-                "input-select",
-                "input-button",
-                "lux-icon-denied",
-                "lux-icon-add",
-                "lux-icon-base",
-                "grid-container",
-                "grid-item",
-                "text-style",
-            ]
+            }, global: {
+                stubs: {
+                    "lux-input-button": true,
+                    "lux-icon-denied": true,
+                    "lux-icon-add": true,
+                    "lux-icon-base": true,
+                    "lux-grid-container": true,
+                    "lux-grid-item": true,
+                    "lux-text-style": true,
+                    "lux-input-text": true
+                },
+                components: {
+                    "lux-input-select": LuxInputSelect,
+                    "lux-grid-container": LuxGridContainer,
+                    "lux-grid-item": LuxGridItem,
+                }
+            }
         });
     });
 
