@@ -1,10 +1,10 @@
 <% if filter_removal_urls.present? %>
   <div class="filter-applied">
     <span class="filter-label">Filtered by</span>
-    <tag type="filter" :tag-items="[
+    <lux-tag type="filter" :tag-items="[
       <% filter_removal_urls.each do |key, url| %>
       {name: '<%= key %>', href: '<%= url %>'},
       <% end %>
-    ]"></tag>
+    ]"></lux-tag>
   </div>
 <% end %>
