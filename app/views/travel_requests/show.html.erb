@@ -1,48 +1,48 @@
 <wrapper :max-width="1440" class="request">
-  <grid-container>
-    <grid-item columns="lg-12 sm-12" order="order-lg-1">
+  <lux-grid-container>
+    <lux-grid-item columns="lg-12 sm-12" order="order-lg-1">
       <%= render 'title_card', request: @request %>
-    </grid-item>
-    <grid-item columns="lg-4 sm-12" order="order-lg-2">
-      <card size="full-width">
-        <card-content>
+    </lux-grid-item>
+    <lux-grid-item columns="lg-4 sm-12" order="order-lg-2">
+      <lux-card size="full-width">
+        <lux-card-content>
           <lux-heading level="h3" size="h5">
             Level of Participation
           </lux-heading>
-          <text-style variation="default"
+          <lux-text-style variation="default"
             ><%= @request.participation.blank? ? 'Unknown' :
-            @request.participation.humanize %></text-style>
+            @request.participation.humanize %></lux-text-style>
           <lux-heading level="h3" size="h5">
             Purpose
           </lux-heading>
-          <text-style variation="default"
+          <lux-text-style variation="default"
             ><%= @request.purpose.blank? ? 'Unknown' : @request.purpose
-            %></text-style>
+            %></lux-text-style>
           <lux-heading level="h3" size="h5">
             Travel Category
           </lux-heading>
-          <text-style variation="default"
+          <lux-text-style variation="default"
             ><%= @request.travel_category.blank? ? 'Unknown' : @request.travel_category
-            %></text-style>
-        </card-content>
-      </card>
-    </grid-item>
-    <grid-item columns="lg-4 sm-12" order="order-lg-3">
+            %></lux-text-style>
+        </lux-card-content>
+      </lux-card>
+    </lux-grid-item>
+    <lux-grid-item columns="lg-4 sm-12" order="order-lg-3">
       <%= render 'others_card', event_attendees: @request.event_attendees%>
-    </grid-item>
-    <grid-item columns="lg-4 sm-12" order="order-lg-4">
+    </lux-grid-item>
+    <lux-grid-item columns="lg-4 sm-12" order="order-lg-4">
       <%= render 'team_absent_card', absent_staff: @request.absent_staff(supervisor: current_staff_profile)%>
-    </grid-item>
-    <grid-item columns="lg-4 sm-12" order="order-lg-5 order-sm-6">
+    </lux-grid-item>
+    <lux-grid-item columns="lg-4 sm-12" order="order-lg-5 order-sm-6">
       <%= render 'notes_card', request: @request, render_edit: false %>
-    </grid-item>
-    <grid-item columns="lg-8 sm-12" :offset=true class="travel-estimates" order="order-lg-6 order-sm-5">
+    </lux-grid-item>
+    <lux-grid-item columns="lg-8 sm-12" :offset=true class="travel-estimates" order="order-lg-6 order-sm-5">
       <%= render 'expense_card', estimate_fields_json: @request.estimate_fields_json, estimates_json: @request.estimates_json %>
-    </grid-item>
-    <grid-item order="order-lg-7 order-sm-7">
+    </lux-grid-item>
+    <lux-grid-item order="order-lg-7 order-sm-7">
       <%= render 'shared/edit_button', request: @request.request, path: edit_travel_request_path(@request.request) %>
       <%= render 'shared/cancel_button', request: @request.request, path: decide_travel_request_path(@request.request) %>
       <%= render 'shared/comment_button', request: @request.request, path: comment_travel_request_path(@request.request) %>
-    </grid-item>
-  </grid-container>
-</wrapper>
+    </lux-grid-item>
+  </lux-grid-container>
+</lux-wrapper>
