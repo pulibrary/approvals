@@ -1,24 +1,24 @@
-<card size="full-width" class="title-card">
-  <card-media>
+<lux-card size="full-width" class="title-card">
+  <lux-card-media>
     <lux-icon-base width="50" height="50" icon-color="rgb(65, 70, 78)">
       <<%= request.travel_category_icon %>></<%= request.travel_category_icon %>>
     </lux-icon-base>
-    <tag
+    <lux-tag
       type="tag"
       size="small"
       :tag-items="[
     {name: '<%= request.latest_status %>', color: '<%= request.status_color %>', icon: '<%= request.status_icon %>'}
     ]"
-    ></tag>
-    <tag
+    ></lux-tag>
+    <lux-tag
       type="tag"
       size="small"
       :tag-items="[
     {name: '<%= request.event_format %>', color: '<%= request.event_format_color %>'}
     ]"
-    ></tag>
-  </card-media>
-  <card-header>
+    ></lux-tag>
+  </lux-card-media>
+  <lux-card-header>
     <lux-heading level="h1" size="h3">
       <span class="event-requestor"
         ><%= request.full_name %></span
@@ -29,13 +29,13 @@
         request.formatted_full_end_date %></span
       >
     </lux-heading>
-  </card-header>
-  <card-content>
+  </lux-card-header>
+  <lux-card-content>
     <div class="status-<%= request.status_color %>">
       <lux-heading level="h2" size="h3"
         ><lux-text-style variation="default">Trip ID</lux-text-style><%=
         request.id %></lux-heading
       >
     </div>
-  </card-content>
-</card>
+  </lux-card-content>
+</lux-card>
