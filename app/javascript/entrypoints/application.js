@@ -33,7 +33,7 @@ import Rails from "@rails/ujs";
 const app = createApp({});
 const createMyApp = () => createApp(app);
 
-Rails.start();
+// Rails.start();
 
 document.addEventListener("DOMContentLoaded", () => {
     const elements = document.getElementsByClassName("lux");

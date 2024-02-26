@@ -1,12 +1,12 @@
-<wrapper :max-width=1440>
-  <grid-container>
-    <grid-item columns="lg-12 sm-12">
-      <card size="full-width" class="search-filter-sort">
-        <card-content>
-          <grid-container>
+<lux-wrapper :max-width=1440>
+  <lux-grid-container>
+    <lux-grid-item columns="lg-12 sm-12">
+      <lux-card size="full-width" class="search-filter-sort">
+        <lux-card-content>
+          <lux-grid-container>
             <%= render 'search_requests', search_path: search_path, current_query: params[:query]%>
 
-            <grid-item columns="sm-12 auto">
+            <lux-grid-item columns="sm-12 auto">
               <%= render 'status_filter', status_filter_urls: @requests.status_filter_urls, current_status_filter_label: @requests.current_status_filter_label%>
 
               <%= render 'request_type_filter', current_request_type_filter_label: @requests.current_request_type_filter_label,
@@ -26,24 +26,24 @@
                   <% end %>
                 ]"></dropdown-menu>
 
-            </grid-item>
-            <grid-item columns="sm-12 auto" class="date-filter">
+            </lux-grid-item>
+            <lux-grid-item columns="sm-12 auto" class="date-filter">
               <%= render "date_filter", search_path: search_path, params_manager: @requests.params_manager %>
-            </grid-item>
+            </lux-grid-item>
             <%= render 'sort_menu', current_sort_label: @requests.current_sort_label, sort_urls: @requests.sort_urls%>
 
-          </grid-container>
+          </lux-grid-container>
 
           <%= render 'filter_removal', filter_removal_urls: @requests.filter_removal_urls %>
-        </card-content>
-      </card>
-    </grid-item>
-  </grid-container>
-</wrapper>
+        </lux-card-content>
+      </lux-card>
+    </lux-grid-item>
+  </lux-grid-container>
+</lux-wrapper>
 
-<wrapper :max-width=1440 class="my-request">
-<grid-container>
-    <grid-item columns="lg-12 sm-12">
+<lux-wrapper :max-width=1440 class="my-request">
+<lux-grid-container>
+    <lux-grid-item columns="lg-12 sm-12">
       <% if @requests.count == 0 %>
         <lux-heading id="no-results" level="h3" size="h3">No results found for your search</lux-heading>
       <% end %>
@@ -61,6 +61,6 @@
               { 'name': 'total', 'display_name': 'Total', 'sortable': true, datatype: 'currency'}]"
             :json-data="<%= @requests.report_json %>"/>
       </article>
-    </grid-item>
-  </grid-container>
-</wrapper>
+    </lux-grid-item>
+  </lux-grid-container>
+</lux-wrapper>

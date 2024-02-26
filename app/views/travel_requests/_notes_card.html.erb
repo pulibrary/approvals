@@ -1,5 +1,5 @@
-<card size="full-width">
-  <card-content>
+<lux-card size="full-width">
+  <lux-card-content>
       <lux-heading level="h3" size="h3">
           History
         </lux-heading>
@@ -10,14 +10,14 @@
 
   <% if render_edit %>
     <lux-input-text id="travel_request_notes_content" name="travel_request[notes][content]" label="Notes" type="textarea" :maxlength=9999 rows="10" width="expand" value="<%= request.current_note%>" ></lux-input-text>
-    <input-autocomplete
+    <lux-autocomplete-input
       id="travel_request_new_event_id"
       name="travel_request[new_event][id]"
       label="New Event Name"
       default-value=""
       :items="<%= TravelRequestChangeSet.recurring_event_list %>"
       autocomplete="off"
-    ></input-autocomplete>
+    ></lux-autocomplete-input>
   <% end %>
-  </card-content>
-</card>
+  </lux-card-content>
+</lux-card>
