@@ -16,7 +16,7 @@ RSpec.describe "travel_requests/edit", type: :view do
 
     assert_select "form[action=?][method=?]", travel_request_path(travel_request), "post" do
       assert_select "travel-request-date-pickers"
-      assert_select "input-select[name=?][value=?]", "travel_request[participation]", "presenter"
+      assert_select "lux-input-select[name=?][value=?]", "travel_request[participation]", "presenter"
       assert_select "lux-input-text[name=?]", "travel_request[notes][][content]"
       assert_select "lux-input-text[name=?][value=?]", "travel_request[purpose]", travel_request.purpose
       assert_select "lux-input-text[name=?][value=?]", "travel_request[event_requests_attributes][0][location]", travel_request.event_requests[0].location
