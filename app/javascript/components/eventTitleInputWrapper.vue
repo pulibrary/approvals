@@ -1,6 +1,6 @@
 <template>
   <div class="event-title-container">
-    <input-autocomplete
+    <lux-autocomplete-input
       id="travel_request_event_requests_attributes_0_recurring_event_id"
       required
       name="travel_request[event_requests_attributes][0][recurring_event_id]"

@@ -16,9 +16,9 @@
           vertical="center"
           columns="lg-2 sm-12"
         >
-          <text-style id="expense-type-column">
+          <lux-text-style id="expense-type-column">
             Expense Type
-          </text-style>
+          </lux-text-style>
         </grid-item>
         <grid-item
           vertical="center"
@@ -59,7 +59,7 @@
           columns="lg-1 sm-12"
           class="expense-delete"
         >
-          <input-button
+          <lux-input-button
             class="button-delete-row"
             type="button"
             variation="text"
@@ -73,7 +73,7 @@
             >
               <lux-icon-denied />
             </lux-icon-base>
-          </input-button>
+          </lux-input-button>
           <input
             type="hidden"
             name="travel_request[estimates][][id]"
@@ -84,7 +84,7 @@
           vertical="center"
           columns="lg-2 sm-12"
         >
-          <input-select
+          <lux-input-select
             :id="'travel_request_estimates_cost_type_' + expense.id"
             :ref="'expense_type'"
             label="Expense Type"
@@ -165,7 +165,7 @@
       columns="lg-11 sm-12"
       class="expense-add"
     >
-      <input-button
+      <lux-input-button
         id="add-expense-button"
         type="button"
         variation="text"
@@ -178,7 +178,7 @@
         >
           <lux-icon-add />
         </lux-icon-base> Add Expense
-      </input-button>
+      </lux-input-button>
     </grid-item>
 
     <grid-item columns="lg-12 sm-12">
@@ -190,20 +190,20 @@
       class="expense-total"
       :offset="true"
     >
-      <text-style variation="strong">
+      <lux-text-style variation="strong">
         Total:
-      </text-style>
+      </lux-text-style>
     </grid-item>
     <grid-item
       columns="lg-2 sm-12"
       class="expense-total"
     >
-      <text-style
+      <lux-text-style
         id="expenses-total"
         variation="strong"
       >
         ${{ expensesTotal() }}
-      </text-style>
+      </lux-text-style>
     </grid-item>
   </grid-container>
 </template>
