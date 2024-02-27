@@ -239,7 +239,7 @@ export default {
             });
             this.$nextTick(() => {
                 const index = this.expenseData.length - 1;
-                const input = this.$refs?.expense_type?.[index]?.focusSelect();
+                this.$refs?.expense_type?.[index]?.focusSelect();
             });
         },
         deleteExpense(expense) {
