@@ -1,6 +1,6 @@
 <template>
   <div>
-    <date-picker
+    <lux-date-picker
       id="absence_request_date"
       name="absence_request[start_date]"
       label="Date range"

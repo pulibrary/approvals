@@ -1,6 +1,6 @@
 <template>
   <div>
-    <date-picker
+    <lux-date-picker
       id="travel_request_event_requests_attributes_0_event_dates"
       label="Event Dates"
       mode="range"
@@ -11,7 +11,7 @@
       :default-dates="eventDates"
       @updateInput="updateTravelDates($event)"
     />
-    <date-picker
+    <lux-date-picker
       id="travel_request_travel_dates"
       label="Travel Dates"
       mode="range"
