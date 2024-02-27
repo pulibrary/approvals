@@ -9,7 +9,7 @@ RSpec.describe "welcome/index", type: :view do
     end
     render
     expect(rendered).to include("Absence and Travel Requests")
-    expect(rendered).to have_selector("hyperlink[href=\"/users/auth/cas\"]", text: "LOGIN with NetID")
+    expect(rendered).to have_selector("lux-hyperlink[href=\"/users/auth/cas\"]", text: "LOGIN with NetID")
   end
 
   it "renders logout if current profile is set" do
@@ -18,6 +18,6 @@ RSpec.describe "welcome/index", type: :view do
       render
     end
     expect(rendered).to include("Absence and Travel Requests")
-    expect(rendered).to have_selector("hyperlink[href=\"/sign_out\"]", text: "LOGOUT")
+    expect(rendered).to have_selector("lux-hyperlink[href=\"/sign_out\"]", text: "LOGOUT")
   end
 end
