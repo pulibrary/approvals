@@ -1,13 +1,13 @@
 <template>
   <div>
-    <input-button
+    <lux-input-button
       id="submit-travel-request"
       type="button"
       variation="solid"
       @button-clicked="submitTravelRequest($event)"
     >
       Submit Request
-    </input-button>
+    </lux-input-button>
     <event-date-modal
       :show-modal="showModal"
       @closeModal="close"
