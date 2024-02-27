@@ -1,8 +1,8 @@
-<wrapper :max-width=1440>
-  <grid-container>
-    <grid-item columns="lg-5 sm-12">
+<lux-wrapper :max-width=1440>
+  <lux-grid-container>
+    <lux-grid-item columns="lg-5 sm-12">
       <lux-heading level="h1" size="h2">Reports</lux-heading>
-    </grid-item>
-  </grid-container>
-</wrapper>
+    </lux-grid-item>
+  </lux-grid-container>
+</lux-wrapper>
 <%=  render 'report_list', show_status: true, search_path: reports_path, detail_partial: 'report_detail' %>
