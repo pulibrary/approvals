@@ -1,13 +1,12 @@
 import { mount } from "@vue/test-utils";
 import TravelEstimateForm from "../components/travelEstimateForm.vue";
-import {LuxInputSelect, LuxGridContainer, LuxGridItem} from "lux-design-system";
 
 let wrapper;
 describe("travelEstimateForm.vue", () => {
     beforeEach(() => {
 
         wrapper = mount(TravelEstimateForm, {
-            propsData: {
+            props: {
                 expenses: [
                     {"id":1,"cost_type":"registration","amount":"50.0","recurrence":2,"description":"","other_id":"id_1"},
                     {"id":2,"cost_type":"meals","amount":"193.0","recurrence":1,"description":"Foo!","other_id":"id_2"}
@@ -32,13 +31,9 @@ describe("travelEstimateForm.vue", () => {
                     "lux-grid-container": true,
                     "lux-grid-item": true,
                     "lux-text-style": true,
-                    "lux-input-text": true
+                    "lux-input-text": true,
+                    "lux-input-select": true
                 },
-                components: {
-                    "lux-input-select": LuxInputSelect,
-                    "lux-grid-container": LuxGridContainer,
-                    "lux-grid-item": LuxGridItem,
-                }
             }
         });
     });
