@@ -12,19 +12,19 @@
               <%= render 'request_type_filter', current_request_type_filter_label: @requests.current_request_type_filter_label,
                                                 filters: @requests.request_type_filters %>
 
-              <dropdown-menu type="links" id="department-menu" button-label="<%= @requests.current_department_filter_label %>" :menu-items="[
+              <lux-dropdown-menu type="links" id="department-menu" button-label="<%= @requests.current_department_filter_label %>" :menu-items="[
                   <% @requests.department_filter_urls.each do |key, url| %>
                     {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
                   <% end %>
-                ]"></dropdown-menu>
+                ]"></lux-dropdown-menu>
 
               <%= render 'supervisor_filter', supervisor_filter_urls: @requests.supervisor_filter_urls(current_staff_profile: current_staff_profile), current_supervisor_filter_label: @requests.current_supervisor_filter_label%>
 
-              <dropdown-menu type="links" id="event-format-menu" button-label="<%= @requests.current_event_format_filter_label %>" :menu-items="[
+              <lux-dropdown-menu type="links" id="event-format-menu" button-label="<%= @requests.current_event_format_filter_label %>" :menu-items="[
                   <% @requests.event_format_filter_urls.each do |key, url| %>
                     {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
                   <% end %>
-                ]"></dropdown-menu>
+                ]"></lux-dropdown-menu>
 
             </lux-grid-item>
             <lux-grid-item columns="sm-12 auto" class="date-filter">
