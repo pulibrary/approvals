@@ -16,7 +16,7 @@
         horizontal="end"
         size="small"></lux-tag>
       <% if travel_request.event_format && travel_request.event_format_color %>
-        <tag type="tag" :tag-items="[
+        <lux-tag type="tag" :tag-items="[
           {name: '<%= travel_request.event_format %>', color: '<%= travel_request.event_format_color %>'}]"
         horizontal="end"
         size="small"></lux-tag>
