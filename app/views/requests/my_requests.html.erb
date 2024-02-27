@@ -1,14 +1,14 @@
-<wrapper :max-width=1440>
-  <grid-container>
-    <grid-item columns="md-5 sm-12">
+<lux-wrapper :max-width=1440>
+  <lux-grid-container>
+    <lux-grid-item columns="md-5 sm-12">
       <lux-heading level="h1" size="h2">My Requests</lux-heading>
-    </grid-item>
-    <grid-item columns="md-7 sm-12 auto" :offset=true>
+    </lux-grid-item>
+    <lux-grid-item columns="md-7 sm-12 auto" :offset=true>
       <% if Rails.configuration.show_absence_button %>
       <lux-hyperlink href="<%= new_absence_request_path %>" variation="button solid">New absence request</lux-hyperlink>
       <% end %>
       <lux-hyperlink href="<%= new_travel_request_path %>" variation="button solid">New travel request</lux-hyperlink>
-    </grid-item>
-  </grid-container>
-</wrapper>
+    </lux-grid-item>
+  </lux-grid-container>
+</lux-wrapper>
 <%=  render 'request_list', show_status: true, search_path: my_requests_path, detail_partial: 'index_detail' %>
