@@ -29,7 +29,7 @@ This is an application that allows the library to create workflows that allow st
    * Run `bundle exec rake servers:start` to start a local postgres server, create, and migrate.
    * seed the database
      ```
-     bundle exec rake rake db:seed # you must be on the VPN for this step
+     bundle exec rake db:seed # you must be on the VPN for this step
      ```
    * `bundle exec rake db:seed` only creates accounts for users listed in the [Active Library Staff-Scheduled-en CSV](https://github.com/pulibrary/approvals/blob/main/Active%20Library%20Staff%20-%20Scheduled-en.csv) file.  If you are not yet listed in the file, you will have to add a row with your NetID in order to log
    in to the system later.
