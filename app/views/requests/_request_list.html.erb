@@ -1,12 +1,12 @@
 <lux-wrapper :max-width=1440>
   <lux-grid-container>
-    <lux-grid-item columns="lg-12 sm-12">
+    <lux-grid-item>
       <lux-card size="full-width" class="search-filter-sort">
         <lux-card-content>
           <lux-grid-container>
             <%= render 'search_requests', search_path: search_path, current_query: params[:query]%>
 
-            <lux-grid-item columns="sm-12 auto">
+            <lux-grid-item>
               <% if show_status %>
                 <%= render 'status_filter', status_filter_urls: @requests.status_filter_urls, current_status_filter_label: @requests.current_status_filter_label%>
               <% end %>
@@ -15,7 +15,7 @@
                                                 filters: @requests.request_type_filters %>
             </lux-grid-item>
 
-            <lux-grid-item columns="sm-12 auto" class="date-filter">
+            <lux-grid-item class="date-filter">
               <%= render "date_filter", search_path: search_path, params_manager: @requests.params_manager %>
             </lux-grid-item>
 
@@ -31,7 +31,7 @@
 
 <lux-wrapper :max-width=1440 class="my-request">
 <lux-grid-container>
-    <lux-grid-item columns="lg-12 sm-12">
+    <lux-grid-item>
       <% if @requests.count == 0 %>
         <lux-heading id="no-results" level="h3" size="h3">No results found for your search</lux-heading>
       <% end %>

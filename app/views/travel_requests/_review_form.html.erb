@@ -7,11 +7,11 @@
       <% end %>
 
 
-      <lux-grid-item columns="lg-12 sm-12" order="order-lg-1">
+      <lux-grid-item order="order-lg-1">
             <%= render 'title_card', request: request_change_set %>
       </lux-grid-item>
 
-      <lux-grid-item columns="lg-4 sm-12" order="order-lg-2">
+      <lux-grid-item order="order-lg-2">
         <lux-card size="full-width">
           <lux-card-content>
             <lux-heading level="h3" size="h5">
@@ -40,20 +40,20 @@
           </lux-card-content>
         </lux-card>
       </lux-grid-item>
-      <lux-grid-item columns="lg-4 sm-12" order="order-lg-3">
+      <lux-grid-item order="order-lg-3">
         <%= render 'others_card', event_attendees: request_change_set.event_attendees%>
       </lux-grid-item>
-      <lux-grid-item columns="lg-4 sm-12" order="order-lg-4">
+      <lux-grid-item order="order-lg-4">
         <%= render 'team_absent_card', absent_staff: request_change_set.absent_staff(supervisor: current_staff_profile) %>
       </lux-grid-item>
-      <lux-grid-item columns="lg-4 sm-12" order="order-sm-6 order-lg-5">
+      <lux-grid-item order="order-sm-6 order-lg-5">
         <%= render 'notes_card', request: request_change_set, render_edit: true %>
       </lux-grid-item>
-      <lux-grid-item columns="lg-8 sm-12" :offset=true class="travel-estimates" order="order-sm-5 order-lg-6">
+      <lux-grid-item :offset=true class="travel-estimates" order="order-sm-5 order-lg-6">
         <%= render 'expense_card', estimate_fields_json: request_change_set.estimate_fields_json, estimates_json: request_change_set.estimates_json %>
       </lux-grid-item>
 
-      <lux-grid-item columns="lg-12 sm-12" order="order-sm-7 order-lg-7">
+      <lux-grid-item order="order-sm-7 order-lg-7">
         <lux-card size="full-width">
           <lux-card-content>
             <% if action == "review" %>

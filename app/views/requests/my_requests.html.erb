@@ -1,9 +1,9 @@
 <lux-wrapper :max-width=1440>
   <lux-grid-container>
-    <lux-grid-item columns="md-5 sm-12">
+    <lux-grid-item>
       <lux-heading level="h1" size="h2">My Requests</lux-heading>
     </lux-grid-item>
-    <lux-grid-item columns="md-7 sm-12 auto" :offset=true>
+    <lux-grid-item :offset=true>
       <% if Rails.configuration.show_absence_button %>
       <lux-hyperlink href="<%= new_absence_request_path %>" variation="button solid">New absence request</lux-hyperlink>
       <% end %>

@@ -1,4 +1,4 @@
-<lux-grid-item columns="lg-12 sm-12">
+<lux-grid-item>
   <%= form_tag(search_path, method: :get) do %>
     <lux-search-box>
       <lux-input-text id="query" name="query" value="<%= current_query%>" :hide-label=true label="search" placeholder="Search title, notes, and creator..."></lux-input-text>

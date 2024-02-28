@@ -1,7 +1,7 @@
 <lux-wrapper :max-width=1440 class="my-request">
   <lux-grid-container horizontal="center">
     <% if requests.total_pages >= 2 %>
-      <lux-grid-item columns="auto sm-12">
+      <lux-grid-item>
         <%= paginate requests %>
       </lux-grid-item>
     <% end %>

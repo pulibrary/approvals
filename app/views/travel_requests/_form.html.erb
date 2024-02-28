@@ -4,10 +4,10 @@
   <%=render 'errors', request_change_set: request_change_set %>
 <% end %>
 <lux-grid-container>
-  <lux-grid-item columns="lg-12 sm-12">
+  <lux-grid-item>
     <lux-alert status="info" class="tip-card">Please make sure your request complies with <lux-hyperlink href="https://library.princeton.edu/staff/ofa/finance-and-budget/travel" target="_blank">the official Princeton University Library Travel Policy</lux-hyperlink> before submitting this form.</lux-alert>
   </lux-grid-item>
-  <lux-grid-item columns="lg-3 md-6 sm-12">
+  <lux-grid-item>
     <%# # TODO This should really be creating fields like: params[:travel_request][:event_requests]{:id, :recurring_event_id, :start_date, :end_date, :location, :url}
         # wanted to see the validations show up on the screen, but did not want to put any effort into the form %>
     <%= form.fields_for :event_requests do |ff| %>
@@ -42,7 +42,7 @@
 
     <% end %>
   </lux-grid-item>
-  <lux-grid-item columns="lg-3 md-6 sm-12">
+  <lux-grid-item>
       <lux-input-text label="Location" type="text" name="travel_request[event_requests_attributes][0][location]" required
               id="travel_request_event_requests_attributes_0_location" width="expand" value="<%= request_change_set.model.event_requests[0].location %>">
         </lux-input-text>
@@ -56,7 +56,7 @@
         helper="Specify the reason this trip is necessary for your job"
         required></lux-input-text>
   </lux-grid-item>
-  <lux-grid-item columns="lg-6 sm-12">
+  <lux-grid-item>
     <% if request_change_set.existing_notes.any? %>
       <lux-heading level="h3" size="h5">
         Notes
@@ -70,7 +70,7 @@
       helper="Additional information that would help the approver understand the details of the trip (request for time off, desire to stay additional nights, etc.)"
       label="Notes to Approvers (optional)" :maxlength="9999" width="expand" type="textarea"></lux-input-text>
   </lux-grid-item>
-  <lux-grid-item columns="lg-12 sm-12">
+  <lux-grid-item>
     <lux-heading level="h2" size="h3">Anticipated Expenses</lux-heading>
   </lux-grid-item>
 </lux-grid-container>
@@ -84,10 +84,10 @@
   </travel-estimate-form>
 
 <lux-grid-container>
-  <lux-grid-item columns="lg-12 sm-12">
+  <lux-grid-item>
   <lux-text-style variation="emphasis">This request will be submitted to: <%= request_change_set.supervisor %></lux-text-style>
   </lux-grid-item>
-  <lux-grid-item columns="lg-3 sm-12 auto">
+  <lux-grid-item>
     <div class="actions">
       <travel-request-button event-title="<%= request_change_set.event_name %>"></travel-request-button>
     </div>

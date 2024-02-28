@@ -1,20 +1,20 @@
 <template>
   <lux-grid-container class="expenses">
     <lux-grid-item
-      columns="lg-12 sm-12"
+     
       class="expense-row-header"
     >
       <lux-grid-container>
         <lux-grid-item
           vertical="center"
-          columns="lg-1 sm-12"
+         
           class="expense-delete"
         >
           <lux-text-style>Delete</lux-text-style>
         </lux-grid-item>
         <lux-grid-item
           vertical="center"
-          columns="lg-2 sm-12"
+         
         >
           <lux-text-style id="expense-type-column">
             Expense Type
@@ -22,25 +22,25 @@
         </lux-grid-item>
         <lux-grid-item
           vertical="center"
-          columns="lg-1 sm-12"
+         
         >
           <lux-text-style>Occurrences</lux-text-style>
         </lux-grid-item>
         <lux-grid-item
           vertical="center"
-          columns="lg-2 sm-12"
+         
         >
           <lux-text-style>Cost per Occurrence</lux-text-style>
         </lux-grid-item>
         <lux-grid-item
           vertical="center"
-          columns="lg-4 sm-12"
+         
         >
           <lux-text-style>Note</lux-text-style>
         </lux-grid-item>
         <lux-grid-item
           vertical="center"
-          columns="lg-2 sm-12"
+         
         >
           <lux-text-style>Total</lux-text-style>
         </lux-grid-item>
@@ -50,13 +50,13 @@
     <lux-grid-item
       v-for="expense in expenseData"
       :key="expense.id"
-      columns="lg-12 sm-12"
+     
       class="expense-row"
     >
       <lux-grid-container>
         <lux-grid-item
           vertical="center"
-          columns="lg-1 sm-12"
+         
           class="expense-delete"
         >
           <lux-input-button
@@ -82,7 +82,7 @@
         </lux-grid-item>
         <lux-grid-item
           vertical="center"
-          columns="lg-2 sm-12"
+         
         >
           <lux-input-select
             :id="'travel_request_estimates_cost_type_' + expense.id"
@@ -99,7 +99,7 @@
         </lux-grid-item>
         <lux-grid-item
           vertical="center"
-          columns="lg-1 sm-12"
+         
         >
           <lux-input-text
             :id="'travel_request_estimates_recurrence_' + expense.id"
@@ -115,7 +115,7 @@
         </lux-grid-item>
         <lux-grid-item
           vertical="center"
-          columns="lg-2 sm-12"
+         
         >
           <lux-input-text
             :id="'travel_request_estimates_amount_' + expense.id"
@@ -132,7 +132,7 @@
         </lux-grid-item>
         <lux-grid-item
           vertical="center"
-          columns="lg-4 sm-12"
+         
         >
           <lux-input-text
             :id="'travel_request_estimates_description_' + expense.id"
@@ -145,7 +145,7 @@
         </lux-grid-item>
         <lux-grid-item
           vertical="center"
-          columns="lg-2 sm-12"
+         
           class="expense-total-col"
         >
           <lux-input-text
@@ -162,7 +162,7 @@
     </lux-grid-item>
 
     <lux-grid-item
-      columns="lg-11 sm-12"
+     
       class="expense-add"
     >
       <lux-input-button
@@ -181,12 +181,12 @@
       </lux-input-button>
     </lux-grid-item>
 
-    <lux-grid-item columns="lg-12 sm-12">
+    <lux-grid-item>
       <hr>
     </lux-grid-item>
 
     <lux-grid-item
-      columns="lg-10 sm-12 auto"
+     
       class="expense-total"
       :offset="true"
     >
@@ -195,7 +195,7 @@
       </lux-text-style>
     </lux-grid-item>
     <lux-grid-item
-      columns="lg-2 sm-12"
+     
       class="expense-total"
     >
       <lux-text-style

@@ -5,7 +5,7 @@
       <% end %>
 
 
-      <lux-grid-item columns="lg-3 sm-12">
+      <lux-grid-item>
         <lux-input-select label="Absence type" name="absence_request[absence_type]"
                       id="absence_request_absence_type"
                       width="expand"
@@ -26,7 +26,7 @@
         </hours-calculator>
       </lux-grid-item>
 
-      <lux-grid-item columns="lg-8 sm-12">
+      <lux-grid-item>
           <%= render 'balances', balance_title: request_change_set.balance_title,
                             vacation_balance:  request_change_set.vacation_balance,
                             personal_balance: request_change_set.personal_balance,
@@ -34,16 +34,16 @@
 
       </lux-grid-item>
 
-      <!--<lux-grid-item columns="lg-12 sm-12">
+      <!--<lux-grid-item>
         <date-picker id="absence_request_end_date" name="absence_request[end_date]" label="End Date" mode="single"></date-picker>
       </lux-grid-item>-->
 
-      <lux-grid-item columns="lg-8 sm-12">
+      <lux-grid-item>
         <lux-input-text id="absence_request_notes_content" name="absence_request[notes][content]" label="Comments" type="textarea"
                     width="expand"></lux-input-text>
       </lux-grid-item>
 
-      <lux-grid-item columns="lg-12 sm-12">
+      <lux-grid-item>
       <lux-text-style variation="emphasis">This request will be submitted to: <%= request_change_set.supervisor %></lux-text-style>
         <lux-input-button type="submit" variation="solid">Submit Request</lux-input-button>
       </lux-grid-item>

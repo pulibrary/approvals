@@ -1,4 +1,4 @@
-<lux-grid-item columns="sm-12 auto">
+<lux-grid-item>
   <lux-dropdown-menu type="links" id="sort-menu" button-label="<%= current_sort_label %>" :menu-items="[
     <% sort_urls.each do |key, url| %>
       {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
