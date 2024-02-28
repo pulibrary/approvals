@@ -1,18 +1,18 @@
   <%= form_with(model: request_change_set.model, local: true) do |form| %>
-    <grid-container>
+    <lux-grid-container>
       <% if request_change_set.errors.any? %>
         <%=render 'errors', request_change_set: request_change_set%>
       <% end %>
 
 
-      <grid-item columns="lg-3 sm-12">
-        <input-select label="Absence type" name="absence_request[absence_type]"
+      <lux-grid-item columns="lg-3 sm-12">
+        <lux-input-select label="Absence type" name="absence_request[absence_type]"
                       id="absence_request_absence_type"
                       width="expand"
                       value="<%= request_change_set.absence_type %>"
                       :options="<%= request_change_set.absence_type_options.to_json %>"
                       required=true
-        ></input-select>
+        ></lux-input-select>
 
         <hours-calculator start-date="<%= request_change_set.start_date_js %>"
                           end-date="<%= request_change_set.end_date_js %>"
@@ -24,28 +24,28 @@
                           :holidays="<%=request_change_set.holidays %>"
                           hours-per-day=<%= request_change_set.hours_per_day(current_staff_profile)%>>
         </hours-calculator>
-      </grid-item>
+      </lux-grid-item>
 
-      <grid-item columns="lg-8 sm-12">
+      <lux-grid-item columns="lg-8 sm-12">
           <%= render 'balances', balance_title: request_change_set.balance_title,
                             vacation_balance:  request_change_set.vacation_balance,
                             personal_balance: request_change_set.personal_balance,
                             sick_balance: request_change_set.sick_balance  %>
 
-      </grid-item>
+      </lux-grid-item>
 
-      <!--<grid-item columns="lg-12 sm-12">
+      <!--<lux-grid-item columns="lg-12 sm-12">
         <date-picker id="absence_request_end_date" name="absence_request[end_date]" label="End Date" mode="single"></date-picker>
-      </grid-item>-->
+      </lux-grid-item>-->
 
-      <grid-item columns="lg-8 sm-12">
+      <lux-grid-item columns="lg-8 sm-12">
         <lux-input-text id="absence_request_notes_content" name="absence_request[notes][content]" label="Comments" type="textarea"
                     width="expand"></lux-input-text>
-      </grid-item>
+      </lux-grid-item>
 
-      <grid-item columns="lg-12 sm-12">
+      <lux-grid-item columns="lg-12 sm-12">
       <lux-text-style variation="emphasis">This request will be submitted to: <%= request_change_set.supervisor %></lux-text-style>
-        <input-button type="submit" variation="solid">Submit Request</input-button>
-      </grid-item>
-    </grid-container>
+        <lux-input-button type="submit" variation="solid">Submit Request</lux-input-button>
+      </lux-grid-item>
+    </lux-grid-container>
   <% end %>
