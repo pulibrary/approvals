@@ -12,30 +12,30 @@
   </head>
 
   <body>
-    <library-header app-name="Absence and Travel Requests" abbr-name="LTR" app-url="<%= HomeURL.for(current_user: current_user) %>" class="lux" :max-width=1440 theme="dark">
-    <menu-bar type="main-menu" :menu-items="[
-        <% if current_user %>
-          {name: 'Requests', component: 'My Requests', children: [
-            {name: 'New Travel Request', component: 'New Travel Request', href: '/travel_requests/new/'},
-            <% if Rails.configuration.show_absence_button %>
-            {name: 'New Absence Request', component: 'New Absence Request', href: '/absence_requests/new/'},
+    <lux-library-header app-name="Absence and Travel Requests" abbr-name="LTR" app-url="<%= HomeURL.for(current_user: current_user) %>" class="lux" :max-width=1440 theme="dark">
+      <lux-menu-bar type="main-menu" :menu-items="[
+          <% if current_user %>
+            {name: 'Requests', component: 'My Requests', children: [
+              {name: 'New Travel Request', component: 'New Travel Request', href: '/travel_requests/new/'},
+              <% if Rails.configuration.show_absence_button %>
+              {name: 'New Absence Request', component: 'New Absence Request', href: '/absence_requests/new/'},
+              <% end %>
+              {name: 'My Requests', component: 'My Requests', href: '/my_requests/'},
+              {name: 'Reports', component: 'Reports', href: '/reports/'},
+            ]},
+            <%= "{name: 'Requests to Review', component: 'Requests to Review', href: '/my_approval_requests/'}," if current_staff_profile.supervisor? %>
+            {name: '<%= current_user %>', component: 'My Requests', children: [
+              <% unless current_delegate %>
+              {name: 'My Delegates', component: 'My Delegates', href: '/delegates/'},
+              {name: 'My Delegations', component: 'Delegations', href: '<%= to_assume_delegates_path %>'},
             <% end %>
-            {name: 'My Requests', component: 'My Requests', href: '/my_requests/'},
-            {name: 'Reports', component: 'Reports', href: '/reports/'},
-          ]},
-          <%= "{name: 'Requests to Review', component: 'Requests to Review', href: '/my_approval_requests/'}," if current_staff_profile.supervisor? %>
-          {name: '<%= current_user %>', component: 'My Requests', children: [
-            <% unless current_delegate %>
-            {name: 'My Delegates', component: 'My Delegates', href: '/delegates/'},
-            {name: 'My Delegations', component: 'Delegations', href: '<%= to_assume_delegates_path %>'},
+              {name: 'Help', component: 'Help', href: '/help'},
+              {name: 'Logout', component: 'Logout', href: '/sign_out'},
+            ]},
+            
           <% end %>
-            {name: 'Help', component: 'Help', href: '/help'},
-            {name: 'Logout', component: 'Logout', href: '/sign_out'},
-          ]},
-          
-        <% end %>
-      ]"></menu-bar>
-    </library-header>
+        ]"></lux-menu-bar>
+    </lux-library-header>
     <% if current_delegate %>
       <div class="lux">
         <alert status="info" class="current-delegate">
@@ -54,9 +54,9 @@
     <% end %>
     <div class="main-content">
       <div class="lux">
-        <wrapper :max-width=1400>
+        <lux-wrapper :max-width=1400>
           <%= render 'shared/flash_messages' %>
-        </wrapper>
+        </lux-wrapper>
         <%= yield %>
       </div>
     </div>
