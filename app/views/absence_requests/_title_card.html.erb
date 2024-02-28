@@ -1,13 +1,13 @@
-<card class="title-card" size="full-width">
+<lux-card class="title-card" size="full-width">
   <card-media>
       <lux-icon-base
       width="50"
       height="50"
       icon-color="rgb(65, 70, 78)"
     ><<%= request.absence_type_icon %> /></lux-icon-base>
-    <tag type="tag" size="small" :tag-items="[
+    <lux-tag type="tag" size="small" :tag-items="[
           {name: '<%= request.latest_status %>', color: '<%= request.status_color %>', icon: '<%= request.status_icon %>'}
-          ]"></tag>
+          ]"></lux-tag>
   </card-media>
   <card-header>
       <lux-heading level="h1" size="h3">
@@ -25,4 +25,4 @@
           >
         </div>
       </card-content>
-</card>
+</lux-card>
