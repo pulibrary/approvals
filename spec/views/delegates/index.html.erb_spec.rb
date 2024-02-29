@@ -12,7 +12,7 @@ RSpec.describe "delegates/index", type: :view do
   it "renders new delegate form" do
     render
     assert_select "form[action=?][method=?]", delegates_path, "post" do
-      assert_select "input-autocomplete[name=?]", "delegate[delegate_id]"
+      assert_select "lux-autocomplete-input[name=?]", "delegate[delegate_id]"
     end
   end
 
