@@ -110,7 +110,7 @@
             width="expand"
             required
             hide-label
-            @input="updateRecurrence($event, expense)"
+            @inputvaluechange="updateRecurrence($event, expense)"
           />
         </lux-grid-item>
         <lux-grid-item
@@ -127,7 +127,7 @@
             placeholder="$ 0.00"
             required
             hide-label
-            @input="updateAmount($event, expense)"
+            @inputvaluechange="updateAmount($event, expense)"
           />
         </lux-grid-item>
         <lux-grid-item
