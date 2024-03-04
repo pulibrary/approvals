@@ -11,8 +11,8 @@
     <%= vite_javascript_tag 'application' %>
   </head>
 
-  <body>
-    <lux-library-header app-name="Absence and Travel Requests" abbr-name="LTR" app-url="<%= HomeURL.for(current_user: current_user) %>" class="lux" :max-width=1440 theme="dark">
+  <body class="lux">
+    <lux-library-header app-name="Absence and Travel Requests" abbr-name="LTR" app-url="<%= HomeURL.for(current_user: current_user) %>" :max-width=1440 theme="dark">
       <lux-menu-bar type="main-menu" :menu-items="[
           <% if current_user %>
             {name: 'Requests', component: 'My Requests', children: [
@@ -37,8 +37,8 @@
         ]"></lux-menu-bar>
     </lux-library-header>
     <% if current_delegate %>
-      <div class="lux">
-        <alert status="info" class="current-delegate">
+      <div>
+        <lux-alert status="info" class="current-delegate">
           <lux-icon-base
             width="24"
             height="24"
@@ -49,11 +49,11 @@
           </lux-icon-base> Stop acting on 
           <%= current_delegate.delegator.given_name%>'s behalf.</lux-hyperlink>
           <p>Please use this feature with care as it allows other people whom you designate to act on your behalf. Delegation must never be used for approving any type of request, with the exception of sick time, which departmental assistants may record on behalf of employees who call in sick without notice.</p>
-        </alert>
+        </lux-alert>
       </div>
     <% end %>
     <div class="main-content">
-      <div class="lux">
+      <div>
         <lux-wrapper :max-width=1400>
           <%= render 'shared/flash_messages' %>
         </lux-wrapper>
