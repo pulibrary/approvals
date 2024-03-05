@@ -1,23 +1,23 @@
 <wrapper :max-width=1440>
-  <grid-container>
-    <grid-item columns="lg-12 sm-12">
+  <lux-grid-container>
+    <lux-grid-item columns="lg-12 sm-12">
       <lux-heading level="h1" size="h2">Act as Delegate for...</lux-heading>
-    </grid-item>
-  </grid-container>
+    </lux-grid-item>
+  </lux-grid-container>
 </wrapper>
 <wrapper :max-width=1440 class="my-delegates">
-  <grid-container>
-    <grid-item columns="lg-12 sm-12">
+  <lux-grid-container>
+    <lux-grid-item columns="lg-12 sm-12">
       <alert status="info" class="tip-card">Please use this feature with care as it allows other people whom you designate to act on your behalf. Delegation must never be used for approving any type of request, with the exception of sick time, which departmental assistants may record on behalf of employees who call in sick without notice.</alert>
-    </grid-item>
-    <grid-item columns="lg-12 sm-12">
+    </lux-grid-item>
+    <lux-grid-item columns="lg-12 sm-12">
       <% if @delegators.count == 0 %>
         <lux-heading id="no-delegates" level="h3" size="h3">You don't have any people you can become at the moment.</lux-heading>
       <% end %>
       <% @delegators.each do |delegator| %>
         <%=  render 'assume_detail', delegator: delegator %>
       <% end %>
-    </grid-item>
-  </grid-container>
+    </lux-grid-item>
+  </lux-grid-container>
 </wrapper>
 <br/>
