@@ -1,5 +1,5 @@
 <lux-card class="title-card" size="full-width">
-  <card-media>
+  <lux-card-media>
       <lux-icon-base
       width="50"
       height="50"
@@ -8,21 +8,21 @@
     <lux-tag type="tag" size="small" :tag-items="[
           {name: '<%= request.latest_status %>', color: '<%= request.status_color %>', icon: '<%= request.status_icon %>'}
           ]"></lux-tag>
-  </card-media>
-  <card-header>
+  </lux-card-media>
+  <lux-card-header>
       <lux-heading level="h1" size="h3">
         <span class="event-requestor"
           ><%= request.full_name %></span
         >
         <span class="event-title"><%= request.event_title %></span>
       </lux-heading>
-    </card-header>
-    <card-content>
+    </lux-card-header>
+    <lux-card-content>
         <div class="status-<%= request.status_color %>">
           <lux-heading level="h2" size="h3"
             ><lux-text-style variation="default">Total Hours</lux-text-style><%=
             request.hours_requested %></lux-heading
           >
         </div>
-      </card-content>
+      </lux-card-content>
 </lux-card>
