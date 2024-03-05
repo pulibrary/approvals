@@ -1,8 +1,8 @@
-<wrapper :max-width="1440">
-  <grid-container class="help">
-    <grid-item columns="lg-3 sm-12">
-    <card size="full-width" class="help-sidebar">
-      <card-content>
+<lux-wrapper :max-width="1440">
+  <lux-grid-container class="help">
+    <lux-grid-item columns="lg-3 sm-12">
+    <lux-card size="full-width" class="help-sidebar">
+      <lux-card-content>
         <lux-heading level="h2" size="h4">Helpful Guides</lux-heading>
         <ul>
           <li><%= link_to "Create a Travel Request", :anchor => "create-travel" %></li>
@@ -10,13 +10,13 @@
           <li><%= link_to "Cancel a Travel Request", :anchor => "cancel-travel" %></li>
           <li><%= link_to "Report a Problem", :anchor => "report-problem" %></li>
         </ul>
-      </card-content>
-    </card>
-    </grid-item>
+      </lux-card-content>
+    </lux-card>
+    </lux-grid-item>
 
-    <grid-item columns="lg-9 sm-12">
-      <card size="full-width">
-        <card-content>
+    <lux-grid-item columns="lg-9 sm-12">
+      <lux-card size="full-width">
+        <lux-card-content>
           <lux-heading level="h1" size="h3">Overview</lux-heading>
           <p>This Absence and Travel Request application allows Library staff to seek approval for travel and absence. The initial rollout of this system supports the travel workflow. Please review the documentation below if you need assistance.</p>
           <p>Travel requests will need to be approved by your direct supervisor and any supervisors up to and including your department head. If you need clarification on travel policy, please read <%= link_to "the Library's official travel policy", "https://library.princeton.edu/staff/ofa/finance-and-budget/travel" %> or contact your direct supervisor.</p>
@@ -55,10 +55,10 @@
           <%= image_tag("requestview.png")%>
           <lux-text-style>You will receive notifications when the status of your request changes.</lux-text-style>
           <lux-text-style>You can modify your request until it has been reviewed</lux-text-style>
-        </card-content>
-      </card>
-      <card size="full-width">
-        <card-content>
+        </lux-card-content>
+      </lux-card>
+      <lux-card size="full-width">
+        <lux-card-content>
           <lux-heading level="h2" size="h3" id="approve-travel">Review a Travel Request</lux-heading>
           <lux-text-style>When there is a request to review, you will receive a notification via email with a link to that request.</lux-text-style>
           <lux-text-style>To approve a travel request pending your review, log into the system via CAS using your NetID and password.</lux-text-style>
@@ -70,23 +70,23 @@
           <lux-text-style>At this point you may also "Request Changes" by adding notes and clicking on the "Request Changes" button. For example, anticipated expenses that will not be covered by the University should be requested to be deleted.</lux-text-style>
           <lux-text-style>You will receive notifications when the status of the request changes.</lux-text-style>
           <lux-text-style>The department head will have the ability to choose the travel category (business or professional development).</lux-text-style>
-        </card-content>
-      </card>
-      <card size="full-width">
-        <card-content>
+        </lux-card-content>
+      </lux-card>
+      <lux-card size="full-width">
+        <lux-card-content>
           <lux-heading level="h2" size="h3" id="cancel-travel">Cancel a Travel Request</lux-heading>
           <lux-text-style>Only the request creator can cancel their request. To cancel your request, find your request in your "My Requests" list, view your request details and click on the "Cancel" button at the bottom of the travel request details page.</lux-text-style>
           <%= image_tag("cancel_request.png")%>
-        </card-content>
-      </card>
-      <card size="full-width">
-        <card-content>
+        </lux-card-content>
+      </lux-card>
+      <lux-card size="full-width">
+        <lux-card-content>
           <lux-heading level="h2" size="h3" id="report-problem">Report a Problem</lux-heading>
           <alert class="tip-card">Please use the latest version of Chrome, Edge, or Firefox to use this application. Internet Explorer is not supported.</alert>
           <lux-text-style>If you are looking for technical support or would like to provide feedback on this application, please contact <%= mail_to "lsupport@princeton.edu", "lsupport@princeton.edu" %>.</lux-text-style>
           <lux-text-style><strong>Note</strong>: When reporting issues, please include screenshots, if possible.</lux-text-style>
-        </card-content>
-      </card>
-    </grid-item>
-  </grid-container>
-</wrapper>
+        </lux-card-content>
+      </lux-card>
+    </lux-grid-item>
+  </lux-grid-container>
+</lux-wrapper>
