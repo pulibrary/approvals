@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@rails/ujs": "6.1.7-6",
-    "lux-design-system": "^5.0.0-alpha.23",
+    "lux-design-system": "^5.0.0-alpha.25",
     "postcss-import": "^15.1.0",
     "vue": "^3.4.0"
   },
