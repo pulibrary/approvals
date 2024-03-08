@@ -12,11 +12,11 @@
       :show-modal="showModal"
       @closeModal="close"
     >
-      <div slot="body">
+      <template v-slot:body>
         <p>It looks like you have a date in the event title. Please remove before submitting</p>
         <br>
         <p>Detected: {{ matchedDate() }}</p>
-      </div>
+      </template>
     </event-date-modal>
   </div>
 </template>
