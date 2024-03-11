@@ -76,7 +76,7 @@ Note: these steps must be completed on a non-production environment, to prevent 
 |3|Make a few changes|The fields should reflect the new values|
 |4|Add a new note to the Approvers|The fom will show the entered note|
 |5|Add or remove some expenses|The total should update to reflect changes|
-|6|Press the Submit Request button|A modal will appear indicating a possible date in the Event Name if you did not remove the numbers|
+|6|Press the Submit Request button|If the event name has a number a modal will appear indicating that "Possible Date Detected' in the Event Name|
 |7|Press the Continue button|You see "Travel request was successfully updated."|
 
 #### Setting up a delegation for testing
@@ -85,7 +85,7 @@ Note: these steps must be completed on a non-production environment, to prevent 
 |1|Create a travel request as detailed above|You see "Travel request was successfully created."|
 |2|Follow [the instructions](https://github.com/pulibrary/approvals/tree/main?tab=readme-ov-file#testing-user-accounts) to make yourself a delegate for your approver|The rake task should be successful
 |3|Click on you netid at the top right to open the menu and select "My Delegations"|You should see your approver in the list of names|
-|4|Click on your approver's name to act as a delegate for them|You should see a banner at the top of the page saying you are acting as a delegate for the selected person|
+|4|Click on your approver's name to act as a delegate for them|You should see a banner at the top of the page saying you are acting on behalf of the selected person|
 
 
 #### Approving a travel request
