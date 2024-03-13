@@ -62,7 +62,7 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem "capybara", ">= 2.15"
+  gem "capybara"
   gem "capybara-screenshot"
   gem "factory_bot_rails", require: false
   gem "rails-controller-testing"
