@@ -88,6 +88,10 @@ This is an application that allows the library to create workflows that allow st
 `yarn test` will run the javascript tests, and `yarn lint` will run the javascript
 linter.
 
+If you want to see a test in Chrome, run it with the `RUN_IN_BROWSER=true` environment variable, for example:
+
+    RUN_IN_BROWSER=true bundle exec rspec spec/features/new_travel_request_spec.rb
+
 ## Deployment instructions
 
 
