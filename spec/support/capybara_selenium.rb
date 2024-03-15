@@ -9,7 +9,7 @@ Capybara.server = :puma, { Silent: true }
 Capybara.register_driver(:selenium) do |app|
 
   browser_options = ::Selenium::WebDriver::Chrome::Options.new
-  browser_options.args << "--headless"
+  browser_options.args << "--headless" unless ENV["RUN_IN_BROWSER"] == "true"
   browser_options.args << "--disable-gpu"
   browser_options.args << "--disable-setuid-sandbox"
   browser_options.args << "--window-size=7680,4320"
