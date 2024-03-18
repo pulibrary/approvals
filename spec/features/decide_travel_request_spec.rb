@@ -76,6 +76,8 @@ RSpec.feature "Review Travel Request", type: :feature, js: true do
 
     expect(travel_request.event_title).to match(/Event \d* \d*, Location/)
     fill_in("displayInput", with: "")
+    # The autocomplete dropdown covers the buttons so hit escape to clear
+    find("#displayInput").send_keys(:escape)
     click_on "Change Event Name"
     expect(travel_request.reload.event_title).to match(/Event \d* \d*, Location/)
     expect(page).to have_content("is required to specify requested changes")
@@ -86,6 +88,8 @@ RSpec.feature "Review Travel Request", type: :feature, js: true do
 
     expect(travel_request.event_title).to match(/Event \d* \d*, Location/)
     fill_in("displayInput", with: "Random text")
+    # The autocomplete dropdown covers the buttons so hit escape to clear
+    find("#displayInput").send_keys(:escape)
     click_on "Change Event Name"
     expect(travel_request.reload.event_title).to match(/Event \d* \d*, Location/)
     expect(page).to have_content("Event name does not exist, please select an existing event name.")
