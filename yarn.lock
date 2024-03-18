@@ -4378,10 +4378,15 @@ lru-cache@^6.0.0:
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.0.3.tgz#b40014d7d2d16d94130b87297a04a1f24874ae7c"
   integrity sha512-B7gr+F6MkqB3uzINHXNctGieGsRTMwIBgxkp0yq/5BwcuDzD4A8wQpHQW6vDAm1uKSLQghmRdD9sKqf2vJ1cEg==
 
+<<<<<<< Updated upstream
 lux-design-system@^5.0.0-alpha.27:
   version "5.0.0-alpha.27"
   resolved "https://registry.yarnpkg.com/lux-design-system/-/lux-design-system-5.0.0-alpha.27.tgz#7cde13787636e1bf98533ef03f629b428ab3561e"
   integrity sha512-xtk+niNUK4VoAR00k9BOcSpj+OH3OUytcOz/up9qZhpU7YErWnkEFm1xh+z9uQLfgL33yU2g3APIHsSM2LQZlg==
+=======
+"lux-design-system@file:.yalc/lux-design-system":
+  version "5.0.0-alpha.24"
+>>>>>>> Stashed changes
   dependencies:
     core-js "^3.8.3"
     register-service-worker "^1.7.2"
