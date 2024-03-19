@@ -19,6 +19,37 @@ requests are not turned on in production.
 |6|In the date range field, use the date picker to enter a different date range|The form shows the new date range and the correct number of hours.|
 |7|Press submit request|You see "Absence request was successfully created."|
 
+#### Updating an absence request
+
+|Step|Action|Expected result|
+|---|---|---|
+|1|Without an active session, go to [the application](https://approvals-staging.princeton.edu/)|The application has a button to Login with NetID|
+|2|Press "LOGIN with NetID" button and login with CAS credentials|You are taken to the My Requests page|
+|3|Find an already created absence request and click on the card|You will be taken to the details page for the request|
+|4|Press the Edit button|The details page will become an editable form|
+|5|Change some of the values and add a comment|The updated values will be reflected in the form|
+|6|Press Submit Request|You will return to the details page with the changed values and a new comment|
+
+#### Approving an absence request
+
+|Step|Action|Expected result|
+|---|---|---|
+|1|With the application set to act as a delegate for your approver as detailed above|You should see a banner at the top of the page saying you are acting as a delegate for the selected person|
+|2|Click on the "Requests to Review" link in the header|You should be taken to the "Requests Awaiting My Approval" page with the request you created|
+|3|Click on the title of the absence request you just created|You should navigate to a page with the details of the request|
+|4|Enter a note into the Notes field|The form should contain the entered note|
+|5|Press the Approve button|You should see "Absence Request was successfully updated"|
+
+#### Denying an absence request
+
+|Step|Action|Expected result|
+|---|---|---|
+|1|With the application set to act as a delegate for your approver as detailed above|You should see a banner at the top of the page saying you are acting as a delegate for the selected person|
+|2|Click on the "Requests to Review" link in the header|You should be taken to the "Requests Awaiting My Approval" page with the request you created|
+|3|Click on the title of the absence request you just created|You should navigate to a page with the details of the request|
+|4|Enter a note into the Notes field|The form should contain the entered note|
+|5|Press the Deny button|You should see "Absence Request was successfully updated"|
+
 ### Test delegation workflow
 
 * Follow the steps in [Testing User accounts](https://github.com/pulibrary/approvals?tab=readme-ov-file#database-creation) and run this rake task: `bundle exec rake approvals:make_delegate[netid_delegate,netid]` to allow the user with netid_delegate to review and make requests on behalf of netid. Set netid_delegate as your netid.
