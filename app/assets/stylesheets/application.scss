@@ -49,17 +49,5 @@
  }
 
  article.full-width {
-   width: 100%;
-   display: flex;
-   align-items: flex-start;
-   flex-flow: row wrap;
-   box-sizing: border-box;
-   margin: 24px 0 24px 0;
-   font-family: franklin-gothic-urw,Helvetica,Arial,sans-serif;
-   line-height: 1.6;
-   background: #fff;
-   box-shadow: 0 0 0 1px rgba(92,106,196,.1);
-   color: #001123;
-   position: relative;
-   margin-bottom: 0;
+   margin: 24px 0 0;
  }
