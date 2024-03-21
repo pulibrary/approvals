@@ -11,5 +11,8 @@ export default defineConfig({
     alias: {
       'vue': 'vue/dist/vue.esm-bundler',
     },
+  },
+  define : {
+    __VUE_PROD_DEVTOOLS__ : true
   }
 })
