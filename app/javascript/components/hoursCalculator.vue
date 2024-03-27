@@ -32,7 +32,7 @@
       width="expand"
       label="Total hours requested"
       :helper="helperCaption"
-      :value="localHoursReqested"
+      :value="localHoursRequested"
       required
       @input="updateCaption($event)"
     />
@@ -60,7 +60,7 @@ export default {
         return {
             nonWorkDays: 0,
             helperCaption: "",
-            localHoursReqested: this.hoursRequested,
+            localHoursRequested: this.hoursRequested,
             localStartDate: this.startDate,
             localEndDate: this.endDate,
             defaultDates: { start: new Date(this.startDate), end: new Date(this.endDate) }
@@ -72,8 +72,8 @@ export default {
     methods: {
         setHours(date_range) {
             this.nonWorkDays = 0;
-            this.localHoursReqested = this.calculateTotalHours(date_range);
-            this.updateCaption(this.localHoursReqested);
+            this.localHoursRequested = this.calculateTotalHours(date_range);
+            this.updateCaption(this.localHoursRequested);
         },
         calculateTotalHours(date_range) {
             const range = date_range.split(' - ');
@@ -126,8 +126,8 @@ export default {
         updateCaption(value){
             const val = Number(value);
             if(val) {
-                this.localHoursReqested = val;
-                this.helperCaption = this.localHoursReqested + " hours = " + this.hoursToDays(this.localHoursReqested).toFixed(2) + " days (" + this.nonWorkDays + " holiday and weekend dates excluded.)";
+                this.localHoursRequested = val;
+                this.helperCaption = this.localHoursRequested + " hours = " + this.hoursToDays(this.localHoursRequested).toFixed(2) + " days (" + this.nonWorkDays + " holiday and weekend dates excluded.)";
             }
         },
         pad(num, size) {
