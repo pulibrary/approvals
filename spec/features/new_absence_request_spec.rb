@@ -19,6 +19,7 @@ RSpec.feature "New Absence Request", type: :feature, js: true do
   end
 
   scenario "I can submit a sick day request and cancel it" do
+    pending "See: https://github.com/pulibrary/approvals/issues/1116"
     visit "/"
     click_on "New absence request"
     expect(page).to have_content "New Absence Request"

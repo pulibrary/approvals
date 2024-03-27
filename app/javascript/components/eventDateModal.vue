@@ -15,22 +15,22 @@
             </slot>
           </div>
           <div class="modal-footer">
-            <input-button
+            <lux-input-button
               type="button"
               variation="solid"
               size="small"
               @button-clicked="submit"
             >
               Continue
-            </input-button>
-            <input-button
+            </lux-input-button>
+            <lux-input-button
               type="button"
               variation="outline"
               size="small"
               @button-clicked="$emit('closeModal')"
             >
               Go Back
-            </input-button>
+            </lux-input-button>
           </div>
         </div>
       </div>

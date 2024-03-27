@@ -1,36 +1,36 @@
-<wrapper :max-width=1440>
-  <grid-container>
-    <grid-item columns="lg-12 sm-12">
-      <heading level="h1" size="h2">My Delegates</heading>
-    </grid-item>
-  </grid-container>
-</wrapper>
-<wrapper :max-width=1440 class="my-delegates">
-  <grid-container>
-    <grid-item columns="lg-12 sm-12">
-      <alert status="info" class="tip-card">Please use this feature with care as it allows other people whom you designate to act on your behalf.</alert>
-    </grid-item>
-    <grid-item columns="lg-12 sm-12">
-      <card size="full-width" class="search-filter-sort">
-        <card-content>
-          <grid-container>
-            <grid-item columns="lg-12 sm-12">
+<lux-wrapper :max-width=1440>
+  <lux-grid-container>
+    <lux-grid-item columns="lg-12 sm-12">
+      <lux-heading level="h1" size="h2">My Delegates</lux-heading>
+    </lux-grid-item>
+  </lux-grid-container>
+</lux-wrapper>
+<lux-wrapper :max-width=1440 class="my-delegates">
+  <lux-grid-container>
+    <lux-grid-item columns="lg-12 sm-12">
+      <lux-alert status="info" class="tip-card">Please use this feature with care as it allows other people whom you designate to act on your behalf.</lux-alert>
+    </lux-grid-item>
+    <lux-grid-item columns="lg-12 sm-12">
+      <lux-card size="full-width" class="search-filter-sort">
+        <lux-card-content>
+          <lux-grid-container>
+            <lux-grid-item columns="lg-12 sm-12">
               <%= render 'form', delegate: @delegate %>
-            </grid-item>
-          </grid-container>
-        </card-content>
-      </card>
-    </grid-item>
-  </grid-container>
-  <grid-container>
-    <grid-item columns="lg-12 sm-12">
+            </lux-grid-item>
+          </lux-grid-container>
+        </lux-card-content>
+      </lux-card>
+    </lux-grid-item>
+  </lux-grid-container>
+  <lux-grid-container>
+    <lux-grid-item columns="lg-12 sm-12">
       <% if @delegates.count == 0 %>
-        <heading id="no-delegates" level="h3" size="h3">You don't have any delegates at the moment.</heading>
+        <lux-heading id="no-delegates" level="h3" size="h3">You don't have any delegates at the moment.</lux-heading>
       <% end %>
       <% @delegates.each do |delegate| %>
         <%=  render 'index_detail', delegate: delegate %>
       <% end %>
-    </grid-item>
-  </grid-container>
-</wrapper>
+    </lux-grid-item>
+  </lux-grid-container>
+</lux-wrapper>
 <br/>

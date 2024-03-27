@@ -1,18 +1,22 @@
-import { createLocalVue, mount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import HoursCalculator from "../components/hoursCalculator.vue";
 
-const localVue = createLocalVue();
 let wrapper;
 describe("HoursCalculator.vue", () => {
     beforeEach(() => {
 
         wrapper = mount(HoursCalculator, {
-            localVue,
             propsData: {
                 hoursPerDay: 8,
                 holidays: ['2019-12-25','2019-12-26','2019-09-11','2020-12-25']
             },
-            stubs: ["input-text", "date-picker", "grid-item"]
+            global: {
+                stubs: {
+                    "lux-input-text": true,
+                    "lux-date-picker": true,
+                    "lux-grid-item": true
+                }
+            }
         });
     });
 

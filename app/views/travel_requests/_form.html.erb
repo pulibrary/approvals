@@ -3,11 +3,11 @@
 <% if request_change_set.errors.any? %>
   <%=render 'errors', request_change_set: request_change_set %>
 <% end %>
-<grid-container>
-  <grid-item columns="lg-12 sm-12">
-    <alert status="info" class="tip-card">Please make sure your request complies with <hyperlink href="https://library.princeton.edu/staff/ofa/finance-and-budget/travel" target="_blank">the official Princeton University Library Travel Policy</hyperlink> before submitting this form.</alert>
-  </grid-item>
-  <grid-item columns="lg-3 md-6 sm-12">
+<lux-grid-container>
+  <lux-grid-item columns="lg-12 sm-12">
+    <lux-alert status="info" class="tip-card">Please make sure your request complies with <lux-hyperlink href="https://library.princeton.edu/staff/ofa/finance-and-budget/travel" target="_blank">the official Princeton University Library Travel Policy</lux-hyperlink> before submitting this form.</lux-alert>
+  </lux-grid-item>
+  <lux-grid-item columns="lg-3 md-6 sm-12">
     <%# # TODO This should really be creating fields like: params[:travel_request][:event_requests]{:id, :recurring_event_id, :start_date, :end_date, :location, :url}
         # wanted to see the validations show up on the screen, but did not want to put any effort into the form %>
     <%= form.fields_for :event_requests do |ff| %>
@@ -19,10 +19,10 @@
           :items="<%= request_change_set.recurring_event_list %>"
           ></event-title-input-wrapper>
 
-        <input-select label="Event Format" name="travel_request[virtual_event]"
+        <lux-input-select label="Event Format" name="travel_request[virtual_event]"
           id="travel_request_event_format" width="expand"
           value="<%= request_change_set.virtual_event %>"
-          :options="<%= request_change_set.event_format_options %>"></input-select>
+          :options="<%= request_change_set.event_format_options %>"></lux-input-select>
 
         <!--
           Travel Request Date Pickers -->
@@ -41,39 +41,39 @@
         </travel-request-date-pickers>
 
     <% end %>
-  </grid-item>
-  <grid-item columns="lg-3 md-6 sm-12">
-      <input-text label="Location" type="text" name="travel_request[event_requests_attributes][0][location]" required
+  </lux-grid-item>
+  <lux-grid-item columns="lg-3 md-6 sm-12">
+      <lux-input-text label="Location" type="text" name="travel_request[event_requests_attributes][0][location]" required
               id="travel_request_event_requests_attributes_0_location" width="expand" value="<%= request_change_set.model.event_requests[0].location %>">
-        </input-text>
-      <input-select label="Participation" name="travel_request[participation]"
+        </lux-input-text>
+      <lux-input-select label="Participation" name="travel_request[participation]"
           id="travel_request_participation" width="expand"
           value="<%= request_change_set.participation %>"
-          :options="<%= request_change_set.participation_options %>" required></input-select>
+          :options="<%= request_change_set.participation_options %>" required></lux-input-select>
 
-      <input-text label="Purpose" id="travel_request_purpose" width="expand"
+      <lux-input-text label="Purpose" id="travel_request_purpose" width="expand"
         name="travel_request[purpose]" value="<%= request_change_set.purpose %>"
         helper="Specify the reason this trip is necessary for your job"
-        required></input-text>
-  </grid-item>
-  <grid-item columns="lg-6 sm-12">
+        required></lux-input-text>
+  </lux-grid-item>
+  <lux-grid-item columns="lg-6 sm-12">
     <% if request_change_set.existing_notes.any? %>
-      <heading level="h3" size="h5">
+      <lux-heading level="h3" size="h5">
         Notes
-      </heading>
+      </lux-heading>
       <ul class="notes">
           <%= render partial: "shared/request_note", collection:
             request_change_set.existing_notes, as: :note %>
       </ul>
     <% end %>
-    <input-text id="travel_request_notes_content" name="travel_request[notes][][content]"
+    <lux-input-text id="travel_request_notes_content" name="travel_request[notes][][content]"
       helper="Additional information that would help the approver understand the details of the trip (request for time off, desire to stay additional nights, etc.)"
-      label="Notes to Approvers (optional)" :maxlength="9999" width="expand" type="textarea"></input-text>
-  </grid-item>
-  <grid-item columns="lg-12 sm-12">
-    <heading level="h2" size="h3">Anticipated Expenses</heading>
-  </grid-item>
-</grid-container>
+      label="Notes to Approvers (optional)" :maxlength="9999" width="expand" type="textarea"></lux-input-text>
+  </lux-grid-item>
+  <lux-grid-item columns="lg-12 sm-12">
+    <lux-heading level="h2" size="h3">Anticipated Expenses</lux-heading>
+  </lux-grid-item>
+</lux-grid-container>
   <!--
     Travel Estimate Form -->
   <travel-estimate-form
@@ -83,14 +83,14 @@
     :cost_types="<%= request_change_set.estimate_cost_options %>">
   </travel-estimate-form>
 
-<grid-container>
-  <grid-item columns="lg-12 sm-12">
-  <text-style variation="emphasis">This request will be submitted to: <%= request_change_set.supervisor %></text-style>
-  </grid-item>
-  <grid-item columns="lg-3 sm-12 auto">
+<lux-grid-container>
+  <lux-grid-item columns="lg-12 sm-12">
+  <lux-text-style variation="emphasis">This request will be submitted to: <%= request_change_set.supervisor %></lux-text-style>
+  </lux-grid-item>
+  <lux-grid-item columns="lg-3 sm-12 auto">
     <div class="actions">
       <travel-request-button event-title="<%= request_change_set.event_name %>"></travel-request-button>
     </div>
-  </grid-item>
-</grid-container>
+  </lux-grid-item>
+</lux-grid-container>
 <% end %>

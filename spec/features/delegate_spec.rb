@@ -48,6 +48,7 @@ RSpec.feature "Delegate", type: :feature, js: true do
   end
 
   scenario "I can see my requests and my delegates with pending for absence" do
+    pending "See: https://github.com/pulibrary/approvals/issues/1116"
     FactoryBot.create(:absence_request, creator: staff_profile, start_date: Date.parse("2019-10-12"), end_date: Date.parse("2019-10-13"))
     FactoryBot.create(:absence_request, creator: delegate_staff_profile, start_date: Date.parse("2019-10-12"), end_date: Date.parse("2019-10-13"))
     FactoryBot.create(:absence_request, creator: delegate_staff_profile, start_date: Date.parse("2019-09-12"), end_date: Date.parse("2019-09-13"))

@@ -76,7 +76,6 @@ jobs:
           keys:
             - approvals-yarn-v1-{{ checksum "yarn.lock" }}
             - approvals-yarn-v1-
-
       - run:
           name: Yarn Install
           command: yarn install --cache-folder ~/.cache/yarn

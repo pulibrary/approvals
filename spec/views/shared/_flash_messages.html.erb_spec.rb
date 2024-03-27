@@ -13,7 +13,7 @@ describe "_flash_messages.html.erb" do
     let(:flash_key) { "success" }
     let(:flash_message) { "A Sucessful completion" }
     it "displays an alert" do
-      expect(rendered).to have_selector("alert[status=\"success\"]", text: flash_message)
+      expect(rendered).to have_selector("lux-alert[status=\"success\"]", text: flash_message)
     end
   end
 
@@ -21,7 +21,7 @@ describe "_flash_messages.html.erb" do
     let(:flash_key) { "notice" }
     let(:flash_message) { "A notice completion" }
     it "displays an alert" do
-      expect(rendered).to have_selector("alert[status=\"info\"]", text: flash_message)
+      expect(rendered).to have_selector("lux-alert[status=\"info\"]", text: flash_message)
     end
   end
 
@@ -29,7 +29,7 @@ describe "_flash_messages.html.erb" do
     let(:flash_key) { "error" }
     let(:flash_message) { "An error" }
     it "displays an alert" do
-      expect(rendered).to have_selector("alert[status=\"error\"]", text: flash_message)
+      expect(rendered).to have_selector("lux-alert[status=\"error\"]", text: flash_message)
     end
   end
 
@@ -37,7 +37,7 @@ describe "_flash_messages.html.erb" do
     let(:flash_key) { "alert" }
     let(:flash_message) { "An alert for you" }
     it "displays an alert" do
-      expect(rendered).to have_selector("alert[status=\"warning\"]", text: flash_message)
+      expect(rendered).to have_selector("lux-alert[status=\"warning\"]", text: flash_message)
     end
   end
 end

@@ -1,5 +1,5 @@
-<grid-item columns="lg-12">
-  <alert status="error">
+<lux-grid-item columns="lg-12">
+  <lux-alert status="error">
     <h2><%= pluralize(request_change_set.errors.count, "error") %> prohibited this request from being saved:</h2>
 
     <ul>
@@ -7,5 +7,5 @@
       <li><%= message %></li>
     <% end %>
     </ul>
-  </alert>
-</grid-item>
+  </lux-alert>
+</lux-grid-item>

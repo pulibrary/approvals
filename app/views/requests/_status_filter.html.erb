@@ -1,5 +1,5 @@
-<dropdown-menu type="links" id="status-menu" button-label="<%= current_status_filter_label %>" :menu-items="[
+<lux-dropdown-menu type="links" id="status-menu" button-label="<%= current_status_filter_label %>" :menu-items="[
   <% status_filter_urls.each do |key, url| %>
     {name: '<%= key %>', component: '<%= key %>', href: '<%= url %>'},
   <% end %>
-]"></dropdown-menu>
+]"></lux-dropdown-menu>

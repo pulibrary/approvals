@@ -12,14 +12,14 @@
     </div>
   <% end %>
 
-  <input-autocomplete required
+  <lux-autocomplete-input required
     id="delegate_delegate_id"
     name="delegate[delegate_id]"
     label="Assign people to use this system on your behalf"
     :items="<%= @staff_list %>"
-  ></input-autocomplete>
+  ></lux-autocomplete-input>
 
   <div class="actions">
-    <input-button type="submit" variation="solid">Add Delegate</input-button>
+    <lux-input-button type="submit" variation="solid">Add Delegate</lux-input-button>
   </div>
 <% end %>

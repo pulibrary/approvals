@@ -25,9 +25,9 @@ RSpec.describe "travel_requests/show", type: :view do
     expect(rendered).to include("Lodging (per night)")
     expect(rendered).to match(/#{travel_request.estimates.first.amount}/)
     expect(rendered).to match(/#{travel_request.estimates.first.recurrence}/)
-    expect(rendered).to have_selector("hyperlink[href=\"#{edit_travel_request_path(travel_request.request)}\"]", text: "Edit")
+    expect(rendered).to have_selector("lux-hyperlink[href=\"#{edit_travel_request_path(travel_request.request)}\"]", text: "Edit")
     expect(rendered).to have_selector("form[action=\"#{decide_travel_request_path(travel_request.id)}\"]")
-    expect(rendered).to have_selector("input-button", text: "Cancel")
+    expect(rendered).to have_selector("lux-input-button", text: "Cancel")
   end
 
   it "does not render edit if current profile is not the creator" do

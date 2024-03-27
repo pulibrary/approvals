@@ -1,23 +1,23 @@
-<wrapper :max-width=1440>
-  <grid-container>
-    <grid-item columns="lg-12 sm-12">
-      <heading level="h1" size="h2">Act as Delegate for...</heading>
-    </grid-item>
-  </grid-container>
-</wrapper>
-<wrapper :max-width=1440 class="my-delegates">
-  <grid-container>
-    <grid-item columns="lg-12 sm-12">
-      <alert status="info" class="tip-card">Please use this feature with care as it allows you to act on someone's behalf.</alert>
-    </grid-item>
-    <grid-item columns="lg-12 sm-12">
+<lux-wrapper :max-width=1440>
+  <lux-grid-container>
+    <lux-grid-item columns="lg-12 sm-12">
+      <lux-heading level="h1" size="h2">Act as Delegate for...</lux-heading>
+    </lux-grid-item>
+  </lux-grid-container>
+</lux-wrapper>
+<lux-wrapper :max-width=1440 class="my-delegates">
+  <lux-grid-container>
+    <lux-grid-item columns="lg-12 sm-12">
+      <lux-alert status="info" class="tip-card">Please use this feature with care as it allows you to act on someone's behalf.</lux-alert>
+    </lux-grid-item>
+    <lux-grid-item columns="lg-12 sm-12">
       <% if @delegators.count == 0 %>
-        <heading id="no-delegates" level="h3" size="h3">You don't have any people you can become at the moment.</heading>
+        <lux-heading id="no-delegates" level="h3" size="h3">You don't have any people you can become at the moment.</lux-heading>
       <% end %>
       <% @delegators.each do |delegator| %>
         <%=  render 'assume_detail', delegator: delegator %>
       <% end %>
-    </grid-item>
-  </grid-container>
-</wrapper>
+    </lux-grid-item>
+  </lux-grid-container>
+</lux-wrapper>
 <br/>

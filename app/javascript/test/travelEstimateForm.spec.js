@@ -1,14 +1,12 @@
-import { createLocalVue, mount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import TravelEstimateForm from "../components/travelEstimateForm.vue";
 
-const localVue = createLocalVue();
 let wrapper;
 describe("travelEstimateForm.vue", () => {
     beforeEach(() => {
 
         wrapper = mount(TravelEstimateForm, {
-            localVue,
-            propsData: {
+            props: {
                 expenses: [
                     {"id":1,"cost_type":"registration","amount":"50.0","recurrence":2,"description":"","other_id":"id_1"},
                     {"id":2,"cost_type":"meals","amount":"193.0","recurrence":1,"description":"Foo!","other_id":"id_2"}
@@ -24,18 +22,19 @@ describe("travelEstimateForm.vue", () => {
                     {label: 'other transit', value: 'transit_other'},
                     {label: 'train', value: 'train'}
                 ]
-            },
-            stubs: [
-                "input-text",
-                "input-select",
-                "input-button",
-                "lux-icon-denied",
-                "lux-icon-add",
-                "lux-icon-base",
-                "grid-container",
-                "grid-item",
-                "text-style",
-            ]
+            }, global: {
+                stubs: {
+                    "lux-input-button": true,
+                    "lux-icon-denied": true,
+                    "lux-icon-add": true,
+                    "lux-icon-base": true,
+                    "lux-grid-container": true,
+                    "lux-grid-item": true,
+                    "lux-text-style": true,
+                    "lux-input-text": true,
+                    "lux-input-select": true
+                },
+            }
         });
     });
 

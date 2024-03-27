@@ -50,15 +50,17 @@ RSpec.feature "My Requests", type: :feature, js: true do
     expect(page).to have_content "Vacation (15.5 hours) October 13, 2019 October 14, 2019 Approved Sally Smith ITIMS October 20, 2019"
     expect(page).to have_content "Vacation (10.3 hours) October 12, 2019 October 13, 2019 Pending Pat Doe ITIMS"
 
-    select_drop_down(menu: "#status-menu", item: "Approved")
+    click_on "Status"
+    click_on "Approved"
     assert_selector ".my-request tr", count: 5 # header row included in count
-
-    select_drop_down(menu: "#request-type-menu", item: "Travel")
+    click_on "Request type"
+    click_on "Travel"
     assert_selector ".my-request tr", count: 3 # header row included in count
 
     click_link("Status: Approved")
     assert_selector ".my-request tr", count: 4
-
+    # The date range is not currently actually being filled in
+    # You can verify this by turning off "headless" mode and running the test with a byebug after the next line
     fill_in "dateRange", with: "10/10/2019 - 10/25/2019"
     click_on "Filter by Date"
     assert_selector ".my-request tr", count: 2

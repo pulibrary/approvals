@@ -1,4 +1,4 @@
-<dropdown-menu type="links" id="request-type-menu" button-label="<%= current_request_type_filter_label %>" :menu-items="[
+<lux-dropdown-menu type="links" id="request-type-menu" button-label="<%= current_request_type_filter_label %>" :menu-items="[
   <% filters.each do |parent_key, data| %>
     {name: '<%= parent_key %>', component: '<%= parent_key %>', href: '<%= data[:url] %>', children: [
       <% data[:children].each do |key, url| %>
@@ -6,4 +6,4 @@
       <% end %>
     ]},
   <% end %>
-]"></dropdown-menu>
+]"></lux-dropdown-menu>
