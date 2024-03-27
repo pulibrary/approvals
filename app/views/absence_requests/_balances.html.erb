@@ -5,17 +5,17 @@
         <lux-icon-base icon-name="vacation"><lux-icon-vacation></lux-icon-vacation></lux-icon-base>
         Vacation
       </heading>
-      <text-style><%= vacation_balance.round(2) %>  Hours</text-style>
+      <text-style><%= vacation_balance&.round(2) %>  Hours</text-style>
       <heading level="h3" size="h4">
         <lux-icon-base icon-name="relax"><lux-icon-relax></lux-icon-relax></lux-icon-base>
         Personal
       </heading>
-      <text-style><%= personal_balance.round(2) %> Hours</text-style>
+      <text-style><%= personal_balance&.round(2) %> Hours</text-style>
       <heading level="h3" size="h4">
       <lux-icon-base icon-name="hospital">
         <lux-icon-hospital></lux-icon-hospital></lux-icon-base>
         Sick
       </heading>
-      <text-style><%= sick_balance.round(2) %> Hours</text-style>
+      <text-style><%= sick_balance&.round(2) %> Hours</text-style>
     </card-content>
   </card>
