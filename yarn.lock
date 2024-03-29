@@ -4378,15 +4378,16 @@ lru-cache@^6.0.0:
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.0.3.tgz#b40014d7d2d16d94130b87297a04a1f24874ae7c"
   integrity sha512-B7gr+F6MkqB3uzINHXNctGieGsRTMwIBgxkp0yq/5BwcuDzD4A8wQpHQW6vDAm1uKSLQghmRdD9sKqf2vJ1cEg==
 
-lux-design-system@^5.0.0-beta.2:
-  version "5.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/lux-design-system/-/lux-design-system-5.0.0-beta.2.tgz#32582b8824f7d6d518da037a3188df27628349e4"
-  integrity sha512-J39KMYcwu0zcLxsyljLgs18KPxUoKZwxqkUNoYsdeDkrfCfjTwUtknDR7fyAQJ2S1GLepNdk9RabEPMv1XXH8Q==
+lux-design-system@^5.0.0-beta.3:
+  version "5.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/lux-design-system/-/lux-design-system-5.0.0-beta.3.tgz#19a45ca1809897747e6efa7d099895847cc620d9"
+  integrity sha512-EgPeOQOip/0llSDBHZjzgpG7ZDvln+c5U0t5F1IC2ztvzpyqXG/Wl9Txayp3ZdDg3yXrLggpBHhkdlJChj5TcQ==
   dependencies:
     core-js "^3.8.3"
     register-service-worker "^1.7.2"
     v-calendar "^3.1.2"
     vue-draggable-plus "^0.3.5"
+    vue-multiselect "^3.0.0-beta.3"
     vue3-cookies "^1.0.6"
     vuex "^4.0.0"
 
@@ -5850,6 +5851,11 @@ vue-eslint-parser@^9.4.0:
     esquery "^1.4.0"
     lodash "^4.17.21"
     semver "^7.3.6"
+
+vue-multiselect@^3.0.0-beta.3:
+  version "3.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/vue-multiselect/-/vue-multiselect-3.0.0-beta.3.tgz#b1348238a84c435582c3f46f2a9c045b29bb976c"
+  integrity sha512-P7Fx+ovVF7WMERSZ0lw6N3p4H4bnQ3NcaY3ORjzFPv0r/6lpIqvFWmK9Xnwze9mgAvmNV1foI1VWrBmjnfBTLQ==
 
 vue-screen-utils@^1.0.0-beta.13:
   version "1.0.0-beta.13"
