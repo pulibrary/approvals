@@ -12,7 +12,7 @@ RSpec.describe LocationLoader, type: :model do
       file.rewind
       file.close
       described_class.load(config_file: file.path)
-      expect(Location.all.map(&:building)).to eq(["Firestone Library", "Other Library"])
+      expect(Location.all.map(&:building)).to contain_exactly("Firestone Library", "Other Library")
       file.unlink
     end
 
