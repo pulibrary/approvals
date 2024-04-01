@@ -15,37 +15,45 @@
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-import Vue from "vue/dist/vue.esm";
-import system from "lux-design-system";
-import "lux-design-system/dist/system/system.css";
-import "lux-design-system/dist/system/tokens/tokens.scss";
+import {createApp} from "vue";
+import lux from "lux-design-system";
+import "lux-design-system/dist/style.css";
 import eventDateModal from "../components/eventDateModal.vue";
 import eventTitleInputWrapper from "../components/eventTitleInputWrapper.vue";
 import hoursCalculator from "../components/hoursCalculator.vue";
 import travelEstimateForm from "../components/travelEstimateForm.vue";
 import travelRequestButton from "../components/travelRequestButton.vue";
 import travelRequestDatePickers from "../components/travelRequestDatePickers.vue";
-import Rails from '@rails/ujs';
 import '../../assets/stylesheets/application.scss';
 
-Vue.use(system);
+// We import Rails, because without it, the vite dev
+// server does not seem to have access to it.  However,
+// we don't call Rails.start(), since Rails seems to handle
+// that by itself.
+// eslint-disable-next-line no-unused-vars
+import Rails from "@rails/ujs";
 
-// create the LUX app and mount it to wrappers with class="lux"
+// Create a factory function that will create vue
+// apps, which we can then mount to any element with
+// the class .lux
+const app = createApp({});
+const createMyApp = () => createApp(app);
+
+// Rails.start();
+
 document.addEventListener("DOMContentLoaded", () => {
     const elements = document.getElementsByClassName("lux");
     for (let i = 0; i < elements.length; i++) {
-        new Vue({
-            el: elements[i],
-            components: {
-                'event-date-modal': eventDateModal,
-                'event-title-input-wrapper': eventTitleInputWrapper,
-                'hours-calculator': hoursCalculator,
-                'travel-estimate-form': travelEstimateForm,
-                'travel-request-button': travelRequestButton,
-                'travel-request-date-pickers': travelRequestDatePickers,
-            }
-        });
+        // Call our factory function, then add all the lux components
+        // and approvals components to it
+        createMyApp().use(lux)
+            .component('event-date-modal', eventDateModal)
+            .component('event-title-input-wrapper', eventTitleInputWrapper)
+            .component('hours-calculator', hoursCalculator)
+            .component('travel-estimate-form', travelEstimateForm)
+            .component('travel-request-button', travelRequestButton)
+            .component('travel-request-date-pickers', travelRequestDatePickers)
+            .mount(elements[i]);
     }
 });
 
-Rails.start();

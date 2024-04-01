@@ -1,13 +1,13 @@
-<card id="<%= delegator.id %>" size="full-width" class="delegate">
-  <card-media>
+<lux-card id="<%= delegator.id %>" size="full-width" class="delegate">
+  <lux-card-media>
     <lux-icon-base
       width="50"
       height="50"
       icon-color="rgb(65, 70, 78)"
     ><lux-icon-person></lux-icon-person></lux-icon-base>
-  </card-media>
-  <card-header>
-    <heading level="h2" size="h3"><hyperlink href="<%= assume_delegate_path(delegator) %>"><%= delegator.delegator %></hyperlink></heading>
-    <text-style><%= delegator.delegator.uid %></text-style>
-  </card-header>
-</card>
+  </lux-card-media>
+  <lux-card-header>
+    <lux-heading level="h2" size="h3"><lux-hyperlink href="<%= assume_delegate_path(delegator) %>"><%= delegator.delegator %></lux-hyperlink></lux-heading>
+    <lux-text-style><%= delegator.delegator.uid %></lux-text-style>
+  </lux-card-header>
+</lux-card>

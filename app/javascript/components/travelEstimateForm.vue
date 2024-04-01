@@ -1,65 +1,65 @@
 <template>
-  <grid-container class="expenses">
-    <grid-item
+  <lux-grid-container class="expenses">
+    <lux-grid-item
       columns="lg-12 sm-12"
       class="expense-row-header"
     >
-      <grid-container>
-        <grid-item
+      <lux-grid-container>
+        <lux-grid-item
           vertical="center"
           columns="lg-1 sm-12"
           class="expense-delete"
         >
-          <text-style>Delete</text-style>
-        </grid-item>
-        <grid-item
+          <lux-text-style>Delete</lux-text-style>
+        </lux-grid-item>
+        <lux-grid-item
           vertical="center"
           columns="lg-2 sm-12"
         >
-          <text-style id="expense-type-column">
+          <lux-text-style id="expense-type-column">
             Expense Type
-          </text-style>
-        </grid-item>
-        <grid-item
+          </lux-text-style>
+        </lux-grid-item>
+        <lux-grid-item
           vertical="center"
           columns="lg-1 sm-12"
         >
-          <text-style>Occurrences</text-style>
-        </grid-item>
-        <grid-item
+          <lux-text-style>Occurrences</lux-text-style>
+        </lux-grid-item>
+        <lux-grid-item
           vertical="center"
           columns="lg-2 sm-12"
         >
-          <text-style>Cost per Occurrence</text-style>
-        </grid-item>
-        <grid-item
+          <lux-text-style>Cost per Occurrence</lux-text-style>
+        </lux-grid-item>
+        <lux-grid-item
           vertical="center"
           columns="lg-4 sm-12"
         >
-          <text-style>Note</text-style>
-        </grid-item>
-        <grid-item
+          <lux-text-style>Note</lux-text-style>
+        </lux-grid-item>
+        <lux-grid-item
           vertical="center"
           columns="lg-2 sm-12"
         >
-          <text-style>Total</text-style>
-        </grid-item>
-      </grid-container>
-    </grid-item>
+          <lux-text-style>Total</lux-text-style>
+        </lux-grid-item>
+      </lux-grid-container>
+    </lux-grid-item>
 
-    <grid-item
+    <lux-grid-item
       v-for="expense in expenseData"
       :key="expense.id"
       columns="lg-12 sm-12"
       class="expense-row"
     >
-      <grid-container>
-        <grid-item
+      <lux-grid-container>
+        <lux-grid-item
           vertical="center"
           columns="lg-1 sm-12"
           class="expense-delete"
         >
-          <input-button
+          <lux-input-button
             class="button-delete-row"
             type="button"
             variation="text"
@@ -73,18 +73,18 @@
             >
               <lux-icon-denied />
             </lux-icon-base>
-          </input-button>
+          </lux-input-button>
           <input
             type="hidden"
             name="travel_request[estimates][][id]"
             :value="expense.id"
           >
-        </grid-item>
-        <grid-item
+        </lux-grid-item>
+        <lux-grid-item
           vertical="center"
           columns="lg-2 sm-12"
         >
-          <input-select
+          <lux-input-select
             :id="'travel_request_estimates_cost_type_' + expense.id"
             :ref="'expense_type'"
             label="Expense Type"
@@ -96,12 +96,12 @@
             hide-label
             @change="updateExpenseType($event, expense)"
           />
-        </grid-item>
-        <grid-item
+        </lux-grid-item>
+        <lux-grid-item
           vertical="center"
           columns="lg-1 sm-12"
         >
-          <input-text
+          <lux-input-text
             :id="'travel_request_estimates_recurrence_' + expense.id"
             label="Occurrences"
             name="travel_request[estimates][][recurrence]"
@@ -110,14 +110,14 @@
             width="expand"
             required
             hide-label
-            @input="updateRecurrence($event, expense)"
+            @inputvaluechange="updateRecurrence($event, expense)"
           />
-        </grid-item>
-        <grid-item
+        </lux-grid-item>
+        <lux-grid-item
           vertical="center"
           columns="lg-2 sm-12"
         >
-          <input-text
+          <lux-input-text
             :id="'travel_request_estimates_amount_' + expense.id"
             label="Cost per Occurrence"
             name="travel_request[estimates][][amount]"
@@ -127,14 +127,14 @@
             placeholder="$ 0.00"
             required
             hide-label
-            @input="updateAmount($event, expense)"
+            @inputvaluechange="updateAmount($event, expense)"
           />
-        </grid-item>
-        <grid-item
+        </lux-grid-item>
+        <lux-grid-item
           vertical="center"
           columns="lg-4 sm-12"
         >
-          <input-text
+          <lux-input-text
             :id="'travel_request_estimates_description_' + expense.id"
             label="Note"
             name="travel_request[estimates][][description]"
@@ -142,13 +142,13 @@
             width="expand"
             hide-label
           />
-        </grid-item>
-        <grid-item
+        </lux-grid-item>
+        <lux-grid-item
           vertical="center"
           columns="lg-2 sm-12"
           class="expense-total-col"
         >
-          <input-text
+          <lux-input-text
             :id="'travel_request_estimates_total_' + expense.id"
             label="Total"
             name="travel_request[estimates][][total]"
@@ -157,15 +157,15 @@
             disabled
             hide-label
           />
-        </grid-item>
-      </grid-container>
-    </grid-item>
+        </lux-grid-item>
+      </lux-grid-container>
+    </lux-grid-item>
 
-    <grid-item
+    <lux-grid-item
       columns="lg-11 sm-12"
       class="expense-add"
     >
-      <input-button
+      <lux-input-button
         id="add-expense-button"
         type="button"
         variation="text"
@@ -178,34 +178,34 @@
         >
           <lux-icon-add />
         </lux-icon-base> Add Expense
-      </input-button>
-    </grid-item>
+      </lux-input-button>
+    </lux-grid-item>
 
-    <grid-item columns="lg-12 sm-12">
+    <lux-grid-item columns="lg-12 sm-12">
       <hr>
-    </grid-item>
+    </lux-grid-item>
 
-    <grid-item
+    <lux-grid-item
       columns="lg-10 sm-12 auto"
       class="expense-total"
       :offset="true"
     >
-      <text-style variation="strong">
+      <lux-text-style variation="strong">
         Total:
-      </text-style>
-    </grid-item>
-    <grid-item
+      </lux-text-style>
+    </lux-grid-item>
+    <lux-grid-item
       columns="lg-2 sm-12"
       class="expense-total"
     >
-      <text-style
+      <lux-text-style
         id="expenses-total"
         variation="strong"
       >
         ${{ expensesTotal() }}
-      </text-style>
-    </grid-item>
-  </grid-container>
+      </lux-text-style>
+    </lux-grid-item>
+  </lux-grid-container>
 </template>
 
 <script>
@@ -239,10 +239,7 @@ export default {
             });
             this.$nextTick(() => {
                 const index = this.expenseData.length - 1;
-                const input = this.$refs.expense_type[index].$el;
-                if (typeof input.children[1] !== 'undefined'){
-                    input.children[1].focus();
-                }
+                this.$refs?.expense_type?.[index]?.focusSelect();
             });
         },
         deleteExpense(expense) {

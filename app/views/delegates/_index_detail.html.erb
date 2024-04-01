@@ -1,13 +1,13 @@
-<card id="<%= delegate.id %>" size="full-width" class="delegate">
-  <card-media>
+<lux-card id="<%= delegate.id %>" size="full-width" class="delegate">
+  <lux-card-media>
     <%= link_to delegate, method: :delete do %>
       <lux-icon-base width="50" height="50" icon-name="Remove Delegate" icon-color="red">
         <lux-icon-denied></lux-icon-denied>
       </lux-icon-base>
     <% end %>
-  </card-media>
-  <card-header>
-    <heading level="h2" size="h3"><%= delegate.delegate %></heading>
-    <text-style><%= delegate.delegate.uid %></text-style>
-  </card-header>
-</card>
+  </lux-card-media>
+  <lux-card-header>
+    <lux-heading level="h2" size="h3"><%= delegate.delegate %></lux-heading>
+    <lux-text-style><%= delegate.delegate.uid %></lux-text-style>
+  </lux-card-header>
+</lux-card>

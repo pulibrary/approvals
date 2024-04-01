@@ -1,21 +1,21 @@
-  <card id="<%= travel_request.id %>" size="full-width">
-    <card-media>
+  <lux-card id="<%= travel_request.id %>" size="full-width">
+    <lux-card-media>
       <lux-icon-base
         width="50"
         height="50"
         icon-color="rgb(65, 70, 78)"
       ><<%= travel_request.travel_category_icon %> /></lux-icon-base>
-    </card-media>
-    <card-header>
-      <heading level="h2" size="h3"><hyperlink href="<%= travel_request_path(travel_request.to_model)%>" class="event-title"><%= travel_request.event_title %></hyperlink></heading>
-      <text-style class="event-dates"><%= travel_request.formatted_full_start_date %> to <%= travel_request.formatted_full_end_date %></text-style>
-    </card-header>
-    <card-content class="right-align">
-      <tag type="tag" :tag-items="[
+    </lux-card-media>
+    <lux-card-header>
+      <lux-heading level="h2" size="h3"><lux-hyperlink href="<%= travel_request_path(travel_request.to_model)%>" class="event-title"><%= travel_request.event_title %></lux-hyperlink></lux-heading>
+      <lux-text-style class="event-dates"><%= travel_request.formatted_full_start_date %> to <%= travel_request.formatted_full_end_date %></lux-text-style>
+    </lux-card-header>
+    <lux-card-content class="right-align">
+      <lux-tag type="tag" :tag-items="[
         {name: '<%= travel_request.latest_status %>', color: '<%= travel_request.status_color %>'}
         ]"
         horizontal="end"
-        size="small"></tag>
-      <text-style type="span" variation="small"><%= travel_request.latest_status_date %></text-style>
-    </card-content>
-  </card>
+        size="small"></lux-tag>
+      <lux-text-style type="span" variation="small"><%= travel_request.latest_status_date %></lux-text-style>
+    </lux-card-content>
+  </lux-card>

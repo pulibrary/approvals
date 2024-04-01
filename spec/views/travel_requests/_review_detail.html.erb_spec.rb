@@ -11,7 +11,7 @@ RSpec.describe "travel_requests/_review_detail", type: :view, js: true do
           allow(view).to receive(:travel_request).and_return(travel_request)
           render
         end
-        virtual_badge = Capybara::Node::Simple.new(rendered).all("tag")[1]
+        virtual_badge = Capybara::Node::Simple.new(rendered).all("lux-tag")[1]
         expect(virtual_badge[":tag-items"]).to include("{name: 'Virtual', color: 'green'}")
       end
     end
@@ -22,7 +22,7 @@ RSpec.describe "travel_requests/_review_detail", type: :view, js: true do
           allow(view).to receive(:travel_request).and_return(travel_request)
           render
         end
-        in_person_badge = Capybara::Node::Simple.new(rendered).all("tag")[1]
+        in_person_badge = Capybara::Node::Simple.new(rendered).all("lux-tag")[1]
         expect(in_person_badge[":tag-items"]).to include("{name: 'In-person', color: 'blue'}")
       end
     end
@@ -33,7 +33,7 @@ RSpec.describe "travel_requests/_review_detail", type: :view, js: true do
           allow(view).to receive(:travel_request).and_return(travel_request)
           render
         end
-        expect(Capybara::Node::Simple.new(rendered).all("tag").count).to eq(1)
+        expect(Capybara::Node::Simple.new(rendered).all("lux-tag").count).to eq(1)
       end
     end
   end

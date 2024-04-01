@@ -10,9 +10,9 @@ RSpec.describe "delegates/to_assume", type: :view do
 
   it "renders a list of delegates" do
     render
-    assert_select "card-header", text: /^#{delegate1.delegator}*/, count: 1
-    assert_select "card-header", text: /#{delegate1.delegator.uid}/, count: 1
-    assert_select "card-header", text: /^#{delegate2.delegator}*/, count: 1
-    assert_select "card-header", text: /#{delegate2.delegator.uid}/, count: 1
+    assert_select "lux-card-header", text: /^#{delegate1.delegator}*/, count: 1
+    assert_select "lux-card-header", text: /#{delegate1.delegator.uid}/, count: 1
+    assert_select "lux-card-header", text: /^#{delegate2.delegator}*/, count: 1
+    assert_select "lux-card-header", text: /#{delegate2.delegator.uid}/, count: 1
   end
 end

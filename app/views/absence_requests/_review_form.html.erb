@@ -1,46 +1,46 @@
 <div >
 
   <%= form_with(model: request_change_set.model, local: true, url: decide_absence_request_path(request_change_set.model), method: :put) do |form| %>
-    <grid-container>
+    <lux-grid-container>
       <% if request_change_set.errors.any? %>
         <%=render 'errors', request_change_set: request_change_set%>
       <% end %>
 
 
-      <grid-item columns="lg-12 sm-12" order="order-lg-1">
+      <lux-grid-item columns="lg-12 sm-12" order="order-lg-1">
             <%= render 'title_card', request: request_change_set %>      
-      </grid-item>
+      </lux-grid-item>
 
-      <grid-item columns="lg-6 sm-12" order="order-lg-2 order-sm-3">
+      <lux-grid-item columns="lg-6 sm-12" order="order-lg-2 order-sm-3">
         <%= render 'notes_card', request: request_change_set, render_edit: true %>      
-      </grid-item>
-      <grid-item columns="lg-6 sm-12" order="order-lg-3 order-sm-2">
-        <card size="full-width">
-          <card-content>
-              <text-style variation="strong">Team members absent during this time period</text-style>
+      </lux-grid-item>
+      <lux-grid-item columns="lg-6 sm-12" order="order-lg-3 order-sm-2">
+        <lux-card size="full-width">
+          <lux-card-content>
+              <lux-text-style variation="strong">Team members absent during this time period</lux-text-style>
               <ul class="staff"><%=  render partial: "shared/absent_staff", collection: request_change_set.absent_staff, as: :staff %></ul>
-          </card-content>
-        </card>
+          </lux-card-content>
+        </lux-card>
         <%= render 'balances', balance_title: request_change_set.balance_title, 
                               vacation_balance:  request_change_set.vacation_balance,
                               personal_balance: request_change_set.personal_balance,
                               sick_balance: request_change_set.sick_balance  %>
 
-      </grid-item>
+      </lux-grid-item>
 
-      <grid-item columns="lg-12 sm-12" order="order-lg-4 order-sm-4">
-        <card size="full-width">
-          <card-content>
+      <lux-grid-item columns="lg-12 sm-12" order="order-lg-4 order-sm-4">
+        <lux-card size="full-width">
+          <lux-card-content>
             <%if action == 'review' %>
-              <input-button type="submit" variation="solid" name="approve">Approve</input-button>
-              <input-button type="submit" variation="solid" name="deny">Deny</input-button>
+              <lux-input-button type="submit" variation="solid" name="approve">Approve</lux-input-button>
+              <lux-input-button type="submit" variation="solid" name="deny">Deny</lux-input-button>
             <% else %>
-              <input-button type="submit" variation="solid" name="comment">Comment</input-button>
+              <lux-input-button type="submit" variation="solid" name="comment">Comment</lux-input-button>
             <% end %>
-          </card-content>
-        </card>
-      </grid-item>
+          </lux-card-content>
+        </lux-card>
+      </lux-grid-item>
 
-  </grid-container>
+  </lux-grid-container>
 <% end %>
 </div>

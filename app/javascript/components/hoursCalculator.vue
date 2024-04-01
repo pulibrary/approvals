@@ -1,6 +1,6 @@
 <template>
   <div>
-    <date-picker
+    <lux-date-picker
       id="absence_request_date"
       name="absence_request[start_date]"
       label="Date range"
@@ -26,7 +26,7 @@
       :value="localEndDate"
     >
 
-    <input-text
+    <lux-input-text
       id="absence_request_hours_requested"
       name="absence_request[hours_requested]"
       width="expand"
@@ -34,7 +34,7 @@
       :helper="helperCaption"
       :value="localHoursRequested"
       required
-      @input="updateCaption($event)"
+      @inputvaluechange="updateCaption($event)"
     />
   </div>
 </template>
