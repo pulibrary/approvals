@@ -68,12 +68,10 @@ requests are not turned on in production.
 |9|Press 'Comment' button|The form should display a notes area.|
 |10|Type your comment and press 'Comment' button.|The form should display your comment as the delegator's comment.|
 |11|Press 'Edit' button|The form should display in edit mode.|
-|12|Select 'Absence Type' and choose a different option|The new option should reflect in the select|
-|13|Select a different 'Date range'|The new date range should reflect in the input box|
-|14|Type a new value in 'Total hours requested'|The new value should reflect in the input box|
-|15|Type a comment in the 'Comments' area.|The comment should display in the Comments area|
-|16|Press 'Submit Request'|The Page should render the updated Request with the updated values|
-|17|Click the link on top of the screen 'Stop acting on <delegator's name> behalf.'|The application should direct you to your 'My Requests' page. The page should list only your requests and display 'You are now acting on your behalf' message|
+|12|Select a different 'Date range'|The new date range should reflect in the input box|
+|13|Type a new value in 'Total hours requested'|The new value should reflect in the input box|
+|14|Press 'Submit Request'|The Page should render the updated Request with the updated values|
+|15|Click the link on top of the screen 'Stop acting on <delegator's name> behalf.'|The application should direct you to your 'My Requests' page. The page should list only your requests and display 'You are now acting on your behalf' message|
 
 ### Travel request workflow
 
