@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js">
   <head>
-    <title>Absence and Travel Requests</title>
+    <title>Travel Requests</title>
     <script src="/no_flash.js"></script>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -12,7 +12,7 @@
   </head>
 
   <body class="lux">
-    <lux-library-header app-name="Absence and Travel Requests" abbr-name="LTR" app-url="<%= HomeURL.for(current_user: current_user) %>" :max-width=1440 theme="dark">
+    <lux-library-header app-name="Travel Requests" abbr-name="LTR" app-url="<%= HomeURL.for(current_user: current_user) %>" :max-width=1440 theme="dark">
       <lux-menu-bar type="main-menu" :menu-items="[
           <% if current_user %>
             {name: 'Requests', component: 'My Requests', children: [
