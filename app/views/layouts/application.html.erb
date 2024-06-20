@@ -12,7 +12,7 @@
   </head>
 
   <body class="lux">
-    <lux-library-header app-name="Travel Requests" abbr-name="LTR" app-url="<%= HomeURL.for(current_user: current_user) %>" :max-width=1440 theme="dark">
+    <lux-library-header app-name="Travel Requests" abbr-name="Travel Requests" app-url="<%= HomeURL.for(current_user: current_user) %>" :max-width=1440 theme="dark">
       <lux-menu-bar type="main-menu" :menu-items="[
           <% if current_user %>
             {name: 'Requests', component: 'My Requests', children: [
