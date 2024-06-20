@@ -8,7 +8,7 @@ RSpec.describe "welcome/index", type: :view do
       render
     end
     render
-    expect(rendered).to include("Absence and Travel Requests")
+    expect(rendered).to include("Travel Requests")
     expect(rendered).to have_selector("lux-hyperlink[href=\"/users/auth/cas\"]", text: "LOGIN with NetID")
   end
 
@@ -17,7 +17,7 @@ RSpec.describe "welcome/index", type: :view do
       allow(view).to receive(:current_user).and_return("abc")
       render
     end
-    expect(rendered).to include("Absence and Travel Requests")
+    expect(rendered).to include("Travel Requests")
     expect(rendered).to have_selector("lux-hyperlink[href=\"/sign_out\"]", text: "LOGOUT")
   end
 end
