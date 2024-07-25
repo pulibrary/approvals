@@ -17,7 +17,6 @@
 
 import {createApp} from "vue";
 import lux from "lux-design-system";
-import "lux-design-system/dist/style.css";
 import eventDateModal from "../components/eventDateModal.vue";
 import eventTitleInputWrapper from "../components/eventTitleInputWrapper.vue";
 import hoursCalculator from "../components/hoursCalculator.vue";
