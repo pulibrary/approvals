@@ -15,9 +15,9 @@
         <lux-heading id="no-delegates" level="h3" size="h3">You don't have any people you can become at the moment.</lux-heading>
       <% end %>
       <% @delegators.each do |delegator| %>
-        <%=  render 'assume_detail', delegator: delegator %>
+        <%= render 'assume_detail', delegator: delegator %>
       <% end %>
     </lux-grid-item>
   </lux-grid-container>
 </lux-wrapper>
-<br/>
+<br>

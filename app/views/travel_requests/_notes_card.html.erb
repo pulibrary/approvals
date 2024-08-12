@@ -9,15 +9,14 @@
       </ul>
 
   <% if render_edit %>
-    <lux-input-text id="travel_request_notes_content" name="travel_request[notes][content]" label="Notes" type="textarea" :maxlength=9999 rows="10" width="expand" value="<%= request.current_note%>" ></lux-input-text>
+    <lux-input-text id="travel_request_notes_content" name="travel_request[notes][content]" label="Notes" type="textarea" :maxlength=9999 rows="10" width="expand" value="<%= request.current_note %>"></lux-input-text>
     <lux-autocomplete-input
       id="travel_request_new_event_id"
       name="travel_request[new_event][id]"
       label="New Event Name"
       default-value=""
       :items="<%= TravelRequestChangeSet.recurring_event_list %>"
-      autocomplete="off"
-    ></lux-autocomplete-input>
+      autocomplete="off"></lux-autocomplete-input>
   <% end %>
   </lux-card-content>
 </lux-card>

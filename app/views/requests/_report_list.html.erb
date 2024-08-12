@@ -4,10 +4,10 @@
       <lux-card size="full-width" class="search-filter-sort">
         <lux-card-content>
           <lux-grid-container>
-            <%= render 'search_requests', search_path: search_path, current_query: params[:query]%>
+            <%= render 'search_requests', search_path: search_path, current_query: params[:query] %>
 
             <lux-grid-item columns="sm-12 auto">
-              <%= render 'status_filter', status_filter_urls: @requests.status_filter_urls, current_status_filter_label: @requests.current_status_filter_label%>
+              <%= render 'status_filter', status_filter_urls: @requests.status_filter_urls, current_status_filter_label: @requests.current_status_filter_label %>
 
               <%= render 'request_type_filter', current_request_type_filter_label: @requests.current_request_type_filter_label,
                                                 filters: @requests.request_type_filters %>
@@ -18,7 +18,7 @@
                   <% end %>
                 ]"></lux-dropdown-menu>
 
-              <%= render 'supervisor_filter', supervisor_filter_urls: @requests.supervisor_filter_urls(current_staff_profile: current_staff_profile), current_supervisor_filter_label: @requests.current_supervisor_filter_label%>
+              <%= render 'supervisor_filter', supervisor_filter_urls: @requests.supervisor_filter_urls(current_staff_profile: current_staff_profile), current_supervisor_filter_label: @requests.current_supervisor_filter_label %>
 
               <lux-dropdown-menu type="links" id="event-format-menu" button-label="<%= @requests.current_event_format_filter_label %>" :menu-items="[
                   <% @requests.event_format_filter_urls.each do |key, url| %>
@@ -30,7 +30,7 @@
             <lux-grid-item columns="sm-12 auto" class="date-filter">
               <%= render "date_filter", search_path: search_path, params_manager: @requests.params_manager %>
             </lux-grid-item>
-            <%= render 'sort_menu', current_sort_label: @requests.current_sort_label, sort_urls: @requests.sort_urls%>
+            <%= render 'sort_menu', current_sort_label: @requests.current_sort_label, sort_urls: @requests.sort_urls %>
 
           </lux-grid-container>
 
@@ -48,7 +48,7 @@
         <lux-heading id="no-results" level="h3" size="h3">No results found for your search</lux-heading>
       <% end %>
       <article class="full-width">
-          <lux-data-table caption="<%= @requests.data_table_heading%>"
+          <lux-data-table caption="<%= @requests.data_table_heading %>"
             :columns="[
               { 'name': 'request_type', 'display_name': 'Request', 'sortable': true},
               { 'name': 'start_date', 'datatype': 'date', 'display_name': 'Start Date', 'sortable': true},
@@ -59,7 +59,7 @@
               { 'name': 'event_format', 'display_name': 'Event format', 'sortable': true},
               { 'name': 'approval_date', 'display_name': 'Approval Date', 'sortable': true},
               { 'name': 'total', 'display_name': 'Total', 'sortable': true, datatype: 'currency'}]"
-            :json-data="<%= @requests.report_json %>"/>
+            :json-data="<%= @requests.report_json %>" />
       </article>
     </lux-grid-item>
   </lux-grid-container>

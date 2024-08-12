@@ -28,9 +28,9 @@
         <lux-heading id="no-delegates" level="h3" size="h3">You don't have any delegates at the moment.</lux-heading>
       <% end %>
       <% @delegates.each do |delegate| %>
-        <%=  render 'index_detail', delegate: delegate %>
+        <%= render 'index_detail', delegate: delegate %>
       <% end %>
     </lux-grid-item>
   </lux-grid-container>
 </lux-wrapper>
-<br/>
+<br>

@@ -5,7 +5,7 @@
       <lux-alert status="success" class="tip-card"><strong>Your <%= @request.title.downcase %> request has been approved.</strong> Please proceed with recording your absence in the <lux-hyperlink href="http://www.princeton.edu/hr/progserv/sds/applications/selfservice.html" target="_blank">HR Self Service system</lux-hyperlink> as soon as possible. Your supervisor will be confirming that you have reported this information at the end of the month.</lux-alert>
     </lux-grid-item>
     <% end %>
-      
+
     <lux-grid-item columns="lg-12 sm-12" order="order-lg-1">
       <%= render 'title_card', request: @request %>
     </lux-grid-item>
@@ -16,7 +16,7 @@
       <lux-card size="full-width">
         <lux-card-content>
             <lux-text-style variation="strong">Team members absent during this time period</lux-text-style>
-            <ul class="staff"><%=  render partial: "shared/absent_staff", collection: @request.absent_staff, as: :staff %></ul>
+            <ul class="staff"><%= render partial: "shared/absent_staff", collection: @request.absent_staff, as: :staff %></ul>
         </lux-card-content>
       </lux-card>
 

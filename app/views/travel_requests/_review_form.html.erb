@@ -1,11 +1,10 @@
-<div >
+<div>
 
   <%= form_with(model: request_change_set.model, local: true, url: decide_travel_request_path(request_change_set.model), method: :put) do |form| %>
     <lux-grid-container>
       <% if request_change_set.errors.any? %>
-        <%=render 'errors', request_change_set: request_change_set %>
+        <%= render 'errors', request_change_set: request_change_set %>
       <% end %>
-
 
       <lux-grid-item columns="lg-12 sm-12" order="order-lg-1">
             <%= render 'title_card', request: request_change_set %>
@@ -17,17 +16,12 @@
             <lux-heading level="h3" size="h5">
               Level of Participation
             </lux-heading>
-            <text-style variation="default"
-              ><%= request_change_set.participation.blank? ? 'Unknown' :
-              request_change_set.participation.humanize %></lux-text-style
-            >
+            <text-style variation="default"><%= request_change_set.participation.blank? ? 'Unknown' :
+              request_change_set.participation.humanize %></lux-text-style>
             <lux-heading level="h3" size="h5">
               Purpose
             </lux-heading>
-            <lux-text-style variation="default"
-              ><%= request_change_set.purpose.blank? ? 'Unknown' : request_change_set.purpose
-              %></lux-text-style
-            >
+            <lux-text-style variation="default"><%= request_change_set.purpose.blank? ? 'Unknown' : request_change_set.purpose %></lux-text-style>
             <% if current_staff_profile.department_head? && action == "review" %>
               <lux-heading level="h3" size="h5">
                 Travel Category
@@ -41,7 +35,7 @@
         </lux-card>
       </lux-grid-item>
       <lux-grid-item columns="lg-4 sm-12" order="order-lg-3">
-        <%= render 'others_card', event_attendees: request_change_set.event_attendees%>
+        <%= render 'others_card', event_attendees: request_change_set.event_attendees %>
       </lux-grid-item>
       <lux-grid-item columns="lg-4 sm-12" order="order-lg-4">
         <%= render 'team_absent_card', absent_staff: request_change_set.absent_staff(supervisor: current_staff_profile) %>

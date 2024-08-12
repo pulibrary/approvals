@@ -1,9 +1,8 @@
   <%= form_with(model: request_change_set.model, local: true) do |form| %>
     <lux-grid-container>
       <% if request_change_set.errors.any? %>
-        <%=render 'errors', request_change_set: request_change_set%>
+        <%= render 'errors', request_change_set: request_change_set %>
       <% end %>
-
 
       <lux-grid-item columns="lg-3 sm-12">
         <lux-input-select label="Absence type" name="absence_request[absence_type]"
@@ -11,18 +10,17 @@
                       width="expand"
                       value="<%= request_change_set.absence_type %>"
                       :options="<%= request_change_set.absence_type_options.to_json %>"
-                      required=true
-        ></lux-input-select>
+                      required=true></lux-input-select>
 
         <hours-calculator start-date="<%= request_change_set.start_date_js %>"
                           end-date="<%= request_change_set.end_date_js %>"
                           <% if request_change_set.hours_requested %>
                             :hours-requested="<%= request_change_set.hours_requested %>"
                           <% else %>
-                            :hours-requested="<%= request_change_set.hours_per_day(current_staff_profile)%>"
+                            :hours-requested="<%= request_change_set.hours_per_day(current_staff_profile) %>"
                           <% end %>
-                          :holidays="<%=request_change_set.holidays %>"
-                          hours-per-day=<%= request_change_set.hours_per_day(current_staff_profile)%>>
+                          :holidays="<%= request_change_set.holidays %>"
+                          hours-per-day="<%= request_change_set.hours_per_day(current_staff_profile) %>">
         </hours-calculator>
       </lux-grid-item>
 
@@ -30,7 +28,7 @@
           <%= render 'balances', balance_title: request_change_set.balance_title,
                             vacation_balance:  request_change_set.vacation_balance,
                             personal_balance: request_change_set.personal_balance,
-                            sick_balance: request_change_set.sick_balance  %>
+                            sick_balance: request_change_set.sick_balance %>
 
       </lux-grid-item>
 

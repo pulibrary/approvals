@@ -9,7 +9,7 @@
       <tr>
         <td style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #001123;">
           <p style="margin: 0 0 30px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #333333;">The following request was submitted by <%= @request.creator %> on <%= @request.formatted_created_at %>.  <%= @request.latest_state_change_title %> <%= @request.previous_state_change_title %> Please review the full details of the request on the <a href="<%= @request.show_path %>" style="text-decoration: underline; color: #333333;font-weight: bold;">Absence and Travel Request</a> system.</p>
-          
+
           <%= render "mailer/review_details" %>
         </td>
       </tr>

@@ -3,11 +3,12 @@
     <lux-icon-base
       width="50"
       height="50"
-      icon-color="rgb(65, 70, 78)"
-    ><<%= absence_request.absence_type_icon %> /></lux-icon-base>
+      icon-color="rgb(65, 70, 78)">
+      <%= content_tag(absence_request.absence_type_icon) %>
+  </lux-icon-base>
   </lux-card-media>
   <lux-card-header>
-    <lux-heading level="h2" size="h3"><lux-hyperlink href="<%= review_absence_request_path(absence_request.to_model)%>"><%= absence_request.creator %> - <%= absence_request.event_title_brief %></lux-hyperlink></lux-heading>
+    <lux-heading level="h2" size="h3"><lux-hyperlink href="<%= review_absence_request_path(absence_request.to_model) %>"><%= absence_request.creator %> - <%= absence_request.event_title_brief %></lux-hyperlink></lux-heading>
     <lux-text-style><%= absence_request.formatted_full_start_date %> to <%= absence_request.formatted_full_end_date %></lux-text-style>
   </lux-card-header>
   <lux-card-content>

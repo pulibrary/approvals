@@ -9,29 +9,24 @@
           <lux-heading level="h3" size="h5">
             Level of Participation
           </lux-heading>
-          <lux-text-style variation="default"
-            ><%= @request.participation.blank? ? 'Unknown' :
+          <lux-text-style variation="default"><%= @request.participation.blank? ? 'Unknown' :
             @request.participation.humanize %></lux-text-style>
           <lux-heading level="h3" size="h5">
             Purpose
           </lux-heading>
-          <lux-text-style variation="default"
-            ><%= @request.purpose.blank? ? 'Unknown' : @request.purpose
-            %></lux-text-style>
+          <lux-text-style variation="default"><%= @request.purpose.blank? ? 'Unknown' : @request.purpose %></lux-text-style>
           <lux-heading level="h3" size="h5">
             Travel Category
           </lux-heading>
-          <lux-text-style variation="default"
-            ><%= @request.travel_category.blank? ? 'Unknown' : @request.travel_category
-            %></lux-text-style>
+          <lux-text-style variation="default"><%= @request.travel_category.blank? ? 'Unknown' : @request.travel_category %></lux-text-style>
         </lux-card-content>
       </lux-card>
     </lux-grid-item>
     <lux-grid-item columns="lg-4 sm-12" order="order-lg-3">
-      <%= render 'others_card', event_attendees: @request.event_attendees%>
+      <%= render 'others_card', event_attendees: @request.event_attendees %>
     </lux-grid-item>
     <lux-grid-item columns="lg-4 sm-12" order="order-lg-4">
-      <%= render 'team_absent_card', absent_staff: @request.absent_staff(supervisor: current_staff_profile)%>
+      <%= render 'team_absent_card', absent_staff: @request.absent_staff(supervisor: current_staff_profile) %>
     </lux-grid-item>
     <lux-grid-item columns="lg-4 sm-12" order="order-lg-5 order-sm-6">
       <%= render 'notes_card', request: @request, render_edit: false %>

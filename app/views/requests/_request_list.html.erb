@@ -4,14 +4,14 @@
       <lux-card size="full-width" class="search-filter-sort">
         <lux-card-content>
           <lux-grid-container>
-            <%= render 'search_requests', search_path: search_path, current_query: params[:query]%>
+            <%= render 'search_requests', search_path: search_path, current_query: params[:query] %>
 
             <lux-grid-item columns="sm-12 auto">
               <% if show_status %>
-                <%= render 'status_filter', status_filter_urls: @requests.status_filter_urls, current_status_filter_label: @requests.current_status_filter_label%>
+                <%= render 'status_filter', status_filter_urls: @requests.status_filter_urls, current_status_filter_label: @requests.current_status_filter_label %>
               <% end %>
 
-              <%= render 'request_type_filter', current_request_type_filter_label: @requests.current_request_type_filter_label, 
+              <%= render 'request_type_filter', current_request_type_filter_label: @requests.current_request_type_filter_label,
                                                 filters: @requests.request_type_filters %>
             </lux-grid-item>
 

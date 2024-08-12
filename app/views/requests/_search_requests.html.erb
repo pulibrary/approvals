@@ -1,8 +1,8 @@
 <lux-grid-item columns="lg-12 sm-12">
   <%= form_tag(search_path, method: :get) do %>
     <lux-search-box>
-      <lux-input-text id="query" name="query" value="<%= current_query%>" :hide-label=true label="search" placeholder="Search title, notes, and creator..."></lux-input-text>
-      <lux-input-button type="submit" id="search" variation="icon" icon="search" aria-label="submit search"></lux-input-button>
+      <lux-input-text id="query" name="query" value="<%= current_query %>" :hide-label=true label="search" placeholder="Search title, notes, and creator..."></lux-input-text>
+      <lux-input-button type="submit" id="search" variation="icon" icon="search" aria-label="Submit search"></lux-input-button>
     </lux-search-box>
   <% end %>
 </lux-grid-item>

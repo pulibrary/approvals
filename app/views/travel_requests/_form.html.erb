@@ -1,7 +1,7 @@
 
 <%= form_with(model: request_change_set.model, local: true, class: "travel-form") do |form| %>
 <% if request_change_set.errors.any? %>
-  <%=render 'errors', request_change_set: request_change_set %>
+  <%= render 'errors', request_change_set: request_change_set %>
 <% end %>
 <lux-grid-container>
   <lux-grid-item columns="lg-12 sm-12">
@@ -16,8 +16,7 @@
           <% if request_change_set.event_name.present? %>
             default-value="<%= request_change_set.event_name %>"
           <% end %>
-          :items="<%= request_change_set.recurring_event_list %>"
-          ></event-title-input-wrapper>
+          :items="<%= request_change_set.recurring_event_list %>"></event-title-input-wrapper>
 
         <lux-input-select label="Event Format" name="travel_request[virtual_event]"
           id="travel_request_event_format" width="expand"
@@ -35,8 +34,8 @@
             start: null,
           end: new Date(<%= Date.current.year %>, <%= Date.current.month - 1 %>, <%= Date.current.day %>)
           }]"
-          :event_dates="<%=request_change_set.event_dates_js%>"
-          :travel_dates="<%=request_change_set.travel_dates_js%>"
+          :event_dates="<%= request_change_set.event_dates_js %>"
+          :travel_dates="<%= request_change_set.travel_dates_js %>"
           :today="new Date(<%= Date.current.year %>, <%= Date.current.month - 1 %>, <%= Date.current.day %>)">
         </travel-request-date-pickers>
 
