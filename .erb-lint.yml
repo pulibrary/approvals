@@ -1,0 +1,14 @@
+---
+EnableDefaultLinters: true
+exclude:
+  - '**/vendor/**/*'
+  - '**/node_modules/**/*'
+inherit_gem:
+  erblint-github:
+    - config/accessibility.yml
+# linters:
+#   Rubocop:
+#     enabled: true
+#     rubocop_config:
+#       inherit_from:
+#         - .rubocop.yml

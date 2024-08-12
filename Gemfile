@@ -47,6 +47,8 @@ gem "honeybadger"
 group :development, :test do
   gem "bixby"
   gem "byebug", platforms: %i[mri mingw x64_mingw]
+  gem "erb_lint", require: false
+  gem "erblint-github"
   gem "pry"
   gem "pry-byebug"
 end
