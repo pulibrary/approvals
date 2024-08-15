@@ -85,7 +85,7 @@ Note: these steps must be completed on a non-production environment, to prevent 
 |---|---|---|
 |1|Without an active session, go to [the application](https://approvals-staging.princeton.edu/)|The application has a button to Login with NetID|
 |2|Press "LOGIN with NetID" button and login with CAS credentials|You are taken to the My Requests page|
-|3|Press "New travel request" button|You see a form with even info and expenses|
+|3|Press "New travel request" button|You see a form with event info and expenses|
 |4|In the Event Name field, type "Test Event 360"|Below the Event Name field you will see a message saying there appears to be a date in the field|
 |5|In the Location field, type "Princeton, NJ"|The form will show the entered value|
 |6|Select an Event Format|The form shows that you have selected the appropriate Event Format|
