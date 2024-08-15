@@ -5,7 +5,7 @@ class CommonRequestController < ApplicationController
   # GET
   def show
     # you may view the request only if you are the creator, or you are allowed to review the request
-    if allowed_to_review || current_staff_profile == @request.creator
+    if allowed_to_review || allowed_read_only || current_staff_profile == @request.creator
       @request = request_decorator_class.new(@request)
 
     else
@@ -129,6 +129,10 @@ class CommonRequestController < ApplicationController
 
     def allowed_to_review
       @allowed_to_review ||= @request.only_supervisor(agent: current_staff_profile)
+    end
+
+    def allowed_read_only
+      @allowed_read_only ||= @request.creator.department.admin_assistants&.include? current_staff_profile
     end
 
     def process_notes(notes)

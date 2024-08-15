@@ -90,6 +90,21 @@ RSpec.describe TravelRequestsController, type: :controller do
       assert_equal travel_request, assigns(:request).to_model
     end
 
+    context "when logged in as a department assistant" do
+      before do
+        staff_profile = FactoryBot.create :staff_profile, :with_department
+        @travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
+        admin_assistant = staff_profile.department.admin_assistants.first
+        sign_in admin_assistant.user
+      end
+
+      it "returns a success response for the creator's deparment assistant" do
+        get :show, params: { id: @travel_request.to_param }, session: valid_session
+        expect(response).to be_successful
+        assert_equal @travel_request, assigns(:request).to_model
+      end
+    end
+
     it "can not show a request created by another user" do
       travel_request = FactoryBot.create(:travel_request)
       get :show, params: { id: travel_request.to_param }, session: valid_session
