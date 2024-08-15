@@ -47,8 +47,6 @@ gem "honeybadger"
 group :development, :test do
   gem "bixby"
   gem "byebug", platforms: %i[mri mingw x64_mingw]
-  gem "pry"
-  gem "pry-byebug"
 end
 
 group :development do
