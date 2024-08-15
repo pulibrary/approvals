@@ -34,7 +34,7 @@
       :helper="helperCaption"
       :value="localHoursRequested"
       required
-      @inputvaluechange="updateCaption($event)"
+      @update:value="updateCaption($event)"
     />
   </div>
 </template>
