@@ -18,5 +18,12 @@ RSpec.describe User, type: :model do
     it "returns a user object" do
       expect(described_class.from_cas(access_token)).to be_a described_class
     end
+
+    describe "when CAS returns the uid in all caps" do
+      let(:access_token) { OmniAuth::AuthHash.new(provider: "cas", uid: "WHO") }
+      it "returns a user object" do
+        expect(described_class.from_cas(access_token)).to be_a described_class
+      end
+    end
   end
 end
