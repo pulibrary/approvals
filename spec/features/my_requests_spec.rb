@@ -8,8 +8,8 @@ RSpec.feature "My Requests", type: :feature, js: true do
   before do
     sign_in user
   end
-
-  scenario "I can filter my requests" do
+  # Re-enable this test after https://github.com/pulibrary/lux-design-system/issues/348 is completed and added to Approvals
+  xscenario "I can filter my requests" do
     Timecop.freeze(Time.utc(2022))
 
     FactoryBot.create(:absence_request, creator: staff_profile, start_date: Date.parse("2019-10-12"), end_date: Date.parse("2019-10-13"))
@@ -50,8 +50,8 @@ RSpec.feature "My Requests", type: :feature, js: true do
 
     Timecop.return
   end
-
-  scenario "I can sort my requests" do
+  # Re-enable this test after https://github.com/pulibrary/lux-design-system/issues/348 is completed and added to Approvals
+  xscenario "I can sort my requests" do
     yesterday_request = FactoryBot.create(:absence_request, creator: staff_profile, start_date: Time.zone.yesterday)
     today_request = FactoryBot.create(:travel_request, creator: staff_profile, start_date: Time.zone.today)
     tomorrow_request = FactoryBot.create(:absence_request, creator: staff_profile, start_date: Time.zone.tomorrow)
