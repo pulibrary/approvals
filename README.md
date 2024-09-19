@@ -4,35 +4,22 @@ This is an application that allows the library to create workflows that allow st
 
 [![CircleCI](https://circleci.com/gh/pulibrary/approvals.svg?style=svg)](https://circleci.com/gh/pulibrary/approvals)
 
-## Ruby version
+## Running this application locally
 
-  3.0.0
-
-## System dependencies
-
-   * Postgres
-   * Node
-   * Yarn
-   * Rails
-   * Bundler
-
-## Configuration
-
-   * Bundle & Yarn install
-     ```
-     bundle install
-     yarn install
-     ```
-   
-## Database creation
-
-   * Run `bundle exec rake servers:start` to start a local postgres server, create, and migrate.
-   * seed the database
+1. `git clone git@github.com:pulibrary/approvals.git`
+2. `cd approvals`
+3. `asdf install`
+4. `bundle install`
+5. `yarn install`
+1. Run `bundle exec rake servers:start` to start a local postgres server, create, and migrate.
+1. seed the database
      ```
      bundle exec rake db:seed # you must be on the VPN for this step
      ```
    * `bundle exec rake db:seed` only creates accounts for users listed in the [Active Library Staff-Scheduled-en CSV](https://github.com/pulibrary/approvals/blob/main/Active%20Library%20Staff%20-%20Scheduled-en.csv) file.  If you are not yet listed in the file, you will have to add a row with your NetID in order to log
    in to the system later.
+
+## Additional rake tasks
    * There are additional rake tasks that allow you to create scenarios and requests in the system
      * make_me_a_department_head\[netid,number\]
         for example the following command will create a department for cac9 to be the head of and have 5 supervisors, each with 5 reports.
