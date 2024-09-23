@@ -1,0 +1,19 @@
+# Common large paths
+node_modules/
+vendor/
+*.min.js
+spec/
+
+# Semgrep rules folder
+.semgrep
+
+# Semgrep-action log folder
+.semgrep_logs/
+
+# Tickets to remediate these rules and remove from this list
+config/
+# https://github.com/pulibrary/approvals/issues/1194
+app/views/
+# https://github.com/pulibrary/approvals/issues/1195
+app/controllers/
+# https://github.com/pulibrary/approvals/issues/1196
