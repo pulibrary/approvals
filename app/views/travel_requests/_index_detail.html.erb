@@ -17,5 +17,13 @@
         horizontal="end"
         size="small"></lux-tag>
       <lux-text-style type="span" variation="small"><%= travel_request.latest_status_date %></lux-text-style>
+      <lux-card-content>
+    <div class="status <%= travel_request.status_color %>">
+      <lux-heading level="h2" size="h3"
+        ><lux-text-style variation="default">Trip ID</lux-text-style><%=
+        travel_request.id %></lux-heading
+      >
+    </div>
+  </lux-card-content>
     </lux-card-content>
   </lux-card>
