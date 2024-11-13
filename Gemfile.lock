@@ -152,6 +152,8 @@ GEM
     globalid (1.2.1)
       activesupport (>= 6.1)
     hashie (5.0.0)
+    health-monitor-rails (12.4.0)
+      railties (>= 6.1)
     high_voltage (4.0.0)
     honeybadger (5.15.5)
     i18n (1.14.6)
@@ -420,6 +422,7 @@ DEPENDENCIES
   ed25519
   factory_bot_rails
   faker
+  health-monitor-rails (= 12.4.0)
   high_voltage
   honeybadger
   jbuilder
