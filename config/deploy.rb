@@ -186,7 +186,7 @@ desc "Marks the server(s) to be removed from the loadbalancer"
   end
 end
 
-before "deploy:reverted", "deploy:assets:precompile"
+# before "deploy:reverted", "deploy:assets:precompile"
   # # We shouldn't need this because it should be built in to Rails 5.1
   # # see https://github.com/rails/webpacker/issues/1037
   # desc 'Run yarn install'
@@ -198,4 +198,4 @@ before "deploy:reverted", "deploy:assets:precompile"
   #   end
   # end
   # before "deploy:assets:precompile", "deploy:yarn_install"
-end
+# end
