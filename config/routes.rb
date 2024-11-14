@@ -3,6 +3,7 @@
 Rails.application.routes.draw do
   root "welcome#index"
   get "welcome/index"
+  mount HealthMonitor::Engine, at: "/"
 
   devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 

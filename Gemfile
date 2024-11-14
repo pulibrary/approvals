@@ -43,7 +43,7 @@ gem "kaminari"
 gem "high_voltage"
 
 # health monitor
-gem "health-monitor-rails", "12.4.0"
+gem "health-monitor-rails", "~> 12.4"
 
 gem "honeybadger"
 
