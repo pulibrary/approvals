@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -14,12 +15,12 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join('tmp', 'caching-dev.txt').exist?
+  if Rails.root.join("tmp", "caching-dev.txt").exist?
     config.action_controller.perform_caching = true
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      'Cache-Control' => "public, max-age=#{2.days.to_i}"
+      "Cache-Control" => "public, max-age=#{2.days.to_i}"
     }
   else
     config.action_controller.perform_caching = false
@@ -36,8 +37,8 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :address => "localhost", 
-    :port => 1025
+    address: "localhost",
+    port: 1025
   }
 
   # Print deprecation notices to the Rails logger.
@@ -53,8 +54,8 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # location of the staff report (assuming current directory)
-  config.staff_report_location = 'Active Library Staff - Scheduled-en.csv'
-  config.balance_report_location = 'Balances for Employees Enrolled in Absence Management - Library-en-us.csv'
+  config.staff_report_location = "Active Library Staff - Scheduled-en.csv"
+  config.balance_report_location = "Balances for Employees Enrolled in Absence Management - Library-en-us.csv"
 
-  Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+  Rails.application.routes.default_url_options[:host] = "localhost:3000"
 end

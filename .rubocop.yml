@@ -12,9 +12,6 @@ AllCops:
     - 'script/**/*'
     - 'vendor/**/*'
     - 'bin/*'
-    - 'config/deploy.rb'
-    - 'config/initializers/blacklight_url_helper_behavior.rb'
-    - 'config/environments/**/*'
     - 'node_modules/**/*'
 
 Layout/IndentationConsistency:
@@ -35,3 +32,6 @@ Metrics/BlockLength:
     - 'spec/**/*'
     - 'lib/tasks/approvals.rake'
     - 'config/routes.rb'
+    - config/environments/development.rb
+    - config/environments/production.rb
+    - config/environments/staging.rb
