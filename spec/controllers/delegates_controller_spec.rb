@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe DelegatesController, type: :controller do
@@ -10,7 +11,7 @@ RSpec.describe DelegatesController, type: :controller do
 
   let(:valid_session) { {} }
   let(:user) { FactoryBot.create :user }
-  let(:staff_profile) { FactoryBot.create :staff_profile, user: user }
+  let(:staff_profile) { FactoryBot.create :staff_profile, user: }
 
   before do
     staff_profile
@@ -48,7 +49,7 @@ RSpec.describe DelegatesController, type: :controller do
       end
     end
 
-    context "assume another's delegate " do
+    context "assume another's delegate" do
       it "returns a redirect response" do
         delegate = FactoryBot.create :delegate
         get :assume, params: { id: delegate.to_param }, session: valid_session
@@ -153,7 +154,7 @@ RSpec.describe DelegatesController, type: :controller do
       valid_session["approvals_delegate"] = delegate.id.to_s
       expect do
         delete :destroy, params: { id: delegate2.to_param }, session: valid_session
-      end.to change(Delegate, :count).by(0)
+      end.not_to change(Delegate, :count)
       expect(response).to redirect_to(my_requests_path)
       expect(response.headers["APPROVALS-DELEGATE"]).not_to eq delegate.to_s
       expect(flash[:error]).to eq "You can not modify delegations as a delegate"

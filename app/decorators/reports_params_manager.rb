@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 class ReportsParamsManager < ParamsManager
   def build_url(params)
-    Rails.application.routes.url_helpers.reports_path(params: params)
+    Rails.application.routes.url_helpers.reports_path(params:)
   end
 
   def current_sort

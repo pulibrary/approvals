@@ -1,7 +1,11 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 RSpec.describe ReportListDecorator, type: :model do
-  subject(:report_list_decorator) { described_class.new([FactoryBot.create(:absence_request)], params_hash: params_hash, params_manager_class: ReportsParamsManager) }
+  subject(:report_list_decorator) do
+ described_class.new([FactoryBot.create(:absence_request)], params_hash:, params_manager_class: ReportsParamsManager)
+  end
+
   let(:params_hash) { {} }
 
   describe "attributes relevant to list" do
@@ -88,7 +92,9 @@ RSpec.describe ReportListDecorator, type: :model do
     context "a sort has been applied, and a status and travel filter has been applied" do
       let(:sort) { "&sort=start_date_asc" }
       let(:travel_filter) { "filters%5Brequest_type%5D=travel&" }
-      let(:params_hash) { { "sort" => "start_date_asc", "filters" => { "request_type" => "travel", "status" => "approved" } } }
+      let(:params_hash) do
+ { "sort" => "start_date_asc", "filters" => { "request_type" => "travel", "status" => "approved" } }
+      end
 
       it "returns a list of status filter urls that include the travel filter, but not the old status filter" do
         expect(report_list_decorator.status_filter_urls).to eq(filters)
@@ -140,6 +146,7 @@ RSpec.describe ReportListDecorator, type: :model do
     context "a status filter and travel filter has been applied" do
       let(:status_filter) { "&filters%5Bstatus%5D=approved" }
       let(:params_hash) { { "filters" => { "request_type" => "travel", "status" => "approved" } } }
+
       it "returns a list of absence filter urls that include the status filter, but not the request type filter" do
         expect(report_list_decorator.absence_filter_urls).to eq(filters)
       end
@@ -147,14 +154,16 @@ RSpec.describe ReportListDecorator, type: :model do
   end
 
   describe "#travel_filter_url" do
-    it "returns an travel filter url " do
+    it "returns an travel filter url" do
       expect(report_list_decorator.travel_filter_url).to eq("/reports?filters%5Brequest_type%5D=travel")
     end
   end
 
   describe "#travel_filter_urls" do
     let(:business_filter) { "/reports?filters%5Brequest_type%5D=business#{status_filter}" }
-    let(:professional_development_filter) { "/reports?filters%5Brequest_type%5D=professional_development#{status_filter}" }
+    let(:professional_development_filter) do
+ "/reports?filters%5Brequest_type%5D=professional_development#{status_filter}"
+    end
 
     let(:status_filter) { "" }
     let(:filters) do
@@ -192,7 +201,9 @@ RSpec.describe ReportListDecorator, type: :model do
   end
 
   describe "#department_filter_urls" do
-    subject(:report_list_decorator) { described_class.new([FactoryBot.create(:absence_request)], params_hash: params_hash, params_manager_class: ReportsParamsManager) }
+    subject(:report_list_decorator) do
+ described_class.new([FactoryBot.create(:absence_request)], params_hash:, params_manager_class: ReportsParamsManager)
+    end
 
     let(:status_filter) { "" }
     let(:filters) do
@@ -219,6 +230,7 @@ RSpec.describe ReportListDecorator, type: :model do
     context "a status filter and travel filter has been applied" do
       let(:status_filter) { "&filters%5Brequest_type%5D=travel&filters%5Bstatus%5D=approved" }
       let(:params_hash) { { "filters" => { "request_type" => "travel", "status" => "approved" } } }
+
       it "returns a list of absence filter urls that include the status filter, but not the request type filter" do
         expect(report_list_decorator.department_filter_urls).to eq(filters)
       end
@@ -226,10 +238,13 @@ RSpec.describe ReportListDecorator, type: :model do
   end
 
   describe "#supervisor_filter_urls" do
-    subject(:report_list_decorator) { described_class.new([FactoryBot.create(:absence_request)], params_hash: params_hash, params_manager_class: ReportsParamsManager) }
+    subject(:report_list_decorator) do
+ described_class.new([FactoryBot.create(:absence_request)], params_hash:, params_manager_class: ReportsParamsManager)
+    end
+
     let(:supervisor) { FactoryBot.create :staff_profile, :with_department }
-    let(:mid_level) { FactoryBot.create :staff_profile, supervisor: supervisor }
-    let(:mid_level2) { FactoryBot.create :staff_profile, supervisor: supervisor }
+    let(:mid_level) { FactoryBot.create :staff_profile, supervisor: }
+    let(:mid_level2) { FactoryBot.create :staff_profile, supervisor: }
 
     let(:status_filter) { "" }
     let(:filters) do
@@ -263,6 +278,7 @@ RSpec.describe ReportListDecorator, type: :model do
     context "a status filter and travel filter has been applied" do
       let(:status_filter) { "filters%5Brequest_type%5D=travel&filters%5Bstatus%5D=approved&" }
       let(:params_hash) { { "filters" => { "request_type" => "travel", "status" => "approved" } } }
+
       it "returns a list of supervisor filter urls that include the status filter, and the request type filter" do
         expect(report_list_decorator.supervisor_filter_urls(current_staff_profile: supervisor.supervisor)).to eq(filters)
       end
@@ -270,7 +286,10 @@ RSpec.describe ReportListDecorator, type: :model do
 
     context "a status filter, travel filter and supervisor filter has been applied" do
       let(:status_filter) { "filters%5Brequest_type%5D=travel&filters%5Bstatus%5D=approved&" }
-      let(:params_hash) { { "filters" => { "request_type" => "travel", "status" => "approved", "supervisor" => mid_level.id } } }
+      let(:params_hash) do
+ { "filters" => { "request_type" => "travel", "status" => "approved", "supervisor" => mid_level.id } }
+      end
+
       it "returns a list of supervisor filter urls that include the status filter, and the request type filter" do
         expect(report_list_decorator.supervisor_filter_urls(current_staff_profile: supervisor.supervisor)).to eq(filters)
       end
@@ -284,6 +303,7 @@ RSpec.describe ReportListDecorator, type: :model do
 
     context "approved filter applied" do
       let(:params_hash) { { "filters" => { "status" => "approved" } } }
+
       it "returns a link to clear the approved status filter" do
         expect(report_list_decorator.filter_removal_urls).to eq("Status: Approved" => "/reports")
       end
@@ -291,6 +311,7 @@ RSpec.describe ReportListDecorator, type: :model do
 
     context "travel filter applied" do
       let(:params_hash) { { "filters" => { "request_type" => "travel" } } }
+
       it "returns a link to clear the approved status filter" do
         expect(report_list_decorator.filter_removal_urls).to eq("Request type: Travel" => "/reports")
       end
@@ -299,6 +320,7 @@ RSpec.describe ReportListDecorator, type: :model do
     context "department filter applied" do
       let(:department)  { FactoryBot.create :department }
       let(:params_hash) { { "filters" => { "department" => department.number } } }
+
       it "returns a link to clear the approved status filter" do
         expect(report_list_decorator.filter_removal_urls).to eq("Department: #{department.name}" => "/reports")
       end
@@ -307,6 +329,7 @@ RSpec.describe ReportListDecorator, type: :model do
     context "supervisor filter applied" do
       let(:supervisor) { FactoryBot.create :staff_profile, :with_department }
       let(:params_hash) { { "filters" => { "supervisor" => supervisor.id } } }
+
       it "returns a link to clear the approved status filter" do
         expect(report_list_decorator.filter_removal_urls).to eq("Supervisor: #{supervisor.full_name}" => "/reports")
       end
@@ -314,6 +337,7 @@ RSpec.describe ReportListDecorator, type: :model do
 
     context "approved and travel filter applied" do
       let(:params_hash) { { "filters" => { "status" => "approved", "request_type" => "travel" } } }
+
       it "returns a link to clear the approved status filter" do
         expect(report_list_decorator.filter_removal_urls).to eq(
           "Request type: Travel" => "/reports?filters%5Bstatus%5D=approved",
@@ -331,7 +355,9 @@ RSpec.describe ReportListDecorator, type: :model do
     end
 
     context "sort applied, approved and travel filter applied" do
-      let(:params_hash) { { "sort" => "start_date_desc", "filters" => { "status" => "approved", "request_type" => "travel" } } }
+      let(:params_hash) do
+ { "sort" => "start_date_desc", "filters" => { "status" => "approved", "request_type" => "travel" } }
+      end
 
       it "returns a link that retains the sort while removing the filter" do
         expect(report_list_decorator.filter_removal_urls).to eq(
@@ -357,7 +383,9 @@ RSpec.describe ReportListDecorator, type: :model do
   end
 
   describe "current_department_filter_label" do
-    subject(:report_list_decorator) { described_class.new([FactoryBot.create(:absence_request)], params_hash: params_hash, params_manager_class: ReportsParamsManager) }
+    subject(:report_list_decorator) do
+ described_class.new([FactoryBot.create(:absence_request)], params_hash:, params_manager_class: ReportsParamsManager)
+    end
 
     it "returns default when no filter is applied" do
       expect(report_list_decorator.current_department_filter_label).to eq("Department")
@@ -391,6 +419,7 @@ RSpec.describe ReportListDecorator, type: :model do
         "Date modified - descending" => updated_at_descending
       }
     end
+
     it "returns a list of sort urls" do
       expect(report_list_decorator.sort_urls).to eq sort_urls
     end
@@ -412,6 +441,7 @@ RSpec.describe ReportListDecorator, type: :model do
 
     context "when a sort param is provided" do
       let(:params_hash) { { "sort" => "updated_at_asc" } }
+
       it "returns desired string" do
         expect(report_list_decorator.current_sort_label).to eq("Sort: Date modified - ascending")
       end
@@ -425,6 +455,7 @@ RSpec.describe ReportListDecorator, type: :model do
 
     context "when a sort param is provided" do
       let(:params_hash) { { "sort" => "updated_at_asc" } }
+
       it "returns desired string" do
         expect(report_list_decorator.data_table_heading).to eq("All Requests Sorted By Date Modified Ascending")
       end
@@ -432,6 +463,7 @@ RSpec.describe ReportListDecorator, type: :model do
 
     context "when a filter params are provided" do
       let(:params_hash) { { "filters" => { "request_type" => "business", "status" => "approved" } } }
+
       it "returns desired string" do
         expect(report_list_decorator.data_table_heading).to eq("Approved Business Requests Sorted By Start Date Ascending")
       end
@@ -439,9 +471,13 @@ RSpec.describe ReportListDecorator, type: :model do
   end
 
   describe "#report_json" do
-    subject(:report_list_decorator) { described_class.new([absence_request.request, travel_request.request], params_hash: params_hash) }
+    subject(:report_list_decorator) do
+ described_class.new([absence_request.request, travel_request.request], params_hash:)
+    end
+
     let(:absence_request) { AbsenceRequestDecorator.new(FactoryBot.create(:absence_request, hours_requested: 7.25)) }
     let(:travel_request) { TravelRequestDecorator.new(FactoryBot.create(:travel_request)) }
+
     it "is a json array for an absence and travel request" do
       RSpec::Support::ObjectFormatter.default_instance.max_formatted_output_length = nil
       expect(report_list_decorator.report_json).to eq(
@@ -463,4 +499,3 @@ RSpec.describe ReportListDecorator, type: :model do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength

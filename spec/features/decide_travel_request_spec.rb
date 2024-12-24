@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
-RSpec.feature "Review Travel Request", type: :feature, js: true do
+RSpec.describe "Review Travel Request", type: :feature, js: true do
   let(:user) { FactoryBot.create :user }
   let(:department_head) do
     profile = FactoryBot.create :staff_profile, user: user, given_name: "Sally", surname: "Smith"
@@ -18,7 +19,9 @@ RSpec.feature "Review Travel Request", type: :feature, js: true do
       recurring_event: FactoryBot.build(:recurring_event, name: "Different test name")
     )
   end
-  let(:travel_request_with_target_event_name) { FactoryBot.create(:travel_request, event_requests: [event_with_target_name]) }
+  let(:travel_request_with_target_event_name) do
+ FactoryBot.create(:travel_request, event_requests: [event_with_target_name])
+  end
 
   let(:travel_request) { FactoryBot.create :travel_request, creator: staff_profile }
 
@@ -26,7 +29,7 @@ RSpec.feature "Review Travel Request", type: :feature, js: true do
     sign_in user
   end
 
-  scenario "I can approve a travel request" do
+  it "I can approve a travel request" do
     visit "/travel_requests/#{travel_request.id}/review"
     fill_in "travel_request_notes_content", with: "Make Changes"
 
@@ -51,7 +54,7 @@ RSpec.feature "Review Travel Request", type: :feature, js: true do
     expect(page).to have_content "Elephants Love Balloons"
   end
 
-  scenario "I can change the event title of a travel request" do
+  it "I can change the event title of a travel request" do
     travel_request_with_target_event_name
 
     visit "/travel_requests/#{travel_request.id}/review"
@@ -71,7 +74,7 @@ RSpec.feature "Review Travel Request", type: :feature, js: true do
     expect(page).to have_content "Approved"
   end
 
-  scenario "I cannot change the event title of a travel request to an empty string" do
+  it "I cannot change the event title of a travel request to an empty string" do
     visit "/travel_requests/#{travel_request.id}/review"
 
     expect(travel_request.event_title).to match(/Event \d* \d*, Location/)
@@ -83,7 +86,7 @@ RSpec.feature "Review Travel Request", type: :feature, js: true do
     expect(page).to have_content("is required to specify requested changes")
   end
 
-  scenario "I cannot change the event title of a travel request to an arbitrary string" do
+  it "I cannot change the event title of a travel request to an arbitrary string" do
     visit "/travel_requests/#{travel_request.id}/review"
 
     expect(travel_request.event_title).to match(/Event \d* \d*, Location/)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe AbsenceRequestChangeSet, type: :model do
@@ -148,7 +149,10 @@ RSpec.describe AbsenceRequestChangeSet, type: :model do
 
   describe "#validate" do
     context "with valid params" do
-      let(:valid_params) { { absence_type: "vacation", creator_id: 1, hours_requested: 8, start_date: Time.zone.now.to_date.to_s, end_date: Time.zone.tomorrow.to_date.to_s } }
+      let(:valid_params) do
+ { absence_type: "vacation", creator_id: 1, hours_requested: 8, start_date: Time.zone.now.to_date.to_s,
+   end_date: Time.zone.tomorrow.to_date.to_s }
+      end
 
       it "is valid" do
         expect(absence_request.validate(valid_params)).to be_truthy

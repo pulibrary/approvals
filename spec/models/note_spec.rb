@@ -1,13 +1,16 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Note, type: :model do
   describe "attributes" do
     subject(:note) { described_class.new }
+
     it { is_expected.to respond_to :creator }
     it { is_expected.to respond_to :content }
     it { is_expected.to respond_to :request }
   end
+
   describe "#all" do
     it "is ordered by created_by" do
       absence_request = FactoryBot.create :absence_request

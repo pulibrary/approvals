@@ -1,8 +1,11 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe RequestReport, type: :model do
-  let(:report) { described_class.new(start_date: "06/01/2022", end_date: "12/31/2022", file_path: file_path, approved_only: true) }
+  let(:report) do
+ described_class.new(start_date: "06/01/2022", end_date: "12/31/2022", file_path:, approved_only: true)
+  end
   let(:staff_member) { FactoryBot.create(:staff_profile, :with_department) }
   let(:request_one) do
     FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
@@ -59,14 +62,14 @@ RSpec.describe RequestReport, type: :model do
     end
 
     it "returns true if any request dates are within reporting period" do
-      expect(report.in_report_period?(just_right_request)).to eq(true)
-      expect(report.in_report_period?(end_in_reporting_period)).to eq(true)
-      expect(report.in_report_period?(beginning_in_reporting_period)).to eq(true)
+      expect(report.in_report_period?(just_right_request)).to be(true)
+      expect(report.in_report_period?(end_in_reporting_period)).to be(true)
+      expect(report.in_report_period?(beginning_in_reporting_period)).to be(true)
     end
 
     it "returns false if request dates are outside of reporting period" do
-      expect(report.in_report_period?(too_early_request)).to eq(false)
-      expect(report.in_report_period?(too_late_request)).to eq(false)
+      expect(report.in_report_period?(too_early_request)).to be(false)
+      expect(report.in_report_period?(too_late_request)).to be(false)
     end
   end
 
@@ -95,11 +98,13 @@ RSpec.describe RequestReport, type: :model do
         expect(first_row_hash["event_format"]).to eq("In-person")
       end
     end
+
     context "with two approved requests" do
       let(:request_two) do
         FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
                                                                     start_date: "2022-10-12", end_date: "2022-10-14")
       end
+
       before do
         request_one.approve!(agent: department_head)
         request_two.approve!(agent: department_head)
@@ -110,11 +115,13 @@ RSpec.describe RequestReport, type: :model do
         expect(opened_csv.length).to eq(2)
       end
     end
+
     context "with one approved and one not-approved request" do
       let(:request_two) do
         FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
                                                                     start_date: "2022-10-12", end_date: "2022-10-14")
       end
+
       before do
         request_one.approve!(agent: department_head)
         request_two
@@ -128,10 +135,14 @@ RSpec.describe RequestReport, type: :model do
       end
 
       context "with approved_only: false" do
-        let(:report) { described_class.new(start_date: "06/01/2022", end_date: "12/31/2022", file_path: file_path, approved_only: false) }
+        let(:report) do
+ described_class.new(start_date: "06/01/2022", end_date: "12/31/2022", file_path:, approved_only: false)
+        end
+
         it "adds both requests" do
           expect(opened_csv.length).to eq(2)
         end
+
         it "includes the correct status for the unapproved request" do
           expect(opened_csv[1]["status"]).to eq "pending"
         end
@@ -143,6 +154,7 @@ RSpec.describe RequestReport, type: :model do
         FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
                                                                     start_date: "2022-10-12", end_date: "2022-10-14")
       end
+
       before do
         request_one.approve!(agent: department_head)
         request_two.deny!(agent: department_head)
@@ -156,15 +168,20 @@ RSpec.describe RequestReport, type: :model do
       end
 
       context "with approved_only: false" do
-        let(:report) { described_class.new(start_date: "06/01/2022", end_date: "12/31/2022", file_path: file_path, approved_only: false) }
+        let(:report) do
+ described_class.new(start_date: "06/01/2022", end_date: "12/31/2022", file_path:, approved_only: false)
+        end
+
         it "adds both requests" do
           expect(opened_csv.length).to eq(2)
         end
+
         it "includes the correct status for the denied request" do
           expect(opened_csv[1]["status"]).to eq "denied"
         end
       end
     end
+
     context "with one request in reporting period and others not" do
       let(:too_early_request) do
         FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
@@ -174,21 +191,25 @@ RSpec.describe RequestReport, type: :model do
         FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
                                                                     start_date: "2023-04-08", end_date: "2023-04-11")
       end
+
       before do
         request_one.approve!(agent: department_head)
         too_early_request.approve!(agent: department_head)
         too_late_request.approve!(agent: department_head)
         created_csv
       end
+
       it "only adds the request in the reporting period" do
         expect(opened_csv.length).to eq(1)
       end
     end
+
     context "with a request without a start date" do
       let(:request_two) do
         FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
                                                                     start_date: nil, end_date: "2022-10-14")
       end
+
       before do
         request_one.approve!(agent: department_head)
         request_two.approve!(agent: department_head)
@@ -205,30 +226,36 @@ RSpec.describe RequestReport, type: :model do
         expect(opened_csv.length).to eq(1)
       end
     end
+
     context "with a request for a virtual event" do
       before do
         request_one.approve!(agent: department_head)
         created_csv
       end
+
       let(:request_one) do
         FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
                                                                     virtual_event: true,
                                                                     start_date: "2022-10-12", end_date: "2022-10-14")
       end
+
       it "adds Virtual to the event format column" do
         expect(first_row_hash["event_format"]).to eq("Virtual")
       end
     end
+
     context "with a request for an in-person event" do
       before do
         request_one.approve!(agent: department_head)
         created_csv
       end
+
       let(:request_one) do
         FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
                                                                     virtual_event: false,
                                                                     start_date: "2022-10-12", end_date: "2022-10-14")
       end
+
       it "adds Virtual to the event format column" do
         expect(first_row_hash["event_format"]).to eq("In-person")
       end

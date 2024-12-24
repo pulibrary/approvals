@@ -1,9 +1,13 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe "travel_requests/show", type: :view do
   let(:creator) { FactoryBot.create(:staff_profile, :with_supervisor, given_name: "Sally", surname: "Smith") }
-  let(:travel_request) { TravelRequestDecorator.new(FactoryBot.create(:travel_request, :with_note_and_estimate, creator: creator)) }
+  let(:travel_request) do
+ TravelRequestDecorator.new(FactoryBot.create(:travel_request, :with_note_and_estimate, creator:))
+  end
+
   before do
     @request = assign(:request, travel_request)
   end
@@ -25,7 +29,8 @@ RSpec.describe "travel_requests/show", type: :view do
     expect(rendered).to include("Lodging (per night)")
     expect(rendered).to match(/#{travel_request.estimates.first.amount}/)
     expect(rendered).to match(/#{travel_request.estimates.first.recurrence}/)
-    expect(rendered).to have_selector("lux-hyperlink[href=\"#{edit_travel_request_path(travel_request.request)}\"]", text: "Edit")
+    expect(rendered).to have_selector("lux-hyperlink[href=\"#{edit_travel_request_path(travel_request.request)}\"]",
+                                      text: "Edit")
     expect(rendered).to have_selector("form[action=\"#{decide_travel_request_path(travel_request.id)}\"]")
     expect(rendered).to have_selector("lux-input-button", text: "Cancel")
   end
@@ -35,7 +40,8 @@ RSpec.describe "travel_requests/show", type: :view do
       allow(view).to receive(:current_staff_profile).and_return(FactoryBot.create(:staff_profile))
       render
     end
-    expect(rendered).not_to have_selector("hyperlink[href=\"#{edit_travel_request_path(travel_request.request)}\"]", text: "Edit")
+    expect(rendered).not_to have_selector("hyperlink[href=\"#{edit_travel_request_path(travel_request.request)}\"]",
+                                          text: "Edit")
     expect(rendered).not_to have_selector("form[action=\"#{decide_travel_request_path(travel_request.id)}\"]")
   end
 end

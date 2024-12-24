@@ -1,8 +1,10 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe StaffProfile, type: :model do
   subject(:staff_profile) { described_class.new }
+
   it { is_expected.to respond_to :user }
   it { is_expected.to respond_to :user_id }
   it { is_expected.to respond_to :department }
@@ -27,7 +29,7 @@ RSpec.describe StaffProfile, type: :model do
     end
 
     it "returns nil for a non existant uid" do
-      expect(described_class.find_by(uid: "blah")).to eq(nil)
+      expect(described_class.find_by(uid: "blah")).to be_nil
     end
   end
 
@@ -38,6 +40,7 @@ RSpec.describe StaffProfile, type: :model do
 
     context "when it is a department head" do
       subject(:staff_profile) { FactoryBot.create :staff_profile, :as_department_head }
+
       it "returns true for a department head" do
         expect(staff_profile.department_head?).to be_truthy
       end
@@ -79,7 +82,7 @@ RSpec.describe StaffProfile, type: :model do
       aa2 = FactoryBot.create(:staff_profile, given_name: "Sally", surname: "Smith")
       location = FactoryBot.create(:location, admin_assistant: aa)
       department = FactoryBot.create(:department, admin_assistants: [aa2])
-      profile = FactoryBot.create(:staff_profile, location: location, department: department)
+      profile = FactoryBot.create(:staff_profile, location:, department:)
       expect(profile.admin_assistants).to eq([aa])
     end
 
@@ -87,7 +90,7 @@ RSpec.describe StaffProfile, type: :model do
       aa = FactoryBot.create(:staff_profile, given_name: "Doug", surname: "Doe")
       location = FactoryBot.create(:location)
       department = FactoryBot.create(:department, admin_assistants: [aa])
-      profile = FactoryBot.create(:staff_profile, location: location, department: department)
+      profile = FactoryBot.create(:staff_profile, location:, department:)
       expect(profile.admin_assistants).to eq([aa])
     end
 

@@ -12,11 +12,14 @@ FactoryBot.define do
     absence_type { "vacation" }
 
     after(:build) do |request, evaluator|
-      fire_event_safely(request: request, action: evaluator.action, agent: request.creator.supervisor) if evaluator.action.present?
+      if evaluator.action.present?
+        fire_event_safely(request:, action: evaluator.action,
+                          agent: request.creator.supervisor)
+      end
     end
 
     trait :with_note do
-      notes { [FactoryBot.build(:note, creator: creator)] }
+      notes { [FactoryBot.build(:note, creator:)] }
 
       after(:create) do |request, _evaluator|
         request.notes.first.request_id = request.id

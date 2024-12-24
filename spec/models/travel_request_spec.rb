@@ -1,8 +1,10 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe TravelRequest, type: :model do
   subject(:travel_request) { described_class.new }
+
   describe "attributes relevant to travel requests" do
     it { is_expected.to respond_to :creator }
     it { is_expected.to respond_to :end_date }
@@ -40,6 +42,7 @@ RSpec.describe TravelRequest, type: :model do
         expect(travel_request.estimated_total).to eq(150)
       end
     end
+
     context "with multiple estimates" do
       let(:travel_request) do
         FactoryBot.create(
@@ -49,6 +52,7 @@ RSpec.describe TravelRequest, type: :model do
           estimates: [FactoryBot.build(:estimate), FactoryBot.build(:estimate)]
         )
       end
+
       it "gives a total estimate" do
         expect(travel_request.estimated_total).to eq(300)
       end
@@ -212,7 +216,8 @@ RSpec.describe TravelRequest, type: :model do
       it "can update the associated recurring event" do
         expect do
           travel_request.update_recurring_events!(target_recurring_event: recurring_event)
-        end.to change(travel_request.reload, :event_title).from(/Event \d* \d*, Location/).to(/Max's test event \d*, Location/)
+        end.to change(travel_request.reload,
+                      :event_title).from(/Event \d* \d*, Location/).to(/Max's test event \d*, Location/)
       end
 
       it "does not update the nested event_requests" do
@@ -228,7 +233,9 @@ RSpec.describe TravelRequest, type: :model do
 
         let(:unwanted_recurring_event) { FactoryBot.build(:recurring_event, name: "Unwanted event name") }
         let(:event_with_unwanted_name) { FactoryBot.build(:event_request, recurring_event: unwanted_recurring_event) }
-        let(:travel_request_unwanted_name) { FactoryBot.create(:travel_request, event_requests: [event_with_unwanted_name]) }
+        let(:travel_request_unwanted_name) do
+ FactoryBot.create(:travel_request, event_requests: [event_with_unwanted_name])
+        end
 
         before do
           travel_request_unchanged
@@ -239,7 +246,7 @@ RSpec.describe TravelRequest, type: :model do
           expect(target_recurring_event).to be
           expect(unwanted_recurring_event).to be
 
-          travel_request_unwanted_name.update_recurring_events!(target_recurring_event: target_recurring_event)
+          travel_request_unwanted_name.update_recurring_events!(target_recurring_event:)
 
           expect(target_recurring_event.reload).to be
           expect { unwanted_recurring_event.reload }.to raise_error(ActiveRecord::RecordNotFound)
@@ -260,7 +267,7 @@ RSpec.describe TravelRequest, type: :model do
           expect(tr_uw_event_request_before).to eq(event_with_unwanted_name)
 
           # run the update
-          tr_uw.update_recurring_events!(target_recurring_event: target_recurring_event)
+          tr_uw.update_recurring_events!(target_recurring_event:)
 
           # ensure the travel request that should not change has not changed
           expect(travel_request_unchanged.reload.recurring_events.first).to eq(tru_recurring_event_before)
@@ -271,9 +278,14 @@ RSpec.describe TravelRequest, type: :model do
           expect(travel_request_unwanted_name.reload.event_requests.first).to eq(tr_uw_event_request_before)
           expect(travel_request_unwanted_name.reload.event_title).to include("Target event name")
         end
+
         context "with three travel requests" do
-          let(:second_event_with_unwanted_name) { FactoryBot.build(:event_request, recurring_event: unwanted_recurring_event) }
-          let(:second_travel_request_with_unwanted_name) { FactoryBot.create(:travel_request, event_requests: [second_event_with_unwanted_name]) }
+          let(:second_event_with_unwanted_name) do
+ FactoryBot.build(:event_request, recurring_event: unwanted_recurring_event)
+          end
+          let(:second_travel_request_with_unwanted_name) do
+ FactoryBot.create(:travel_request, event_requests: [second_event_with_unwanted_name])
+          end
 
           before do
             second_travel_request_with_unwanted_name
@@ -284,7 +296,7 @@ RSpec.describe TravelRequest, type: :model do
             expect(target_recurring_event).to be
             expect(unwanted_recurring_event).to be
 
-            travel_request_unwanted_name.update_recurring_events!(target_recurring_event: target_recurring_event)
+            travel_request_unwanted_name.update_recurring_events!(target_recurring_event:)
 
             expect(target_recurring_event.reload).to be
             expect(unwanted_recurring_event.reload).to be
@@ -300,9 +312,11 @@ RSpec.describe TravelRequest, type: :model do
     it "can not assign absence_type" do
       expect { travel_request.absence_type = "vacation" }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can not request absence_type" do
       expect { travel_request.absence_type }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can assing absence_type in new" do
       expect { described_class.new(absence_type: "vacation") }.to raise_error ActiveModel::UnknownAttributeError
     end
@@ -310,9 +324,11 @@ RSpec.describe TravelRequest, type: :model do
     it "can not assign hours_requested" do
       expect { travel_request.hours_requested = 40 }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can not request hours_requested" do
       expect { travel_request.hours_requested }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can assing hours_requested in new" do
       expect { described_class.new(hours_requested: 40) }.to raise_error ActiveModel::UnknownAttributeError
     end
@@ -320,9 +336,11 @@ RSpec.describe TravelRequest, type: :model do
     it "can not assign end_time" do
       expect { travel_request.end_time = "10:00pm" }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can not request end_time" do
       expect { travel_request.end_time }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can assing end_time in new" do
       expect { described_class.new(end_time: "10:00pm") }.to raise_error ActiveModel::UnknownAttributeError
     end
@@ -330,9 +348,11 @@ RSpec.describe TravelRequest, type: :model do
     it "can not assign start_time" do
       expect { travel_request.start_time = "10:00pm" }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can not request start_time" do
       expect { travel_request.start_time }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can assing start_time in new" do
       expect { described_class.new(start_time: "10:00pm") }.to raise_error ActiveModel::UnknownAttributeError
     end

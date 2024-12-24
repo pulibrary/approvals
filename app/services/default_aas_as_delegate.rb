@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class DefaultAasAsDelegate
   class << self
     def run(profiles: StaffProfile.all)
@@ -15,6 +16,7 @@ class DefaultAasAsDelegate
 
         aas.each do |admin_assistant|
           next if admin_assistant == profile
+
           Delegate.create(delegate: admin_assistant, delegator: profile)
         end
       end

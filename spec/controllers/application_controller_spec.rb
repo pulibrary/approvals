@@ -4,6 +4,7 @@ require "rails_helper"
 
 RSpec.describe ApplicationController do
   let(:request) { ActionDispatch::Request.new({}) }
+
   describe "#new_session_path" do
     it "returns the new session path" do
       controller = described_class.new

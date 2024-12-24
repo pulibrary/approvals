@@ -1,17 +1,19 @@
 # frozen_string_literal: true
+
 class RequestList
   class << self
     def list_requests(creator:, request_filters:, search_query:, order:, page: 1)
       record_scope = Request
-                     .where(request_filters(creator: creator, request_filters: request_filters))
-                     .where_contains_text(search_query: search_query)
+                     .where(request_filters(creator:, request_filters:))
+                     .where_contains_text(search_query:)
                      .where_filtered_by_date(start_date: start_date_filter, end_date: end_date_filter)
                      .order(my_request_order(order))
-      paginate(record_scope: record_scope, page: page)
+      paginate(record_scope:, page:)
     end
 
     def parse_date_range_filter(filter:)
       return {} if filter.blank?
+
       dates = filter.split(" - ")
       start_date = Date.strptime(dates.first, "%m/%d/%Y")
       end_date = if dates.count > 1
@@ -25,14 +27,14 @@ class RequestList
     private
 
       def list_supervised(list:, supervisor:)
-        supervisor.list_supervised(list: list)
+        supervisor.list_supervised(list:)
       end
 
       def paginate(record_scope:, page:)
         offset = page_number(page) * per_page
         total_count = record_scope.count
         records = record_scope.limit(per_page).offset(offset)
-        page = Kaminari.paginate_array(records, total_count: total_count).page(0)
+        page = Kaminari.paginate_array(records, total_count:).page(0)
         page.offset_value = offset
         page
       end
@@ -47,7 +49,7 @@ class RequestList
       end
 
       def request_filters(creator:, request_filters:)
-        { creator: creator }.merge(filters_hash(request_filters))
+        { creator: }.merge(filters_hash(request_filters))
       end
 
       # all filters from params
@@ -100,6 +102,7 @@ class RequestList
       # default is updated date, descending
       def my_request_order(sort_order)
         return { "updated_at" => "desc" } unless sort_order
+
         sort_field, _, sort_direction = sort_order.rpartition("_")
         { sort_field => sort_direction }
       end

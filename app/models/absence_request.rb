@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # a single table inheritance class
 #  - attributes are defined on Request
 #  - behavior can be defined here
@@ -18,7 +19,7 @@ class AbsenceRequest < Request
     end
 
     event :cancel do
-      transitions from: [:pending, :approved, :recorded], to: :canceled, guard: :only_creator
+      transitions from: %i[pending approved recorded], to: :canceled, guard: :only_creator
     end
   end
 
@@ -77,6 +78,6 @@ class AbsenceRequest < Request
   end
 
   def can_record?(agent:)
-    approved? && in_supervisor_chain(supervisor: creator, agent: agent)
+    approved? && in_supervisor_chain(supervisor: creator, agent:)
   end
 end

@@ -1,18 +1,27 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe CancelMailer, type: :mailer do
   let(:supervisor) do
     aa = FactoryBot.create(:staff_profile, given_name: "Sally", surname: "Smith")
     head = FactoryBot.create(:staff_profile, given_name: "Department", surname: "Head")
-    department = FactoryBot.create(:department, head: head, admin_assistants: [aa])
-    FactoryBot.create :staff_profile, department: department, given_name: "Jane", surname: "Smith", supervisor: head
+    department = FactoryBot.create(:department, head:, admin_assistants: [aa])
+    FactoryBot.create :staff_profile, department:, given_name: "Jane", surname: "Smith", supervisor: head
   end
 
   let(:user) { FactoryBot.create :user, uid: "jd4" }
-  let(:creator) { FactoryBot.create :staff_profile, user: user, given_name: "Joe", surname: "Doe", supervisor: supervisor, department: supervisor.department }
-  let(:travel_request) { FactoryBot.create :travel_request, creator: creator, start_date: Date.parse("2019/12/30"), end_date: Date.parse("2019/12/31") }
-  let(:absence_request) { FactoryBot.create :absence_request, creator: creator, start_date: Date.parse("2019/12/30"), end_date: Date.parse("2019/12/31") }
+  let(:creator) do
+ FactoryBot.create :staff_profile, user:, given_name: "Joe", surname: "Doe", supervisor:,
+                                   department: supervisor.department
+  end
+  let(:travel_request) do
+ FactoryBot.create :travel_request, creator:, start_date: Date.parse("2019/12/30"), end_date: Date.parse("2019/12/31")
+  end
+  let(:absence_request) do
+ FactoryBot.create :absence_request, creator:, start_date: Date.parse("2019/12/30"),
+                                     end_date: Date.parse("2019/12/31")
+  end
   let(:today_formatted) { Time.zone.now.strftime(Rails.configuration.short_date_format) }
 
   context "unapproved absence" do
@@ -21,11 +30,15 @@ RSpec.describe CancelMailer, type: :mailer do
     end
 
     it "does not send AA emails" do
-      expect { described_class.with(request: absence_request).admin_assistant_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
+      expect { described_class.with(request: absence_request).admin_assistant_email.deliver }.not_to change {
+ ActionMailer::Base.deliveries.count
+                                                                                                     }
     end
 
     it "Sends supervisor emails" do
-      expect { described_class.with(request: absence_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { described_class.with(request: absence_request).supervisor_email.deliver }.to change {
+ ActionMailer::Base.deliveries.count
+                                                                                            }.by(1)
       mail = ActionMailer::Base.deliveries.last
 
       expect(mail.subject).to eq "#{AbsenceRequestDecorator.new(absence_request).title} Canceled"
@@ -46,7 +59,9 @@ RSpec.describe CancelMailer, type: :mailer do
     end
 
     it "sends AA emails" do
-      expect { described_class.with(request: absence_request).admin_assistant_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { described_class.with(request: absence_request).admin_assistant_email.deliver }.to change {
+ ActionMailer::Base.deliveries.count
+                                                                                                 }.by(1)
       mail = ActionMailer::Base.deliveries.last
 
       expect(mail.subject).to eq "#{AbsenceRequestDecorator.new(absence_request).title} Canceled"
@@ -62,7 +77,9 @@ RSpec.describe CancelMailer, type: :mailer do
     end
 
     it "sends supervisor emails" do
-      expect { described_class.with(request: absence_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { described_class.with(request: absence_request).supervisor_email.deliver }.to change {
+ ActionMailer::Base.deliveries.count
+                                                                                            }.by(1)
       mail = ActionMailer::Base.deliveries.last
 
       expect(mail.subject).to eq "#{AbsenceRequestDecorator.new(absence_request).title} Canceled"
@@ -86,7 +103,9 @@ RSpec.describe CancelMailer, type: :mailer do
     end
 
     it "sends AA emails" do
-      expect { described_class.with(request: absence_request).admin_assistant_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { described_class.with(request: absence_request).admin_assistant_email.deliver }.to change {
+ ActionMailer::Base.deliveries.count
+                                                                                                 }.by(1)
       mail = ActionMailer::Base.deliveries.last
 
       expect(mail.subject).to eq "#{AbsenceRequestDecorator.new(absence_request).title} Canceled"
@@ -103,7 +122,9 @@ RSpec.describe CancelMailer, type: :mailer do
     end
 
     it "sends supervisor emails" do
-      expect { described_class.with(request: absence_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { described_class.with(request: absence_request).supervisor_email.deliver }.to change {
+ ActionMailer::Base.deliveries.count
+                                                                                            }.by(1)
       mail = ActionMailer::Base.deliveries.last
 
       expect(mail.subject).to eq "#{AbsenceRequestDecorator.new(absence_request).title} Canceled"
@@ -126,7 +147,9 @@ RSpec.describe CancelMailer, type: :mailer do
     end
 
     it "sends AA emails" do
-      expect { described_class.with(request: travel_request).admin_assistant_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { described_class.with(request: travel_request).admin_assistant_email.deliver }.to change {
+ ActionMailer::Base.deliveries.count
+                                                                                                }.by(1)
       mail = ActionMailer::Base.deliveries.last
 
       expect(mail.subject).to eq "#{TravelRequestDecorator.new(travel_request).title} Canceled"
@@ -141,7 +164,9 @@ RSpec.describe CancelMailer, type: :mailer do
     end
 
     it "sends a supervisor email" do
-      expect { described_class.with(request: travel_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { described_class.with(request: travel_request).supervisor_email.deliver }.to change {
+ ActionMailer::Base.deliveries.count
+                                                                                           }.by(1)
       mail = ActionMailer::Base.deliveries.last
 
       expect(mail.subject).to eq "#{TravelRequestDecorator.new(travel_request).title} Canceled"
@@ -164,7 +189,9 @@ RSpec.describe CancelMailer, type: :mailer do
     end
 
     it "sends AA emails" do
-      expect { described_class.with(request: travel_request).admin_assistant_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { described_class.with(request: travel_request).admin_assistant_email.deliver }.to change {
+ ActionMailer::Base.deliveries.count
+                                                                                                }.by(1)
       mail = ActionMailer::Base.deliveries.last
 
       expect(mail.subject).to eq "#{TravelRequestDecorator.new(travel_request).title} Canceled"
@@ -179,7 +206,9 @@ RSpec.describe CancelMailer, type: :mailer do
     end
 
     it "sends a supervisor email" do
-      expect { described_class.with(request: travel_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { described_class.with(request: travel_request).supervisor_email.deliver }.to change {
+ ActionMailer::Base.deliveries.count
+                                                                                           }.by(1)
       mail = ActionMailer::Base.deliveries.last
 
       expect(mail.subject).to eq "#{TravelRequestDecorator.new(travel_request).title} Canceled"

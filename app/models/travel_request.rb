@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # a single table inheritance class
 #  - attributes are defined on Request
 #  - behavior can be defined here
@@ -30,13 +31,13 @@ class TravelRequest < Request
 
     # Redefine the cancel event to allow cancelation from changes_requested
     event :cancel do
-      transitions from: [:pending, :approved, :changes_requested], to: :canceled, guard: :only_creator
+      transitions from: %i[pending approved changes_requested], to: :canceled, guard: :only_creator
     end
   end
 
   def update_recurring_events!(target_recurring_event:)
     event_requests.each do |event_request|
-      event_request.replace_recurring_event(target_recurring_event: target_recurring_event)
+      event_request.replace_recurring_event(target_recurring_event:)
     end
   end
 

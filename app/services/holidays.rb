@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Holidays
   class << self
     def list(config_file: Rails.root.join("config", "holidays.yml"), force_parse: false)

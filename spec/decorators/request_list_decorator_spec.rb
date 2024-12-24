@@ -1,7 +1,11 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 RSpec.describe RequestListDecorator, type: :model do
-  subject(:request_list_decorator) { described_class.new([FactoryBot.create(:absence_request)], params_hash: params_hash) }
+  subject(:request_list_decorator) do
+ described_class.new([FactoryBot.create(:absence_request)], params_hash:)
+  end
+
   let(:params_hash) { {} }
 
   describe "attributes relevant to list" do
@@ -73,7 +77,9 @@ RSpec.describe RequestListDecorator, type: :model do
     context "a sort has been applied, and a status and travel filter has been applied" do
       let(:sort) { "&sort=start_date_asc" }
       let(:travel_filter) { "filters%5Brequest_type%5D=travel&" }
-      let(:params_hash) { { "sort" => "start_date_asc", "filters" => { "request_type" => "travel", "status" => "approved" } } }
+      let(:params_hash) do
+ { "sort" => "start_date_asc", "filters" => { "request_type" => "travel", "status" => "approved" } }
+      end
 
       it "returns a list of status filter urls that include the travel filter, but not the old status filter" do
         expect(request_list_decorator.status_filter_urls).to eq(filters)
@@ -125,6 +131,7 @@ RSpec.describe RequestListDecorator, type: :model do
     context "a status filter and travel filter has been applied" do
       let(:status_filter) { "&filters%5Bstatus%5D=approved" }
       let(:params_hash) { { "filters" => { "request_type" => "travel", "status" => "approved" } } }
+
       it "returns a list of absence filter urls that include the status filter, but not the request type filter" do
         expect(request_list_decorator.absence_filter_urls).to eq(filters)
       end
@@ -132,14 +139,16 @@ RSpec.describe RequestListDecorator, type: :model do
   end
 
   describe "#travel_filter_url" do
-    it "returns an travel filter url " do
+    it "returns an travel filter url" do
       expect(request_list_decorator.travel_filter_url).to eq("/my_requests?filters%5Brequest_type%5D=travel")
     end
   end
 
   describe "#travel_filter_urls" do
     let(:business_filter) { "/my_requests?filters%5Brequest_type%5D=business#{status_filter}" }
-    let(:professional_development_filter) { "/my_requests?filters%5Brequest_type%5D=professional_development#{status_filter}" }
+    let(:professional_development_filter) do
+ "/my_requests?filters%5Brequest_type%5D=professional_development#{status_filter}"
+    end
 
     let(:status_filter) { "" }
     let(:filters) do
@@ -183,6 +192,7 @@ RSpec.describe RequestListDecorator, type: :model do
 
     context "approved filter applied" do
       let(:params_hash) { { "filters" => { "status" => "approved" } } }
+
       it "returns a link to clear the approved status filter" do
         expect(request_list_decorator.filter_removal_urls).to eq("Status: Approved" => "/my_requests")
       end
@@ -190,6 +200,7 @@ RSpec.describe RequestListDecorator, type: :model do
 
     context "travel filter applied" do
       let(:params_hash) { { "filters" => { "request_type" => "travel" } } }
+
       it "returns a link to clear the approved status filter" do
         expect(request_list_decorator.filter_removal_urls).to eq("Request type: Travel" => "/my_requests")
       end
@@ -197,6 +208,7 @@ RSpec.describe RequestListDecorator, type: :model do
 
     context "approved and travel filter applied" do
       let(:params_hash) { { "filters" => { "status" => "approved", "request_type" => "travel" } } }
+
       it "returns a link to clear the approved status filter" do
         expect(request_list_decorator.filter_removal_urls).to eq(
           "Request type: Travel" => "/my_requests?filters%5Bstatus%5D=approved",
@@ -214,7 +226,9 @@ RSpec.describe RequestListDecorator, type: :model do
     end
 
     context "sort applied, approved and travel filter applied" do
-      let(:params_hash) { { "sort" => "start_date_desc", "filters" => { "status" => "approved", "request_type" => "travel" } } }
+      let(:params_hash) do
+ { "sort" => "start_date_desc", "filters" => { "status" => "approved", "request_type" => "travel" } }
+      end
 
       it "returns a link that retains the sort while removing the filter" do
         expect(request_list_decorator.filter_removal_urls).to eq(
@@ -257,6 +271,7 @@ RSpec.describe RequestListDecorator, type: :model do
         "Date modified - descending" => updated_at_descending
       }
     end
+
     it "returns a list of sort urls" do
       expect(request_list_decorator.sort_urls).to eq sort_urls
     end
@@ -278,10 +293,10 @@ RSpec.describe RequestListDecorator, type: :model do
 
     context "when a sort param is provided" do
       let(:params_hash) { { "sort" => "start_date_asc" } }
+
       it "returns desired string" do
         expect(request_list_decorator.current_sort_label).to eq("Sort: Start date - ascending")
       end
     end
   end
 end
-# rubocop:enable Metrics/BlockLength

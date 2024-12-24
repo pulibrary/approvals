@@ -1,11 +1,17 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
-RSpec.feature "Delegate", type: :feature, js: true do
+RSpec.describe "Delegate", type: :feature, js: true do
   let(:user) { FactoryBot.create :user }
-  let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, :with_supervisor, given_name: "Sally", user: user }
+  let(:staff_profile) do
+ FactoryBot.create :staff_profile, :with_department, :with_supervisor, given_name: "Sally", user:
+  end
   let(:delegate_user) { FactoryBot.create :user }
-  let(:delegate_staff_profile) { FactoryBot.create :staff_profile, :with_department, :with_supervisor, given_name: "Joe", surname: "Schmo", user: delegate_user }
+  let(:delegate_staff_profile) do
+ FactoryBot.create :staff_profile, :with_department, :with_supervisor, given_name: "Joe", surname: "Schmo",
+                                                                       user: delegate_user
+  end
   let(:delegate) { FactoryBot.create :delegate, delegator: delegate_staff_profile, delegate: staff_profile }
 
   before do
@@ -13,10 +19,13 @@ RSpec.feature "Delegate", type: :feature, js: true do
     delegate
   end
 
-  scenario "I can see my requests and my delegates" do
-    FactoryBot.create(:absence_request, creator: staff_profile, start_date: Date.parse("2019-10-12"), end_date: Date.parse("2019-10-13"))
-    FactoryBot.create(:absence_request, creator: delegate_staff_profile, start_date: Date.parse("2019-10-12"), end_date: Date.parse("2019-10-13"))
-    FactoryBot.create(:absence_request, creator: delegate_staff_profile, start_date: Date.parse("2019-09-12"), end_date: Date.parse("2019-09-13"))
+  it "I can see my requests and my delegates" do
+    FactoryBot.create(:absence_request, creator: staff_profile, start_date: Date.parse("2019-10-12"),
+                                        end_date: Date.parse("2019-10-13"))
+    FactoryBot.create(:absence_request, creator: delegate_staff_profile, start_date: Date.parse("2019-10-12"),
+                                        end_date: Date.parse("2019-10-13"))
+    FactoryBot.create(:absence_request, creator: delegate_staff_profile, start_date: Date.parse("2019-09-12"),
+                                        end_date: Date.parse("2019-09-13"))
 
     visit "/my_requests"
     assert_selector ".my-request .lux-card", count: 1
@@ -47,11 +56,14 @@ RSpec.feature "Delegate", type: :feature, js: true do
     assert_selector ".my-request .lux-card", count: 1
   end
 
-  scenario "I can see my requests and my delegates with pending for absence" do
+  it "I can see my requests and my delegates with pending for absence" do
     pending "See: https://github.com/pulibrary/approvals/issues/1116"
-    FactoryBot.create(:absence_request, creator: staff_profile, start_date: Date.parse("2019-10-12"), end_date: Date.parse("2019-10-13"))
-    FactoryBot.create(:absence_request, creator: delegate_staff_profile, start_date: Date.parse("2019-10-12"), end_date: Date.parse("2019-10-13"))
-    FactoryBot.create(:absence_request, creator: delegate_staff_profile, start_date: Date.parse("2019-09-12"), end_date: Date.parse("2019-09-13"))
+    FactoryBot.create(:absence_request, creator: staff_profile, start_date: Date.parse("2019-10-12"),
+                                        end_date: Date.parse("2019-10-13"))
+    FactoryBot.create(:absence_request, creator: delegate_staff_profile, start_date: Date.parse("2019-10-12"),
+                                        end_date: Date.parse("2019-10-13"))
+    FactoryBot.create(:absence_request, creator: delegate_staff_profile, start_date: Date.parse("2019-09-12"),
+                                        end_date: Date.parse("2019-09-13"))
 
     visit "/my_requests"
     assert_selector ".my-request .lux-card", count: 1

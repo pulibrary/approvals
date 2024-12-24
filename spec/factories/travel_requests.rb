@@ -5,7 +5,7 @@ FactoryBot.define do
     creator { FactoryBot.create(:staff_profile, :with_department) }
     start_date { Time.zone.today }
     end_date { Time.zone.tomorrow }
-    event_requests { [FactoryBot.build(:event_request, start_date: start_date, end_date: end_date)] }
+    event_requests { [FactoryBot.build(:event_request, start_date:, end_date:)] }
     purpose { "My grand purpose" }
     participation { "other" }
     virtual_event { false }
@@ -14,12 +14,15 @@ FactoryBot.define do
     end
 
     after(:build) do |request, evaluator|
-      fire_event_safely(request: request, action: evaluator.action, agent: request.creator.department.head) if evaluator.action.present?
+      if evaluator.action.present?
+        fire_event_safely(request:, action: evaluator.action,
+                          agent: request.creator.department.head)
+      end
     end
 
     trait :with_note_and_estimate do
       estimates { [FactoryBot.build(:estimate)] }
-      notes { [FactoryBot.build(:note, creator: creator)] }
+      notes { [FactoryBot.build(:note, creator:)] }
 
       after(:create) do |request, _evaluator|
         request.estimates.each do |estimate|

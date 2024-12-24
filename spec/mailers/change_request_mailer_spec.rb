@@ -1,17 +1,23 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe ChangeRequestMailer, type: :mailer do
   let(:supervisor) do
     aa = FactoryBot.create(:staff_profile, given_name: "Sally", surname: "Smith")
     head = FactoryBot.create(:staff_profile, given_name: "Department", surname: "Head")
-    department = FactoryBot.create(:department, head: head, admin_assistants: [aa])
-    FactoryBot.create :staff_profile, department: department, given_name: "Jane", surname: "Smith", supervisor: head
+    department = FactoryBot.create(:department, head:, admin_assistants: [aa])
+    FactoryBot.create :staff_profile, department:, given_name: "Jane", surname: "Smith", supervisor: head
   end
 
   let(:user) { FactoryBot.create :user, uid: "jd4" }
-  let(:creator) { FactoryBot.create :staff_profile, user: user, given_name: "Joe", surname: "Doe", supervisor: supervisor, department: supervisor.department }
-  let(:travel_request) { FactoryBot.create :travel_request, creator: creator, start_date: Date.parse("2019/12/30"), end_date: Date.parse("2019/12/31") }
+  let(:creator) do
+ FactoryBot.create :staff_profile, user:, given_name: "Joe", surname: "Doe", supervisor:,
+                                   department: supervisor.department
+  end
+  let(:travel_request) do
+ FactoryBot.create :travel_request, creator:, start_date: Date.parse("2019/12/30"), end_date: Date.parse("2019/12/31")
+  end
   let(:today_formatted) { Time.zone.now.strftime(Rails.configuration.short_date_format) }
 
   context "change_request on a travel request" do
@@ -22,7 +28,9 @@ RSpec.describe ChangeRequestMailer, type: :mailer do
 
     it "sends creator email" do
       decorated_travel_request = TravelRequestDecorator.new(travel_request)
-      expect { described_class.with(request: travel_request).creator_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { described_class.with(request: travel_request).creator_email.deliver }.to change {
+ ActionMailer::Base.deliveries.count
+                                                                                        }.by(1)
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{decorated_travel_request.title} Request Changes"
       expect(mail.to).to eq [creator.email]
@@ -40,7 +48,9 @@ RSpec.describe ChangeRequestMailer, type: :mailer do
     end
 
     it "does not send supervisor email" do
-      expect { described_class.with(request: travel_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(0)
+      expect { described_class.with(request: travel_request).supervisor_email.deliver }.not_to change {
+ ActionMailer::Base.deliveries.count
+                                                                                               }
     end
   end
 
@@ -52,7 +62,9 @@ RSpec.describe ChangeRequestMailer, type: :mailer do
 
     it "sends creator email" do
       decorated_travel_request = TravelRequestDecorator.new(travel_request)
-      expect { described_class.with(request: travel_request).creator_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { described_class.with(request: travel_request).creator_email.deliver }.to change {
+ ActionMailer::Base.deliveries.count
+                                                                                        }.by(1)
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{decorated_travel_request.title} Request Changes"
       expect(mail.to).to eq [creator.email]
@@ -69,7 +81,9 @@ RSpec.describe ChangeRequestMailer, type: :mailer do
 
     it "sends supervisor email" do
       decorated_travel_request = TravelRequestDecorator.new(travel_request)
-      expect { described_class.with(request: travel_request).supervisor_email.deliver }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { described_class.with(request: travel_request).supervisor_email.deliver }.to change {
+ ActionMailer::Base.deliveries.count
+                                                                                           }.by(1)
       mail = ActionMailer::Base.deliveries.last
       expect(mail.subject).to eq "#{decorated_travel_request.title} Request Changes"
       expect(mail.to).to eq [supervisor.email]

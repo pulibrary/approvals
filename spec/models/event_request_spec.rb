@@ -1,9 +1,11 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe EventRequest, type: :model do
   describe "attributes" do
     subject(:event_request) { described_class.new }
+
     it { is_expected.to respond_to :recurring_event }
     it { is_expected.to respond_to :start_date }
     it { is_expected.to respond_to :end_date }
@@ -22,7 +24,7 @@ RSpec.describe EventRequest, type: :model do
         start_date: Time.zone.today
       ]
 
-      travel_request = TravelRequest.create(event_requests_attributes: event_requests_attributes, creator: creator)
+      travel_request = TravelRequest.create(event_requests_attributes:, creator:)
       expect(travel_request.event_title).to eq "Ice Capades #{Time.zone.today.year}, Beijing"
     end
   end

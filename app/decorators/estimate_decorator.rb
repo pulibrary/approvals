@@ -2,6 +2,7 @@
 
 class EstimateDecorator
   attr_reader :estimate
+
   delegate :cost_type, :description, :recurrence, :amount, to: :estimate
 
   def initialize(estimate)
@@ -11,7 +12,7 @@ class EstimateDecorator
   def data
     { cost_type: self.class.cost_type_to_label(cost_type),
       note: description || "",
-      recurrence: recurrence,
+      recurrence:,
       amount: format("%.2f", amount),
       total: format("%.2f", total) }
   end

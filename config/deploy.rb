@@ -26,7 +26,7 @@ set :log_level, :debug
 
 # Default value for :pty is false
 # set :pty, true
-set :branch, ENV["BRANCH"] || "main"
+set :branch, ENV.fetch("BRANCH", nil) || "main"
 
 # shared_path = "deploy_to/shared"
 # set :assets_prefix, '#{shared_path}/public'
@@ -153,7 +153,10 @@ namespace :application do
     on roles(:app) do
       count += 1
     end
-    raise "You must run this command on no more than half the servers utilizing the --hosts= switch" if count > (roles(:app).length / 2)
+    if count > (roles(:app).length / 2)
+      raise "You must run this command on no more than half the servers utilizing the --hosts= switch"
+    end
+
     on roles(:app) do
       within release_path do
         execute :touch, "public/remove-from-nginx"

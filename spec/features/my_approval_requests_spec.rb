@@ -1,11 +1,15 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
-RSpec.feature "My Approval Requests", type: :feature, js: true do
+RSpec.describe "My Approval Requests", type: :feature, js: true do
   let(:user) { FactoryBot.create :user }
-  let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, :with_supervisor, user: user }
+  let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, :with_supervisor, user: }
   let(:employee_user) { FactoryBot.create :user, uid: "jdoe" }
-  let(:employee) { FactoryBot.create :staff_profile, supervisor: staff_profile, department: staff_profile.department, given_name: "Jane", surname: "Doe", user: employee_user }
+  let(:employee) do
+ FactoryBot.create :staff_profile, supervisor: staff_profile, department: staff_profile.department, given_name: "Jane",
+                                   surname: "Doe", user: employee_user
+  end
 
   before do
     sign_in user
@@ -16,12 +20,16 @@ RSpec.feature "My Approval Requests", type: :feature, js: true do
     Timecop.return
   end
 
-  scenario "I can filter my requests" do
-    FactoryBot.create(:absence_request, creator: employee, start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
+  it "I can filter my requests" do
+    FactoryBot.create(:absence_request, creator: employee, start_date: Date.parse("2019-10-21"),
+                                        end_date: Date.parse("2019-10-23"))
     # sick_leave = FactoryBot.create(:absence_request, creator: employee, absence_type: "sick", start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
-    FactoryBot.create(:absence_request, creator: employee, absence_type: "sick", start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
-    recurring_event = FactoryBot.create(:recurring_event, name: "Awesome Event", description: "The most awesome event!!!")
-    event_request = FactoryBot.build(:event_request, recurring_event: recurring_event, start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
+    FactoryBot.create(:absence_request, creator: employee, absence_type: "sick", start_date: Date.parse("2019-10-21"),
+                                        end_date: Date.parse("2019-10-23"))
+    recurring_event = FactoryBot.create(:recurring_event, name: "Awesome Event",
+                                                          description: "The most awesome event!!!")
+    event_request = FactoryBot.build(:event_request, recurring_event:,
+                                                     start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
     FactoryBot.create(:travel_request, creator: employee,
                                        start_date: Date.parse("2019-10-21"),
                                        end_date: Date.parse("2019-10-23"),
@@ -47,7 +55,7 @@ RSpec.feature "My Approval Requests", type: :feature, js: true do
     # expect(sick_leave.reload).to be_approved
   end
 
-  scenario "I can search my requests" do
+  it "I can search my requests" do
     absence_request = FactoryBot.create(:absence_request, creator: employee)
     absence_request2 = FactoryBot.create(:absence_request, creator: employee)
     travel_request = FactoryBot.create(:travel_request, creator: employee)

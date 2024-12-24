@@ -1,18 +1,22 @@
 # frozen_string_literal: true
+
 class ApproveMailer < ApplicationMailer
   def reviewer_email
     return if request.approved?
+
     mail(to: request.next_supervisor.email, subject: "#{request.title} Ready For Review")
   end
 
   def supervisor_email
     return unless request.approved? && request.is_a?(TravelRequestDecorator)
+
     mail(to: request.creator.supervisor.email, subject: "#{request.title} Approved")
   end
 
   def admin_assistant_email
     return unless request.approved?
     return if request.creator.admin_assistants.empty?
+
     mail(to: request.creator.admin_assistants.map(&:email), subject: "#{request.title} Approved")
   end
 
@@ -23,6 +27,7 @@ class ApproveMailer < ApplicationMailer
                 "#{request.title} Approved by #{request.last_supervisor_to_approve.full_name} Pending Further Review"
               end
     return unless subject
-    mail(to: request.creator.email, subject: subject)
+
+    mail(to: request.creator.email, subject:)
   end
 end

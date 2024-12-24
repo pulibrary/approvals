@@ -1,8 +1,10 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe RandomRequestGenerator, type: :model do
   let(:creator) { FactoryBot.create :staff_profile, :with_supervisor, :with_department }
+
   before do
     FactoryBot.create :recurring_event
   end
@@ -11,7 +13,7 @@ RSpec.describe RandomRequestGenerator, type: :model do
     describe ".generate_travel_request" do
       it "generates a travel request" do
         expect do
-          described_class.generate_travel_request(creator: creator)
+          described_class.generate_travel_request(creator:)
         end.to change(TravelRequest, :count).by(1)
         request = TravelRequest.last
         expect(request.estimates).not_to be_blank
@@ -32,7 +34,7 @@ RSpec.describe RandomRequestGenerator, type: :model do
     describe ".generate_absence_request" do
       it "generates a absence request" do
         expect do
-          described_class.generate_absence_request(creator: creator)
+          described_class.generate_absence_request(creator:)
         end.to change(AbsenceRequest, :count).by(1)
         request = AbsenceRequest.last
         expect(request.creator).to eq(creator)
@@ -49,7 +51,7 @@ RSpec.describe RandomRequestGenerator, type: :model do
     describe ".generate_travel_request" do
       it "generates a travel request" do
         expect do
-          described_class.generate_travel_request(creator: creator, status: "approved")
+          described_class.generate_travel_request(creator:, status: "approved")
         end.to change(TravelRequest, :count).by(1)
         request = TravelRequest.last
         expect(request.estimates).not_to be_blank
@@ -68,7 +70,7 @@ RSpec.describe RandomRequestGenerator, type: :model do
     describe ".generate_absence_request" do
       it "generates a absence request" do
         expect do
-          described_class.generate_absence_request(creator: creator, status: "approved")
+          described_class.generate_absence_request(creator:, status: "approved")
         end.to change(AbsenceRequest, :count).by(1)
         request = AbsenceRequest.last
         expect(request.creator).to eq(creator)
@@ -87,7 +89,7 @@ RSpec.describe RandomRequestGenerator, type: :model do
     describe ".generate_travel_request" do
       it "generates a travel request" do
         expect do
-          described_class.generate_travel_request(creator: creator, status: "denied")
+          described_class.generate_travel_request(creator:, status: "denied")
         end.to change(TravelRequest, :count).by(1)
         request = TravelRequest.last
         expect(request.estimates).not_to be_blank
@@ -105,7 +107,7 @@ RSpec.describe RandomRequestGenerator, type: :model do
     describe ".generate_absence_request" do
       it "generates a absence request" do
         expect do
-          described_class.generate_absence_request(creator: creator, status: "denied")
+          described_class.generate_absence_request(creator:, status: "denied")
         end.to change(AbsenceRequest, :count).by(1)
         request = AbsenceRequest.last
         expect(request.creator).to eq(creator)

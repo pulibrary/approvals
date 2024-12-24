@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "csv"
 
 class StaffReportProcessor
@@ -10,12 +11,13 @@ class StaffReportProcessor
       new_profiles = []
       csv = CSV.new(data, col_sep: "\t", headers: true)
       csv.each do |row|
-        manager_hash = process_staff_entry(staff_entry: row, manager_hash: manager_hash, ldap_service_class: ldap_service_class, new_profiles: new_profiles)
+        manager_hash = process_staff_entry(staff_entry: row, manager_hash:,
+                                           ldap_service_class:, new_profiles:)
       end
       @library_dean = StaffProfile.find_by(uid: LIBRARY_DEAN_UID)
-      connect_staff_to_managers(manager_hash: manager_hash)
-      connect_managers_to_department(manager_hash: manager_hash)
-      process_department_config(department_config: department_config)
+      connect_staff_to_managers(manager_hash:)
+      connect_managers_to_department(manager_hash:)
+      process_department_config(department_config:)
       set_vacant_supervisors_to_department_head
       DefaultAasAsDelegate.run(profiles: new_profiles)
     end
@@ -24,9 +26,10 @@ class StaffReportProcessor
 
       def process_staff_entry(staff_entry:, manager_hash:, ldap_service_class:, new_profiles:)
         net_id = staff_entry["Net ID"]
-        user = create_user(net_id: net_id)
+        user = create_user(net_id:)
         department = create_department(name: staff_entry["Department Name"], number: staff_entry["Department Number"])
-        create_staff_profile(user: user, department: department, staff_entry: staff_entry, ldap_service_class: ldap_service_class, new_profiles: new_profiles)
+        create_staff_profile(user:, department:, staff_entry:,
+                             ldap_service_class:, new_profiles:)
         manager_net_id = staff_entry["Manager Net ID"]
         manager_hash[manager_net_id] = Array(manager_hash[manager_net_id]) << net_id
         manager_hash
@@ -40,14 +43,14 @@ class StaffReportProcessor
       end
 
       def create_department(name:, number:)
-        department = Department.where(number: number)
+        department = Department.where(number:)
         unless department.empty?
           department[0].name = name
           department[0].save
           return department[0]
         end
 
-        Department.create(name: name, number: number)
+        Department.create(name:, number:)
       end
 
       def create_staff_profile(user:, department:, staff_entry:, ldap_service_class:, new_profiles:)
@@ -55,13 +58,13 @@ class StaffReportProcessor
         given_name = "#{staff_entry['First Name']} #{staff_entry['Middle Name']}".strip
         surname = staff_entry["Last Name"]
         email = "#{user.uid}@princeton.edu"
-        location = find_location(net_id: user.uid, ldap_service_class: ldap_service_class)
+        location = find_location(net_id: user.uid, ldap_service_class:)
 
         staff_profile = StaffProfile.where(user_id: user.id).first
         profile_is_new = staff_profile.blank?
         staff_profile ||= StaffProfile.new
-        staff_profile.update(user: user, department: department, biweekly: biweekly,
-                             given_name: given_name, surname: surname, email: email, location: location)
+        staff_profile.update(user:, department:, biweekly:,
+                             given_name:, surname:, email:, location:)
         staff_profile.save
         new_profiles << staff_profile if profile_is_new
       end
@@ -75,10 +78,10 @@ class StaffReportProcessor
                      ldap_info[:address].split("$").first
                    end
 
-        location = Location.where(building: building)
+        location = Location.where(building:)
         if location.blank?
           Rails.logger.warn("No location found for #{building}.  Creating a new one!")
-          location = [Location.create!(building: building)]
+          location = [Location.create!(building:)]
         end
         location.first
       end
@@ -87,6 +90,7 @@ class StaffReportProcessor
         manager_hash.each_key do |manager_net_id|
           manager_profile = StaffProfile.find_by(uid: manager_net_id)
           next if manager_profile.blank?
+
           manager_hash[manager_net_id].each do |report_net_id|
             report_profile = StaffProfile.find_by(uid: report_net_id)
             report_profile.supervisor = manager_profile
@@ -100,8 +104,9 @@ class StaffReportProcessor
         overrides.each do |department_no, attributes|
           department = Department.find_by(number: department_no)
           next if department.blank?
-          department = set_department_head(department: department, head_uid: attributes["head_uid"])
-          department = set_admin_assistants(department: department, admin_assistants: attributes["admin_assistant"])
+
+          department = set_department_head(department:, head_uid: attributes["head_uid"])
+          department = set_admin_assistants(department:, admin_assistants: attributes["admin_assistant"])
           department.save
         end
       end
@@ -109,6 +114,7 @@ class StaffReportProcessor
       def set_department_head(department:, head_uid:)
         department_head = StaffProfile.find_by(uid: head_uid)
         return department if department_head.blank?
+
         department.head = department_head
         if @library_dean != department_head
           department_head.supervisor = @library_dean
@@ -132,6 +138,7 @@ class StaffReportProcessor
         manager_hash.each_key do |manager_net_id|
           manager_profile = StaffProfile.find_by(uid: manager_net_id)
           next if manager_profile.blank?
+
           if manager_profile.supervisor == @library_dean
             manager_profile.department.head = manager_profile
             manager_profile.department.save

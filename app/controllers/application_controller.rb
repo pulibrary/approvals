@@ -8,12 +8,13 @@ class ApplicationController < ActionController::Base
     new_user_session_path
   end
 
-  # rubocop: disable Style/SafeNavigation
-  def current_delegate
+    def current_delegate
     delegate_id = session[:approvals_delegate]
-    load_delegate(delegate_id) if delegate_id.present? && (@current_delegate.blank? || @current_delegate.id != delegate_id)
+    if delegate_id.present? && (@current_delegate.blank? || @current_delegate.id != delegate_id)
+      load_delegate(delegate_id)
+    end
     @current_delegate
-  end
+    end
   helper_method :current_delegate
 
   def current_staff_profile

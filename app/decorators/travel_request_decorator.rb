@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class TravelRequestDecorator < RequestDecorator
   delegate :participation, :purpose, :event_requests, :event_format, :event_format_color, :estimates,
            :status, :can_modify_attributes?, to: :request
@@ -14,7 +15,7 @@ class TravelRequestDecorator < RequestDecorator
     estimate_list = []
     grand_total = 0
     estimates.each do |estimate|
-      estimate_list.append(estimate_to_hash(estimate: estimate))
+      estimate_list.append(estimate_to_hash(estimate:))
       grand_total += estimate.recurrence * estimate.amount
     end
 
@@ -84,6 +85,7 @@ class TravelRequestDecorator < RequestDecorator
 
   def next_supervisor
     return if creator.blank?
+
     supervisors = request.creator.supervisor_chain
     last_agent_index = supervisors.find_index(last_supervisor_to_approve) || -1
     supervisors[last_agent_index + 1]
@@ -97,6 +99,7 @@ class TravelRequestDecorator < RequestDecorator
 
   def travel_category
     return @request.travel_category if @request.travel_category.blank?
+
     @request.travel_category.humanize
   end
 
@@ -105,6 +108,7 @@ class TravelRequestDecorator < RequestDecorator
   # For display purposes we will just use the event date if the start date is missing
   def start_date
     return request.start_date if request.start_date.present?
+
     event_requests.first&.start_date
   end
 
@@ -113,6 +117,7 @@ class TravelRequestDecorator < RequestDecorator
   # For display purposes we will just use the event date if the end date is missing
   def end_date
     return request.end_date if request.end_date.present?
+
     event_requests.first&.end_date
   end
 
@@ -120,7 +125,8 @@ class TravelRequestDecorator < RequestDecorator
 
     def list_event_attendees
       event_requests.map do |event_request|
-        EventAttendees.list(recurring_event: event_request.recurring_event, event_start_date: start_date).uniq - [creator]
+        EventAttendees.list(recurring_event: event_request.recurring_event,
+                            event_start_date: start_date).uniq - [creator]
       end.flatten
     end
 

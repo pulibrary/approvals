@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Estimate < ApplicationRecord
   belongs_to :request
   enum cost_type: {
