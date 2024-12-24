@@ -48,7 +48,9 @@ gem "health-monitor-rails", "~> 12.4"
 gem "honeybadger"
 
 group :development, :test do
-  gem "bixby"
+  gem 'rubocop-rspec', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-performance', require: false
   gem "byebug", platforms: %i[mri mingw x64_mingw]
 end
 

@@ -85,12 +85,6 @@ GEM
     benchmark (0.4.0)
     bigdecimal (3.1.8)
     bindex (0.8.1)
-    bixby (5.0.2)
-      rubocop (= 1.28.2)
-      rubocop-ast
-      rubocop-performance
-      rubocop-rails
-      rubocop-rspec
     bootsnap (1.18.4)
       msgpack (~> 1.2)
     builder (3.3.0)
@@ -412,7 +406,6 @@ PLATFORMS
 DEPENDENCIES
   aasm
   bcrypt_pbkdf
-  bixby
   bootsnap (>= 1.1.0)
   byebug
   capistrano-passenger
@@ -441,6 +434,9 @@ DEPENDENCIES
   reform-rails
   rspec-rails
   rspec_junit_formatter
+  rubocop-performance
+  rubocop-rails
+  rubocop-rspec
   selenium-webdriver
   simplecov
   timecop
