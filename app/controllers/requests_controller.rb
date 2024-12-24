@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class RequestsController < ApplicationController
   # GET /my_requests
   # GET /my_requests.json
@@ -7,22 +8,24 @@ class RequestsController < ApplicationController
   end
 
   def my_approval_requests
-    @requests = RequestListDecorator.new(my_approval_request_objects, params_hash: request_params.to_h, params_manager_class: ::ApprovalsParamsManager)
+    @requests = RequestListDecorator.new(my_approval_request_objects, params_hash: request_params.to_h,
+                                                                      params_manager_class: ::ApprovalsParamsManager)
   end
 
   def reports
-    @requests = ReportListDecorator.new(report_request_objects, params_hash: report_params.to_h, params_manager_class: ::ReportsParamsManager)
+    @requests = ReportListDecorator.new(report_request_objects, params_hash: report_params.to_h,
+                                                                params_manager_class: ::ReportsParamsManager)
   end
 
   private
 
     # all params for this controller
-    def request_params(filters: [:status, :request_type, :department, :date])
-      params.permit(:query, :sort, :page, filters: filters)
+    def request_params(filters: %i[status request_type department date])
+      params.permit(:query, :sort, :page, filters:)
     end
 
     def report_params
-      request_params(filters: [:status, :request_type, :department, :date, :employee_type, :virtual_event, :supervisor])
+      request_params(filters: %i[status request_type department date employee_type virtual_event supervisor])
     end
 
     # objects to return to my_request action
@@ -43,7 +46,7 @@ class RequestsController < ApplicationController
     end
 
     def report_request_objects
-      ReportRequestList.list_requests(current_staff_profile: current_staff_profile,
+      ReportRequestList.list_requests(current_staff_profile:,
                                       request_filters: report_params[:filters],
                                       search_query: report_params[:query],
                                       order: report_params["sort"])

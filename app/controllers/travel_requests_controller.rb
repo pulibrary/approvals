@@ -1,27 +1,31 @@
 # frozen_string_literal: true
-class TravelRequestsController < CommonRequestController
-  before_action :set_travel_request, only: [:show, :update, :destroy, :review, :approve, :deny]
 
-  # rubocop:disable Metrics/CyclomaticComplexity
-  # rubocop:disable Metrics/PerceivedComplexity
+class TravelRequestsController < CommonRequestController
+  before_action :set_travel_request, only: %i[show update destroy review approve deny]
+
   # PATCH/PUT
   def decide
     if params[:change_request]
-      pending_errors.push({ attribute: :notes, type: "are required to specify requested changes." }) if processed_params[:notes].blank?
+      if processed_params[:notes].blank?
+        pending_errors.push({ attribute: :notes,
+                              type: "are required to specify requested changes." })
+      end
       run_action(action: :change_request, change_method: :supervisor_can_change?)
     elsif params[:change_event]
       update_event
     else
-      pending_errors.push({ attribute: :travel_category, type: "is required to approve." }) if params[:approve] && processed_params[:travel_category].blank? && current_staff_profile.department_head?
+      if params[:approve] && processed_params[:travel_category].blank? && current_staff_profile.department_head?
+        pending_errors.push({ attribute: :travel_category,
+                              type: "is required to approve." })
+      end
       super
     end
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
-  # rubocop:enable Metrics/PerceivedComplexity
 
   # PATCH/PUT
   def update
     return unless super && @request.changes_requested?
+
     @request.fix_requested_changes!(agent: current_staff_profile)
     MailForAction.send(request: @request, action: "fix_requested_changes")
   end
@@ -57,7 +61,7 @@ class TravelRequestsController < CommonRequestController
         if params[:id]
           TravelRequestChangeSet.new(TravelRequest.find(params[:id]))
         else
-          TravelRequestChangeSet.new(TravelRequest.new, current_staff_profile: current_staff_profile)
+          TravelRequestChangeSet.new(TravelRequest.new, current_staff_profile:)
         end
     end
 
@@ -76,10 +80,10 @@ class TravelRequestsController < CommonRequestController
         :participation,
         :travel_category,
         :virtual_event,
-        event_requests: [:id, :recurring_event_id, :start_date, :end_date, :location, :url],
+        event_requests: %i[id recurring_event_id start_date end_date location url],
         notes: [:content],
         new_event: [:id],
-        estimates: [:id, :amount, :recurrence, :cost_type, :description]
+        estimates: %i[id amount recurrence cost_type description]
       )
     end
 
@@ -90,6 +94,7 @@ class TravelRequestsController < CommonRequestController
 
     def remove_estimates
       return if params[:travel_request][:estimates].blank?
+
       params_estimate_ids = params[:travel_request][:estimates].pluck(:id)
       @request.estimates.each do |estimate|
         estimate.destroy if params_estimate_ids.exclude? estimate.id.to_s
@@ -99,14 +104,22 @@ class TravelRequestsController < CommonRequestController
     # TODO: remove this when the form gets done correctly
     def clean_params
       return if params[:travel_request].blank?
-      params[:travel_request][:event_requests] = [params[:travel_request][:event_requests_attributes]["0"]] if params[:travel_request][:event_requests_attributes].present?
 
-      parse_date(params[:travel_request][:event_requests][0], :event_dates) if params[:travel_request][:event_requests].present?
+      if params[:travel_request][:event_requests_attributes].present?
+        params[:travel_request][:event_requests] =
+          [params[:travel_request][:event_requests_attributes]["0"]]
+      end
+
+      if params[:travel_request][:event_requests].present?
+        parse_date(params[:travel_request][:event_requests][0],
+                   :event_dates)
+      end
       parse_date(params[:travel_request], :travel_dates)
     end
 
     def parse_date(hash, field)
       return if hash.blank? || hash[field].blank?
+
       dates = RequestList.parse_date_range_filter(filter: hash[field])
       hash[:start_date] = dates[:start]
       hash[:end_date] = dates[:end]
@@ -135,9 +148,13 @@ class TravelRequestsController < CommonRequestController
 
         @request.update_recurring_events!(target_recurring_event: new_recurring_event)
 
-        redirect_to({ action: "review", id: @request.id }, flash: { success: "Travel request event name was successfully updated." })
+        redirect_to({ action: "review", id: @request.id },
+                    flash: { success: "Travel request event name was successfully updated." })
       end
     rescue ActiveRecord::RecordNotFound
-      redirect_to({ action: "review", id: @request.id }, flash: { alert: t("travel_requests.event_name_does_not_exist") }) unless new_recurring_event
+      unless new_recurring_event
+        redirect_to({ action: "review", id: @request.id },
+                    flash: { alert: t("travel_requests.event_name_does_not_exist") })
+      end
     end
 end

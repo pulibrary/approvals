@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This is a base class for TravelRequest and AbsenceRequest and is not intended
 # to be created directly
 class Request < ApplicationRecord
@@ -39,6 +40,7 @@ class Request < ApplicationRecord
 
   def self.where_filtered_by_date(start_date:, end_date:)
     return all if start_date.blank? || end_date.blank?
+
     where(start_date: start_date..end_date).or(where(end_date: start_date..end_date))
   end
   enum status: {
@@ -83,6 +85,7 @@ class Request < ApplicationRecord
   def ordered_state_changes(action: nil)
     ordered = state_changes.order("created_at ASC")
     return ordered if action.blank?
+
     ordered.select do |change|
       change.action == action
     end
@@ -93,7 +96,7 @@ class Request < ApplicationRecord
   end
 
   def only_creator_or_supervisor?(agent:)
-    in_supervisor_chain(supervisor: creator, agent: agent)
+    in_supervisor_chain(supervisor: creator, agent:)
   end
 
   private

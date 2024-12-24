@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class StateChange < ApplicationRecord
   belongs_to :agent, class_name: "StaffProfile", optional: false
   belongs_to :request, optional: false

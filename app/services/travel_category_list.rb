@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class TravelCategoryList
   def self.categories
     current_categories + deprecated_categories

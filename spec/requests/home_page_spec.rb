@@ -1,11 +1,13 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe "Home Page", type: :request do
   describe "GET /" do
     context "Signed in user" do
       let(:user) { FactoryBot.create :user }
-      let(:staff_profile) { FactoryBot.create :staff_profile, user: user }
+      let(:staff_profile) { FactoryBot.create :staff_profile, user: }
+
       before do
         staff_profile
         sign_in user

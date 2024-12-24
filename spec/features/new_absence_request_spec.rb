@@ -1,10 +1,11 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
-RSpec.feature "New Absence Request", type: :feature, js: true do
+RSpec.describe "New Absence Request", type: :feature, js: true do
   let(:user) { FactoryBot.create :user }
   let(:staff_profile) do
-    FactoryBot.create :staff_profile, :with_department, user: user, given_name: "Sally", surname: "Smith",
+    FactoryBot.create :staff_profile, :with_department, user:, given_name: "Sally", surname: "Smith",
                                                         vacation_balance: 90.1, personal_balance: 16.0, sick_balance: 100.0
   end
 
@@ -18,7 +19,7 @@ RSpec.feature "New Absence Request", type: :feature, js: true do
     Timecop.return
   end
 
-  scenario "I can submit a sick day request and cancel it" do
+  it "I can submit a sick day request and cancel it" do
     pending "See: https://github.com/pulibrary/approvals/issues/1116"
     visit "/"
     click_on "New absence request"

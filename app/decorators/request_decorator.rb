@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class RequestDecorator
   include Rails.application.routes.url_helpers
 
@@ -68,7 +69,8 @@ class RequestDecorator
   end
 
   def absent_staff(supervisor: creator.supervisor)
-    @absent_staff ||= AbsentStaff.list(start_date: start_date, end_date: end_date, supervisor: supervisor).uniq - [creator]
+    @absent_staff ||= AbsentStaff.list(start_date:, end_date:,
+                                       supervisor:).uniq - [creator]
     @absent_staff << "No team members absent" if @absent_staff.empty?
     @absent_staff
   end
@@ -80,11 +82,12 @@ class RequestDecorator
     both.concat(state_changes.to_a)
     both = both.sort_by(&:created_at)
     json = both.map { |item| item_json(item) }
-    created_state(json: json, delegate_note: delegate_note)
+    created_state(json:, delegate_note:)
   end
 
   def current_note
     return "" unless notes.last && notes.last.created_at.blank?
+
     notes.last.content
   end
 
@@ -104,6 +107,7 @@ class RequestDecorator
   def previous_state
     count = ordered_state_changes.count
     return unless count >= 2
+
     ordered_state_changes[count - 2]
   end
 
@@ -127,6 +131,7 @@ class RequestDecorator
 
     def title_for_state(state:, phrase: "has been")
       return "" if state.blank?
+
       "It #{phrase} #{state.title}."
     end
 
@@ -176,7 +181,7 @@ class RequestDecorator
               else
                 "Created by #{creator.full_name} on #{created_at.strftime(date_format)}"
               end
-      json.prepend(title: title, content: nil, icon: "add")
+      json.prepend(title:, content: nil, icon: "add")
     end
 
     def created_by_delegate

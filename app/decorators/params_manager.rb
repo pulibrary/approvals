@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This is a helper class to build the urls maintaining existing sort and filter options
 class ParamsManager
   attr_reader :params
@@ -47,6 +48,7 @@ class ParamsManager
     dates = RequestList.parse_date_range_filter(filter: filter_params[:date])
     start_date = dates[:start]
     return "" if start_date.blank?
+
     end_date = dates[:end]
     "{ start: new Date(#{start_date.year}, #{start_date.month - 1}, #{start_date.day}), end: new Date(#{end_date.year}, #{end_date.month - 1}, #{end_date.day})}"
   rescue ArgumentError
@@ -60,6 +62,6 @@ class ParamsManager
     end
 
     def build_url(params)
-      Rails.application.routes.url_helpers.my_requests_path(params: params)
+      Rails.application.routes.url_helpers.my_requests_path(params:)
     end
 end

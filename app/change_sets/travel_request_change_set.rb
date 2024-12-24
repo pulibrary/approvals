@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class TravelRequestChangeSet < RequestChangeSet
   property :travel_category
   property :purpose
@@ -9,7 +10,8 @@ class TravelRequestChangeSet < RequestChangeSet
   property :travel_dates
   property :event_dates
 
-  collection :event_requests, form: EventRequestChangeSet, populator: EventRequestChangeSet::EventRequestPopulator, prepopulator: EventRequestChangeSet::EventRequestPrepopulator
+  collection :event_requests, form: EventRequestChangeSet, populator: EventRequestChangeSet::EventRequestPopulator,
+                              prepopulator: EventRequestChangeSet::EventRequestPrepopulator
   collection :estimates, form: EstimateChangeSet, populator: EstimateChangeSet::EstimatePopulator
 
   validates :travel_category, inclusion: { in: TravelCategoryList.categories, allow_blank: true }

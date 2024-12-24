@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "csv"
 
 class BalanceReportProcessor
@@ -8,7 +9,8 @@ class BalanceReportProcessor
       errors = { unknown: [] }
       csv.each do |row|
         next if row.blank?
-        errors = process_balance_entry(balance_entry: row, errors: errors)
+
+        errors = process_balance_entry(balance_entry: row, errors:)
       end
       errors
     end

@@ -15,7 +15,7 @@ RSpec.describe Users::OmniauthCallbacksController do
 
     context "invalid user" do
       it "invalid cas login redirects to home page" do
-        allow(User).to receive(:from_cas) { nil }
+        allow(User).to receive(:from_cas).and_return(nil)
         get :cas
         expect(response).to redirect_to(root_path)
         expect(flash[:error]).to eq("You are not authorized to view this material")

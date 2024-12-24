@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class EventRequestChangeSet < Reform::Form
   property :start_date
   property :end_date

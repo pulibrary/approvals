@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+
 class AbsenceRequestChangeSet < RequestChangeSet
   property :absence_type
   property :hours_requested
-  property :start_date, populator: ->(options) { populate_date(field: "start_date", options: options) }
-  property :end_date, populator: ->(options) { populate_date(field: "end_date", options: options) }
+  property :start_date, populator: ->(options) { populate_date(field: "start_date", options:) }
+  property :end_date, populator: ->(options) { populate_date(field: "end_date", options:) }
   property :start_time, default: Time.zone.parse("8:45 AM")
   property :end_time, default: Time.zone.parse("5:00 PM")
 

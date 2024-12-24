@@ -1,10 +1,13 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
-RSpec.feature "My Requests", type: :feature, js: true do
+RSpec.describe "My Requests", type: :feature, js: true do
   let(:user) { FactoryBot.create :user }
   let(:department) { FactoryBot.create :department, :with_head, name: "ITIMS" }
-  let(:staff_profile) { FactoryBot.create :staff_profile, :with_supervisor, department: department, user: user, given_name: "Pat", surname: "Doe" }
+  let(:staff_profile) do
+ FactoryBot.create :staff_profile, :with_supervisor, department:, user:, given_name: "Pat", surname: "Doe"
+  end
 
   before do
     sign_in user
@@ -15,24 +18,36 @@ RSpec.feature "My Requests", type: :feature, js: true do
   end
 
   # Re-enable this test after https://github.com/pulibrary/lux-design-system/issues/348 is completed and added to Approvals
-  xscenario "I can filter reports" do
+  xit "I can filter reports" do
     Timecop.freeze(Time.utc(2019, "oct", 20))
 
-    direct_report = FactoryBot.create :staff_profile, supervisor: staff_profile, department: staff_profile.department, given_name: "Sally", surname: "Smith"
-    FactoryBot.create(:absence_request, creator: staff_profile.supervisor, start_date: Date.parse("2019-10-12"), end_date: Date.parse("2019-10-13"))
-    FactoryBot.create(:absence_request, creator: staff_profile, start_date: Date.parse("2019-10-12"), end_date: Date.parse("2019-10-13"), hours_requested: 10.3)
-    FactoryBot.create(:absence_request, creator: direct_report, action: "approve", start_date: Date.parse("2019-10-13"), end_date: Date.parse("2019-10-14"), hours_requested: 15.5)
-    FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick", start_date: Date.parse("2019-10-14"), end_date: Date.parse("2019-10-15"), hours_requested: 10)
+    direct_report = FactoryBot.create :staff_profile, supervisor: staff_profile, department: staff_profile.department,
+                                                      given_name: "Sally", surname: "Smith"
+    FactoryBot.create(:absence_request, creator: staff_profile.supervisor, start_date: Date.parse("2019-10-12"),
+                                        end_date: Date.parse("2019-10-13"))
+    FactoryBot.create(:absence_request, creator: staff_profile, start_date: Date.parse("2019-10-12"),
+                                        end_date: Date.parse("2019-10-13"), hours_requested: 10.3)
+    FactoryBot.create(:absence_request, creator: direct_report, action: "approve",
+                                        start_date: Date.parse("2019-10-13"), end_date: Date.parse("2019-10-14"), hours_requested: 15.5)
+    FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick",
+                                        start_date: Date.parse("2019-10-14"), end_date: Date.parse("2019-10-15"), hours_requested: 10)
     FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick", action: "approve", start_date: Date.parse("2019-10-15"),
                                         end_date: Date.parse("2019-10-16"), hours_requested: 17.3)
-    recurring_event = FactoryBot.create(:recurring_event, name: "Awesome Event", description: "The most awesome event!!!")
-    event_request = FactoryBot.build(:event_request, recurring_event: recurring_event, start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
-    FactoryBot.create(:travel_request, creator: staff_profile, start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"), event_requests: [event_request])
-    recurring_event2 = FactoryBot.create(:recurring_event, name: "Best Event Ever", description: "The best event we could ever go to!!!")
-    event_request2 = FactoryBot.build(:event_request, recurring_event: recurring_event2, start_date: Date.parse("2020-10-21"), end_date: Date.parse("2020-10-23"))
-    FactoryBot.create(:travel_request, creator: staff_profile, action: "approve", start_date: Date.parse("2020-10-20"), end_date: Date.parse("2020-10-23"), event_requests: [event_request2])
+    recurring_event = FactoryBot.create(:recurring_event, name: "Awesome Event",
+                                                          description: "The most awesome event!!!")
+    event_request = FactoryBot.build(:event_request, recurring_event:,
+                                                     start_date: Date.parse("2019-10-21"), end_date: Date.parse("2019-10-23"))
+    FactoryBot.create(:travel_request, creator: staff_profile, start_date: Date.parse("2019-10-21"),
+                                       end_date: Date.parse("2019-10-23"), event_requests: [event_request])
+    recurring_event2 = FactoryBot.create(:recurring_event, name: "Best Event Ever",
+                                                           description: "The best event we could ever go to!!!")
+    event_request2 = FactoryBot.build(:event_request, recurring_event: recurring_event2,
+                                                      start_date: Date.parse("2020-10-21"), end_date: Date.parse("2020-10-23"))
+    FactoryBot.create(:travel_request, creator: staff_profile, action: "approve", start_date: Date.parse("2020-10-20"),
+                                       end_date: Date.parse("2020-10-23"), event_requests: [event_request2])
     recurring_event3 = FactoryBot.create(:recurring_event, name: "Wow", description: "Wow you must go!!!")
-    event_request3 = FactoryBot.build(:event_request, recurring_event: recurring_event3, start_date: Date.parse("2020-05-21"), end_date: Date.parse("2020-05-23"))
+    event_request3 = FactoryBot.build(:event_request, recurring_event: recurring_event3,
+                                                      start_date: Date.parse("2020-05-21"), end_date: Date.parse("2020-05-23"))
     FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_profile, action: "approve",
                                                                 travel_category: "professional_development", start_date: Date.parse("2020-05-21"),
                                                                 end_date: Date.parse("2020-05-23"), event_requests: [event_request3])

@@ -1,8 +1,10 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe TravelRequestChangeSet, type: :model do
   subject(:travel_request) { described_class.new(TravelRequest.new) }
+
   let(:recurring_event) { FactoryBot.create :recurring_event }
   let(:travel_request_errors) do
     {
@@ -115,7 +117,8 @@ RSpec.describe TravelRequestChangeSet, type: :model do
       expect(travel_request.existing_notes).to be_empty
       note = FactoryBot.create(:note, request: travel_request.model, content: "My Note")
       travel_request.notes << note
-      expect(travel_request.existing_notes).to eq [{ content: "My Note", icon: "note", title: "#{note.creator.full_name} on #{note.created_at.strftime(Rails.configuration.short_date_format)}" }]
+      expect(travel_request.existing_notes).to eq [{ content: "My Note", icon: "note",
+                                                     title: "#{note.creator.full_name} on #{note.created_at.strftime(Rails.configuration.short_date_format)}" }]
     end
   end
 end

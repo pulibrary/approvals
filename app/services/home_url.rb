@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class HomeURL
   class << self
     def for(current_user:)

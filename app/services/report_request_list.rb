@@ -1,16 +1,17 @@
 # frozen_string_literal: true
+
 class ReportRequestList < RequestList
   class << self
     def list_requests(current_staff_profile:, request_filters:, search_query:, order:)
       request_filters ||= {}
       supervisor_filter = request_filters.delete("supervisor")
       supervisor_filter = StaffProfile.find_by_id(supervisor_filter) if supervisor_filter.is_a? String
-      supervisor = supervisor(current_staff_profile: current_staff_profile, supervisor_filter: supervisor_filter)
+      supervisor = supervisor(current_staff_profile:, supervisor_filter:)
       Request.joins(creator: :department)
-             .where(request_filters(request_filters: request_filters))
+             .where(request_filters(request_filters:))
              .where_filtered_by_date(start_date: start_date_filter, end_date: end_date_filter)
-             .where_contains_text(search_query: search_query)
-             .where(creator: list_supervised(list: [supervisor], supervisor: supervisor).map(&:id))
+             .where_contains_text(search_query:)
+             .where(creator: list_supervised(list: [supervisor], supervisor:).map(&:id))
              .order(request_order(order))
     end
 
@@ -18,6 +19,7 @@ class ReportRequestList < RequestList
 
       def supervisor(current_staff_profile:, supervisor_filter:)
         return current_staff_profile if supervisor_filter.blank?
+
         if supervises(supervisor_profile: current_staff_profile, staff_profile: supervisor_filter)
           supervisor_filter
         else
@@ -28,7 +30,8 @@ class ReportRequestList < RequestList
       def supervises(supervisor_profile:, staff_profile:)
         return true if staff_profile.supervisor == supervisor_profile
         return false if staff_profile.supervisor.blank?
-        supervises(supervisor_profile: supervisor_profile, staff_profile: staff_profile.supervisor)
+
+        supervises(supervisor_profile:, staff_profile: staff_profile.supervisor)
       end
 
       def request_filters(request_filters:)
@@ -58,6 +61,7 @@ class ReportRequestList < RequestList
       # default is updated date, descending
       def request_order(sort_order)
         return { "updated_at" => "desc" } unless sort_order
+
         sort_field, _, sort_direction = sort_order.rpartition("_")
         { sort_field => sort_direction }
       end

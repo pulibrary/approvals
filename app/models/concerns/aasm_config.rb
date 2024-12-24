@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #
 # These are the common AASM configuration items for both the Absence and Travel request
 #
@@ -25,19 +26,21 @@ module AasmConfig
       end
 
       event :cancel do
-        transitions from: [:pending, :approved], to: :canceled, guard: :only_creator
+        transitions from: %i[pending approved], to: :canceled, guard: :only_creator
       end
     end
   end
 
   def log_status_change(agent)
     agent = agent[:agent] if agent.is_a?(Hash)
-    StateChange.create(request: self, agent: agent, action: current_action, delegate: agent.current_delegate)
+    StateChange.create(request: self, agent:, action: current_action, delegate: agent.current_delegate)
   end
 
   def current_action
     action = aasm.to_state
-    action = :approved if (action == :pending) && ((aasm.current_event == :approve!) || (aasm.current_event == :approve))
+    if (action == :pending) && ((aasm.current_event == :approve!) || (aasm.current_event == :approve))
+      action = :approved
+    end
     action
   end
 
@@ -48,7 +51,7 @@ module AasmConfig
 
   def only_supervisor(agent)
     agent = agent[:agent] if agent.is_a?(Hash)
-    in_supervisor_chain(supervisor: creator.supervisor, agent: agent)
+    in_supervisor_chain(supervisor: creator.supervisor, agent:)
   end
 
   def only_creator(agent)
@@ -57,11 +60,11 @@ module AasmConfig
   end
 
   def can_cancel?(agent:)
-    only_creator(agent: agent) && !canceled?
+    only_creator(agent:) && !canceled?
   end
 
   def can_edit?(agent:)
-    only_creator(agent: agent) && can_modify_attributes?
+    only_creator(agent:) && can_modify_attributes?
   end
 
   private
@@ -70,6 +73,8 @@ module AasmConfig
       return false if supervisor.blank?
       # we have a really strange loop in the data where  Bogus, Ian (ibogus) is  Gibbons, Michael P. (mgibbons) supervisor and  Gibbons, Michael P. (mgibbons) is  Bogus, Ian (ibogus) supervisor
       return false if previous_supervisor == supervisor.supervisor
-      agent == supervisor || in_supervisor_chain(supervisor: supervisor.supervisor, agent: agent, previous_supervisor: supervisor)
+
+      agent == supervisor || in_supervisor_chain(supervisor: supervisor.supervisor, agent:,
+                                                 previous_supervisor: supervisor)
     end
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+
 class AbsenceRequestsController < CommonRequestController
-  before_action :set_absence_request, only: [:show, :destroy, :review, :approve, :deny, :decide]
+  before_action :set_absence_request, only: %i[show destroy review approve deny decide]
 
   # PATCH/PUT
   def decide
@@ -31,13 +32,14 @@ class AbsenceRequestsController < CommonRequestController
         if params[:id]
           AbsenceRequestChangeSet.new(AbsenceRequest.find(params[:id]))
         else
-          AbsenceRequestChangeSet.new(AbsenceRequest.new, current_staff_profile: current_staff_profile)
+          AbsenceRequestChangeSet.new(AbsenceRequest.new, current_staff_profile:)
         end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def absence_request_params
-      params.require(:absence_request).permit(:start_date, :end_date, :request_type, :absence_type, :hours_requested, notes: [:content])
+      params.require(:absence_request).permit(:start_date, :end_date, :request_type, :absence_type, :hours_requested,
+                                              notes: [:content])
     end
 
     def processed_params
@@ -53,6 +55,6 @@ class AbsenceRequestsController < CommonRequestController
 
     def can_record?(action:)
       allowed_to_change = request_change_set.model.can_record?(agent: current_staff_profile)
-      respond_to_change_error(action: action, allowed_to_change: allowed_to_change)
+      respond_to_change_error(action:, allowed_to_change:)
     end
 end

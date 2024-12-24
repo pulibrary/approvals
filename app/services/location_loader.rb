@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class LocationLoader
   class << self
     def load(config_file: Rails.root.join("config", "building_locations.yml"))

@@ -1,9 +1,11 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe "delegates/index", type: :view do
   let(:delegate1) { FactoryBot.create(:delegate) }
   let(:delegate2) { FactoryBot.create(:delegate) }
+
   before do
     assign(:delegates, [delegate1, delegate2])
     assign(:delegate, FactoryBot.build(:delegate))

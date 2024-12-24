@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "capybara/rails"
 require "selenium-webdriver"
 require "capybara/rspec"
@@ -7,9 +8,8 @@ require "capybara-screenshot/rspec"
 Capybara.server = :puma, { Silent: true }
 
 Capybara.register_driver(:selenium) do |app|
-
   browser_options = ::Selenium::WebDriver::Chrome::Options.new
-  browser_options.args << "--headless" unless ENV["RUN_IN_BROWSER"] == "true"
+  browser_options.args << "--headless" unless ENV.fetch("RUN_IN_BROWSER", nil) == "true"
   browser_options.args << "--disable-gpu"
   browser_options.args << "--disable-setuid-sandbox"
   browser_options.args << "--window-size=7680,4320"

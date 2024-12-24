@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+
 class Ldap
   class << self
     def find_by_netid(net_id, ldap_connection: default_connection)
       filter = Net::LDAP::Filter.eq("uid", net_id)
-      result = ldap_connection.search(filter: filter).first
+      result = ldap_connection.search(filter:).first
       {
         netid: result[:uid].first,
         department: result[:ou].first,

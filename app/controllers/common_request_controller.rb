@@ -11,7 +11,9 @@ class CommonRequestController < ApplicationController
     else
       respond_to do |format|
         @request = nil
-        format.html { redirect_to my_requests_path, flash: { error: "Only the requestor or reviewer can view a request" } }
+        format.html do
+ redirect_to my_requests_path, flash: { error: "Only the requestor or reviewer can view a request" }
+        end
         format.json { redirect_to my_requests_path(format: :json) }
       end
     end
@@ -44,7 +46,8 @@ class CommonRequestController < ApplicationController
 
   # POST
   def create
-    MailForAction.send(request: @request, action: "create") if update_model_and_respond(handle_deletes: false, success_verb: "created", error_action: :new)
+    MailForAction.send(request: @request, action: "create") if update_model_and_respond(handle_deletes: false,
+                                                                                        success_verb: "created", error_action: :new)
   end
 
   # PATCH/PUT
@@ -61,7 +64,9 @@ class CommonRequestController < ApplicationController
   def destroy
     @request.destroy
     respond_to do |format|
-      format.html { redirect_to list_url, flash: { success: "#{model_instance_to_name(@request)} was successfully destroyed." } }
+      format.html do
+ redirect_to list_url, flash: { success: "#{model_instance_to_name(@request)} was successfully destroyed." }
+      end
       format.json { head :no_content }
     end
   end
@@ -80,7 +85,7 @@ class CommonRequestController < ApplicationController
               end
 
     # handle the error
-    respond_with_show_error(message: message, status: :invalid_edit)
+    respond_with_show_error(message:, status: :invalid_edit)
   end
 
   def comment
@@ -92,7 +97,7 @@ class CommonRequestController < ApplicationController
     message = "You are not allowed access to comment on this #{model_instance_to_name(@request)}"
 
     # handle the error
-    respond_with_show_error(message: message, status: :invalid_edit)
+    respond_with_show_error(message:, status: :invalid_edit)
   end
 
   # PATCH/PUT
@@ -141,6 +146,7 @@ class CommonRequestController < ApplicationController
                                content: "This request was created by #{current_staff_profile.current_delegate.full_name} on behalf of #{current_staff_profile.full_name}" }
       end
       return [delegate_note_hash].compact unless notes
+
       Array(notes).map do |note_entry|
         note_entry.merge(creator_id: current_staff_profile.id) if note_entry[:content].present?
       end.prepend(delegate_note_hash).compact
@@ -150,7 +156,7 @@ class CommonRequestController < ApplicationController
       respond_to do |format|
         @request = request_change_set.model
         format.html { redirect_to @request, flash: { error: message } }
-        format.json { render :show, status: status, location: @request }
+        format.json { render :show, status:, location: @request }
       end
       false
     end
@@ -176,7 +182,6 @@ class CommonRequestController < ApplicationController
     end
 
     # change set does not implement each_key, which this rubocop error is requesting
-    # rubocop:disable Style/HashEachMethods
     def copy_model_errors_to_change_set
       request_change_set.model.errors.each do |error|
         request_change_set.errors.add(error.attribute, error.message)
@@ -186,17 +191,19 @@ class CommonRequestController < ApplicationController
     def clear_error_data
       request_change_set.errors.each do |error|
         next if error.attribute.to_s.include?(".") # skip clearing nested objects
+
         request_change_set.send("#{error.attribute}=", nil)
       end
     end
-    # rubocop:enable Style/HashEachMethods
 
-    def update_model_and_respond(handle_deletes:, success_verb:, error_action:)
-      valid = validate_and_save(handle_deletes: handle_deletes)
+        def update_model_and_respond(handle_deletes:, success_verb:, error_action:)
+      valid = validate_and_save(handle_deletes:)
       respond_to do |format|
         if valid
           @request = request_change_set.model
-          format.html { redirect_to @request, flash: { success: "#{model_instance_to_name(@request)} was successfully #{success_verb}." } }
+          format.html do
+ redirect_to @request, flash: { success: "#{model_instance_to_name(@request)} was successfully #{success_verb}." }
+          end
           format.json { render :show, status: :ok, location: @request }
         else
           setup_change_set_for_view
@@ -205,7 +212,7 @@ class CommonRequestController < ApplicationController
         end
       end
       valid
-    end
+        end
 
     def validate_and_save(handle_deletes:)
       params_to_process = if process_request_params?
@@ -222,33 +229,34 @@ class CommonRequestController < ApplicationController
     end
 
     def run_action(action:, change_method: :creator_can_change?)
-      allowed_to_change = send(change_method, action: action)
+      allowed_to_change = send(change_method, action:)
       return unless allowed_to_change
 
       request = request_change_set.model
       request.aasm.fire(action, agent: current_staff_profile) if request_change_set.valid?
 
-      MailForAction.send(request: request, action: action) if update_model_and_respond(handle_deletes: false, success_verb: "updated", error_action: :review)
+      MailForAction.send(request:, action:) if update_model_and_respond(handle_deletes: false,
+                                                                        success_verb: "updated", error_action: :review)
     end
 
     def creator_can_change?(action:)
       allowed_to_change = request_change_set.model.can_edit?(agent: current_staff_profile)
-      respond_to_change_error(action: action, allowed_to_change: allowed_to_change)
+      respond_to_change_error(action:, allowed_to_change:)
     end
 
     def creator_can_cancel?(action:)
       allowed_to_change = request_change_set.model.can_cancel?(agent: current_staff_profile)
-      respond_to_change_error(action: action, allowed_to_change: allowed_to_change)
+      respond_to_change_error(action:, allowed_to_change:)
     end
 
     def supervisor_can_change?(action:)
       allowed_to_change = request_change_set.model.only_supervisor(agent: current_staff_profile)
-      respond_to_change_error(action: action, allowed_to_change: allowed_to_change)
+      respond_to_change_error(action:, allowed_to_change:)
     end
 
     def can_comment?(action:)
       allowed_to_change = request_change_set.model.only_creator_or_supervisor?(agent: current_staff_profile)
-      respond_to_change_error(action: action, allowed_to_change: allowed_to_change)
+      respond_to_change_error(action:, allowed_to_change:)
     end
 
     def respond_to_change_error(action:, allowed_to_change:)

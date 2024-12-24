@@ -7,7 +7,7 @@ class SimpleCovHelper
     SimpleCov.configure do
       minimum_coverage(98)
     end
-    new(base_dir: base_dir).inspect_results
+    new(base_dir:).inspect_results
   end
 
   attr_reader :base_dir
@@ -27,7 +27,9 @@ class SimpleCovHelper
     min_coverage = SimpleCov.minimum_coverage
     min_coverage = min_coverage[:line].to_f if min_coverage.is_a? Hash
     return unless covered_percent < min_coverage
-    $stderr.printf("Coverage (%.2f%%) is below the expected minimum coverage (%.2f%%).\n", covered_percent, SimpleCov.minimum_coverage)
+
+    $stderr.printf("Coverage (%.2f%%) is below the expected minimum coverage (%.2f%%).\n", covered_percent,
+                   SimpleCov.minimum_coverage)
     Kernel.exit SimpleCov::ExitCodes::MINIMUM_COVERAGE
   end
 end

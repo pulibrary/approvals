@@ -1,11 +1,13 @@
 # frozen_string_literal: true
+
 #
 #  ReportListDecorator decorates a request list with the ability to create filter urls, which can be used to filter the results.
 #    This decorator supports the My Request page filter drop down menus in addition to supporting the display of the list of results.
 #
 class ReportListDecorator < RequestListDecorator
   def data_table_heading
-    "#{data_table_heading_filters} sorted by #{sort_options_table[params_manager.current_sort]}".titleize.gsub("   ", " ")
+    "#{data_table_heading_filters} sorted by #{sort_options_table[params_manager.current_sort]}".titleize.gsub("   ",
+                                                                                                               " ")
   end
 
   # only used for report
@@ -47,13 +49,14 @@ class ReportListDecorator < RequestListDecorator
                               "41032" => "Scholarly Collections & Research Services",
                               "41000" => "Main",
                               "10001" => "Research Collections & Preservation Consortium" }
-    @department_mapping[number] || Department.find_by(number: number).name
+    @department_mapping[number] || Department.find_by(number:).name
   end
 
   # @returns [Hash] Labels and urls for the department dropdown menu
   def department_filter_urls
     Department.all.map do |department|
-      [clean_department_name(department.number), params_manager.url_with_filter(field: :department, new_option: department.number)]
+      [clean_department_name(department.number),
+       params_manager.url_with_filter(field: :department, new_option: department.number)]
     end.to_h
   end
 
@@ -68,16 +71,16 @@ class ReportListDecorator < RequestListDecorator
   def report_json
     request_list.map do |request|
       {
-        'id': request.id,
-        'request_type': { value: title(request), link: Rails.application.routes.url_helpers.url_for(request) },
-        'start_date': request.formatted_full_start_date,
-        'end_date': request.formatted_full_end_date,
-        'status': request.latest_status,
-        'staff': request.full_name,
-        'department': request.department.name,
-        'event_format': request.event_format,
-        'approval_date': approval_date(request),
-        'total': total(request)
+        id: request.id,
+        request_type: { value: title(request), link: Rails.application.routes.url_helpers.url_for(request) },
+        start_date: request.formatted_full_start_date,
+        end_date: request.formatted_full_end_date,
+        status: request.latest_status,
+        staff: request.full_name,
+        department: request.department.name,
+        event_format: request.event_format,
+        approval_date: approval_date(request),
+        total: total(request)
       }
     end.to_json
   end
@@ -102,6 +105,7 @@ class ReportListDecorator < RequestListDecorator
     def data_table_heading_filters
       filters = params_manager.filter_params
       return "All requests" if filters.blank?
+
       heading = "#{filters[:status]} #{filters[:request_type]} requests"
       heading += " in #{clean_department_name(filters[:department])}" if filters[:department]
       heading

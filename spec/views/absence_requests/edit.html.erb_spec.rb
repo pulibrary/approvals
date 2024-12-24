@@ -1,12 +1,16 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe "absence_requests/edit", type: :view do
   let(:absence_request) do
     FactoryBot.create(:absence_request, absence_type: "vacation")
   end
+
   before do
-    assign(:request_change_set, AbsenceRequestChangeSet.new(absence_request, start_date: Date.parse("2019-12-23"), end_date: Date.parse("2019-12-27")))
+    assign(:request_change_set,
+           AbsenceRequestChangeSet.new(absence_request, start_date: Date.parse("2019-12-23"),
+                                                        end_date: Date.parse("2019-12-27")))
   end
 
   it "renders the edit absence_request form" do

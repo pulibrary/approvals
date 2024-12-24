@@ -7,7 +7,7 @@ FactoryBot.define do
 
     trait :with_head do
       after(:create) do |department, _evaluator|
-        department.head = FactoryBot.create(:staff_profile, department: department)
+        department.head = FactoryBot.create(:staff_profile, department:)
         department.save
       end
     end

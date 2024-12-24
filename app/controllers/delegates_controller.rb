@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 class DelegatesController < ApplicationController
   before_action :set_delegate, only: [:destroy]
   before_action :set_delegator, only: [:assume]
-  before_action :check_for_delegation, only: [:assume, :create, :destroy]
+  before_action :check_for_delegation, only: %i[assume create destroy]
 
   # GET /delegates
   # GET /delegates.json

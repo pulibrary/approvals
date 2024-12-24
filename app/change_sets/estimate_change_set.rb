@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class EstimateChangeSet < Reform::Form
   property :id
   property :cost_type

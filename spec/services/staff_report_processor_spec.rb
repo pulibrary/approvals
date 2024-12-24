@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe StaffReportProcessor, type: :model do
@@ -10,8 +11,9 @@ RSpec.describe StaffReportProcessor, type: :model do
   # rubocop:enable Layout/LineLength
   let(:department_config) do
     "41000:\n  head_uid: ajarvis\n  admin_assistant: \n    - testi\n    - testi\n    - imanager\n"\
-                            "90009:\n  admin_assistant: \n    - testabc"
+      "90009:\n  admin_assistant: \n    - testabc"
   end
+
   class FakeLdapClass
     class << self
       def find_by_netid(net_id)
@@ -19,7 +21,7 @@ RSpec.describe StaffReportProcessor, type: :model do
         @count += 1
         address = "Firestone Library$Test Department"
         {
-          address: address,
+          address:,
           department: "Library - Test Department",
           netid: net_id
         }
@@ -30,7 +32,8 @@ RSpec.describe StaffReportProcessor, type: :model do
   describe "#process" do
     it "creates users and staff profiles" do
       expect do
-        described_class.process(data: "#{heading_line}\n#{user_line}", ldap_service_class: FakeLdapClass, department_config: department_config)
+        described_class.process(data: "#{heading_line}\n#{user_line}", ldap_service_class: FakeLdapClass,
+                                department_config:)
       end.to change(User, :count).by(1).and(
         change(StaffProfile, :count).by(1)
       ).and(
@@ -49,7 +52,8 @@ RSpec.describe StaffReportProcessor, type: :model do
 
     it "connects a user and their supervisor" do
       expect do
-        described_class.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass, department_config: department_config)
+        described_class.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}",
+                                ldap_service_class: FakeLdapClass, department_config:)
       end.to change(User, :count).by(3).and(
         change(StaffProfile, :count).by(3)
       ).and(
@@ -75,7 +79,8 @@ RSpec.describe StaffReportProcessor, type: :model do
       ajarvis_user = FactoryBot.create(:user, uid: "ajarvis")
       FactoryBot.create :staff_profile, user: ajarvis_user
       expect do
-        described_class.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass, department_config: department_config)
+        described_class.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}",
+                                ldap_service_class: FakeLdapClass, department_config:)
       end.to change(User, :count).by(1).and(
         change(StaffProfile, :count).by(1)
       ).and(
@@ -98,7 +103,8 @@ RSpec.describe StaffReportProcessor, type: :model do
 
       it "connects a user and the department head" do
         expect do
-          described_class.process(data: "#{heading_line}\n#{user_line}\n#{user_line2}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass, department_config: department_config)
+          described_class.process(data: "#{heading_line}\n#{user_line}\n#{user_line2}\n#{manager_line}\n#{dean_line}",
+                                  ldap_service_class: FakeLdapClass, department_config:)
         end.to change(User, :count).by(4).and(
           change(StaffProfile, :count).by(4)
         ).and(
@@ -117,30 +123,32 @@ RSpec.describe StaffReportProcessor, type: :model do
     context "updating the department config" do
       let(:department_config_old) do
         "41000:\n  head_uid: ajarvis\n  admin_assistant: \n    - old_assistant_one\n"\
-        "90009:\n  admin_assistant: \n    - assistant_two\n    - assistant_three\n"
+          "90009:\n  admin_assistant: \n    - assistant_two\n    - assistant_three\n"
       end
       let(:department_config_new) do
         "41000:\n  head_uid: ajarvis\n  admin_assistant: \n    - new_assistant_one\n"\
-        "90009:\n  admin_assistant: \n    - assistant_two\n    - assistant_three\n"
+          "90009:\n  admin_assistant: \n    - assistant_two\n    - assistant_three\n"
       end
-      let(:assistants) { ["old_assistant_one", "new_assistant_one", "assistant_two", "assistant_three"] }
+      let(:assistants) { %w[old_assistant_one new_assistant_one assistant_two assistant_three] }
 
       before do
         assistants.each do |uid|
-          user = FactoryBot.create(:user, uid: uid)
-          FactoryBot.create(:staff_profile, user: user)
+          user = FactoryBot.create(:user, uid:)
+          FactoryBot.create(:staff_profile, user:)
         end
       end
 
       it "removes admin assistants no longer associated with the department" do
-        described_class.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass, department_config: department_config_old)
+        described_class.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}",
+                                ldap_service_class: FakeLdapClass, department_config: department_config_old)
         changed_department = Department.find_by(number: 41_000)
         unchanged_department = Department.find_by(number: 90_009)
         expect(changed_department.admin_assistants.size).to eq(1)
         expect(unchanged_department.admin_assistants.size).to eq(2)
         expect(changed_department.admin_assistants.first.uid).to eq("old_assistant_one")
 
-        described_class.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}", ldap_service_class: FakeLdapClass, department_config: department_config_new)
+        described_class.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}",
+                                ldap_service_class: FakeLdapClass, department_config: department_config_new)
         expect(changed_department.reload.admin_assistants.size).to eq(1)
         expect(unchanged_department.reload.admin_assistants.size).to eq(2)
         expect(changed_department.admin_assistants.last.uid).to eq("new_assistant_one")

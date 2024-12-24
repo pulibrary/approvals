@@ -1,11 +1,14 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe AbsenceRequest, type: :model do
-  subject(:absence_request) { described_class.new creator: creator }
+  subject(:absence_request) { described_class.new creator: }
+
   let(:creator_user) { FactoryBot.create :user, uid: "ssmith" }
   let(:creator) { FactoryBot.create :staff_profile, given_name: "Sally", surname: "Smith", user: creator_user }
   let(:user) { FactoryBot.create :staff_profile, :with_department }
+
   describe "attributes relevant to absence requests" do
     it { is_expected.to respond_to :absence_type }
     it { is_expected.to respond_to :creator }
@@ -37,7 +40,7 @@ RSpec.describe AbsenceRequest, type: :model do
 
   context "A saved absence request" do
     let(:creator) { FactoryBot.create :staff_profile, :with_department }
-    let(:absence_request) { FactoryBot.create :absence_request, creator: creator }
+    let(:absence_request) { FactoryBot.create :absence_request, creator: }
     let(:supervisor) { creator.supervisor }
     let(:department_head) { creator.department.head }
 
@@ -181,9 +184,11 @@ RSpec.describe AbsenceRequest, type: :model do
     it "can not assign participation" do
       expect { absence_request.participation = "presenter" }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can not request participation" do
       expect { absence_request.participation }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can assing participation in new" do
       expect { described_class.new(participation: "presenter") }.to raise_error ActiveModel::UnknownAttributeError
     end
@@ -191,9 +196,11 @@ RSpec.describe AbsenceRequest, type: :model do
     it "can not assign purpose" do
       expect { absence_request.purpose = "My grand purpose" }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can not request purpose" do
       expect { absence_request.purpose }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can assing purpose in new" do
       expect { described_class.new(purpose: "My grand purpose") }.to raise_error ActiveModel::UnknownAttributeError
     end
@@ -201,9 +208,11 @@ RSpec.describe AbsenceRequest, type: :model do
     it "can not assign estimates" do
       expect { absence_request.estimates = [Estimate.new] }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can not request estimates" do
       expect { absence_request.estimates }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can assing estimates in new" do
       expect { described_class.new(estimates: [Estimate.new]) }.to raise_error ActiveModel::UnknownAttributeError
     end
@@ -211,19 +220,25 @@ RSpec.describe AbsenceRequest, type: :model do
     it "can not assign event_requests" do
       expect { absence_request.event_requests = [EventRequest.new] }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can not request event_requests" do
       expect { absence_request.event_requests }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can assing event_requests in new" do
-      expect { described_class.new(event_requests: [EventRequest.new]) }.to raise_error ActiveModel::UnknownAttributeError
+      expect do
+ described_class.new(event_requests: [EventRequest.new])
+      end.to raise_error ActiveModel::UnknownAttributeError
     end
 
     it "can not assign travel_category" do
       expect { absence_request.travel_category = "business" }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can not request travel_category" do
       expect { absence_request.travel_category }.to raise_error ActiveModel::UnknownAttributeError
     end
+
     it "can assing travel_category in new" do
       expect { described_class.new(travel_category: "business") }.to raise_error ActiveModel::UnknownAttributeError
     end

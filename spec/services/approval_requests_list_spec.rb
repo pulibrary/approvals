@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe ApprovalRequestList, type: :model do
   let(:user) { FactoryBot.create :user, uid: "abc123" }
-  let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, user: user }
+  let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, user: }
   let(:user_two) { FactoryBot.create :user, uid: "abc12345" }
   let(:staff_profile_two) { FactoryBot.create :staff_profile, :with_department, user: user_two }
   let(:other_absence) { FactoryBot.create(:absence_request) }
@@ -21,6 +22,7 @@ RSpec.describe ApprovalRequestList, type: :model do
       my_absence
       my_travel
     end
+
     it "does not list requests when the approver is not a supervisor of the request creator" do
       supervisor = FactoryBot.create :staff_profile, :with_department
       supervisor.supervisor = nil
@@ -33,7 +35,8 @@ RSpec.describe ApprovalRequestList, type: :model do
     end
 
     it "returns a success response" do
-      list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil, order: nil)
+      list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil,
+                                           order: nil)
       expect(list.count).to be(2)
       expect(list.first).to be_a TravelRequest
       expect(list.last).to be_a AbsenceRequest
@@ -42,76 +45,90 @@ RSpec.describe ApprovalRequestList, type: :model do
 
     it "does not show canceled requests" do
       my_travel.cancel!(agent: staff_profile)
-      list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil, order: nil)
+      list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil,
+                                           order: nil)
       expect(list.count).to be(1)
       expect(list.map(&:id)).to contain_exactly(my_absence.id)
     end
 
     it "does not show denied requests" do
       my_travel.deny!(agent: staff_profile.supervisor)
-      list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil, order: nil)
+      list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil,
+                                           order: nil)
       expect(list.count).to be(1)
       expect(list.map(&:id)).to contain_exactly(my_absence.id)
     end
 
     it "does not show approved requests" do
       my_travel.approve!(agent: staff_profile.department.head)
-      list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil, order: nil)
+      list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil,
+                                           order: nil)
       expect(list.count).to be(1)
       expect(list.map(&:id)).to contain_exactly(my_absence.id)
     end
 
     it "does not show request already approved by the approver" do
       my_travel.approve!(agent: staff_profile.supervisor)
-      list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil, order: nil)
+      list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil,
+                                           order: nil)
       expect(list.count).to be(1)
       expect(list.map(&:id)).to contain_exactly(my_absence.id)
     end
 
     it "does not show request that are not ready for the approver to approve" do
-      list = described_class.list_requests(approver: staff_profile.supervisor.supervisor, request_filters: nil, search_query: nil, order: nil)
+      list = described_class.list_requests(approver: staff_profile.supervisor.supervisor, request_filters: nil,
+                                           search_query: nil, order: nil)
       expect(list.count).to be(0)
     end
 
     it "does show request that are ready for the approver to approve" do
       my_travel.approve(agent: staff_profile.supervisor)
-      list = described_class.list_requests(approver: staff_profile.supervisor.supervisor, request_filters: nil, search_query: nil, order: nil)
+      list = described_class.list_requests(approver: staff_profile.supervisor.supervisor, request_filters: nil,
+                                           search_query: nil, order: nil)
       expect(list.count).to be(1)
       expect(list.map(&:id)).to contain_exactly(my_travel.id)
     end
 
     it "accepts limit by status" do
       requested_changes_travel = FactoryBot.create(:travel_request, action: :change_request, creator: staff_profile)
-      list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: { status: "changes_requested" }, search_query: nil, order: nil)
+      list = described_class.list_requests(approver: staff_profile.supervisor,
+                                           request_filters: { status: "changes_requested" }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(requested_changes_travel.id)
     end
 
     it "accepts limit by request type absence" do
-      list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: { "request_type" => "absence" }, search_query: nil, order: nil)
+      list = described_class.list_requests(approver: staff_profile.supervisor,
+                                           request_filters: { "request_type" => "absence" }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(my_absence.id)
     end
 
     it "accepts limit by request type sick" do
       my_sick_absence = FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick")
-      list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: { "request_type" => "sick" }, search_query: nil, order: nil)
+      list = described_class.list_requests(approver: staff_profile.supervisor,
+                                           request_filters: { "request_type" => "sick" }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(my_sick_absence.id)
     end
 
     it "accepts limit by request type travel" do
-      list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: { "request_type" => "travel" }, search_query: nil, order: nil)
+      list = described_class.list_requests(approver: staff_profile.supervisor,
+                                           request_filters: { "request_type" => "travel" }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(my_travel.id)
     end
 
     it "accepts limit by request type business" do
       my_business_travel = FactoryBot.create(:travel_request, creator: staff_profile, travel_category: "business")
-      list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: { "request_type" => "business" }, search_query: nil, order: nil)
+      list = described_class.list_requests(approver: staff_profile.supervisor,
+                                           request_filters: { "request_type" => "business" }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(my_business_travel.id)
     end
 
     it "accepts limit by status and request type" do
-      my_business_travel = FactoryBot.create(:travel_request, creator: staff_profile, action: "fix_requested_changes", travel_category: "business")
-      FactoryBot.create(:travel_request, creator: staff_profile, action: "fix_requested_changes", travel_category: "professional_development")
-      list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: { "request_type" => "business", "status" => "pending" }, search_query: nil, order: nil)
+      my_business_travel = FactoryBot.create(:travel_request, creator: staff_profile, action: "fix_requested_changes",
+                                                              travel_category: "business")
+      FactoryBot.create(:travel_request, creator: staff_profile, action: "fix_requested_changes",
+                                         travel_category: "professional_development")
+      list = described_class.list_requests(approver: staff_profile.supervisor,
+                                           request_filters: { "request_type" => "business", "status" => "pending" }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(my_business_travel.id)
     end
 
@@ -128,7 +145,8 @@ RSpec.describe ApprovalRequestList, type: :model do
       end
 
       it "returns a success response" do
-        list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil, order: nil)
+        list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil,
+                                             search_query: nil, order: nil)
         expect(list.count).to be(2)
         expect(list.first).to be_a TravelRequest
         expect(list.last).to be_a AbsenceRequest
@@ -178,36 +196,42 @@ RSpec.describe ApprovalRequestList, type: :model do
 
     context "sort by start date" do
       it "by default sorts by start date ascending" do
-        list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil, order: nil)
+        list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil,
+                                             search_query: nil, order: nil)
         expect(list.map(&:id)).to eq [r3, r1, r2].map(&:id)
       end
 
       it "sorts ascending" do
-        list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil, order: "start_date_asc")
+        list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil,
+                                             search_query: nil, order: "start_date_asc")
         expect(list.map(&:id)).to eq [r3, r1, r2].map(&:id)
       end
     end
 
     context "sort by date created" do
       it "sorts ascending" do
-        list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil, order: "created_at_asc")
+        list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil,
+                                             search_query: nil, order: "created_at_asc")
         expect(list.map(&:id)).to eq [r1, r2, r3].map(&:id)
       end
 
       it "sorts descending" do
-        list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil, order: "created_at_desc")
+        list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil,
+                                             search_query: nil, order: "created_at_desc")
         expect(list.map(&:id)).to eq [r3, r2, r1].map(&:id)
       end
     end
 
     context "sort by date modified" do
       it "sorts ascending" do
-        list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil, order: "updated_at_asc")
+        list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil,
+                                             search_query: nil, order: "updated_at_asc")
         expect(list.map(&:id)).to eq [r2, r3, r1].map(&:id)
       end
 
       it "sorts descending" do
-        list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil, search_query: nil, order: "updated_at_desc")
+        list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: nil,
+                                             search_query: nil, order: "updated_at_desc")
         expect(list.map(&:id)).to eq [r1, r3, r2].map(&:id)
       end
     end
@@ -222,7 +246,8 @@ RSpec.describe ApprovalRequestList, type: :model do
       FactoryBot.create(:note, content: "elephants love balloons", request: absence_request2)
       FactoryBot.create(:note, content: "flamingoes are pink because of shrimp", request: travel_request2)
 
-      list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: { "status" => "pending" }, search_query: "balloons", order: nil)
+      list = described_class.list_requests(approver: staff_profile.supervisor,
+                                           request_filters: { "status" => "pending" }, search_query: "balloons", order: nil)
       expect(list.count).to eq 1
     end
 

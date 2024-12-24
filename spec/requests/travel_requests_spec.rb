@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe TravelRequestsController, type: :request do
@@ -19,6 +20,7 @@ RSpec.describe TravelRequestsController, type: :request do
   before do
     sign_in user
   end
+
   describe "changing the event_title" do
     let(:params) do
       {
@@ -45,6 +47,7 @@ RSpec.describe TravelRequestsController, type: :request do
         expect(flash[:success]).to eq("Travel request event name was successfully updated.")
       end
     end
+
     context "with an invalid new_event_name" do
       let(:target_event_id) { "" }
 
