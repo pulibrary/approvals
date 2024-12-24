@@ -16,8 +16,8 @@ RSpec.describe EventRequest, type: :model do
 
   describe "before_save callback" do
     it "updates the event title of a travel request" do
-      recurring_event = FactoryBot.create(:recurring_event, name: "Ice Capades")
-      creator = FactoryBot.create(:staff_profile)
+      recurring_event = create(:recurring_event, name: "Ice Capades")
+      creator = create(:staff_profile)
       event_requests_attributes = [
         recurring_event_id: recurring_event.id,
         location: "Beijing",

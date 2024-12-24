@@ -6,7 +6,7 @@ RSpec.describe User, type: :model do
   let(:access_token) { OmniAuth::AuthHash.new(provider: "cas", uid: "who") }
 
   before do
-    FactoryBot.create(:user, uid: "who", provider: "cas")
+    create(:user, uid: "who", provider: "cas")
   end
 
   describe "relationships" do

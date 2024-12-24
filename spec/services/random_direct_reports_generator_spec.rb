@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe RandomDirectReportsGenerator, type: :model do
-  let(:supervisor) { FactoryBot.create :staff_profile }
+  let(:supervisor) { create(:staff_profile) }
 
   before do
     supervisor # call this here so we do not create the supervisor as part of the test

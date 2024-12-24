@@ -3,41 +3,41 @@
 require "rails_helper"
 
 RSpec.describe AbsentStaff, type: :model do
-  let(:supervisor) { FactoryBot.create :staff_profile, given_name: "Goose" }
-  let(:jack) { FactoryBot.create :staff_profile, given_name: "Jack", supervisor: }
-  let(:jill) { FactoryBot.create :staff_profile, given_name: "Jill", supervisor: }
-  let(:mary) { FactoryBot.create :staff_profile, given_name: "Mary", supervisor: jill }
-  let(:peter) { FactoryBot.create :staff_profile, given_name: "Peter", supervisor: }
-  let(:piper) { FactoryBot.create :staff_profile, given_name: "Piper", supervisor: peter }
+  let(:supervisor) { create(:staff_profile, given_name: "Goose") }
+  let(:jack) { create(:staff_profile, given_name: "Jack", supervisor:) }
+  let(:jill) { create(:staff_profile, given_name: "Jill", supervisor:) }
+  let(:mary) { create(:staff_profile, given_name: "Mary", supervisor: jill) }
+  let(:peter) { create(:staff_profile, given_name: "Peter", supervisor:) }
+  let(:piper) { create(:staff_profile, given_name: "Piper", supervisor: peter) }
   let(:mary_sick_2020) do
     start_date = 1.year.from_now
     end_date = start_date + 2.days
-    FactoryBot.create :absence_request, creator: mary, start_date:, end_date:
+    create(:absence_request, creator: mary, start_date:, end_date:)
   end
   let(:peter_sick_2020) do
     start_date = 1.year.from_now
     end_date = start_date + 2.days
-    FactoryBot.create :absence_request, creator: peter, start_date:, end_date:
+    create(:absence_request, creator: peter, start_date:, end_date:)
   end
   let(:mary_sick_2019) do
     start_date = Time.zone.now
     end_date = start_date + 2.days
-    FactoryBot.create :absence_request, creator: mary, start_date:, end_date:
+    create(:absence_request, creator: mary, start_date:, end_date:)
   end
   let(:jack_vacation_2019) do
     start_date = 2.days.from_now
     end_date = start_date + 4.days
-    FactoryBot.create :absence_request, creator: jack, start_date:, end_date:
+    create(:absence_request, creator: jack, start_date:, end_date:)
   end
   let(:jill_vacation_2019) do
     start_date = 3.days.ago
     end_date = start_date + 4.days
-    FactoryBot.create :absence_request, creator: jill, start_date:, end_date:
+    create(:absence_request, creator: jill, start_date:, end_date:)
   end
   let(:piper_vacation_2019) do
     start_date = 3.days.ago
     end_date = start_date + 4.days
-    FactoryBot.create :absence_request, creator: piper, start_date:, end_date:
+    create(:absence_request, creator: piper, start_date:, end_date:)
   end
 
   before do

@@ -4,8 +4,8 @@ require "rails_helper"
 RSpec.describe EstimateDecorator, type: :model do
   subject(:estimate_decorator) { described_class.new(estimate) }
 
-  let(:estimate) { FactoryBot.create :estimate, request: }
-  let(:request) { FactoryBot.create :travel_request }
+  let(:estimate) { create(:estimate, request:) }
+  let(:request) { create(:travel_request) }
 
   describe "attributes relevant to Estimate" do
     it { is_expected.to respond_to :cost_type }
@@ -15,10 +15,10 @@ RSpec.describe EstimateDecorator, type: :model do
   end
 
   context "with a nil cost_type" do
-    let(:estimate) { FactoryBot.create(:estimate, cost_type: nil, request:) }
+    let(:estimate) { create(:estimate, cost_type: nil, request:) }
 
     it "raises an expected error" do
-        expect { estimate_decorator.data }.to raise_error(NoMethodError, "undefined method `to_sym' for nil:NilClass")
+        expect { estimate_decorator.data }.to raise_error(NoMethodError, "undefined method `to_sym' for nil")
     end
   end
 

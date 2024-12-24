@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "absence_requests/edit", type: :view do
   let(:absence_request) do
-    FactoryBot.create(:absence_request, absence_type: "vacation")
+    create(:absence_request, absence_type: "vacation")
   end
 
   before do

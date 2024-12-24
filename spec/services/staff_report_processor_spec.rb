@@ -74,10 +74,10 @@ RSpec.describe StaffReportProcessor, type: :model do
     end
 
     it "updates a user if their information changes" do
-      user = FactoryBot.create(:user, uid: "testi")
-      staff_profile = FactoryBot.create :staff_profile, user: user
-      ajarvis_user = FactoryBot.create(:user, uid: "ajarvis")
-      FactoryBot.create :staff_profile, user: ajarvis_user
+      user = create(:user, uid: "testi")
+      staff_profile = create(:staff_profile, user: user)
+      ajarvis_user = create(:user, uid: "ajarvis")
+      create(:staff_profile, user: ajarvis_user)
       expect do
         described_class.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}",
                                 ldap_service_class: FakeLdapClass, department_config:)
@@ -133,8 +133,8 @@ RSpec.describe StaffReportProcessor, type: :model do
 
       before do
         assistants.each do |uid|
-          user = FactoryBot.create(:user, uid:)
-          FactoryBot.create(:staff_profile, user:)
+          user = create(:user, uid:)
+          create(:staff_profile, user:)
         end
       end
 

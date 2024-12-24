@@ -3,14 +3,14 @@
 require "rails_helper"
 
 RSpec.describe ApprovalRequestList, type: :model do
-  let(:user) { FactoryBot.create :user, uid: "abc123" }
-  let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, user: }
-  let(:user_two) { FactoryBot.create :user, uid: "abc12345" }
-  let(:staff_profile_two) { FactoryBot.create :staff_profile, :with_department, user: user_two }
-  let(:other_absence) { FactoryBot.create(:absence_request) }
-  let(:other_travel) { FactoryBot.create(:travel_request) }
-  let(:my_absence) { FactoryBot.create(:absence_request, creator: staff_profile, start_date: Time.zone.tomorrow) }
-  let(:my_travel) { FactoryBot.create(:travel_request, creator: staff_profile) }
+  let(:user) { create(:user, uid: "abc123") }
+  let(:staff_profile) { create(:staff_profile, :with_department, user:) }
+  let(:user_two) { create(:user, uid: "abc12345") }
+  let(:staff_profile_two) { create(:staff_profile, :with_department, user: user_two) }
+  let(:other_absence) { create(:absence_request) }
+  let(:other_travel) { create(:travel_request) }
+  let(:my_absence) { create(:absence_request, creator: staff_profile, start_date: Time.zone.tomorrow) }
+  let(:my_travel) { create(:travel_request, creator: staff_profile) }
 
   describe "#list_requests" do
     before do
@@ -24,12 +24,12 @@ RSpec.describe ApprovalRequestList, type: :model do
     end
 
     it "does not list requests when the approver is not a supervisor of the request creator" do
-      supervisor = FactoryBot.create :staff_profile, :with_department
+      supervisor = create(:staff_profile, :with_department)
       supervisor.supervisor = nil
       supervisor.save
-      department_one = FactoryBot.create :department, :with_head, admin_assistants: [staff_profile_two]
-      staff_profile = FactoryBot.create :staff_profile, supervisor: supervisor, department: department_one
-      other_travel_two = FactoryBot.create(:travel_request, creator: staff_profile)
+      department_one = create(:department, :with_head, admin_assistants: [staff_profile_two])
+      staff_profile = create(:staff_profile, supervisor: supervisor, department: department_one)
+      other_travel_two = create(:travel_request, creator: staff_profile)
       expect { other_travel_two.approve(agent: department_one.head) }.not_to raise_error
       # expect(other_travel_two).not_to be_approved # See issue: https://github.com/pulibrary/approvals/issues/808
     end
@@ -90,7 +90,7 @@ RSpec.describe ApprovalRequestList, type: :model do
     end
 
     it "accepts limit by status" do
-      requested_changes_travel = FactoryBot.create(:travel_request, action: :change_request, creator: staff_profile)
+      requested_changes_travel = create(:travel_request, action: :change_request, creator: staff_profile)
       list = described_class.list_requests(approver: staff_profile.supervisor,
                                            request_filters: { status: "changes_requested" }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(requested_changes_travel.id)
@@ -103,7 +103,7 @@ RSpec.describe ApprovalRequestList, type: :model do
     end
 
     it "accepts limit by request type sick" do
-      my_sick_absence = FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick")
+      my_sick_absence = create(:absence_request, creator: staff_profile, absence_type: "sick")
       list = described_class.list_requests(approver: staff_profile.supervisor,
                                            request_filters: { "request_type" => "sick" }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(my_sick_absence.id)
@@ -116,26 +116,26 @@ RSpec.describe ApprovalRequestList, type: :model do
     end
 
     it "accepts limit by request type business" do
-      my_business_travel = FactoryBot.create(:travel_request, creator: staff_profile, travel_category: "business")
+      my_business_travel = create(:travel_request, creator: staff_profile, travel_category: "business")
       list = described_class.list_requests(approver: staff_profile.supervisor,
                                            request_filters: { "request_type" => "business" }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(my_business_travel.id)
     end
 
     it "accepts limit by status and request type" do
-      my_business_travel = FactoryBot.create(:travel_request, creator: staff_profile, action: "fix_requested_changes",
-                                                              travel_category: "business")
-      FactoryBot.create(:travel_request, creator: staff_profile, action: "fix_requested_changes",
-                                         travel_category: "professional_development")
+      my_business_travel = create(:travel_request, creator: staff_profile, action: "fix_requested_changes",
+                                                   travel_category: "business")
+      create(:travel_request, creator: staff_profile, action: "fix_requested_changes",
+                              travel_category: "professional_development")
       list = described_class.list_requests(approver: staff_profile.supervisor,
                                            request_filters: { "request_type" => "business", "status" => "pending" }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(my_business_travel.id)
     end
 
     context "with changes requested" do
-      let(:profile1) { FactoryBot.create :staff_profile, supervisor: profile2 }
-      let(:profile2) { FactoryBot.create :staff_profile, supervisor: staff_profile }
-      let(:my_travel) { FactoryBot.create(:travel_request, creator: profile1) }
+      let(:profile1) { create(:staff_profile, supervisor: profile2) }
+      let(:profile2) { create(:staff_profile, supervisor: staff_profile) }
+      let(:my_travel) { create(:travel_request, creator: profile1) }
 
       before do
         my_travel.approve(agent: profile2)
@@ -162,19 +162,19 @@ RSpec.describe ApprovalRequestList, type: :model do
     # r1: created yesterday, modified tomorrow, start date today
     let(:r1) do
       Timecop.freeze(yesterday) do
-        FactoryBot.create(:travel_request, creator: staff_profile, start_date: today)
+        create(:travel_request, creator: staff_profile, start_date: today)
       end
     end
     # r2: created today, modified yesterday, start date tomorrow
     let(:r2) do
       Timecop.freeze(today) do
-        FactoryBot.create(:travel_request, creator: staff_profile, start_date: tomorrow)
+        create(:travel_request, creator: staff_profile, start_date: tomorrow)
       end
     end
     # r3: created tomorrow, modified today, start date yesterday
     let(:r3) do
       Timecop.freeze(tomorrow) do
-        FactoryBot.create(:travel_request, creator: staff_profile, start_date: yesterday)
+        create(:travel_request, creator: staff_profile, start_date: yesterday)
       end
     end
 
@@ -239,12 +239,12 @@ RSpec.describe ApprovalRequestList, type: :model do
 
   describe "GET #my_requests with searching" do
     it "retrieves a result" do
-      travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
-      absence_request2 = FactoryBot.create(:absence_request, creator: staff_profile, action: :deny)
-      travel_request2 = FactoryBot.create(:travel_request, creator: staff_profile)
-      FactoryBot.create(:note, content: "elephants love balloons", request: travel_request)
-      FactoryBot.create(:note, content: "elephants love balloons", request: absence_request2)
-      FactoryBot.create(:note, content: "flamingoes are pink because of shrimp", request: travel_request2)
+      travel_request = create(:travel_request, creator: staff_profile)
+      absence_request2 = create(:absence_request, creator: staff_profile, action: :deny)
+      travel_request2 = create(:travel_request, creator: staff_profile)
+      create(:note, content: "elephants love balloons", request: travel_request)
+      create(:note, content: "elephants love balloons", request: absence_request2)
+      create(:note, content: "flamingoes are pink because of shrimp", request: travel_request2)
 
       list = described_class.list_requests(approver: staff_profile.supervisor,
                                            request_filters: { "status" => "pending" }, search_query: "balloons", order: nil)
@@ -252,9 +252,9 @@ RSpec.describe ApprovalRequestList, type: :model do
     end
 
     it "retrieves a result by netid" do
-      FactoryBot.create(:travel_request, creator: staff_profile)
-      FactoryBot.create(:absence_request, creator: staff_profile, action: :deny)
-      FactoryBot.create(:travel_request, creator: staff_profile)
+      create(:travel_request, creator: staff_profile)
+      create(:absence_request, creator: staff_profile, action: :deny)
+      create(:travel_request, creator: staff_profile)
 
       list = described_class.list_requests(approver: staff_profile.supervisor, request_filters: { "status" => "pending" },
                                            search_query: "abc123", order: nil)

@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe TravelRequestChangeSet, type: :model do
   subject(:travel_request) { described_class.new(TravelRequest.new) }
 
-  let(:recurring_event) { FactoryBot.create :recurring_event }
+  let(:recurring_event) { create(:recurring_event) }
   let(:travel_request_errors) do
     {
       creator_id: ["can't be blank"],
@@ -99,9 +99,9 @@ RSpec.describe TravelRequestChangeSet, type: :model do
 
   describe "#recurring_event_list" do
     it "responds with recurring events and will calculate new ones only if needed" do
-      event1 = FactoryBot.create :recurring_event, name: "abc"
+      event1 = create(:recurring_event, name: "abc")
       expect(travel_request.recurring_event_list).to eq("[{\"id\":#{event1.id},\"label\":\"abc\"}]")
-      event2 = FactoryBot.create :recurring_event, name: "two"
+      event2 = create(:recurring_event, name: "two")
       expect(travel_request.recurring_event_list).to eq("[{\"id\":#{event1.id},\"label\":\"abc\"},{\"id\":#{event2.id},\"label\":\"two\"}]")
       values_before = travel_request.instance_variable_get(:@values)
       expect(travel_request.recurring_event_list).to eq("[{\"id\":#{event1.id},\"label\":\"abc\"},{\"id\":#{event2.id},\"label\":\"two\"}]")
@@ -112,10 +112,10 @@ RSpec.describe TravelRequestChangeSet, type: :model do
 
   describe "#existing_notes" do
     it "gathers existing notes and filters blank notes" do
-      travel_request = described_class.new(FactoryBot.create(:travel_request))
+      travel_request = described_class.new(create(:travel_request))
       travel_request.notes << Note.new
       expect(travel_request.existing_notes).to be_empty
-      note = FactoryBot.create(:note, request: travel_request.model, content: "My Note")
+      note = create(:note, request: travel_request.model, content: "My Note")
       travel_request.notes << note
       expect(travel_request.existing_notes).to eq [{ content: "My Note", icon: "note",
                                                      title: "#{note.creator.full_name} on #{note.created_at.strftime(Rails.configuration.short_date_format)}" }]

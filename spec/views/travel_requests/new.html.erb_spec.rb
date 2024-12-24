@@ -4,9 +4,9 @@ require "rails_helper"
 
 RSpec.describe "travel_requests/new", type: :view do
   let(:travel_request) do
-    FactoryBot.build(:travel_request, purpose: "my grand purpose",
-                                      participation: "presenter",
-                                      travel_category: "business")
+    build(:travel_request, purpose: "my grand purpose",
+                           participation: "presenter",
+                           travel_category: "business")
   end
 
   before do

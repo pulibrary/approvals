@@ -4,19 +4,19 @@ require "rails_helper"
 
 RSpec.describe CreateMailer, type: :mailer do
   let(:supervisor) do
-    aa = FactoryBot.create(:staff_profile, given_name: "Sally", surname: "Smith")
-    head = FactoryBot.create(:staff_profile, given_name: "Department", surname: "Head")
-    department = FactoryBot.create(:department, head:, admin_assistants: [aa])
-    FactoryBot.create :staff_profile, department:, given_name: "Jane", surname: "Smith", supervisor: head
+    aa = create(:staff_profile, given_name: "Sally", surname: "Smith")
+    head = create(:staff_profile, given_name: "Department", surname: "Head")
+    department = create(:department, head:, admin_assistants: [aa])
+    create(:staff_profile, department:, given_name: "Jane", surname: "Smith", supervisor: head)
   end
 
-  let(:user) { FactoryBot.create :user, uid: "jd4" }
+  let(:user) { create(:user, uid: "jd4") }
   let(:creator) do
- FactoryBot.create :staff_profile, user:, given_name: "Joe", surname: "Doe", supervisor:,
-                                   department: supervisor.department
+ create(:staff_profile, user:, given_name: "Joe", surname: "Doe", supervisor:,
+                        department: supervisor.department)
   end
   let(:travel_request) do
- FactoryBot.create :travel_request, creator:, start_date: Date.parse("2019/12/30"), end_date: Date.parse("2019/12/31")
+ create(:travel_request, creator:, start_date: Date.parse("2019/12/30"), end_date: Date.parse("2019/12/31"))
   end
   let(:today_formatted) { Time.zone.now.strftime(Rails.configuration.short_date_format) }
 

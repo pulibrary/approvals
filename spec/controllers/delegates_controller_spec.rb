@@ -3,15 +3,15 @@
 require "rails_helper"
 
 RSpec.describe DelegatesController, type: :controller do
-  let(:delegate) { FactoryBot.create :staff_profile }
+  let(:delegate) { create(:staff_profile) }
 
   let(:valid_attributes) { { delegate_id: delegate.id } }
 
   let(:invalid_attributes) { { delegate_id: "blah" } }
 
   let(:valid_session) { {} }
-  let(:user) { FactoryBot.create :user }
-  let(:staff_profile) { FactoryBot.create :staff_profile, user: }
+  let(:user) { create(:user) }
+  let(:staff_profile) { create(:staff_profile, user:) }
 
   before do
     staff_profile
@@ -20,11 +20,11 @@ RSpec.describe DelegatesController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
-      sally_smith = FactoryBot.create :staff_profile, given_name: "Sally", surname: "Smith"
-      jane_doe = FactoryBot.create :staff_profile, given_name: "Jane", surname: "Doe"
-      delegate = FactoryBot.create :delegate, delegator: staff_profile, delegate: sally_smith
-      delegate2 = FactoryBot.create :delegate, delegator: staff_profile, delegate: jane_doe
-      FactoryBot.create :delegate
+      sally_smith = create(:staff_profile, given_name: "Sally", surname: "Smith")
+      jane_doe = create(:staff_profile, given_name: "Jane", surname: "Doe")
+      delegate = create(:delegate, delegator: staff_profile, delegate: sally_smith)
+      delegate2 = create(:delegate, delegator: staff_profile, delegate: jane_doe)
+      create(:delegate)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
       expect(assigns[:delegates]).to eq [delegate2, delegate]
@@ -33,7 +33,7 @@ RSpec.describe DelegatesController, type: :controller do
 
   describe "GET #assume" do
     it "returns a success response" do
-      delegate = FactoryBot.create :delegate, delegate: staff_profile
+      delegate = create(:delegate, delegate: staff_profile)
       get :assume, params: { id: delegate.to_param }, session: valid_session
       expect(response).to redirect_to(my_requests_path)
       expect(session["approvals_delegate"]).to eq delegate.id.to_s
@@ -51,7 +51,7 @@ RSpec.describe DelegatesController, type: :controller do
 
     context "assume another's delegate" do
       it "returns a redirect response" do
-        delegate = FactoryBot.create :delegate
+        delegate = create(:delegate)
         get :assume, params: { id: delegate.to_param }, session: valid_session
         expect(response).to redirect_to(my_requests_path)
         expect(response.headers["APPROVALS-DELEGATE"]).not_to eq delegate.to_s
@@ -61,8 +61,8 @@ RSpec.describe DelegatesController, type: :controller do
 
     context "when you are being delegate" do
       it "does not allow you to assume a delegation" do
-        delegate = FactoryBot.create :delegate, delegate: staff_profile
-        delegate2 = FactoryBot.create :delegate, delegate: delegate.delegator
+        delegate = create(:delegate, delegate: staff_profile)
+        delegate2 = create(:delegate, delegate: delegate.delegator)
         valid_session["approvals_delegate"] = delegate.id.to_s
         get :assume, params: { id: delegate2.to_param }, session: valid_session
         expect(response).to redirect_to(my_requests_path)
@@ -74,7 +74,7 @@ RSpec.describe DelegatesController, type: :controller do
 
   describe "GET #cancel_delegation" do
     it "returns a success response" do
-      delegate = FactoryBot.create :delegate, delegate: staff_profile
+      delegate = create(:delegate, delegate: staff_profile)
       valid_session["approvals_delegate"] = delegate.id.to_s
       get :cancel, session: valid_session
       expect(response).to redirect_to(my_requests_path)
@@ -85,11 +85,11 @@ RSpec.describe DelegatesController, type: :controller do
 
   describe "GET #to_assume" do
     it "returns a success response" do
-      sally_smith = FactoryBot.create :staff_profile, given_name: "Sally", surname: "Smith"
-      jane_doe = FactoryBot.create :staff_profile, given_name: "Jane", surname: "Doe"
-      delegate = FactoryBot.create :delegate, delegate: staff_profile, delegator: sally_smith
-      delegate2 = FactoryBot.create :delegate, delegate: staff_profile, delegator: jane_doe
-      FactoryBot.create :delegate
+      sally_smith = create(:staff_profile, given_name: "Sally", surname: "Smith")
+      jane_doe = create(:staff_profile, given_name: "Jane", surname: "Doe")
+      delegate = create(:delegate, delegate: staff_profile, delegator: sally_smith)
+      delegate2 = create(:delegate, delegate: staff_profile, delegator: jane_doe)
+      create(:delegate)
       get :to_assume, params: {}, session: valid_session
       expect(response).to be_successful
       expect(assigns[:delegators]).to eq [delegate2, delegate]
@@ -119,7 +119,7 @@ RSpec.describe DelegatesController, type: :controller do
 
     context "when you are being delegate" do
       it "does not allow you to create a delegation" do
-        delegate = FactoryBot.create :delegate, delegate: staff_profile
+        delegate = create(:delegate, delegate: staff_profile)
         valid_session["approvals_delegate"] = delegate.id.to_s
         post :create, params: { delegate: valid_attributes }, session: valid_session
         expect(response).to redirect_to(my_requests_path)
@@ -131,14 +131,14 @@ RSpec.describe DelegatesController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested delegate" do
-      delegate = FactoryBot.create :delegate, delegator: staff_profile
+      delegate = create(:delegate, delegator: staff_profile)
       expect do
         delete :destroy, params: { id: delegate.to_param }, session: valid_session
       end.to change(Delegate, :count).by(-1)
     end
 
     it "redirects to the delegates list" do
-      delegate = FactoryBot.create :delegate, delegator: staff_profile
+      delegate = create(:delegate, delegator: staff_profile)
       delete :destroy, params: { id: delegate.to_param }, session: valid_session
       expect(response).to redirect_to(delegates_url)
     end
@@ -149,8 +149,8 @@ RSpec.describe DelegatesController, type: :controller do
     end
 
     it "does not allow you to assume a delegation" do
-      delegate = FactoryBot.create :delegate, delegate: staff_profile
-      delegate2 = FactoryBot.create :delegate, delegate: delegate.delegator
+      delegate = create(:delegate, delegate: staff_profile)
+      delegate2 = create(:delegate, delegate: delegate.delegator)
       valid_session["approvals_delegate"] = delegate.id.to_s
       expect do
         delete :destroy, params: { id: delegate2.to_param }, session: valid_session

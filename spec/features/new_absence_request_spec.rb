@@ -3,10 +3,10 @@
 require "rails_helper"
 
 RSpec.describe "New Absence Request", type: :feature, js: true do
-  let(:user) { FactoryBot.create :user }
+  let(:user) { create(:user) }
   let(:staff_profile) do
-    FactoryBot.create :staff_profile, :with_department, user:, given_name: "Sally", surname: "Smith",
-                                                        vacation_balance: 90.1, personal_balance: 16.0, sick_balance: 100.0
+    create(:staff_profile, :with_department, user:, given_name: "Sally", surname: "Smith",
+                                             vacation_balance: 90.1, personal_balance: 16.0, sick_balance: 100.0)
   end
 
   before do

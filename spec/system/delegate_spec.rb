@@ -4,9 +4,9 @@ require "rails_helper"
 
 RSpec.describe "Delegate", type: :system do
     it "displays an error when creating a duplicate delegate" do
-        delegator_user = FactoryBot.create :user
-        FactoryBot.create(:staff_profile, user: delegator_user)
-        delegate_profile = FactoryBot.create(:staff_profile)
+        delegator_user = create(:user)
+        create(:staff_profile, user: delegator_user)
+        delegate_profile = create(:staff_profile)
 
         login_as(delegator_user)
         visit "/delegates"

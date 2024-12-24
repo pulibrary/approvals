@@ -3,12 +3,12 @@
 require "rails_helper"
 
 RSpec.describe "delegates/index", type: :view do
-  let(:delegate1) { FactoryBot.create(:delegate) }
-  let(:delegate2) { FactoryBot.create(:delegate) }
+  let(:delegate1) { create(:delegate) }
+  let(:delegate2) { create(:delegate) }
 
   before do
     assign(:delegates, [delegate1, delegate2])
-    assign(:delegate, FactoryBot.build(:delegate))
+    assign(:delegate, build(:delegate))
   end
 
   it "renders new delegate form" do

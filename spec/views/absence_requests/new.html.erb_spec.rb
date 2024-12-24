@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "absence_requests/new", type: :view do
   let(:absence_request) do
-    FactoryBot.build(:absence_request, absence_type: "vacation")
+    build(:absence_request, absence_type: "vacation")
   end
 
   before do

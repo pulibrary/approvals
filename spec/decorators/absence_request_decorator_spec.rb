@@ -4,7 +4,7 @@ require "rails_helper"
 RSpec.describe AbsenceRequestDecorator, type: :model do
   subject(:absence_request_decorator) { described_class.new(absence_request) }
 
-  let(:absence_request) { FactoryBot.create(:absence_request, absence_type: :vacation) }
+  let(:absence_request) { create(:absence_request, absence_type: :vacation) }
 
   describe "attributes relevant to AbsenceRequest" do
     it { is_expected.to respond_to :absence_type }
@@ -29,7 +29,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     end
 
     context "when absence_type is sick" do
-      let(:absence_request) { FactoryBot.create(:absence_request, absence_type: :sick) }
+      let(:absence_request) { create(:absence_request, absence_type: :sick) }
 
       it "returns sick icon" do
         expect(absence_request_decorator.absence_type_icon).to eq "lux-icon-hospital"
@@ -37,7 +37,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     end
 
     context "when absence_type is personal" do
-      let(:absence_request) { FactoryBot.create(:absence_request, absence_type: :personal) }
+      let(:absence_request) { create(:absence_request, absence_type: :personal) }
 
       it "returns personal icon" do
         expect(absence_request_decorator.absence_type_icon).to eq "lux-icon-relax"
@@ -45,7 +45,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     end
 
     context "when absence_type is research_days" do
-      let(:absence_request) { FactoryBot.create(:absence_request, absence_type: :research_days) }
+      let(:absence_request) { create(:absence_request, absence_type: :research_days) }
 
       it "returns research_days icon" do
         expect(absence_request_decorator.absence_type_icon).to eq "lux-icon-research"
@@ -53,7 +53,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     end
 
     context "when absence_type is consulting" do
-      let(:absence_request) { FactoryBot.create(:absence_request, absence_type: :consulting) }
+      let(:absence_request) { create(:absence_request, absence_type: :consulting) }
 
       it "returns consulting icon" do
         expect(absence_request_decorator.absence_type_icon).to eq "lux-icon-consulting"
@@ -61,7 +61,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     end
 
     context "when absence_type is jury_duty" do
-      let(:absence_request) { FactoryBot.create(:absence_request, absence_type: :jury_duty) }
+      let(:absence_request) { create(:absence_request, absence_type: :jury_duty) }
 
       it "returns jury_duty icon" do
         expect(absence_request_decorator.absence_type_icon).to eq "lux-icon-scales"
@@ -69,7 +69,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     end
 
     context "when absence_type is death_in_family" do
-      let(:absence_request) { FactoryBot.create(:absence_request, absence_type: :death_in_family) }
+      let(:absence_request) { create(:absence_request, absence_type: :death_in_family) }
 
       it "returns death_in_family icon" do
         expect(absence_request_decorator.absence_type_icon).to eq "lux-icon-flower"
@@ -85,7 +85,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     end
 
     context "when absence_type is sick" do
-      let(:absence_request) { FactoryBot.create(:absence_request, absence_type: :sick) }
+      let(:absence_request) { create(:absence_request, absence_type: :sick) }
 
       it "returns appropriate title" do
         expect(absence_request_decorator.title).to eq "Sick Leave"
@@ -93,7 +93,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     end
 
     context "when absence_type is personal days" do
-      let(:absence_request) { FactoryBot.create(:absence_request, absence_type: "personal") }
+      let(:absence_request) { create(:absence_request, absence_type: "personal") }
 
       it "returns appropriate title" do
         expect(absence_request_decorator.title).to eq "Personal Days"
@@ -101,7 +101,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     end
 
     context "when absence_type is research days" do
-      let(:absence_request) { FactoryBot.create(:absence_request, absence_type: :research_days) }
+      let(:absence_request) { create(:absence_request, absence_type: :research_days) }
 
       it "returns appropriate title" do
         expect(absence_request_decorator.title).to eq "Research Days"
@@ -109,7 +109,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     end
 
     context "when absence_type is consulting" do
-      let(:absence_request) { FactoryBot.create(:absence_request, absence_type: :consulting) }
+      let(:absence_request) { create(:absence_request, absence_type: :consulting) }
 
       it "returns appropriate title" do
         expect(absence_request_decorator.title).to eq "Consulting Leave"
@@ -117,7 +117,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     end
 
     context "when absence_type is jury duty" do
-      let(:absence_request) { FactoryBot.create(:absence_request, absence_type: :jury_duty) }
+      let(:absence_request) { create(:absence_request, absence_type: :jury_duty) }
 
       it "returns appropriate title" do
         expect(absence_request_decorator.title).to eq "Jury Duty Leave"
@@ -125,7 +125,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     end
 
     context "when absence type is death in family" do
-      let(:absence_request) { FactoryBot.create(:absence_request, absence_type: :death_in_family) }
+      let(:absence_request) { create(:absence_request, absence_type: :death_in_family) }
 
       it "returns appropriate title" do
         expect(absence_request_decorator.title).to eq "Death In The Family Leave"
@@ -134,7 +134,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
   end
 
   describe "#formatted_start_date" do
-    let(:absence_request) { FactoryBot.create(:absence_request, start_date: Time.zone.parse("2019-07-04 12:12")) }
+    let(:absence_request) { create(:absence_request, start_date: Time.zone.parse("2019-07-04 12:12")) }
 
     it "returns a formated start date" do
       expect(absence_request_decorator.formatted_start_date).to eq "07/04/2019"
@@ -142,7 +142,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
   end
 
   describe "#formatted_full_start_date" do
-    let(:absence_request) { FactoryBot.create(:absence_request, start_date: Time.zone.parse("2019-07-04 12:12")) }
+    let(:absence_request) { create(:absence_request, start_date: Time.zone.parse("2019-07-04 12:12")) }
 
     it "returns a formated start date" do
       expect(absence_request_decorator.formatted_full_start_date).to eq "July 4, 2019"
@@ -150,7 +150,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
   end
 
   describe "#formatted_end_date" do
-    let(:absence_request) { FactoryBot.create(:absence_request, end_date: Time.zone.parse("2019-07-04 12:12")) }
+    let(:absence_request) { create(:absence_request, end_date: Time.zone.parse("2019-07-04 12:12")) }
 
     it "returns a formated end date" do
       expect(absence_request_decorator.formatted_end_date).to eq "07/04/2019"
@@ -158,7 +158,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
   end
 
   describe "#formatted_full_end_date" do
-    let(:absence_request) { FactoryBot.create(:absence_request, end_date: Time.zone.parse("2019-07-04 12:12")) }
+    let(:absence_request) { create(:absence_request, end_date: Time.zone.parse("2019-07-04 12:12")) }
 
     it "returns a formated end date" do
       expect(absence_request_decorator.formatted_full_end_date).to eq "July 4, 2019"
@@ -166,14 +166,14 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
   end
 
   describe "#status_icon" do
-    let(:absence_request) { FactoryBot.create(:absence_request) }
+    let(:absence_request) { create(:absence_request) }
 
     it "returns the correct lux icon" do
       expect(absence_request_decorator.status_icon).to eq "clock"
     end
 
     context "when absence has been apporved" do
-      let(:absence_request) { FactoryBot.create(:absence_request, action: :approve) }
+      let(:absence_request) { create(:absence_request, action: :approve) }
 
       it "returns the correct lux icon" do
         expect(absence_request_decorator.status_icon).to eq "approved"
@@ -181,7 +181,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     end
 
     context "when absence has been denied" do
-      let(:absence_request) { FactoryBot.create(:absence_request, action: :deny) }
+      let(:absence_request) { create(:absence_request, action: :deny) }
 
       it "returns the correct lux icon" do
         expect(absence_request_decorator.status_icon).to eq "denied"
@@ -189,7 +189,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     end
 
     context "when absence has been canceled" do
-      let(:absence_request) { FactoryBot.create(:absence_request, action: :cancel) }
+      let(:absence_request) { create(:absence_request, action: :cancel) }
 
       it "returns the correct lux icon" do
         expect(absence_request_decorator.status_icon).to eq "alert"
@@ -197,7 +197,7 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
     end
 
     context "when absence has been recorded" do
-      let(:absence_request) { FactoryBot.create(:absence_request, action: :record) }
+      let(:absence_request) { create(:absence_request, action: :record) }
 
       it "returns the correct lux icon" do
         expect(absence_request_decorator.status_icon).to eq "reported"
@@ -206,9 +206,9 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
   end
 
   describe "#latest_status" do
-    let(:creator) { FactoryBot.create(:staff_profile, :with_supervisor) }
+    let(:creator) { create(:staff_profile, :with_supervisor) }
     let(:supervisor) { creator.supervisor }
-    let(:absence_request) { FactoryBot.create(:absence_request, creator:) }
+    let(:absence_request) { create(:absence_request, creator:) }
     let(:today) { Time.zone.now }
 
     it "returns the last created status and date" do
@@ -221,20 +221,20 @@ RSpec.describe AbsenceRequestDecorator, type: :model do
 
   describe "#notes_and_changes" do
     let(:department_head) do
- FactoryBot.create(:staff_profile, :as_department_head, given_name: "Department", surname: "Head")
+ create(:staff_profile, :as_department_head, given_name: "Department", surname: "Head")
     end
     let(:supervisor) do
- FactoryBot.create(:staff_profile, given_name: "Sally", surname: "Supervisor", department: department_head.department,
-                                   supervisor: department_head)
+ create(:staff_profile, given_name: "Sally", surname: "Supervisor", department: department_head.department,
+                        supervisor: department_head)
     end
     let(:staff) do
- FactoryBot.create(:staff_profile, given_name: "Staff", surname: "Person", department: department_head.department,
-                                   supervisor:)
+ create(:staff_profile, given_name: "Staff", surname: "Person", department: department_head.department,
+                        supervisor:)
     end
     let(:absence_request) do
-      request = FactoryBot.create(:absence_request, creator: staff)
-      request.notes << FactoryBot.build(:note, content: "Please approve", creator: staff)
-      request.notes << FactoryBot.build(:note, content: "looks good", creator: supervisor)
+      request = create(:absence_request, creator: staff)
+      request.notes << build(:note, content: "Please approve", creator: staff)
+      request.notes << build(:note, content: "looks good", creator: supervisor)
       request.approve(agent: supervisor)
       request
     end

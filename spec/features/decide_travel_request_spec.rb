@@ -3,27 +3,27 @@
 require "rails_helper"
 
 RSpec.describe "Review Travel Request", type: :feature, js: true do
-  let(:user) { FactoryBot.create :user }
+  let(:user) { create(:user) }
   let(:department_head) do
-    profile = FactoryBot.create :staff_profile, user: user, given_name: "Sally", surname: "Smith"
-    FactoryBot.create :department, head: profile
+    profile = create(:staff_profile, user: user, given_name: "Sally", surname: "Smith")
+    create(:department, head: profile)
     profile
   end
   let(:staff_profile) do
-    FactoryBot.create :staff_profile, department: department_head.department, given_name: "John", surname: "Doe",
-                                      supervisor: department_head
+    create(:staff_profile, department: department_head.department, given_name: "John", surname: "Doe",
+                           supervisor: department_head)
   end
   let(:event_with_target_name) do
-    FactoryBot.build(
+    build(
       :event_request,
-      recurring_event: FactoryBot.build(:recurring_event, name: "Different test name")
+      recurring_event: build(:recurring_event, name: "Different test name")
     )
   end
   let(:travel_request_with_target_event_name) do
- FactoryBot.create(:travel_request, event_requests: [event_with_target_name])
+ create(:travel_request, event_requests: [event_with_target_name])
   end
 
-  let(:travel_request) { FactoryBot.create :travel_request, creator: staff_profile }
+  let(:travel_request) { create(:travel_request, creator: staff_profile) }
 
   before do
     sign_in user

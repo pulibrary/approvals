@@ -5,9 +5,9 @@ require "rails_helper"
 RSpec.describe AbsenceRequest, type: :model do
   subject(:absence_request) { described_class.new creator: }
 
-  let(:creator_user) { FactoryBot.create :user, uid: "ssmith" }
-  let(:creator) { FactoryBot.create :staff_profile, given_name: "Sally", surname: "Smith", user: creator_user }
-  let(:user) { FactoryBot.create :staff_profile, :with_department }
+  let(:creator_user) { create(:user, uid: "ssmith") }
+  let(:creator) { create(:staff_profile, given_name: "Sally", surname: "Smith", user: creator_user) }
+  let(:user) { create(:staff_profile, :with_department) }
 
   describe "attributes relevant to absence requests" do
     it { is_expected.to respond_to :absence_type }
@@ -39,8 +39,8 @@ RSpec.describe AbsenceRequest, type: :model do
   end
 
   context "A saved absence request" do
-    let(:creator) { FactoryBot.create :staff_profile, :with_department }
-    let(:absence_request) { FactoryBot.create :absence_request, creator: }
+    let(:creator) { create(:staff_profile, :with_department) }
+    let(:absence_request) { create(:absence_request, creator:) }
     let(:supervisor) { creator.supervisor }
     let(:department_head) { creator.department.head }
 

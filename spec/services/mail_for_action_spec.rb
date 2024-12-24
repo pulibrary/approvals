@@ -3,9 +3,9 @@
 require "rails_helper"
 
 RSpec.describe MailForAction, type: :model do
-  let(:supervisor) { FactoryBot.create :staff_profile, :with_department, given_name: "Jane", surname: "Smith" }
-  let(:creator) { FactoryBot.create :staff_profile, supervisor:, department: supervisor.department }
-  let(:request) { FactoryBot.create :travel_request, creator: }
+  let(:supervisor) { create(:staff_profile, :with_department, given_name: "Jane", surname: "Smith") }
+  let(:creator) { create(:staff_profile, supervisor:, department: supervisor.department) }
+  let(:request) { create(:travel_request, creator:) }
 
   describe "send" do
     it "sends email for the create action" do

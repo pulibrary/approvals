@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe RecurringEventLoader, type: :model do
-  let(:staff_profile) { FactoryBot.create :staff_profile }
+  let(:staff_profile) { create(:staff_profile) }
   let(:user) { staff_profile.user }
 
   describe "#list" do

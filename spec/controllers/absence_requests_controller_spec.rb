@@ -26,7 +26,7 @@ require "rails_helper"
 # `rails-controller-testing` gem.
 
 RSpec.describe AbsenceRequestsController, type: :controller do
-  let(:creator) { FactoryBot.create(:staff_profile, :with_supervisor, user:) }
+  let(:creator) { create(:staff_profile, :with_supervisor, user:) }
 
   # This should return the minimal set of attributes required to create a valid
   # AbsenceRequest. As you add validations to AbsenceRequest, be sure to
@@ -50,7 +50,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
   # AbsenceRequestsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  let(:user) { FactoryBot.create :user }
+  let(:user) { create(:user) }
 
   before do
     sign_in creator.user
@@ -58,31 +58,31 @@ RSpec.describe AbsenceRequestsController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response for the creator" do
-      absence_request = FactoryBot.create(:absence_request, creator:)
+      absence_request = create(:absence_request, creator:)
       get :show, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to be_successful
       assert_equal absence_request, assigns(:request).request
     end
 
     it "returns a success response for the creator's supervisor" do
-      staff_profile = FactoryBot.create(:staff_profile, supervisor: creator)
-      absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
+      staff_profile = create(:staff_profile, supervisor: creator)
+      absence_request = create(:absence_request, creator: staff_profile)
       get :show, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to be_successful
       assert_equal absence_request, assigns(:request).request
     end
 
     it "returns a success response for the creator's supervisor's supervisor" do
-      staff_supervisor = FactoryBot.create(:staff_profile, supervisor: creator)
-      staff_profile = FactoryBot.create(:staff_profile, supervisor: staff_supervisor)
-      absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
+      staff_supervisor = create(:staff_profile, supervisor: creator)
+      staff_profile = create(:staff_profile, supervisor: staff_supervisor)
+      absence_request = create(:absence_request, creator: staff_profile)
       get :show, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to be_successful
       assert_equal absence_request, assigns(:request).request
     end
 
     it "can not show a request created by another user" do
-      absence_request = FactoryBot.create(:absence_request)
+      absence_request = create(:absence_request)
       get :show, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(my_requests_path)
     end
@@ -98,42 +98,42 @@ RSpec.describe AbsenceRequestsController, type: :controller do
 
   describe "GET #edit" do
     it "returns a success response" do
-      absence_request = FactoryBot.create(:absence_request, creator:)
+      absence_request = create(:absence_request, creator:)
       get :edit, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to be_successful
       expect(assigns(:request_change_set)).to be_a AbsenceRequestChangeSet
     end
 
     it "can not edit an approved request" do
-      absence_request = FactoryBot.create(:absence_request, creator:, action: "approve")
+      absence_request = create(:absence_request, creator:, action: "approve")
       get :edit, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_request)
       expect(assigns(:request)).to eq(absence_request)
     end
 
     it "can not edit a denied request" do
-      absence_request = FactoryBot.create(:absence_request, creator:, action: "deny")
+      absence_request = create(:absence_request, creator:, action: "deny")
       get :edit, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_request)
       expect(assigns(:request)).to eq(absence_request)
     end
 
     it "can not edit a recorded request" do
-      absence_request = FactoryBot.create(:absence_request, creator:, action: "record")
+      absence_request = create(:absence_request, creator:, action: "record")
       get :edit, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_request)
       expect(assigns(:request)).to eq(absence_request)
     end
 
     it "can not edit a canceled request" do
-      absence_request = FactoryBot.create(:absence_request, creator:, action: "cancel")
+      absence_request = create(:absence_request, creator:, action: "cancel")
       get :edit, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_request)
       expect(assigns(:request)).to eq(absence_request)
     end
 
     it "can not edit a request created by another user" do
-      absence_request = FactoryBot.create(:absence_request)
+      absence_request = create(:absence_request)
       get :edit, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_request)
       expect(assigns(:request)).to eq(absence_request)
@@ -142,16 +142,16 @@ RSpec.describe AbsenceRequestsController, type: :controller do
 
   describe "GET #review" do
     it "returns a success response" do
-      staff_profile = FactoryBot.create :staff_profile, supervisor: creator
-      absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
+      staff_profile = create(:staff_profile, supervisor: creator)
+      absence_request = create(:absence_request, creator: staff_profile)
       get :review, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to be_successful
       expect(assigns(:request_change_set)).to be_a AbsenceRequestChangeSet
     end
 
     it "Does not allow review after approved" do
-      staff_profile = FactoryBot.create :staff_profile, supervisor: creator
-      absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
+      staff_profile = create(:staff_profile, supervisor: creator)
+      absence_request = create(:absence_request, creator: staff_profile)
       absence_request.approve!(agent: creator)
       get :review, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_request)
@@ -160,15 +160,15 @@ RSpec.describe AbsenceRequestsController, type: :controller do
     end
 
     it "does not allow the creator to review" do
-      absence_request = FactoryBot.create(:absence_request, creator:)
+      absence_request = create(:absence_request, creator:)
       get :review, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_request)
       expect(assigns(:request)).to eq(absence_request)
     end
 
     it "Does not allow review after denied" do
-      staff_profile = FactoryBot.create :staff_profile, supervisor: creator
-      absence_request = FactoryBot.create(:absence_request, creator: staff_profile, action: "deny")
+      staff_profile = create(:staff_profile, supervisor: creator)
+      absence_request = create(:absence_request, creator: staff_profile, action: "deny")
       get :review, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_request)
       expect(assigns(:request)).to eq(absence_request)
@@ -177,8 +177,8 @@ RSpec.describe AbsenceRequestsController, type: :controller do
 
   describe "Put #decide" do
     it "approves and does not add a note if none is submitted" do
-      staff_profile = FactoryBot.create :staff_profile, :with_department, supervisor: creator
-      absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
+      staff_profile = create(:staff_profile, :with_department, supervisor: creator)
+      absence_request = create(:absence_request, creator: staff_profile)
       notes = { notes: [{ content: "Important message" }] }
       put :decide, params: { id: absence_request.to_param, absence_request: notes, approve: "" }, session: valid_session
       absence_request.reload
@@ -188,7 +188,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
     end
 
     it "does not allow the creator to approve" do
-      absence_request = FactoryBot.create(:absence_request, creator:)
+      absence_request = create(:absence_request, creator:)
       notes = { notes: [{ content: "Important message" }] }
       put :decide, params: { id: absence_request.to_param, absence_request: notes, approve: "" }, session: valid_session
       expect(response).to redirect_to(absence_request)
@@ -197,8 +197,8 @@ RSpec.describe AbsenceRequestsController, type: :controller do
 
     context "approve with invalid params" do
       it "returns a success response (i.e. to display the 'review' template)" do
-        staff_profile = FactoryBot.create :staff_profile, supervisor: creator
-        absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
+        staff_profile = create(:staff_profile, supervisor: creator)
+        absence_request = create(:absence_request, creator: staff_profile)
         put :decide, params: { id: absence_request.to_param, absence_request: invalid_attributes, approve: "" },
                      session: valid_session
         expect(response).to be_successful
@@ -207,8 +207,8 @@ RSpec.describe AbsenceRequestsController, type: :controller do
     end
 
     it "returns a success response" do
-      staff_profile = FactoryBot.create :staff_profile, supervisor: creator
-      absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
+      staff_profile = create(:staff_profile, supervisor: creator)
+      absence_request = create(:absence_request, creator: staff_profile)
       notes = { notes: [{ content: "Important message" }] }
       put :decide, params: { id: absence_request.to_param, absence_request: notes, deny: "" }, session: valid_session
       absence_request.reload
@@ -217,7 +217,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
     end
 
     it "does not allow the creator to deny" do
-      absence_request = FactoryBot.create(:absence_request, creator:)
+      absence_request = create(:absence_request, creator:)
       notes = { notes: [{ content: "Important message" }] }
       put :decide, params: { id: absence_request.to_param, absence_request: notes, deny: "" }, session: valid_session
       expect(response).to redirect_to(absence_request)
@@ -226,8 +226,8 @@ RSpec.describe AbsenceRequestsController, type: :controller do
 
     context "deny with invalid params" do
       it "returns a success response (i.e. to display the 'review' template)" do
-        staff_profile = FactoryBot.create :staff_profile, supervisor: creator
-        absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
+        staff_profile = create(:staff_profile, supervisor: creator)
+        absence_request = create(:absence_request, creator: staff_profile)
         put :decide, params: { id: absence_request.to_param, absence_request: invalid_attributes, deny: "" },
                      session: valid_session
         expect(response).to be_successful
@@ -237,7 +237,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
     end
 
     it "cancel by the creator with notes returns a success response" do
-      absence_request = FactoryBot.create(:absence_request, creator:)
+      absence_request = create(:absence_request, creator:)
       notes = { notes: [{ content: "Important message" }] }
       put :decide, params: { id: absence_request.to_param, absence_request: notes, cancel: "" }, session: valid_session
       absence_request.reload
@@ -246,7 +246,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
     end
 
     it "cancel and approved request by the creator returns a success response" do
-      absence_request = FactoryBot.create(:absence_request, creator:, action: :approve)
+      absence_request = create(:absence_request, creator:, action: :approve)
       put :decide, params: { id: absence_request.to_param, cancel: "" }, session: valid_session
       absence_request.reload
       expect(absence_request.notes.count).to eq 0
@@ -254,7 +254,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
     end
 
     it "cancel by the creator returns a success response" do
-      absence_request = FactoryBot.create(:absence_request, creator:)
+      absence_request = create(:absence_request, creator:)
       put :decide, params: { id: absence_request.to_param, cancel: "" }, session: valid_session
       absence_request.reload
       expect(absence_request.notes.count).to eq 0
@@ -262,8 +262,8 @@ RSpec.describe AbsenceRequestsController, type: :controller do
     end
 
     it "does not allow the supervisor to cancel" do
-      staff_profile = FactoryBot.create :staff_profile, supervisor: creator
-      absence_request = FactoryBot.create(:absence_request, creator: staff_profile)
+      staff_profile = create(:staff_profile, supervisor: creator)
+      absence_request = create(:absence_request, creator: staff_profile)
       notes = { notes: [{ content: "Important message" }] }
       put :decide, params: { id: absence_request.to_param, absence_request: notes, cancel: "" }, session: valid_session
       expect(response).to redirect_to(absence_request)
@@ -272,7 +272,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
 
     context "cancel with invalid params" do
       it "returns a success response (i.e. to display the 'review' template)" do
-        absence_request = FactoryBot.create(:absence_request, creator:)
+        absence_request = create(:absence_request, creator:)
         put :decide, params: { id: absence_request.to_param, absence_request: invalid_attributes, cancel: "" },
                      session: valid_session
         expect(response).to be_successful
@@ -281,43 +281,43 @@ RSpec.describe AbsenceRequestsController, type: :controller do
     end
 
     it "allows the creator to record an approved request" do
-      absence_request = FactoryBot.create(:absence_request, creator:, action: :approve)
+      absence_request = create(:absence_request, creator:, action: :approve)
       put :decide, params: { id: absence_request.to_param, record: "" }, session: valid_session
       absence_request.reload
       expect(absence_request).to be_recorded
     end
 
     it "allows the supervisor to record an approved request" do
-      employee = FactoryBot.create(:staff_profile, supervisor: creator)
-      absence_request = FactoryBot.create(:absence_request, creator: employee, action: :approve)
+      employee = create(:staff_profile, supervisor: creator)
+      absence_request = create(:absence_request, creator: employee, action: :approve)
       put :decide, params: { id: absence_request.to_param, record: "" }, session: valid_session
       absence_request.reload
       expect(absence_request).to be_recorded
     end
 
     it "does not allow the creator to record an pending request" do
-      absence_request = FactoryBot.create(:absence_request, creator:)
+      absence_request = create(:absence_request, creator:)
       put :decide, params: { id: absence_request.to_param, record: "" }, session: valid_session
       absence_request.reload
       expect(absence_request).to be_pending
     end
 
     it "does not allow the creator to record an canceled request" do
-      absence_request = FactoryBot.create(:absence_request, creator:, action: :cancel)
+      absence_request = create(:absence_request, creator:, action: :cancel)
       put :decide, params: { id: absence_request.to_param, record: "" }, session: valid_session
       absence_request.reload
       expect(absence_request).to be_canceled
     end
 
     it "does not allow a random person to record an approved request" do
-      absence_request = FactoryBot.create(:absence_request, action: :approve)
+      absence_request = create(:absence_request, action: :approve)
       put :decide, params: { id: absence_request.to_param, record: "" }, session: valid_session
       absence_request.reload
       expect(absence_request).to be_approved
     end
 
     it "comments and returns a success with notes response" do
-      absence_request = FactoryBot.create(:absence_request, creator:)
+      absence_request = create(:absence_request, creator:)
       notes = { notes: [{ content: "Important message" }] }
       put :decide, params: { id: absence_request.to_param, absence_request: notes, comment: "" }, session: valid_session
       absence_request.reload
@@ -327,7 +327,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
     end
 
     it "comments require notes" do
-      absence_request = FactoryBot.create(:absence_request, creator:)
+      absence_request = create(:absence_request, creator:)
       put :decide, params: { id: absence_request.to_param, absence_request: { abc: "123" }, comment: "" },
                    session: valid_session
       expect(assigns(:request_change_set).errors.messages).to eq(notes: ["are required to comment on a request"])
@@ -405,7 +405,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
 
   describe "PUT #update" do
     let(:valid_attributes) { { absence_type: "sick" } }
-    let(:absence_request) { FactoryBot.create(:absence_request, creator:) }
+    let(:absence_request) { create(:absence_request, creator:) }
 
     context "with valid nested attributes" do
       let(:nested_attributes) do
@@ -429,7 +429,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       end
 
       it "adds a nested note to note array which already had a note" do
-        absence_request = FactoryBot.create(:absence_request, :with_note)
+        absence_request = create(:absence_request, :with_note)
         put :update, params: { id: absence_request.to_param, absence_request: nested_attributes },
                      session: valid_session
         absence_request.reload
@@ -479,7 +479,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       end
 
       it "redirects to the absence request" do
-        absence_request = FactoryBot.create(:absence_request, creator:)
+        absence_request = create(:absence_request, creator:)
         expect do
           put :update, params: { id: absence_request.to_param, absence_request: empty_note_attribute },
                        session: valid_session
@@ -501,14 +501,14 @@ RSpec.describe AbsenceRequestsController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested absence_request" do
-      absence_request = FactoryBot.create(:absence_request, creator:)
+      absence_request = create(:absence_request, creator:)
       expect do
         delete :destroy, params: { id: absence_request.to_param }, session: valid_session
       end.to change(AbsenceRequest, :count).by(-1)
     end
 
     it "redirects to the absence_requests list" do
-      absence_request = FactoryBot.create(:absence_request, creator:)
+      absence_request = create(:absence_request, creator:)
       delete :destroy, params: { id: absence_request.to_param }, session: valid_session
       expect(response).to redirect_to(absence_requests_url)
     end

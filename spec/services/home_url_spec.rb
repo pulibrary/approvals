@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe HomeURL, type: :model do
-  let(:jack) { FactoryBot.create :user }
+  let(:jack) { create(:user) }
 
   describe "#for" do
     it "returns root path for empty current_user" do

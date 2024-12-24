@@ -3,9 +3,9 @@
 require "rails_helper"
 
 RSpec.describe "absence_requests/show", type: :view do
-  let(:creator) { FactoryBot.create(:staff_profile, :with_supervisor, given_name: "Sally", surname: "Smith") }
+  let(:creator) { create(:staff_profile, :with_supervisor, given_name: "Sally", surname: "Smith") }
   let(:absence_request) do
- AbsenceRequestDecorator.new(FactoryBot.create(:absence_request, :with_note, creator:))
+ AbsenceRequestDecorator.new(create(:absence_request, :with_note, creator:))
   end
 
   before do

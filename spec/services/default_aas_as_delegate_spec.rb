@@ -5,8 +5,8 @@ require "rails_helper"
 RSpec.describe DefaultAasAsDelegate, type: :model do
   describe "#run" do
     it "assigns a delegate to every person who has an AA" do
-      staff_profile = FactoryBot.create :staff_profile
-      staff_profile2 = FactoryBot.create :staff_profile, :with_department
+      staff_profile = create(:staff_profile)
+      staff_profile2 = create(:staff_profile, :with_department)
       expect { described_class.run }.to change(Delegate, :count).by(3)
       expect(Delegate.where(delegator: staff_profile).count).to eq(0)
       expect(Delegate.where(delegator: staff_profile2).count).to eq(1)

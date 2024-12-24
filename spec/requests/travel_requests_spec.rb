@@ -3,19 +3,19 @@
 require "rails_helper"
 
 RSpec.describe TravelRequestsController, type: :request do
-  let(:user) { FactoryBot.create :user }
+  let(:user) { create(:user) }
   let(:department_head) do
-    profile = FactoryBot.create :staff_profile, user: user, given_name: "Sally", surname: "Smith"
-    FactoryBot.create :department, head: profile
+    profile = create(:staff_profile, user: user, given_name: "Sally", surname: "Smith")
+    create(:department, head: profile)
     profile
   end
   let(:staff_profile) do
-    FactoryBot.create :staff_profile, department: department_head.department, given_name: "John", surname: "Doe",
-                                      supervisor: department_head
+    create(:staff_profile, department: department_head.department, given_name: "John", surname: "Doe",
+                           supervisor: department_head)
   end
 
-  let(:travel_request) { FactoryBot.create :travel_request, creator: staff_profile }
-  let(:target_event) { FactoryBot.create(:recurring_event, name: "Max's test event") }
+  let(:travel_request) { create(:travel_request, creator: staff_profile) }
+  let(:target_event) { create(:recurring_event, name: "Max's test event") }
 
   before do
     sign_in user

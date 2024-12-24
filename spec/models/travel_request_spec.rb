@@ -31,12 +31,12 @@ RSpec.describe TravelRequest, type: :model do
   end
 
   context "A saved travel request" do
-    let(:user) { FactoryBot.create :staff_profile, :with_department }
+    let(:user) { create(:staff_profile, :with_department) }
     let(:supervisor) { user.supervisor }
     let(:department_head) { user.department.head }
 
     context "with one estimate" do
-      let(:travel_request) { FactoryBot.create :travel_request, :with_note_and_estimate, creator: user }
+      let(:travel_request) { create(:travel_request, :with_note_and_estimate, creator: user) }
 
       it "gives a total estimate" do
         expect(travel_request.estimated_total).to eq(150)
@@ -45,11 +45,11 @@ RSpec.describe TravelRequest, type: :model do
 
     context "with multiple estimates" do
       let(:travel_request) do
-        FactoryBot.create(
+        create(
           :travel_request,
           :with_note_and_estimate,
           creator: user,
-          estimates: [FactoryBot.build(:estimate), FactoryBot.build(:estimate)]
+          estimates: [build(:estimate), build(:estimate)]
         )
       end
 
@@ -60,8 +60,8 @@ RSpec.describe TravelRequest, type: :model do
   end
 
   context "A saved absence request" do
-    let(:user) { FactoryBot.create :staff_profile, :with_department }
-    let(:travel_request) { FactoryBot.create :travel_request, creator: user }
+    let(:user) { create(:staff_profile, :with_department) }
+    let(:travel_request) { create(:travel_request, creator: user) }
     let(:supervisor) { user.supervisor }
     let(:department_head) { user.department.head }
 
@@ -211,7 +211,7 @@ RSpec.describe TravelRequest, type: :model do
     end
 
     describe "#update_recurring_events!" do
-      let(:recurring_event) { FactoryBot.create(:recurring_event, name: "Max's test event") }
+      let(:recurring_event) { create(:recurring_event, name: "Max's test event") }
 
       it "can update the associated recurring event" do
         expect do
@@ -227,14 +227,14 @@ RSpec.describe TravelRequest, type: :model do
       end
 
       context "with two travel requests" do
-        let(:target_recurring_event) { FactoryBot.build(:recurring_event, name: "Target event name") }
-        let(:event_with_target_name) { FactoryBot.build(:event_request, recurring_event: target_recurring_event) }
-        let(:travel_request_unchanged) { FactoryBot.create(:travel_request, event_requests: [event_with_target_name]) }
+        let(:target_recurring_event) { build(:recurring_event, name: "Target event name") }
+        let(:event_with_target_name) { build(:event_request, recurring_event: target_recurring_event) }
+        let(:travel_request_unchanged) { create(:travel_request, event_requests: [event_with_target_name]) }
 
-        let(:unwanted_recurring_event) { FactoryBot.build(:recurring_event, name: "Unwanted event name") }
-        let(:event_with_unwanted_name) { FactoryBot.build(:event_request, recurring_event: unwanted_recurring_event) }
+        let(:unwanted_recurring_event) { build(:recurring_event, name: "Unwanted event name") }
+        let(:event_with_unwanted_name) { build(:event_request, recurring_event: unwanted_recurring_event) }
         let(:travel_request_unwanted_name) do
- FactoryBot.create(:travel_request, event_requests: [event_with_unwanted_name])
+ create(:travel_request, event_requests: [event_with_unwanted_name])
         end
 
         before do
@@ -281,10 +281,10 @@ RSpec.describe TravelRequest, type: :model do
 
         context "with three travel requests" do
           let(:second_event_with_unwanted_name) do
- FactoryBot.build(:event_request, recurring_event: unwanted_recurring_event)
+ build(:event_request, recurring_event: unwanted_recurring_event)
           end
           let(:second_travel_request_with_unwanted_name) do
- FactoryBot.create(:travel_request, event_requests: [second_event_with_unwanted_name])
+ create(:travel_request, event_requests: [second_event_with_unwanted_name])
           end
 
           before do

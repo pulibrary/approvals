@@ -3,13 +3,13 @@
 require "rails_helper"
 
 RSpec.describe RequestList, type: :model do
-  let(:user) { FactoryBot.create :user }
-  let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, user: }
+  let(:user) { create(:user) }
+  let(:staff_profile) { create(:staff_profile, :with_department, user:) }
 
-  let(:other_absence) { FactoryBot.create(:absence_request) }
-  let(:other_travel) { FactoryBot.create(:travel_request) }
-  let(:my_absence) { FactoryBot.create(:absence_request, creator: staff_profile, start_date: Time.zone.tomorrow) }
-  let(:my_travel) { FactoryBot.create(:travel_request, creator: staff_profile) }
+  let(:other_absence) { create(:absence_request) }
+  let(:other_travel) { create(:travel_request) }
+  let(:my_absence) { create(:absence_request, creator: staff_profile, start_date: Time.zone.tomorrow) }
+  let(:my_travel) { create(:travel_request, creator: staff_profile) }
 
   describe "GET #my_requests" do
     before do
@@ -28,7 +28,7 @@ RSpec.describe RequestList, type: :model do
     end
 
     it "accepts limit by status" do
-      approved_absence = FactoryBot.create(:absence_request, action: :approve, creator: staff_profile)
+      approved_absence = create(:absence_request, action: :approve, creator: staff_profile)
       list = described_class.list_requests(creator: staff_profile, request_filters: { status: "approved" },
                                            search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(approved_absence.id)
@@ -41,7 +41,7 @@ RSpec.describe RequestList, type: :model do
     end
 
     it "accepts limit by request type sick" do
-      my_sick_absence = FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick")
+      my_sick_absence = create(:absence_request, creator: staff_profile, absence_type: "sick")
       list = described_class.list_requests(creator: staff_profile, request_filters: { "request_type" => "sick" },
                                            search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(my_sick_absence.id)
@@ -54,17 +54,17 @@ RSpec.describe RequestList, type: :model do
     end
 
     it "accepts limit by request type business" do
-      my_business_travel = FactoryBot.create(:travel_request, creator: staff_profile, travel_category: "business")
+      my_business_travel = create(:travel_request, creator: staff_profile, travel_category: "business")
       list = described_class.list_requests(creator: staff_profile, request_filters: { "request_type" => "business" },
                                            search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(my_business_travel.id)
     end
 
     it "accepts limit by status and request type" do
-      my_business_travel = FactoryBot.create(:travel_request, creator: staff_profile, action: "approve",
-                                                              travel_category: "business")
-      FactoryBot.create(:travel_request, creator: staff_profile, action: "approve",
-                                         travel_category: "professional_development")
+      my_business_travel = create(:travel_request, creator: staff_profile, action: "approve",
+                                                   travel_category: "business")
+      create(:travel_request, creator: staff_profile, action: "approve",
+                              travel_category: "professional_development")
       list = described_class.list_requests(creator: staff_profile,
                                            request_filters: { "request_type" => "business", "status" => "approved" }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(my_business_travel.id)
@@ -78,19 +78,19 @@ RSpec.describe RequestList, type: :model do
     # r1: created yesterday, modified tomorrow, start date today
     let(:r1) do
       Timecop.freeze(yesterday) do
-        FactoryBot.create(:travel_request, creator: staff_profile, start_date: today)
+        create(:travel_request, creator: staff_profile, start_date: today)
       end
     end
     # r2: created today, modified yesterday, start date tomorrow
     let(:r2) do
       Timecop.freeze(today) do
-        FactoryBot.create(:travel_request, creator: staff_profile, start_date: tomorrow)
+        create(:travel_request, creator: staff_profile, start_date: tomorrow)
       end
     end
     # r3: created tomorrow, modified today, start date yesterday
     let(:r3) do
       Timecop.freeze(tomorrow) do
-        FactoryBot.create(:travel_request, creator: staff_profile, start_date: yesterday)
+        create(:travel_request, creator: staff_profile, start_date: yesterday)
       end
     end
 
@@ -157,12 +157,12 @@ RSpec.describe RequestList, type: :model do
 
   describe "GET #my_requests with searching" do
     it "retrieves a result" do
-      absence_request = FactoryBot.create(:absence_request, creator: staff_profile, action: :approve)
-      absence_request2 = FactoryBot.create(:absence_request, creator: staff_profile, action: :deny)
-      travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
-      FactoryBot.create(:note, content: "elephants love balloons", request: absence_request)
-      FactoryBot.create(:note, content: "elephants love balloons", request: absence_request2)
-      FactoryBot.create(:note, content: "flamingoes are pink because of shrimp", request: travel_request)
+      absence_request = create(:absence_request, creator: staff_profile, action: :approve)
+      absence_request2 = create(:absence_request, creator: staff_profile, action: :deny)
+      travel_request = create(:travel_request, creator: staff_profile)
+      create(:note, content: "elephants love balloons", request: absence_request)
+      create(:note, content: "elephants love balloons", request: absence_request2)
+      create(:note, content: "flamingoes are pink because of shrimp", request: travel_request)
 
       list = described_class.list_requests(creator: staff_profile, request_filters: { "status" => "approved" },
                                            search_query: "balloons", order: nil)
