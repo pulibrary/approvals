@@ -7,7 +7,7 @@ RSpec.describe Users::OmniauthCallbacksController do
 
   describe "logging in" do
     it "valid cas login redirects to home page" do
-      allow(User).to receive(:from_cas) { FactoryBot.create(:user) }
+      allow(User).to receive(:from_cas) { create(:user) }
       get :cas
       expect(response).to redirect_to(my_requests_path)
       expect(flash[:success]).to eq("Successfully authenticated from from Princeton Central Authentication Service account.")

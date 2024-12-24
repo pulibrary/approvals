@@ -3,7 +3,7 @@
 require "rails_helper"
 RSpec.describe ReportListDecorator, type: :model do
   subject(:report_list_decorator) do
- described_class.new([FactoryBot.create(:absence_request)], params_hash:, params_manager_class: ReportsParamsManager)
+ described_class.new([create(:absence_request)], params_hash:, params_manager_class: ReportsParamsManager)
   end
 
   let(:params_hash) { {} }
@@ -202,7 +202,7 @@ RSpec.describe ReportListDecorator, type: :model do
 
   describe "#department_filter_urls" do
     subject(:report_list_decorator) do
- described_class.new([FactoryBot.create(:absence_request)], params_hash:, params_manager_class: ReportsParamsManager)
+ described_class.new([create(:absence_request)], params_hash:, params_manager_class: ReportsParamsManager)
     end
 
     let(:status_filter) { "" }
@@ -239,12 +239,12 @@ RSpec.describe ReportListDecorator, type: :model do
 
   describe "#supervisor_filter_urls" do
     subject(:report_list_decorator) do
- described_class.new([FactoryBot.create(:absence_request)], params_hash:, params_manager_class: ReportsParamsManager)
+ described_class.new([create(:absence_request)], params_hash:, params_manager_class: ReportsParamsManager)
     end
 
-    let(:supervisor) { FactoryBot.create :staff_profile, :with_department }
-    let(:mid_level) { FactoryBot.create :staff_profile, supervisor: }
-    let(:mid_level2) { FactoryBot.create :staff_profile, supervisor: }
+    let(:supervisor) { create(:staff_profile, :with_department) }
+    let(:mid_level) { create(:staff_profile, supervisor:) }
+    let(:mid_level2) { create(:staff_profile, supervisor:) }
 
     let(:status_filter) { "" }
     let(:filters) do
@@ -256,10 +256,10 @@ RSpec.describe ReportListDecorator, type: :model do
     end
 
     before do
-      FactoryBot.create :staff_profile, supervisor: mid_level
-      FactoryBot.create :staff_profile, supervisor: mid_level
-      FactoryBot.create :staff_profile, supervisor: mid_level2
-      FactoryBot.create :staff_profile, supervisor: mid_level2
+      create(:staff_profile, supervisor: mid_level)
+      create(:staff_profile, supervisor: mid_level)
+      create(:staff_profile, supervisor: mid_level2)
+      create(:staff_profile, supervisor: mid_level2)
     end
 
     it "returns a list of supervisor filter urls" do
@@ -318,7 +318,7 @@ RSpec.describe ReportListDecorator, type: :model do
     end
 
     context "department filter applied" do
-      let(:department)  { FactoryBot.create :department }
+      let(:department)  { create(:department) }
       let(:params_hash) { { "filters" => { "department" => department.number } } }
 
       it "returns a link to clear the approved status filter" do
@@ -327,7 +327,7 @@ RSpec.describe ReportListDecorator, type: :model do
     end
 
     context "supervisor filter applied" do
-      let(:supervisor) { FactoryBot.create :staff_profile, :with_department }
+      let(:supervisor) { create(:staff_profile, :with_department) }
       let(:params_hash) { { "filters" => { "supervisor" => supervisor.id } } }
 
       it "returns a link to clear the approved status filter" do
@@ -384,7 +384,7 @@ RSpec.describe ReportListDecorator, type: :model do
 
   describe "current_department_filter_label" do
     subject(:report_list_decorator) do
- described_class.new([FactoryBot.create(:absence_request)], params_hash:, params_manager_class: ReportsParamsManager)
+ described_class.new([create(:absence_request)], params_hash:, params_manager_class: ReportsParamsManager)
     end
 
     it "returns default when no filter is applied" do
@@ -393,7 +393,7 @@ RSpec.describe ReportListDecorator, type: :model do
 
     context "a department filter is applied" do
       let(:params_hash) { { "filters" => { "department" => department.number } } }
-      let(:department)  { FactoryBot.create :department }
+      let(:department)  { create(:department) }
 
       it "returns the department name" do
         expect(report_list_decorator.current_department_filter_label).to eq("Department: #{department.name}")
@@ -475,8 +475,8 @@ RSpec.describe ReportListDecorator, type: :model do
  described_class.new([absence_request.request, travel_request.request], params_hash:)
     end
 
-    let(:absence_request) { AbsenceRequestDecorator.new(FactoryBot.create(:absence_request, hours_requested: 7.25)) }
-    let(:travel_request) { TravelRequestDecorator.new(FactoryBot.create(:travel_request)) }
+    let(:absence_request) { AbsenceRequestDecorator.new(create(:absence_request, hours_requested: 7.25)) }
+    let(:travel_request) { TravelRequestDecorator.new(create(:travel_request)) }
 
     it "is a json array for an absence and travel request" do
       RSpec::Support::ObjectFormatter.default_instance.max_formatted_output_length = nil

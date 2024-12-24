@@ -3,10 +3,10 @@
 require "rails_helper"
 
 RSpec.describe RandomRequestGenerator, type: :model do
-  let(:creator) { FactoryBot.create :staff_profile, :with_supervisor, :with_department }
+  let(:creator) { create(:staff_profile, :with_supervisor, :with_department) }
 
   before do
-    FactoryBot.create :recurring_event
+    create(:recurring_event)
   end
 
   context "Pending request" do

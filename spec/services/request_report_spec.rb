@@ -6,10 +6,10 @@ RSpec.describe RequestReport, type: :model do
   let(:report) do
  described_class.new(start_date: "06/01/2022", end_date: "12/31/2022", file_path:, approved_only: true)
   end
-  let(:staff_member) { FactoryBot.create(:staff_profile, :with_department) }
+  let(:staff_member) { create(:staff_profile, :with_department) }
   let(:request_one) do
-    FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
-                                                                start_date: "2022-10-12", end_date: "2022-10-14")
+    create(:travel_request, :with_note_and_estimate, creator: staff_member,
+                                                     start_date: "2022-10-12", end_date: "2022-10-14")
   end
   let(:file_path) { Rails.root.join("tmp", "approved_request_report_test.csv") }
   let(:department_head) { staff_member.department.head }
@@ -45,20 +45,20 @@ RSpec.describe RequestReport, type: :model do
   describe "#in_report_period?" do
     let(:just_right_request) { request_one }
     let(:end_in_reporting_period) do
-      FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
-                                                                  start_date: "2022-5-28", end_date: "2022-06-03")
+      create(:travel_request, :with_note_and_estimate, creator: staff_member,
+                                                       start_date: "2022-5-28", end_date: "2022-06-03")
     end
     let(:beginning_in_reporting_period) do
-      FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
-                                                                  start_date: "2022-12-28", end_date: "2023-01-03")
+      create(:travel_request, :with_note_and_estimate, creator: staff_member,
+                                                       start_date: "2022-12-28", end_date: "2023-01-03")
     end
     let(:too_early_request) do
-      FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
-                                                                  start_date: "2022-04-08", end_date: "2022-04-11")
+      create(:travel_request, :with_note_and_estimate, creator: staff_member,
+                                                       start_date: "2022-04-08", end_date: "2022-04-11")
     end
     let(:too_late_request) do
-      FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
-                                                                  start_date: "2023-04-08", end_date: "2023-04-11")
+      create(:travel_request, :with_note_and_estimate, creator: staff_member,
+                                                       start_date: "2023-04-08", end_date: "2023-04-11")
     end
 
     it "returns true if any request dates are within reporting period" do
@@ -101,8 +101,8 @@ RSpec.describe RequestReport, type: :model do
 
     context "with two approved requests" do
       let(:request_two) do
-        FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
-                                                                    start_date: "2022-10-12", end_date: "2022-10-14")
+        create(:travel_request, :with_note_and_estimate, creator: staff_member,
+                                                         start_date: "2022-10-12", end_date: "2022-10-14")
       end
 
       before do
@@ -118,8 +118,8 @@ RSpec.describe RequestReport, type: :model do
 
     context "with one approved and one not-approved request" do
       let(:request_two) do
-        FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
-                                                                    start_date: "2022-10-12", end_date: "2022-10-14")
+        create(:travel_request, :with_note_and_estimate, creator: staff_member,
+                                                         start_date: "2022-10-12", end_date: "2022-10-14")
       end
 
       before do
@@ -151,8 +151,8 @@ RSpec.describe RequestReport, type: :model do
 
     context "with one approved and one denied request" do
       let(:request_two) do
-        FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
-                                                                    start_date: "2022-10-12", end_date: "2022-10-14")
+        create(:travel_request, :with_note_and_estimate, creator: staff_member,
+                                                         start_date: "2022-10-12", end_date: "2022-10-14")
       end
 
       before do
@@ -184,12 +184,12 @@ RSpec.describe RequestReport, type: :model do
 
     context "with one request in reporting period and others not" do
       let(:too_early_request) do
-        FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
-                                                                    start_date: "2022-04-08", end_date: "2022-04-11")
+        create(:travel_request, :with_note_and_estimate, creator: staff_member,
+                                                         start_date: "2022-04-08", end_date: "2022-04-11")
       end
       let(:too_late_request) do
-        FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
-                                                                    start_date: "2023-04-08", end_date: "2023-04-11")
+        create(:travel_request, :with_note_and_estimate, creator: staff_member,
+                                                         start_date: "2023-04-08", end_date: "2023-04-11")
       end
 
       before do
@@ -206,8 +206,8 @@ RSpec.describe RequestReport, type: :model do
 
     context "with a request without a start date" do
       let(:request_two) do
-        FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
-                                                                    start_date: nil, end_date: "2022-10-14")
+        create(:travel_request, :with_note_and_estimate, creator: staff_member,
+                                                         start_date: nil, end_date: "2022-10-14")
       end
 
       before do
@@ -234,9 +234,9 @@ RSpec.describe RequestReport, type: :model do
       end
 
       let(:request_one) do
-        FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
-                                                                    virtual_event: true,
-                                                                    start_date: "2022-10-12", end_date: "2022-10-14")
+        create(:travel_request, :with_note_and_estimate, creator: staff_member,
+                                                         virtual_event: true,
+                                                         start_date: "2022-10-12", end_date: "2022-10-14")
       end
 
       it "adds Virtual to the event format column" do
@@ -251,9 +251,9 @@ RSpec.describe RequestReport, type: :model do
       end
 
       let(:request_one) do
-        FactoryBot.create(:travel_request, :with_note_and_estimate, creator: staff_member,
-                                                                    virtual_event: false,
-                                                                    start_date: "2022-10-12", end_date: "2022-10-14")
+        create(:travel_request, :with_note_and_estimate, creator: staff_member,
+                                                         virtual_event: false,
+                                                         start_date: "2022-10-12", end_date: "2022-10-14")
       end
 
       it "adds Virtual to the event format column" do

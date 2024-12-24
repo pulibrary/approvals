@@ -4,12 +4,12 @@ require "rails_helper"
 
 RSpec.describe "travel_requests/_review_detail", type: :view, js: true do
   describe "event format badge" do
-    let(:creator) { FactoryBot.create(:staff_profile, :with_supervisor, given_name: "Sally", surname: "Smith") }
+    let(:creator) { create(:staff_profile, :with_supervisor, given_name: "Sally", surname: "Smith") }
 
     context "when event is virtual" do
       let(:travel_request) do
- TravelRequestDecorator.new(FactoryBot.create(:travel_request, :with_note_and_estimate, creator:,
-                                                                                        virtual_event: true))
+ TravelRequestDecorator.new(create(:travel_request, :with_note_and_estimate, creator:,
+                                                                             virtual_event: true))
       end
 
       it "has a green Virtual badge" do
@@ -24,7 +24,7 @@ RSpec.describe "travel_requests/_review_detail", type: :view, js: true do
 
     context "when event is in-person" do
       let(:travel_request) do
- TravelRequestDecorator.new(FactoryBot.create(:travel_request, :with_note_and_estimate, creator:))
+ TravelRequestDecorator.new(create(:travel_request, :with_note_and_estimate, creator:))
       end
 
       it "has a blue In-person badge" do
@@ -39,7 +39,7 @@ RSpec.describe "travel_requests/_review_detail", type: :view, js: true do
 
     context "when event format is unknown" do
       let(:travel_request) do
- TravelRequestDecorator.new(FactoryBot.create(:travel_request, :with_note_and_estimate, creator:, virtual_event: nil))
+ TravelRequestDecorator.new(create(:travel_request, :with_note_and_estimate, creator:, virtual_event: nil))
       end
 
       it "shows no badge" do

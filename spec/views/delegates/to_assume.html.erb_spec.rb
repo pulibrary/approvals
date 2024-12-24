@@ -3,8 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "delegates/to_assume", type: :view do
-  let(:delegate1) { FactoryBot.create(:delegate) }
-  let(:delegate2) { FactoryBot.create(:delegate) }
+  let(:delegate1) { create(:delegate) }
+  let(:delegate2) { create(:delegate) }
 
   before do
     assign(:delegators, [delegate1, delegate2])

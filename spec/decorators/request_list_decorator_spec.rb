@@ -3,7 +3,7 @@
 require "rails_helper"
 RSpec.describe RequestListDecorator, type: :model do
   subject(:request_list_decorator) do
- described_class.new([FactoryBot.create(:absence_request)], params_hash:)
+ described_class.new([create(:absence_request)], params_hash:)
   end
 
   let(:params_hash) { {} }

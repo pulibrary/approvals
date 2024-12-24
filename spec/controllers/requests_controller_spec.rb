@@ -8,13 +8,13 @@ RSpec.describe RequestsController, type: :controller do
   # AbsenceRequestsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  let(:user) { FactoryBot.create :user }
-  let(:staff_profile) { FactoryBot.create :staff_profile, :with_department, user: }
+  let(:user) { create(:user) }
+  let(:staff_profile) { create(:staff_profile, :with_department, user:) }
 
-  let(:other_absence) { FactoryBot.create(:absence_request) }
-  let(:other_travel) { FactoryBot.create(:travel_request) }
-  let(:my_absence) { FactoryBot.create(:absence_request, creator: staff_profile, start_date: Time.zone.tomorrow) }
-  let(:my_travel) { FactoryBot.create(:travel_request, creator: staff_profile) }
+  let(:other_absence) { create(:absence_request) }
+  let(:other_travel) { create(:travel_request) }
+  let(:my_absence) { create(:absence_request, creator: staff_profile, start_date: Time.zone.tomorrow) }
+  let(:my_travel) { create(:travel_request, creator: staff_profile) }
 
   before do
     sign_in user
@@ -55,7 +55,7 @@ RSpec.describe RequestsController, type: :controller do
     end
 
     it "accepts limit by status" do
-      approved_absence = FactoryBot.create(:absence_request, action: :approve, creator: staff_profile)
+      approved_absence = create(:absence_request, action: :approve, creator: staff_profile)
       get :my_requests, params: { filters: { status: "approved" } }, session: valid_session
       expect(assigns(:requests).map(&:id)).to contain_exactly(approved_absence.id)
     end
@@ -66,7 +66,7 @@ RSpec.describe RequestsController, type: :controller do
     end
 
     it "accepts limit by request type sick" do
-      my_sick_absence = FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick")
+      my_sick_absence = create(:absence_request, creator: staff_profile, absence_type: "sick")
       get :my_requests, params: { filters: { request_type: "sick" } }, session: valid_session
       expect(assigns(:requests).map(&:id)).to contain_exactly(my_sick_absence.id)
     end
@@ -77,25 +77,25 @@ RSpec.describe RequestsController, type: :controller do
     end
 
     it "accepts limit by request type business" do
-      my_business_travel = FactoryBot.create(:travel_request, creator: staff_profile, travel_category: "business")
+      my_business_travel = create(:travel_request, creator: staff_profile, travel_category: "business")
       get :my_requests, params: { filters: { request_type: "business" } }, session: valid_session
       expect(assigns(:requests).map(&:id)).to contain_exactly(my_business_travel.id)
     end
 
     it "accepts limit by status and request type" do
-      my_business_travel = FactoryBot.create(:travel_request, creator: staff_profile, action: "approve",
-                                                              travel_category: "business")
-      FactoryBot.create(:travel_request, creator: staff_profile, action: "approve",
-                                         travel_category: "professional_development")
+      my_business_travel = create(:travel_request, creator: staff_profile, action: "approve",
+                                                   travel_category: "business")
+      create(:travel_request, creator: staff_profile, action: "approve",
+                              travel_category: "professional_development")
       get :my_requests, params: { filters: { request_type: "business", status: "approved" } }, session: valid_session
       expect(assigns(:requests).map(&:id)).to contain_exactly(my_business_travel.id)
     end
   end
 
   describe "GET #my_approval_requests" do
-    let(:profile) { FactoryBot.create :staff_profile, supervisor: staff_profile }
-    let(:approval_absence) { FactoryBot.create(:absence_request, creator: profile, start_date: Time.zone.tomorrow) }
-    let(:approval_travel) { FactoryBot.create(:travel_request, creator: profile, start_date: Time.zone.now) }
+    let(:profile) { create(:staff_profile, supervisor: staff_profile) }
+    let(:approval_absence) { create(:absence_request, creator: profile, start_date: Time.zone.tomorrow) }
+    let(:approval_travel) { create(:travel_request, creator: profile, start_date: Time.zone.now) }
 
     before do
       # create all the requests
@@ -125,12 +125,12 @@ RSpec.describe RequestsController, type: :controller do
 
     it "runs reasonably fast" do
       30.times do
-        FactoryBot.create(:absence_request, creator: profile, start_date: Time.zone.tomorrow)
-        FactoryBot.create(:travel_request, creator: profile)
+        create(:absence_request, creator: profile, start_date: Time.zone.tomorrow)
+        create(:travel_request, creator: profile)
       end
       100.times do
-        FactoryBot.create(:absence_request, start_date: Time.zone.tomorrow)
-        FactoryBot.create(:travel_request)
+        create(:absence_request, start_date: Time.zone.tomorrow)
+        create(:travel_request)
       end
       start_time = Time.zone.now
       10.times do
@@ -154,10 +154,10 @@ RSpec.describe RequestsController, type: :controller do
     end
 
     context "shows when changes are requested by the current supervisor" do
-      let(:profile1) { FactoryBot.create :staff_profile, supervisor: profile2 }
-      let(:profile2) { FactoryBot.create :staff_profile, supervisor: staff_profile }
-      let(:approval_absence) { FactoryBot.create(:absence_request, creator: profile1, start_date: Time.zone.tomorrow) }
-      let(:approval_travel) { FactoryBot.create(:travel_request, creator: profile1, start_date: Time.zone.now) }
+      let(:profile1) { create(:staff_profile, supervisor: profile2) }
+      let(:profile2) { create(:staff_profile, supervisor: staff_profile) }
+      let(:approval_absence) { create(:absence_request, creator: profile1, start_date: Time.zone.tomorrow) }
+      let(:approval_travel) { create(:travel_request, creator: profile1, start_date: Time.zone.now) }
 
       before do
         approval_absence.approve(agent: profile2)
@@ -177,10 +177,10 @@ RSpec.describe RequestsController, type: :controller do
   end
 
   describe "GET #reports" do
-    let(:supervisor) { FactoryBot.create :staff_profile, user: }
-    let(:staff_profile) { FactoryBot.create :staff_profile, supervisor:, biweekly: true }
+    let(:supervisor) { create(:staff_profile, user:) }
+    let(:staff_profile) { create(:staff_profile, supervisor:, biweekly: true) }
     let(:supervisor_absence) do
- FactoryBot.create(:absence_request, creator: supervisor, start_date: Time.zone.tomorrow)
+ create(:absence_request, creator: supervisor, start_date: Time.zone.tomorrow)
     end
 
     before do
@@ -205,10 +205,10 @@ RSpec.describe RequestsController, type: :controller do
     end
 
     it "filters based on supervisor" do
-      sub_staff = FactoryBot.create :staff_profile, supervisor: staff_profile, department: supervisor.department
-      sub_absence = FactoryBot.create(:absence_request, creator: sub_staff)
-      sub_travel = FactoryBot.create(:travel_request, creator: sub_staff)
-      get :reports, params: { filters: { supervisor:  staff_profile.id } }, session: valid_session
+      sub_staff = create(:staff_profile, supervisor: staff_profile, department: supervisor.department)
+      sub_absence = create(:absence_request, creator: sub_staff)
+      sub_travel = create(:travel_request, creator: sub_staff)
+      get :reports, params: { filters: { supervisor: staff_profile.id } }, session: valid_session
       expect(response).to be_successful
       expect(assigns(:requests).map(&:id)).to contain_exactly(*[my_travel, my_absence, sub_absence,
                                                                 sub_travel].map(&:id))
@@ -222,19 +222,19 @@ RSpec.describe RequestsController, type: :controller do
     # r1: created yesterday, modified tomorrow, start date today
     let(:r1) do
       Timecop.freeze(yesterday) do
-        FactoryBot.create(:travel_request, creator: staff_profile, start_date: today)
+        create(:travel_request, creator: staff_profile, start_date: today)
       end
     end
     # r2: created today, modified yesterday, start date tomorrow
     let(:r2) do
       Timecop.freeze(today) do
-        FactoryBot.create(:travel_request, creator: staff_profile, start_date: tomorrow)
+        create(:travel_request, creator: staff_profile, start_date: tomorrow)
       end
     end
     # r3: created tomorrow, modified today, start date yesterday
     let(:r3) do
       Timecop.freeze(tomorrow) do
-        FactoryBot.create(:travel_request, creator: staff_profile, start_date: yesterday)
+        create(:travel_request, creator: staff_profile, start_date: yesterday)
       end
     end
 
@@ -295,12 +295,12 @@ RSpec.describe RequestsController, type: :controller do
 
   describe "GET #my_requests with searching" do
     it "retrieves a result" do
-      absence_request = FactoryBot.create(:absence_request, creator: staff_profile, action: :approve)
-      absence_request2 = FactoryBot.create(:absence_request, creator: staff_profile, action: :deny)
-      travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
-      FactoryBot.create(:note, content: "elephants love balloons", request: absence_request)
-      FactoryBot.create(:note, content: "elephants love balloons", request: absence_request2)
-      FactoryBot.create(:note, content: "flamingoes are pink because of shrimp", request: travel_request)
+      absence_request = create(:absence_request, creator: staff_profile, action: :approve)
+      absence_request2 = create(:absence_request, creator: staff_profile, action: :deny)
+      travel_request = create(:travel_request, creator: staff_profile)
+      create(:note, content: "elephants love balloons", request: absence_request)
+      create(:note, content: "elephants love balloons", request: absence_request2)
+      create(:note, content: "flamingoes are pink because of shrimp", request: travel_request)
 
       get :my_requests, params: { query: "balloons", filters: { status: :approved } }, session: valid_session
       expect(assigns(:requests).count).to eq 1
@@ -309,13 +309,13 @@ RSpec.describe RequestsController, type: :controller do
 
   describe "GET #my_approval_requests with searching" do
     it "retrieves a result" do
-      profile = FactoryBot.create :staff_profile, supervisor: staff_profile, given_name: "Haley"
-      absence_request = FactoryBot.create(:absence_request, creator: profile)
-      absence_request2 = FactoryBot.create(:absence_request, creator: profile)
-      travel_request = FactoryBot.create(:travel_request, creator: profile)
-      FactoryBot.create(:note, content: "elephants love balloons", request: absence_request)
-      FactoryBot.create(:note, content: "elephants love pink balloons", request: absence_request2)
-      FactoryBot.create(:note, content: "flamingoes are pink because of shrimp", request: travel_request)
+      profile = create(:staff_profile, supervisor: staff_profile, given_name: "Haley")
+      absence_request = create(:absence_request, creator: profile)
+      absence_request2 = create(:absence_request, creator: profile)
+      travel_request = create(:travel_request, creator: profile)
+      create(:note, content: "elephants love balloons", request: absence_request)
+      create(:note, content: "elephants love pink balloons", request: absence_request2)
+      create(:note, content: "flamingoes are pink because of shrimp", request: travel_request)
 
       get :my_approval_requests, params: { query: "balloons" }, session: valid_session
       expect(assigns(:requests).count).to eq 2
@@ -327,11 +327,11 @@ RSpec.describe RequestsController, type: :controller do
 
   context "filter by date range" do
     # using let! to make sure the requests exist
-    let!(:r1) { FactoryBot.create(:travel_request, creator:, start_date: today, end_date: today) }
-    let!(:r2) { FactoryBot.create(:travel_request, creator:, start_date: tomorrow, end_date: tomorrow) }
-    let!(:r3) { FactoryBot.create(:travel_request, creator:, start_date: yesterday, end_date: yesterday) }
-    let!(:r4) { FactoryBot.create(:travel_request, creator:, start_date: today, end_date: tomorrow) }
-    let!(:r5) { FactoryBot.create(:travel_request, creator:, start_date: yesterday, end_date: today) }
+    let!(:r1) { create(:travel_request, creator:, start_date: today, end_date: today) }
+    let!(:r2) { create(:travel_request, creator:, start_date: tomorrow, end_date: tomorrow) }
+    let!(:r3) { create(:travel_request, creator:, start_date: yesterday, end_date: yesterday) }
+    let!(:r4) { create(:travel_request, creator:, start_date: today, end_date: tomorrow) }
+    let!(:r5) { create(:travel_request, creator:, start_date: yesterday, end_date: today) }
 
         describe "GET #my_requests" do
       let(:creator) { staff_profile }
@@ -374,7 +374,7 @@ RSpec.describe RequestsController, type: :controller do
 
     describe "GET #my_approval_requests" do
       let(:creator) { profile }
-      let(:profile) { FactoryBot.create :staff_profile, supervisor: staff_profile, given_name: "Haley" }
+      let(:profile) { create(:staff_profile, supervisor: staff_profile, given_name: "Haley") }
       let(:day_before_yesterday) { Time.zone.yesterday.yesterday }
       let(:yesterday) { Time.zone.yesterday }
       let(:today) { Time.zone.today }
@@ -415,7 +415,7 @@ RSpec.describe RequestsController, type: :controller do
 
     describe "GET #reports" do
       let(:creator) { profile }
-      let(:profile) { FactoryBot.create :staff_profile, supervisor: staff_profile, given_name: "Haley" }
+      let(:profile) { create(:staff_profile, supervisor: staff_profile, given_name: "Haley") }
       let(:day_before_yesterday) { Time.zone.yesterday.yesterday }
       let(:yesterday) { Time.zone.yesterday }
       let(:today) { Time.zone.today }

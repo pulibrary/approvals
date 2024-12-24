@@ -16,8 +16,8 @@ RSpec.describe Department, type: :model do
 
   describe "#destory" do
     it "destroys dependants" do
-      department = FactoryBot.create(:department)
-      aa = FactoryBot.create(:staff_profile)
+      department = create(:department)
+      aa = create(:staff_profile)
       department.admin_assistants << aa
       department.save
       expect { department.destroy }.to change(AdminAssistantsDepartment, :count).by(-1)

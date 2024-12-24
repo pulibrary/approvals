@@ -17,14 +17,14 @@ RSpec.describe StateChange, type: :model do
 
   describe "#title" do
     it "returns the title for a canceled request" do
-      agent = FactoryBot.create :staff_profile, surname: "Doe", given_name: "Jane"
-      state_change = FactoryBot.create :state_change, action: "canceled", agent: agent
+      agent = create(:staff_profile, surname: "Doe", given_name: "Jane")
+      state_change = create(:state_change, action: "canceled", agent: agent)
       expect(state_change.title).to start_with("Canceled by Jane Doe")
     end
 
     it "returns the title for a fixed request" do
-      agent = FactoryBot.create :staff_profile, :with_department, surname: "Doe", given_name: "Jane"
-      request = FactoryBot.create :travel_request, creator: agent, action: "fix_requested_changes"
+      agent = create(:staff_profile, :with_department, surname: "Doe", given_name: "Jane")
+      request = create(:travel_request, creator: agent, action: "fix_requested_changes")
       state_change = request.state_changes.last
       expect(state_change.title).to start_with("Updated by Jane Doe")
     end

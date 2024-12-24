@@ -16,7 +16,7 @@ RSpec.describe Request, type: :model do
 
   describe "#id" do
     it "id is greater than ten thousand" do
-      expect(FactoryBot.create(:absence_request).id).to be >= 10_000
+      expect(create(:absence_request).id).to be >= 10_000
     end
   end
 
@@ -25,9 +25,9 @@ RSpec.describe Request, type: :model do
   # so test here on the model. Maybe replace with other controller tests
   # when we work that ticket.
   describe "status enum" do
-    let(:staff_profile) { FactoryBot.create(:staff_profile, :with_department) }
-    let(:travel_request) { FactoryBot.build(:travel_request, creator: staff_profile) }
-    let(:absence_request) { FactoryBot.build(:absence_request, creator: staff_profile) }
+    let(:staff_profile) { create(:staff_profile, :with_department) }
+    let(:travel_request) { build(:travel_request, creator: staff_profile) }
+    let(:absence_request) { build(:absence_request, creator: staff_profile) }
 
     it "set expected values" do
       expect(travel_request.pending?).to be true
@@ -60,10 +60,10 @@ RSpec.describe Request, type: :model do
 
   describe "#destory" do
     it "destroys dependant notes and estimates" do
-      travel_request = FactoryBot.create(:travel_request, action: :approve)
-      FactoryBot.create(:note, content: "Flamingoes are pink, because they eat lots of shrimp.",
-                               request: travel_request)
-      FactoryBot.create(:estimate, request: travel_request)
+      travel_request = create(:travel_request, action: :approve)
+      create(:note, content: "Flamingoes are pink, because they eat lots of shrimp.",
+                    request: travel_request)
+      create(:estimate, request: travel_request)
       expect { travel_request.destroy }.to(
         change(Note, :count).by(-1).and(
           change(Estimate, :count).by(-1)
@@ -77,17 +77,17 @@ RSpec.describe Request, type: :model do
   end
 
   describe "#where_contains_text" do
-    let(:absence_request) { FactoryBot.create(:absence_request, action: :approve) }
-    let(:absence_request2) { FactoryBot.create(:absence_request, action: :deny) }
-    let(:travel_request) { FactoryBot.create(:travel_request, action: :approve) }
-    let(:travel_request2) { FactoryBot.create(:travel_request) }
+    let(:absence_request) { create(:absence_request, action: :approve) }
+    let(:absence_request2) { create(:absence_request, action: :deny) }
+    let(:travel_request) { create(:travel_request, action: :approve) }
+    let(:travel_request2) { create(:travel_request) }
 
     before do
-      FactoryBot.create(:note, content: "elephants love balloons", request: absence_request)
-      FactoryBot.create(:note, content: "Elephants love balloons", request: absence_request2)
-      FactoryBot.create(:note, content: "Flamingoes are pink, because they eat lots of shrimp.",
-                               request: travel_request)
-      FactoryBot.create(:note, content: "Bears can't fly", request: travel_request)
+      create(:note, content: "elephants love balloons", request: absence_request)
+      create(:note, content: "Elephants love balloons", request: absence_request2)
+      create(:note, content: "Flamingoes are pink, because they eat lots of shrimp.",
+                    request: travel_request)
+      create(:note, content: "Bears can't fly", request: travel_request)
       travel_request2 # no note just create it
     end
 

@@ -3,15 +3,15 @@
 require "rails_helper"
 
 RSpec.describe ReportRequestList, type: :model do
-  let(:user) { FactoryBot.create :user }
-  let(:supervisor) { FactoryBot.create :staff_profile, :with_department, user: }
-  let(:staff_profile) { FactoryBot.create :staff_profile, supervisor:, department: supervisor.department }
+  let(:user) { create(:user) }
+  let(:supervisor) { create(:staff_profile, :with_department, user:) }
+  let(:staff_profile) { create(:staff_profile, supervisor:, department: supervisor.department) }
 
-  let(:supervisor_absence) { FactoryBot.create(:absence_request, creator: supervisor, start_date: Time.zone.tomorrow) }
-  let(:other_absence) { FactoryBot.create(:absence_request) }
-  let(:other_travel) { FactoryBot.create(:travel_request) }
-  let(:my_absence) { FactoryBot.create(:absence_request, creator: staff_profile, start_date: Time.zone.tomorrow) }
-  let(:my_travel) { FactoryBot.create(:travel_request, creator: staff_profile) }
+  let(:supervisor_absence) { create(:absence_request, creator: supervisor, start_date: Time.zone.tomorrow) }
+  let(:other_absence) { create(:absence_request) }
+  let(:other_travel) { create(:travel_request) }
+  let(:my_absence) { create(:absence_request, creator: staff_profile, start_date: Time.zone.tomorrow) }
+  let(:my_travel) { create(:travel_request, creator: staff_profile) }
 
   describe "GET #list_requests" do
     before do
@@ -41,10 +41,10 @@ RSpec.describe ReportRequestList, type: :model do
     end
 
     it "goes n levels deep" do
-      profile = FactoryBot.create :staff_profile, supervisor: staff_profile, department: supervisor.department
-      deep_travel = FactoryBot.create(:travel_request, creator: profile)
-      profile2 = FactoryBot.create :staff_profile, supervisor: profile, department: supervisor.department
-      deeper_travel = FactoryBot.create(:travel_request, creator: profile2)
+      profile = create(:staff_profile, supervisor: staff_profile, department: supervisor.department)
+      deep_travel = create(:travel_request, creator: profile)
+      profile2 = create(:staff_profile, supervisor: profile, department: supervisor.department)
+      deeper_travel = create(:travel_request, creator: profile2)
       list = described_class.list_requests(current_staff_profile: supervisor, request_filters: nil, search_query: nil,
                                            order: nil)
       expect(list.first).to be_a TravelRequest
@@ -54,7 +54,7 @@ RSpec.describe ReportRequestList, type: :model do
     end
 
     it "accepts limit by status" do
-      approved_absence = FactoryBot.create(:absence_request, action: :approve, creator: staff_profile)
+      approved_absence = create(:absence_request, action: :approve, creator: staff_profile)
       list = described_class.list_requests(current_staff_profile: supervisor, request_filters: { status: "approved" },
                                            search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(approved_absence.id)
@@ -67,7 +67,7 @@ RSpec.describe ReportRequestList, type: :model do
     end
 
     it "accepts limit by request type sick" do
-      my_sick_absence = FactoryBot.create(:absence_request, creator: staff_profile, absence_type: "sick")
+      my_sick_absence = create(:absence_request, creator: staff_profile, absence_type: "sick")
       list = described_class.list_requests(current_staff_profile: supervisor,
                                            request_filters: { "request_type" => "sick" }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(my_sick_absence.id)
@@ -80,17 +80,17 @@ RSpec.describe ReportRequestList, type: :model do
     end
 
     it "accepts limit by request type business" do
-      my_business_travel = FactoryBot.create(:travel_request, creator: staff_profile, travel_category: "business")
+      my_business_travel = create(:travel_request, creator: staff_profile, travel_category: "business")
       list = described_class.list_requests(current_staff_profile: supervisor,
                                            request_filters: { "request_type" => "business" }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(my_business_travel.id)
     end
 
     it "accepts limit by status and request type" do
-      my_business_travel = FactoryBot.create(:travel_request, creator: staff_profile, action: "approve",
-                                                              travel_category: "business")
-      FactoryBot.create(:travel_request, creator: staff_profile, action: "approve",
-                                         travel_category: "professional_development")
+      my_business_travel = create(:travel_request, creator: staff_profile, action: "approve",
+                                                   travel_category: "business")
+      create(:travel_request, creator: staff_profile, action: "approve",
+                              travel_category: "professional_development")
       list = described_class.list_requests(current_staff_profile: supervisor,
                                            request_filters: { "request_type" => "business", "status" => "approved" }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(my_business_travel.id)
@@ -103,10 +103,10 @@ RSpec.describe ReportRequestList, type: :model do
     end
 
     it "accepts limit by employee type" do
-      biweekly_profile = FactoryBot.create :staff_profile, supervisor: supervisor, department: supervisor.department,
-                                                           biweekly: true
-      bi_weekly_absence = FactoryBot.create(:absence_request, creator: biweekly_profile)
-      bi_weekly_travel = FactoryBot.create(:travel_request, creator: biweekly_profile)
+      biweekly_profile = create(:staff_profile, supervisor: supervisor, department: supervisor.department,
+                                                biweekly: true)
+      bi_weekly_absence = create(:absence_request, creator: biweekly_profile)
+      bi_weekly_travel = create(:travel_request, creator: biweekly_profile)
       list = described_class.list_requests(current_staff_profile: supervisor,
                                            request_filters: { "employee_type" => "biweekly" }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(*[bi_weekly_absence, bi_weekly_travel].map(&:id))
@@ -116,18 +116,18 @@ RSpec.describe ReportRequestList, type: :model do
     end
 
     it "accepts limit by supervisor" do
-      sub_staff = FactoryBot.create :staff_profile, supervisor: staff_profile, department: supervisor.department
-      sub_absence = FactoryBot.create(:absence_request, creator: sub_staff)
-      sub_travel = FactoryBot.create(:travel_request, creator: sub_staff)
+      sub_staff = create(:staff_profile, supervisor: staff_profile, department: supervisor.department)
+      sub_absence = create(:absence_request, creator: sub_staff)
+      sub_travel = create(:travel_request, creator: sub_staff)
       list = described_class.list_requests(current_staff_profile: supervisor,
                                            request_filters: { "supervisor" => staff_profile }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(*[my_absence, my_travel, sub_absence, sub_travel].map(&:id))
     end
 
     it "accepts limit by supervisor and does not filter if the supervisor is not part of the logged in user's reporting chain" do
-      sub_staff = FactoryBot.create :staff_profile, supervisor: staff_profile, department: supervisor.department
-      sub_absence = FactoryBot.create(:absence_request, creator: sub_staff)
-      sub_travel = FactoryBot.create(:travel_request, creator: sub_staff)
+      sub_staff = create(:staff_profile, supervisor: staff_profile, department: supervisor.department)
+      sub_absence = create(:absence_request, creator: sub_staff)
+      sub_travel = create(:travel_request, creator: sub_staff)
       list = described_class.list_requests(current_staff_profile: supervisor,
                                            request_filters: { "supervisor" => other_absence.creator }, search_query: nil, order: nil)
       expect(list.map(&:id)).to contain_exactly(*[my_absence, my_travel, sub_absence, sub_travel,
@@ -142,19 +142,19 @@ RSpec.describe ReportRequestList, type: :model do
     # r1: created yesterday, modified tomorrow, start date today
     let(:r1) do
       Timecop.freeze(yesterday) do
-        FactoryBot.create(:absence_request, creator: staff_profile, start_date: today)
+        create(:absence_request, creator: staff_profile, start_date: today)
       end
     end
     # r2: created today, modified yesterday, start date tomorrow
     let(:r2) do
       Timecop.freeze(today) do
-        FactoryBot.create(:absence_request, creator: staff_profile, start_date: tomorrow)
+        create(:absence_request, creator: staff_profile, start_date: tomorrow)
       end
     end
     # r3: created tomorrow, modified today, start date yesterday
     let(:r3) do
       Timecop.freeze(tomorrow) do
-        FactoryBot.create(:absence_request, creator: staff_profile, start_date: yesterday)
+        create(:absence_request, creator: staff_profile, start_date: yesterday)
       end
     end
 
@@ -222,12 +222,12 @@ RSpec.describe ReportRequestList, type: :model do
 
   describe "GET #my_requests with searching" do
     it "retrieves a result" do
-      absence_request = FactoryBot.create(:absence_request, creator: staff_profile, action: :approve)
-      absence_request2 = FactoryBot.create(:absence_request, creator: staff_profile, action: :deny)
-      travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
-      FactoryBot.create(:note, content: "elephants love balloons", request: absence_request)
-      FactoryBot.create(:note, content: "elephants love balloons", request: absence_request2)
-      FactoryBot.create(:note, content: "flamingoes are pink because of shrimp", request: travel_request)
+      absence_request = create(:absence_request, creator: staff_profile, action: :approve)
+      absence_request2 = create(:absence_request, creator: staff_profile, action: :deny)
+      travel_request = create(:travel_request, creator: staff_profile)
+      create(:note, content: "elephants love balloons", request: absence_request)
+      create(:note, content: "elephants love balloons", request: absence_request2)
+      create(:note, content: "flamingoes are pink because of shrimp", request: travel_request)
 
       list = described_class.list_requests(current_staff_profile: supervisor,
                                            request_filters: { "status" => "approved" }, search_query: "balloons", order: nil)

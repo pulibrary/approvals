@@ -12,12 +12,12 @@ RSpec.describe BalanceReportProcessor, type: :model do
 
   describe "#process" do
     it "Adds balances to staff profiles" do
-      user = FactoryBot.create :user, uid: "testi"
-      user2 = FactoryBot.create :user, uid: "test2"
-      user3 = FactoryBot.create :user, uid: "test3"
-      staff_profile = FactoryBot.create :staff_profile, user: user
-      staff_profile2 = FactoryBot.create :staff_profile, user: user2
-      staff_profile3 = FactoryBot.create :staff_profile, user: user3
+      user = create(:user, uid: "testi")
+      user2 = create(:user, uid: "test2")
+      user3 = create(:user, uid: "test3")
+      staff_profile = create(:staff_profile, user: user)
+      staff_profile2 = create(:staff_profile, user: user2)
+      staff_profile3 = create(:staff_profile, user: user3)
       errors = described_class.process(data: "#{heading_line}\n#{user_line}\n#{user2_line}\n#{user3_line}")
       staff_profile.reload
       staff_profile2.reload
@@ -42,8 +42,8 @@ RSpec.describe BalanceReportProcessor, type: :model do
 
     context "missing staff profile" do
       it "Adds balances to existing staff profiles and returns errors" do
-        user = FactoryBot.create :user, uid: "testi"
-        staff_profile = FactoryBot.create :staff_profile, user: user
+        user = create(:user, uid: "testi")
+        staff_profile = create(:staff_profile, user: user)
         errors = described_class.process(data: "#{heading_line}\n#{user_line}\n#{user2_line}")
         expect(errors[:unknown]).to eq(["test2"])
         staff_profile.reload

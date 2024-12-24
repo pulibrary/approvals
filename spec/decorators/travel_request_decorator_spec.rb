@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe TravelRequestDecorator, type: :model do
   subject(:travel_request_decorator) { described_class.new(travel_request) }
 
-  let(:travel_request) { FactoryBot.create(:travel_request) }
+  let(:travel_request) { create(:travel_request) }
 
   describe "attributes relevant to TravelRequest" do
     it { is_expected.to respond_to :end_date }
@@ -32,7 +32,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
     end
 
     context "when travel_category is Business" do
-      let(:travel_request) { FactoryBot.create(:travel_request, travel_category: :business) }
+      let(:travel_request) { create(:travel_request, travel_category: :business) }
 
       it "returns the correct lux icon" do
         expect(travel_request_decorator.travel_category_icon).to eq "lux-icon-globe"
@@ -40,7 +40,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
     end
 
     context "when travel_category is professional development" do
-      let(:travel_request) { FactoryBot.create(:travel_request, travel_category: :professional_development) }
+      let(:travel_request) { create(:travel_request, travel_category: :professional_development) }
 
       it "returns the correct lux icon" do
         expect(travel_request_decorator.travel_category_icon).to eq "lux-icon-globe"
@@ -49,7 +49,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
   end
 
   describe "#formatted_start_date" do
-    let(:travel_request) { FactoryBot.create(:travel_request, start_date: Time.zone.parse("2019-07-04 12:12")) }
+    let(:travel_request) { create(:travel_request, start_date: Time.zone.parse("2019-07-04 12:12")) }
 
     it "returns a formated start date" do
       expect(travel_request_decorator.formatted_start_date).to eq "07/04/2019"
@@ -67,7 +67,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
   end
 
   describe "#formatted_full_start_date" do
-    let(:travel_request) { FactoryBot.create(:travel_request, start_date: Time.zone.parse("2019-07-04 12:12")) }
+    let(:travel_request) { create(:travel_request, start_date: Time.zone.parse("2019-07-04 12:12")) }
 
     it "returns a formated start date" do
       expect(travel_request_decorator.formatted_full_start_date).to eq "July 4, 2019"
@@ -75,7 +75,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
   end
 
   describe "#formatted_end_date" do
-    let(:travel_request) { FactoryBot.create(:travel_request, end_date: Time.zone.parse("2019-07-04 12:12")) }
+    let(:travel_request) { create(:travel_request, end_date: Time.zone.parse("2019-07-04 12:12")) }
 
     it "returns a formated end date" do
       expect(travel_request_decorator.formatted_end_date).to eq "07/04/2019"
@@ -93,7 +93,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
   end
 
   describe "#formatted_full_end_date" do
-    let(:travel_request) { FactoryBot.create(:travel_request, end_date: Time.zone.parse("2019-07-04 12:12")) }
+    let(:travel_request) { create(:travel_request, end_date: Time.zone.parse("2019-07-04 12:12")) }
 
     it "returns a formated end date" do
       expect(travel_request_decorator.formatted_full_end_date).to eq "July 4, 2019"
@@ -101,14 +101,14 @@ RSpec.describe TravelRequestDecorator, type: :model do
   end
 
   describe "#status_icon" do
-    let(:travel_request) { FactoryBot.create(:travel_request) }
+    let(:travel_request) { create(:travel_request) }
 
     it "returns the correct lux icon" do
       expect(travel_request_decorator.status_icon).to eq "clock"
     end
 
     context "when travel has been approved" do
-      let(:travel_request) { FactoryBot.create(:travel_request, action: :approve) }
+      let(:travel_request) { create(:travel_request, action: :approve) }
 
       it "returns the correct lux icon" do
         expect(travel_request_decorator.status_icon).to eq "approved"
@@ -116,7 +116,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
     end
 
     context "when travel has been denied" do
-      let(:travel_request) { FactoryBot.create(:travel_request, action: :deny) }
+      let(:travel_request) { create(:travel_request, action: :deny) }
 
       it "returns the correct lux icon" do
         expect(travel_request_decorator.status_icon).to eq "denied"
@@ -124,7 +124,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
     end
 
     context "when travel has been changes_requested" do
-      let(:travel_request) { FactoryBot.create(:travel_request, action: :change_request) }
+      let(:travel_request) { create(:travel_request, action: :change_request) }
 
       it "returns the correct lux icon" do
         expect(travel_request_decorator.status_icon).to eq "refresh"
@@ -132,7 +132,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
     end
 
     context "when travel has been canceled" do
-      let(:travel_request) { FactoryBot.create(:travel_request, action: :cancel) }
+      let(:travel_request) { create(:travel_request, action: :cancel) }
 
       it "returns the correct lux icon" do
         expect(travel_request_decorator.status_icon).to eq "alert"
@@ -141,7 +141,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
   end
 
   describe "#latest_status" do
-    let(:travel_request) { FactoryBot.create(:travel_request) }
+    let(:travel_request) { create(:travel_request) }
     let(:today) { Time.zone.now }
 
     it "returns the status and the createddate" do
@@ -150,7 +150,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
     end
 
     context "it has been approved and then canceled" do
-      let(:travel_request) { FactoryBot.create(:travel_request, action: :approve) }
+      let(:travel_request) { create(:travel_request, action: :approve) }
 
       it "returns the last created status and date" do
         travel_request.cancel!(agent: travel_request.creator)
@@ -160,8 +160,8 @@ RSpec.describe TravelRequestDecorator, type: :model do
     end
 
     context "approved but waiting on further review" do
-      let(:creator) { FactoryBot.create :staff_profile, :with_supervisor }
-      let(:travel_request) { FactoryBot.create(:travel_request, creator:) }
+      let(:creator) { create(:staff_profile, :with_supervisor) }
+      let(:travel_request) { create(:travel_request, creator:) }
 
       it "returns pending futher review" do
         travel_request.approve!(agent: travel_request.creator.supervisor)
@@ -177,7 +177,7 @@ RSpec.describe TravelRequestDecorator, type: :model do
     end
 
     context "with estimate" do
-      let(:travel_request) { FactoryBot.create(:travel_request, :with_note_and_estimate) }
+      let(:travel_request) { create(:travel_request, :with_note_and_estimate) }
 
       it "returns json data" do
         expect(travel_request_decorator.estimates_json).to eq(
@@ -190,24 +190,24 @@ RSpec.describe TravelRequestDecorator, type: :model do
 
   describe "#notes_and_changes" do
     let(:department_head) do
- FactoryBot.create(:staff_profile, :as_department_head, given_name: "Department", surname: "Head")
+ create(:staff_profile, :as_department_head, given_name: "Department", surname: "Head")
     end
     let(:admin_assistant) do
- FactoryBot.create(:staff_profile, given_name: "Admin", surname: "Assistant", department: department_head.department)
+ create(:staff_profile, given_name: "Admin", surname: "Assistant", department: department_head.department)
     end
     let(:supervisor) do
- FactoryBot.create(:staff_profile, given_name: "Sally", surname: "Supervisor", department: department_head.department,
-                                   supervisor: department_head)
+ create(:staff_profile, given_name: "Sally", surname: "Supervisor", department: department_head.department,
+                        supervisor: department_head)
     end
     let(:staff) do
- FactoryBot.create(:staff_profile, given_name: "Staff", surname: "Person", department: department_head.department,
-                                   supervisor:)
+ create(:staff_profile, given_name: "Staff", surname: "Person", department: department_head.department,
+                        supervisor:)
     end
     let(:travel_request) do
-      request = FactoryBot.create(:travel_request, creator: staff)
-      request.notes << FactoryBot.build(:note, content: "Please approve", creator: staff)
+      request = create(:travel_request, creator: staff)
+      request.notes << build(:note, content: "Please approve", creator: staff)
       request.approve(agent: supervisor)
-      request.notes << FactoryBot.build(:note, content: "looks good", creator: supervisor)
+      request.notes << build(:note, content: "looks good", creator: supervisor)
       department_head.current_delegate = admin_assistant
       request.approve(agent: department_head)
       request
@@ -230,12 +230,12 @@ RSpec.describe TravelRequestDecorator, type: :model do
 
     context "when changes requested" do
       let(:travel_request) do
-        request = FactoryBot.create(:travel_request, creator: staff)
-        request.notes << FactoryBot.build(:note, content: "Please approve", creator: staff)
+        request = create(:travel_request, creator: staff)
+        request.notes << build(:note, content: "Please approve", creator: staff)
         request.approve(agent: supervisor)
-        request.notes << FactoryBot.build(:note, content: "looks good", creator: supervisor)
+        request.notes << build(:note, content: "looks good", creator: supervisor)
         request.change_request(agent: department_head)
-        request.notes << FactoryBot.build(:note, content: "change stuff", creator: department_head)
+        request.notes << build(:note, content: "change stuff", creator: department_head)
         request.fix_requested_changes(agent: staff)
         request
       end
@@ -262,14 +262,14 @@ RSpec.describe TravelRequestDecorator, type: :model do
 
     context "when delegate created" do
       let(:travel_request) do
-        request = FactoryBot.create(:travel_request, creator: staff)
-        request.notes << FactoryBot.build(:note, content: "This request was created by #{supervisor.full_name}",
-                                                 creator: supervisor)
-        request.notes << FactoryBot.build(:note, content: "Please approve", creator: staff)
+        request = create(:travel_request, creator: staff)
+        request.notes << build(:note, content: "This request was created by #{supervisor.full_name}",
+                                      creator: supervisor)
+        request.notes << build(:note, content: "Please approve", creator: staff)
         request.approve(agent: supervisor)
-        request.notes << FactoryBot.build(:note, content: "looks good", creator: supervisor)
+        request.notes << build(:note, content: "looks good", creator: supervisor)
         request.change_request(agent: department_head)
-        request.notes << FactoryBot.build(:note, content: "change stuff", creator: department_head)
+        request.notes << build(:note, content: "change stuff", creator: department_head)
         request.fix_requested_changes(agent: staff)
         request
       end
@@ -296,11 +296,11 @@ RSpec.describe TravelRequestDecorator, type: :model do
 
     context "when without a note" do
       let(:travel_request) do
-        request = FactoryBot.create(:travel_request, creator: staff)
+        request = create(:travel_request, creator: staff)
         request.approve(agent: supervisor)
-        request.notes << FactoryBot.build(:note, content: "looks good", creator: supervisor)
+        request.notes << build(:note, content: "looks good", creator: supervisor)
         request.change_request(agent: department_head)
-        request.notes << FactoryBot.build(:note, content: "change stuff", creator: department_head)
+        request.notes << build(:note, content: "change stuff", creator: department_head)
         request.fix_requested_changes(agent: staff)
         request
       end
@@ -325,13 +325,13 @@ RSpec.describe TravelRequestDecorator, type: :model do
   end
 
   describe "#event_attendees" do
-    let(:staff_profile) { FactoryBot.create(:staff_profile, :with_department, given_name: "Jane") }
-    let(:staff_profile2) { FactoryBot.create(:staff_profile, :with_department, given_name: "Joe") }
+    let(:staff_profile) { create(:staff_profile, :with_department, given_name: "Jane") }
+    let(:staff_profile2) { create(:staff_profile, :with_department, given_name: "Joe") }
     let(:travel_request) do
-      FactoryBot.create(:travel_request, creator: staff_profile)
+      create(:travel_request, creator: staff_profile)
     end
     let(:travel_request2) do
-      FactoryBot.create(:travel_request, event_requests: travel_request.event_requests, creator: staff_profile2)
+      create(:travel_request, event_requests: travel_request.event_requests, creator: staff_profile2)
     end
 
     it "returns others who want to attend the same event" do
@@ -345,16 +345,16 @@ RSpec.describe TravelRequestDecorator, type: :model do
   end
 
   describe "#absent_staff" do
-    let(:staff_profile) { FactoryBot.create(:staff_profile, :with_department, given_name: "Jane") }
+    let(:staff_profile) { create(:staff_profile, :with_department, given_name: "Jane") }
     let(:staff_profile2) do
- FactoryBot.create(:staff_profile, supervisor: staff_profile.supervisor, department: staff_profile.department,
-                                   given_name: "Joe")
+ create(:staff_profile, supervisor: staff_profile.supervisor, department: staff_profile.department,
+                        given_name: "Joe")
     end
     let(:travel_request) do
-      FactoryBot.create(:travel_request, creator: staff_profile)
+      create(:travel_request, creator: staff_profile)
     end
     let(:absence_request) do
-      FactoryBot.create(:absence_request, creator: staff_profile2)
+      create(:absence_request, creator: staff_profile2)
     end
 
     it "returns others who will be absent during the event time frame" do
@@ -369,15 +369,15 @@ RSpec.describe TravelRequestDecorator, type: :model do
 
   describe "#forward_statement" do
     it "returns a forward statement with out admin" do
-      staff_profile = FactoryBot.create(:staff_profile)
-      travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
+      staff_profile = create(:staff_profile)
+      travel_request = create(:travel_request, creator: staff_profile)
       travel_request_decorator = described_class.new(travel_request)
       expect(travel_request_decorator.forward_statement).to eq("The approval has been forwarded to your supervisor for their information.")
     end
 
     it "returns a forward statement with admin" do
-      staff_profile = FactoryBot.create(:staff_profile, :with_department)
-      travel_request = FactoryBot.create(:travel_request, creator: staff_profile)
+      staff_profile = create(:staff_profile, :with_department)
+      travel_request = create(:travel_request, creator: staff_profile)
       travel_request_decorator = described_class.new(travel_request)
       expect(travel_request_decorator.forward_statement).to eq("The approval has been forwarded to your supervisor and administrative assistant for their information.")
     end

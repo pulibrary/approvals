@@ -4,8 +4,8 @@ require "rails_helper"
 
 RSpec.describe "Delegates", type: :request do
   context "Signed in user" do
-    let(:user) { FactoryBot.create :user }
-    let(:staff_profile) { FactoryBot.create :staff_profile, user: }
+    let(:user) { create(:user) }
+    let(:staff_profile) { create(:staff_profile, user:) }
 
     before do
       staff_profile

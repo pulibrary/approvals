@@ -3,9 +3,9 @@
 require "rails_helper"
 
 RSpec.describe "travel_requests/show", type: :view do
-  let(:creator) { FactoryBot.create(:staff_profile, :with_supervisor, given_name: "Sally", surname: "Smith") }
+  let(:creator) { create(:staff_profile, :with_supervisor, given_name: "Sally", surname: "Smith") }
   let(:travel_request) do
- TravelRequestDecorator.new(FactoryBot.create(:travel_request, :with_note_and_estimate, creator:))
+ TravelRequestDecorator.new(create(:travel_request, :with_note_and_estimate, creator:))
   end
 
   before do
@@ -37,7 +37,7 @@ RSpec.describe "travel_requests/show", type: :view do
 
   it "does not render edit if current profile is not the creator" do
     without_partial_double_verification do
-      allow(view).to receive(:current_staff_profile).and_return(FactoryBot.create(:staff_profile))
+      allow(view).to receive(:current_staff_profile).and_return(create(:staff_profile))
       render
     end
     expect(rendered).not_to have_selector("hyperlink[href=\"#{edit_travel_request_path(travel_request.request)}\"]",

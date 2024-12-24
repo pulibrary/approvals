@@ -3,55 +3,55 @@
 require "rails_helper"
 
 RSpec.describe EventAttendees, type: :model do
-  let(:jack) { FactoryBot.create :staff_profile, given_name: "Jack" }
-  let(:jill) { FactoryBot.create :staff_profile, given_name: "Jill" }
-  let(:mary) { FactoryBot.create :staff_profile, given_name: "Mary" }
-  let(:peter) { FactoryBot.create :staff_profile, given_name: "Peter" }
-  let(:hill) { FactoryBot.create :recurring_event }
-  let(:peppers) { FactoryBot.create :recurring_event }
-  let(:garden) { FactoryBot.create :recurring_event }
+  let(:jack) { create(:staff_profile, given_name: "Jack") }
+  let(:jill) { create(:staff_profile, given_name: "Jill") }
+  let(:mary) { create(:staff_profile, given_name: "Mary") }
+  let(:peter) { create(:staff_profile, given_name: "Peter") }
+  let(:hill) { create(:recurring_event) }
+  let(:peppers) { create(:recurring_event) }
+  let(:garden) { create(:recurring_event) }
   let(:mary_garden_2020) do
     start_date = 1.year.from_now
     end_date = start_date + 2.days
-    event_request = FactoryBot.build :event_request, recurring_event: garden, start_date: start_date, end_date: end_date
-    FactoryBot.create :travel_request, creator: mary, event_requests: [event_request], start_date: start_date - 1.day,
-                                       end_date:
+    event_request = build(:event_request, recurring_event: garden, start_date: start_date, end_date: end_date)
+    create(:travel_request, creator: mary, event_requests: [event_request], start_date: start_date - 1.day,
+                            end_date:)
   end
   let(:mary_garden_2019) do
     start_date = Time.zone.now
     end_date = start_date + 3.days
-    event_request = FactoryBot.build :event_request, recurring_event: garden, start_date: start_date, end_date: end_date
-    FactoryBot.create :travel_request, creator: mary, event_requests: [event_request], start_date: start_date - 1.day,
-                                       end_date:
+    event_request = build(:event_request, recurring_event: garden, start_date: start_date, end_date: end_date)
+    create(:travel_request, creator: mary, event_requests: [event_request], start_date: start_date - 1.day,
+                            end_date:)
   end
   let(:jill_garden_2018) do
     start_date = 1.year.ago
     end_date = start_date + 2.days
-    event_request = FactoryBot.build :event_request, recurring_event: garden, start_date: start_date, end_date: end_date
-    FactoryBot.create :travel_request, creator: jill, event_requests: [event_request], start_date: start_date - 1.day,
-                                       end_date:
+    event_request = build(:event_request, recurring_event: garden, start_date: start_date, end_date: end_date)
+    create(:travel_request, creator: jill, event_requests: [event_request], start_date: start_date - 1.day,
+                            end_date:)
   end
   let(:peter_peppers_2019) do
     start_date = Time.zone.now
     end_date = start_date + 5.days
-    event_request = FactoryBot.build :event_request, recurring_event: peppers, start_date: start_date,
-                                                     end_date: end_date
-    FactoryBot.create :travel_request, creator: peter, event_requests: [event_request], start_date: start_date - 1.day,
-                                       end_date:
+    event_request = build(:event_request, recurring_event: peppers, start_date: start_date,
+                                          end_date: end_date)
+    create(:travel_request, creator: peter, event_requests: [event_request], start_date: start_date - 1.day,
+                            end_date:)
   end
   let(:jack_hill_2019) do
     start_date = Time.zone.now
     end_date = start_date + 5.days
-    event_request = FactoryBot.build :event_request, recurring_event: hill, start_date: start_date, end_date: end_date
-    FactoryBot.create :travel_request, creator: jack, event_requests: [event_request], start_date: start_date - 1.day,
-                                       end_date:
+    event_request = build(:event_request, recurring_event: hill, start_date: start_date, end_date: end_date)
+    create(:travel_request, creator: jack, event_requests: [event_request], start_date: start_date - 1.day,
+                            end_date:)
   end
   let(:jill_hill_2019) do
     start_date = Time.zone.now
     end_date = start_date + 5.days
-    event_request = FactoryBot.build :event_request, recurring_event: hill, start_date: start_date, end_date: end_date
-    FactoryBot.create :travel_request, creator: jill, event_requests: [event_request], start_date: start_date - 1.day,
-                                       end_date:
+    event_request = build(:event_request, recurring_event: hill, start_date: start_date, end_date: end_date)
+    create(:travel_request, creator: jill, event_requests: [event_request], start_date: start_date - 1.day,
+                            end_date:)
   end
 
   before do

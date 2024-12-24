@@ -3,10 +3,10 @@
 require "rails_helper"
 
 RSpec.describe "New Travel Request", type: :feature, js: true do
-  let(:user) { FactoryBot.create :user }
+  let(:user) { create(:user) }
   let(:staff_profile) do
-    FactoryBot.create :staff_profile, :with_department, user:, given_name: "Sally", surname: "Smith",
-                                                        vacation_balance: 90.1, personal_balance: 16.0, sick_balance: 100.0
+    create(:staff_profile, :with_department, user:, given_name: "Sally", surname: "Smith",
+                                             vacation_balance: 90.1, personal_balance: 16.0, sick_balance: 100.0)
   end
 
   before do
@@ -15,8 +15,8 @@ RSpec.describe "New Travel Request", type: :feature, js: true do
   end
 
   context "with other created events" do
-    let(:travel_request_1) { FactoryBot.create(:travel_request) }
-    let(:travel_request_2) { FactoryBot.create(:travel_request) }
+    let(:travel_request_1) { create(:travel_request) }
+    let(:travel_request_2) { create(:travel_request) }
 
     before do
       travel_request_1
