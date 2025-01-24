@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_staff_profile
 
   def after_sign_in_path_for(resource)
-    stored_location_for(resource) || my_requests_path
+    my_requests_path
   end
 
   private

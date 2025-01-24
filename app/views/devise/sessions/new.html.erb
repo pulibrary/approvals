@@ -1,8 +1,11 @@
-<lux-wrapper>
-  <lux-grid-container class="stretch-height">
-    <lux-grid-item >
-      <lux-text-style variation="default">You must login to view the requested resource.</lux-text-style>
-      <lux-hyperlink href="/users/auth/cas" variation="button solid" data-method="post" size="large">LOGIN with NetID</lux-hyperlink>
-    </lux-grid-item>
-  </lux-grid-container>
-</lux-wrapper>
+<%= form_with class: 'signin-without-cas', local: true do |form| %>
+  <lux-wrapper>
+    <lux-grid-container>
+    <lux-grid-item vertical="center">
+      <lux-input-text id="user_email" name="user[email]" label="Email" size="large" type="email" required></lux-input-text>
+      <lux-input-text id="user_password" name="user[password]" label="Password" size="large" type="password" required></lux-input-text>
+      <lux-input-button type="submit" variation="solid" block>Sign in</lux-input-button>
+      </lux-grid-item>
+    </lux-grid-container>
+  </lux-wrapper>
+<% end %>

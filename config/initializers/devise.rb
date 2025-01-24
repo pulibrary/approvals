@@ -269,7 +269,7 @@ Devise.setup do |config|
   # end
 
   ## For CAS
-  config.omniauth :cas, host: "fed.princeton.edu", url: "https://fed.princeton.edu/cas"
+  # config.omniauth :cas, host: "fed.princeton.edu", url: "https://fed.princeton.edu/cas"
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine
@@ -291,6 +291,7 @@ Devise.setup do |config|
   # ActiveSupport.on_load(:devise_failure_app) do
   #   include Turbolinks::Controller
   # end
+  config.responder.redirect_status = :see_other
 
   # ==> Configuration for :registerable
 

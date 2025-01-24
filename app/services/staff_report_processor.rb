@@ -12,7 +12,7 @@ class StaffReportProcessor
       csv = CSV.new(data, col_sep: "\t", headers: true)
       csv.each do |row|
         manager_hash = process_staff_entry(staff_entry: row, manager_hash:,
-                                           ldap_service_class:, new_profiles:)
+                                           ldap_service_class:, new_profiles:, email: row['E-Mail'])
       end
       @library_dean = StaffProfile.find_by(uid: LIBRARY_DEAN_UID)
       connect_staff_to_managers(manager_hash:)
@@ -24,9 +24,9 @@ class StaffReportProcessor
 
     private
 
-      def process_staff_entry(staff_entry:, manager_hash:, ldap_service_class:, new_profiles:)
+      def process_staff_entry(staff_entry:, manager_hash:, ldap_service_class:, new_profiles:, email:)
         net_id = staff_entry["Net ID"]
-        user = create_user(net_id:)
+        user = create_user(net_id:, email:)
         department = create_department(name: staff_entry["Department Name"], number: staff_entry["Department Number"])
         create_staff_profile(user:, department:, staff_entry:,
                              ldap_service_class:, new_profiles:)
@@ -35,11 +35,11 @@ class StaffReportProcessor
         manager_hash
       end
 
-      def create_user(net_id:)
+      def create_user(net_id:, email:)
         user = User.where(uid: net_id)
         return user[0] unless user.empty?
 
-        User.create(uid: net_id, provider: "cas")
+        User.create(uid: net_id, provider: "cas", email:, password: 'fable')
       end
 
       def create_department(name:, number:)
@@ -70,7 +70,7 @@ class StaffReportProcessor
       end
 
       def find_location(net_id:, ldap_service_class:)
-        ldap_info = ldap_service_class.find_by_netid(net_id)
+        ldap_info = {}
         building = if ldap_info[:address].blank?
                      Rails.logger.warn("Netid without address: #{net_id}")
                      "Blank"
