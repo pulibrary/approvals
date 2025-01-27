@@ -9,7 +9,7 @@
 # lodaing locations from default configuration
 LocationLoader.load
 
-file = File.open(Rails.application.config.staff_report_location, encoding: "UTF-16")
+file = File.open("Active Library Staff - Scheduled-en.csv", encoding: "UTF-16")
 report = file.read
 begin
   StaffReportProcessor.process(data: report)
@@ -17,7 +17,7 @@ rescue NoMethodError
   raise "Could not seed the database -- are you connected to VPN?"
 end
 
-file = File.open(Rails.application.config.balance_report_location, encoding: "UTF-16")
+file = File.open("Balances for Employees Enrolled in Absence Management - Library-en-us.csv", encoding: "UTF-16")
 report = file.read
 errors = BalanceReportProcessor.process(data: report)
 puts errors.inspect if errors[:unknown].any?
