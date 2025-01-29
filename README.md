@@ -18,6 +18,11 @@ This is an application that allows the library to create workflows that allow st
      ```
    * `bundle exec rake db:seed` only creates accounts for users listed in the [Active Library Staff-Scheduled-en CSV](https://github.com/pulibrary/approvals/blob/main/Active%20Library%20Staff%20-%20Scheduled-en.csv) file.  If you are not yet listed in the file, you will have to add a row with your NetID in order to log
    in to the system later.
+1. Run `gem install mailcatcher`
+1. Run `mailcatcher && bundle exec rails s`
+2. Go to your browser at http://localhost:3000
+
+[you can see the mail that has been sent here]( http://localhost:1080/)
 
 ## Additional rake tasks
    * There are additional rake tasks that allow you to create scenarios and requests in the system
@@ -46,20 +51,7 @@ This is an application that allows the library to create workflows that allow st
     ```
     bundle exec rake approvals:make_delegate[netid_delegate,netid]
     ```
-  * If the newly delegated individual then visits the "delegates/to_assume" route in the application they will be able select the user attached to 'netid' and see the requests they've made and make them on their behalf. 
-
-## Development
-
-   * run the first time
-     ```
-     gem install foreman mailcatcher
-     ```
-   * run every time
-     ```
-     mailcatcher && foreman start
-     ```
-   
-     [you can see the mail that has been sent here]( http://localhost:1080/)
+  * If the newly delegated individual then visits the "delegates/to_assume" route in the application they will be able select the user attached to 'netid' and see the requests they've made and make them on their behalf.  
      
 ## Staging Mail Catcher
   To See mail that has been sent on the staging server you must ssh tunnel into the server
