@@ -3,6 +3,10 @@
   color: rgb(65, 70, 78);
 }
 
+.trip-id-center, .trip-id-center p {
+  text-align: center;
+}
+
 .lux-card-media {
   flex-basis: 85px;
 }
@@ -76,6 +80,9 @@
 @media screen and (min-width: 600px) {
   .right-align {
     text-align: right;
+  } 
+  .trip-id-center, .trip-id-center p {
+    text-align: center;
   }
 }
 
