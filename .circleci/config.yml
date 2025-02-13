@@ -22,6 +22,13 @@ executors:
           POSTGRES_DB: approvals_test
           POSTGRES_HOST_AUTH_METHOD: trust
     working_directory: ~/project
+  basic-executor:
+    docker:
+      - image: cimg/ruby:3.3.6-browsers
+        environment:
+          RAILS_ENV: test
+    resource_class: large
+    working_directory: ~/project
 
 commands:
   setup-bundler:
@@ -190,6 +197,13 @@ jobs:
           name: Check code against community-provided and custom semgrep rules
           command: semgrep ci --config auto
 
+  deploy:
+    executor: basic-executor
+    steps:
+      - run:
+          name: Deploy to Staging
+          command: "curl -k \"https://ansible-tower.princeton.edu/api/v2/job_templates/57/launch/\" --header \"Content-Type: application/json\" --header \"Authorization: Bearer $TOWER_TOKEN\" -d '{\"credential_passwords\":{},\"extra_vars\":{\"repo_name\":\"approvals\"}}'"
+
 workflows:
   build_accept:
     jobs:
@@ -206,5 +220,12 @@ workflows:
       - eslint:
           requires:
             - build
+      - deploy:
+         requires:
+           - test
+         filters:
+           branches:
+             only:
+               - main
       - bearer
       - semgrep
