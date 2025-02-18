@@ -190,6 +190,14 @@ jobs:
           name: Check code against community-provided and custom semgrep rules
           command: semgrep ci --config auto
 
+  deploy:
+    docker:
+      - image: cimg/ruby:3.3
+    steps:
+      - run:
+          name: Deploy to Staging
+          command: "curl -k \"https://ansible-tower.princeton.edu/api/v2/job_templates/57/launch/\" --header \"Content-Type: application/json\" --header \"Authorization: Bearer $TOWER_TOKEN\" -d '{\"credential_passwords\":{},\"extra_vars\":{\"repo_name\":\"approvals\"}}'"
+
 workflows:
   build_accept:
     jobs:
@@ -206,5 +214,12 @@ workflows:
       - eslint:
           requires:
             - build
+      - deploy:
+         requires:
+           - test
+         filters:
+           branches:
+             only:
+               - main
       - bearer
       - semgrep
