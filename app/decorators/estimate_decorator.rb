@@ -43,7 +43,6 @@ class EstimateDecorator
       rental_vehicle: "Car rental",
       air: "Airfare",
       taxi: "Taxi",
-      personal_auto: "Mileage - personal car",
       transit_other: "Other transit",
       train: "Train",
       parking: "Parking"
