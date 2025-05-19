@@ -3,8 +3,8 @@
 set :rvm_ruby_string, :local # use the same ruby as used locally for deployment
 set :rails_env, "production"
 
-server "lib-approvals-prod1", user: "deploy", roles: %i[web app db]
-server "lib-approvals-prod2", user: "deploy", roles: %i[web app db]
+server "lib-approvals-prod1.princeton.edu", user: "deploy", roles: %i[web app db]
+server "lib-approvals-prod2.princeton.edu", user: "deploy", roles: %i[web app db]
 
 namespace :env do
   desc "Set all Approvals environment variable"
