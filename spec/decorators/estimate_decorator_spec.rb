@@ -33,7 +33,7 @@ RSpec.describe EstimateDecorator, type: :model do
     it "returns all the options" do
       expect(described_class.cost_options_json).to eq("[{label: 'Airfare', value: 'air'},{label: 'Car rental', value: 'rental_vehicle'},"\
                                                       "{label: 'Ground transportation', value: 'ground_transportation'},{label: 'Lodging (per night)', value: 'lodging'}," \
-                                                      "{label: 'Meals and related expenses (daily)', value: 'meals'},{label: 'Mileage - personal car', value: 'personal_auto'}," \
+                                                      "{label: 'Meals and related expenses (daily)', value: 'meals'}," \
                                                       "{label: 'Miscellaneous', value: 'misc'},{label: 'Other transit', value: 'transit_other'}," \
                                                       "{label: 'Parking', value: 'parking'},{label: 'Registration fee', value: 'registration'}," \
                                                       "{label: 'Taxi', value: 'taxi'},{label: 'Train', value: 'train'}]")
