@@ -26,7 +26,7 @@ RSpec.describe "New Travel Request", type: :feature, js: true do
     it "can autocomplete the Event Name" do
       visit "/travel_requests/new"
 
-      fill_in "displayInput", with: "e"
+      fill_in "event-title-input", with: "e"
       event_titles = page.find_all("li", text: "Event")
       expect(event_titles.size).to eq(2)
       event_titles.first.select_option
@@ -48,7 +48,7 @@ RSpec.describe "New Travel Request", type: :feature, js: true do
     visit "/travel_requests/new"
 
     find("#travel_request_participation option[value='other']").select_option
-    fill_in "displayInput", with: "Super Event's Are Us"
+    fill_in "event-title-input", with: "Super Event's Are Us"
 
     fill_in "travel_request_event_requests_attributes_0_event_dates", with: "10/1/2019 - 10/3/2019"
     fill_in "travel_request_travel_dates", with: "10/1/2019 - 10/3/2019"
@@ -97,7 +97,7 @@ RSpec.describe "New Travel Request", type: :feature, js: true do
     visit "/travel_requests/new"
 
     find("#travel_request_participation option[value='other']").select_option
-    fill_in "displayInput", with: "My event has no expenses!"
+    fill_in "event-title-input", with: "My event has no expenses!"
 
     fill_in "travel_request_event_requests_attributes_0_event_dates", with: "10/1/2019 - 10/3/2019"
     fill_in "travel_request_travel_dates", with: "10/1/2019 - 10/3/2019"
@@ -113,7 +113,7 @@ RSpec.describe "New Travel Request", type: :feature, js: true do
   it "I get warned when I try to enter an event with a date" do
     visit "/travel_requests/new"
     find("#travel_request_participation option[value='other']").select_option
-    fill_in "displayInput", with: "Geometry 360"
+    fill_in "event-title-input", with: "Geometry 360"
     expect(page).to have_content "It looks like you have a date in this field. Please remove."
 
     fill_in "travel_request_event_requests_attributes_0_event_dates", with: "10/1/2019 - 10/3/2019"
@@ -147,6 +147,6 @@ RSpec.describe "New Travel Request", type: :feature, js: true do
 
     click_on "Edit"
     expect(page).to have_content "I like triangles"
-    expect(page).to have_field("displayInput", with: "Geometry 360")
+    expect(page).to have_field("event-title-input", with: "Geometry 360")
   end
 end

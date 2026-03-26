@@ -60,7 +60,7 @@ RSpec.describe "Review Travel Request", type: :feature, js: true do
     visit "/travel_requests/#{travel_request.id}/review"
 
     expect(page.find(:css, ".event-title").text).to include("Event", "#{DateTime.now.year}, Location")
-    fill_in("displayInput", with: "D")
+    fill_in("event-title-input", with: "D")
     event_titles = page.find_all("li", text: "Different")
     expect(event_titles.size).to eq(1)
     event_titles.first.select_option
@@ -78,9 +78,9 @@ RSpec.describe "Review Travel Request", type: :feature, js: true do
     visit "/travel_requests/#{travel_request.id}/review"
 
     expect(travel_request.event_title).to match(/Event \d* \d*, Location/)
-    fill_in("displayInput", with: "")
+    fill_in("event-title-input", with: "")
     # The autocomplete dropdown covers the buttons so hit tab to clear
-    find("#displayInput").send_keys(:tab)
+    find("#event-title-input").send_keys(:tab)
     click_on "Change Event Name"
     expect(travel_request.reload.event_title).to match(/Event \d* \d*, Location/)
     expect(page).to have_content("is required to specify requested changes")
@@ -90,9 +90,9 @@ RSpec.describe "Review Travel Request", type: :feature, js: true do
     visit "/travel_requests/#{travel_request.id}/review"
 
     expect(travel_request.event_title).to match(/Event \d* \d*, Location/)
-    fill_in("displayInput", with: "Random text")
+    fill_in("event-title-input", with: "Random text")
     # The autocomplete dropdown covers the buttons so hit tab to clear
-    find("#displayInput").send_keys(:tab)
+    find("#event-title-input").send_keys(:tab)
     click_on "Change Event Name"
     expect(travel_request.reload.event_title).to match(/Event \d* \d*, Location/)
     expect(page).to have_content("Event name does not exist, please select an existing event name.")
