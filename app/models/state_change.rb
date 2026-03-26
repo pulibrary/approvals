@@ -7,7 +7,7 @@ class StateChange < ApplicationRecord
 
   accepts_nested_attributes_for :request
 
-  enum action: {
+  enum :action, {
     pending: "pending",
     canceled: "canceled",
     changes_requested: "changes_requested",
