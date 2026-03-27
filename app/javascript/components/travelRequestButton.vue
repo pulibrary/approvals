@@ -42,7 +42,7 @@ export default {
     methods: {
         submitTravelRequest(event) {
             const form = document.querySelector(".travel-form");
-            if (/\d{2,4}/.test(document.querySelector("#displayInput").value)) {
+            if (/\d{2,4}/.test(document.querySelector("#event-title-input").value)) {
                 if (form.checkValidity()) {
                     this.showModal = true;
                 } else {
@@ -61,7 +61,7 @@ export default {
             this.showModal = false;
         },
         matchedDate() {
-            const title = document.querySelector("#displayInput");
+            const title = document.querySelector("#event-title-input");
             if (title === null) {
                 return "";
             }
