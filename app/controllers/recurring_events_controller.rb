@@ -68,7 +68,7 @@ class RecurringEventsController < ApplicationController
   #     @recurring_event = RecurringEvent.find(params[:id])
   #   end
 
-  #   # Never trust parameters from the scary internet, only allow the white list through.
+  #   # Never trust parameters from the scary internet, only allow the specified parameters through.
   #   def recurring_event_params
   #     params.require(:recurring_event).permit(:name, :description, :url)
   #   end

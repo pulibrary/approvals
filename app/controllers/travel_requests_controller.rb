@@ -65,13 +65,14 @@ class TravelRequestsController < CommonRequestController
         end
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+    # Never trust parameters from the scary internet, only allow the specified parameters through.
     def travel_request_params
       @travel_request_params ||= clean_and_require_params
     end
 
     def clean_and_require_params
       clean_params
+      # rubocop:disable Rails/StrongParametersExpect
       params.require(:travel_request).permit(
         :creator_id,
         :start_date,
@@ -85,6 +86,7 @@ class TravelRequestsController < CommonRequestController
         new_event: [:id],
         estimates: %i[id amount recurrence cost_type description]
       )
+      # rubocop:enable Rails/StrongParametersExpect
     end
 
     def handle_nested_deletes

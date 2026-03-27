@@ -2,7 +2,7 @@
 
 class Estimate < ApplicationRecord
   belongs_to :request
-  enum cost_type: {
+  enum :cost_type, {
     ground_transportation: "ground_transportation",
     lodging: "lodging",
     meals: "meals",

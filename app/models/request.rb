@@ -43,7 +43,7 @@ class Request < ApplicationRecord
 
     where(start_date: start_date..end_date).or(where(end_date: start_date..end_date))
   end
-  enum status: {
+  enum :status, {
     pending: "pending",
     canceled: "canceled",
     changes_requested: "changes_requested",
@@ -52,7 +52,7 @@ class Request < ApplicationRecord
     recorded: "recorded"
   }
 
-  enum participation: {
+  enum :participation, {
     presenter: "presenter",
     member: "member",
     committee_chair: "committee_chair",
@@ -65,7 +65,7 @@ class Request < ApplicationRecord
     participant: "participant"
   }
 
-  enum absence_type: {
+  enum :absence_type, {
     vacation: "vacation",
     sick: "sick",
     personal: "personal",
