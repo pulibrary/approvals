@@ -149,7 +149,8 @@ RSpec.describe ApproveMailer, type: :mailer do
                                                   "The approval has been forwarded to your supervisor and administrative assistant for their information.\n" \
                                                   "Your request has been assigned to #{decorated_travel_request.travel_category} travel category.  " \
                                                   "To find more information about Travel Categories see https://pul-confluence.atlassian.net/wiki/spaces/LSC/pages/1933321/Princeton+University+Library+Travel+Policy+and+Best+Practices\n"\
-                                                  "Please remember to register your trip at Enroll My Trip (https://enrollmytrip.princeton.edu/) or by emailing enrollmytrip@princeton.edu with your flight and hotel hotel reservations.\n\n"\
+                                                  "Please remember to register your trip at Enroll My Trip (https://enrollmytrip.princeton.edu/)" \
+                                                  " or by emailing enrollmytrip@princeton.edu with your flight and hotel hotel reservations.\n\n"\
                                                   "To view your request go to http://localhost:3000/travel_requests/#{travel_request.id}\n\n" \
                                                   "Travel Category: #{decorated_travel_request.travel_category}\nTrip ID: #{travel_request.id}\n" \
                                                   "Type: Travel Request\nDates Away: 12/30/2019 to 12/31/2019\n" \
@@ -231,7 +232,8 @@ RSpec.describe ApproveMailer, type: :mailer do
                                                   "The approval has been forwarded to your supervisor and administrative assistant for their information.\n" \
                                                   "Your request has been assigned to #{decorated_travel_request.travel_category} travel category.  " \
                                                   "To find more information about Travel Categories see https://pul-confluence.atlassian.net/wiki/spaces/LSC/pages/1933321/Princeton+University+Library+Travel+Policy+and+Best+Practices\n"\
-                                                  "Please remember to register your trip at Enroll My Trip (https://enrollmytrip.princeton.edu/) or by emailing enrollmytrip@princeton.edu with your flight and hotel hotel reservations.\n\n" \
+                                                  "Please remember to register your trip at Enroll My Trip (https://enrollmytrip.princeton.edu/)" \
+                                                  " or by emailing enrollmytrip@princeton.edu with your flight and hotel hotel reservations.\n\n" \
                                                   "To view your request go to http://localhost:3000/travel_requests/#{travel_request.id}\n\n" \
                                                   "Travel Category: #{decorated_travel_request.travel_category}\nTrip ID: #{travel_request.id}\n" \
                                                   "Type: Travel Request\nDates Away: 12/30/2019 to 12/31/2019\n" \
