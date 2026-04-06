@@ -5,7 +5,7 @@ class RequestDecorator
 
   delegate :created_at, :end_date, :id, :request_type, :start_date, :status, :to_model, :state_changes,
            :creator, :creator_id, :notes, :latest_state_change, :ordered_state_changes, :updated_at,
-           :approved?, :canceled?, :recorded?, :travel?, to: :request
+           :approved?, :canceled?, :denied?, :recorded?, :travel?, to: :request
   attr_reader :request
 
   def initialize(request)

@@ -6,6 +6,9 @@ Your request has been assigned to <%= @request.travel_category%> travel category
 <% if @request.request_type == 'AbsenceRequest' %>
 Please proceed with recording your absence in the HR Self Service system (http://www.princeton.edu/hr/progserv/sds/applications/selfservice.html) as soon as possible. Your supervisor will be confirming that you have reported this information at the end of the month.
 <% end %>
+<% if @request.request_type == 'TravelRequest' %>
+Please remember to register your trip at Enroll My Trip (https://enrollmytrip.princeton.edu/) or by emailing enrollmytrip@princeton.edu with your flight and hotel hotel reservations.
+<% end %>
 
 To view your request go to <%= @request.show_path %>
 
