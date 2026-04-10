@@ -2086,10 +2086,10 @@
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
-"@rails/ujs@6.1.7-6":
-  version "6.1.7-6"
-  resolved "https://registry.yarnpkg.com/@rails/ujs/-/ujs-6.1.7-6.tgz#b8029ac3347002b58b0a8ff7d1bb2dc081289d3f"
-  integrity sha512-nFGvNDY8l3BNV8wnACj632E3pu+Fh3+nnJT2kuiHyjvaPnv+0HYzkk1dSQCb5XUS8FzBIj4iJnGheGF9Du80gg==
+"@rails/ujs@7.1.600":
+  version "7.1.600"
+  resolved "https://registry.yarnpkg.com/@rails/ujs/-/ujs-7.1.600.tgz#781d2737f3a81da81e78d93ec779099871288965"
+  integrity sha512-ntMYJ8++n1zcIJ1g75or7Va9IU3ueCHgp9IJk7Ny7eFEbu0Kx40EHZ2FNhoxoUEjlF5NifCFCbvoK5rDK5HpIQ==
 
 "@rollup/rollup-android-arm-eabi@4.60.1":
   version "4.60.1"
