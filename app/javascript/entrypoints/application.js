@@ -25,12 +25,8 @@ import travelRequestButton from "../components/travelRequestButton.vue";
 import travelRequestDatePickers from "../components/travelRequestDatePickers.vue";
 import '../../assets/stylesheets/application.scss';
 
-// We import Rails, because without it, the vite dev
-// server does not seem to have access to it.  However,
-// we don't call Rails.start(), since Rails seems to handle
-// that by itself.
-// eslint-disable-next-line no-unused-vars
 import Rails from "@rails/ujs";
+Rails.start();
 
 // Create a factory function that will create vue
 // apps, which we can then mount to any element with
