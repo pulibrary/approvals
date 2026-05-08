@@ -28,6 +28,7 @@ set :log_level, :debug
 # set :pty, true
 set :branch, ENV.fetch("BRANCH", nil) || "main"
 
+set :assets_manifests, ["app/assets/config/manifest.js"]
 # shared_path = "deploy_to/shared"
 # set :assets_prefix, '#{shared_path}/public'
 
