@@ -16,7 +16,7 @@ executors:
           PGUSER: approvals
           PSQL_PAGER: ''
           RAILS_ENV: test
-      - image: postgres:13
+      - image: cimg/postgres:15.8
         environment:
           POSTGRES_USER: approvals
           POSTGRES_DB: approvals_test
@@ -103,7 +103,7 @@ jobs:
 
       - run:
           name: install psql
-          command: sudo apt update && sudo apt install postgresql-client
+          command: sudo apt install postgresql-client
 
       - run:
           name: Wait for DB
