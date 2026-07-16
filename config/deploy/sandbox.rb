@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 set :rvm_ruby_string, :local # use the same ruby as used locally for deployment
-set :rails_env, "sandbox"
+set :rails_env, "staging"
 
 server "approvals-px-sandbox1.princeton.edu", user: "deploy", roles: %i[web app db]
 
