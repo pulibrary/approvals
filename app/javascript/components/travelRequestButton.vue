@@ -10,9 +10,9 @@
     </lux-input-button>
     <event-date-modal
       :show-modal="showModal"
-      @closeModal="close"
+      @close-modal="close"
     >
-      <template v-slot:body>
+      <template #body>
         <p>It looks like you have a date in the event title. Please remove before submitting</p>
         <br>
         <p>Detected: {{ matchedDate() }}</p>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-/* eslint-disable vue/require-default-prop, no-unused-vars, vue/require-prop-type-constructor */
+/* eslint-disable vue/require-default-prop, vue/require-prop-type-constructor */
 import eventDateModal from './eventDateModal.vue';
 
 export default {

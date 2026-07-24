@@ -9,7 +9,7 @@
       placeholder="9/2/2019 - 9/12/2019"
       :holidays="holidays"
       :default-dates="defaultDates"
-      @updateInput="setHours($event)"
+      @update-input="setHours($event)"
     />
 
 
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-/* eslint-disable vue/require-prop-types, vue/require-valid-default-prop, vue/require-default-prop */
+/* eslint-disable vue/require-prop-types, vue/require-default-prop */
 export default {
     name: "HoursCalculator",
     props: {

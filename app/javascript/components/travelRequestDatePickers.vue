@@ -9,7 +9,7 @@
       name="travel_request[event_requests_attributes][0][event_dates]"
       :disabled-dates="event_disabled_dates"
       :default-dates="eventDates"
-      @updateInput="updateTravelDates($event)"
+      @update-input="updateTravelDates($event)"
     />
     <lux-date-picker
       id="travel_request_travel_dates"
