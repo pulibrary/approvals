@@ -2,7 +2,7 @@
   <div class="event-title-container">
     <lux-autocomplete-input
       id="travel_request_event_requests_attributes_0_recurring_event_id"
-      displayId="event-title-input"
+      display-id="event-title-input"
       required
       name="travel_request[event_requests_attributes][0][recurring_event_id]"
       label="Event Name"
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-/* eslint-disable vue/require-default-prop, vue/require-prop-types,  vue/require-prop-type-constructor */
+/* eslint-disable vue/require-default-prop,  vue/require-prop-type-constructor */
 export default {
     name: "EventTitleInputWrapper",
     props: {
