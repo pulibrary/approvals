@@ -5,8 +5,12 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "~>3.3.6"
 
-gem "rails", "~> 8.1"
-# Use postgres as the database for Active Record
+gem "actionmailer"
+gem "actionpack"
+gem "actionview"
+gem "activemodel"
+gem "activerecord"
+gem "activesupport"
 gem "pg"
 # Use Puma as the app server
 gem "puma"
@@ -59,7 +63,6 @@ group :development do
   gem "capistrano-passenger"
   gem "capistrano-rails"
   gem "capistrano-yarn"
-  gem "rails_real_favicon"
   gem "rspec-rails"
   gem "web-console", ">= 3.3.0"
 end
