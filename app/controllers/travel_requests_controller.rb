@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Rails/StrongParametersExpect
 class TravelRequestsController < CommonRequestController
   before_action :set_travel_request, only: %i[show update destroy review approve deny]
 
@@ -32,14 +33,14 @@ class TravelRequestsController < CommonRequestController
 
   # GET
   def review
-    return if !super || current_profile_has_not_already_reviewed
+    return if !super || current_profile_has_not_already_reviewed?
 
     respond_with_show_error(message: "You have already reviewed the request.", status: :invalid_edit)
   end
 
   private
 
-    def current_profile_has_not_already_reviewed
+    def current_profile_has_not_already_reviewed?
       @request.latest_state_change.blank? || @request.latest_state_change.agent != current_staff_profile
     end
 
@@ -72,7 +73,6 @@ class TravelRequestsController < CommonRequestController
 
     def clean_and_require_params
       clean_params
-      # rubocop:disable Rails/StrongParametersExpect
       params.require(:travel_request).permit(
         :creator_id,
         :start_date,
@@ -86,7 +86,6 @@ class TravelRequestsController < CommonRequestController
         new_event: [:id],
         estimates: %i[id amount recurrence cost_type description]
       )
-      # rubocop:enable Rails/StrongParametersExpect
     end
 
     def handle_nested_deletes
@@ -160,3 +159,4 @@ class TravelRequestsController < CommonRequestController
       end
     end
 end
+# rubocop:enable Rails/StrongParametersExpect
