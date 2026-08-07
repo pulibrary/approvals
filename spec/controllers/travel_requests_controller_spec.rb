@@ -42,9 +42,11 @@ RSpec.describe TravelRequestsController, type: :controller do
       purpose: "Travel to campus for in-person meetings",
       participation: "member",
       event_requests: [
-        recurring_event_id: recurring_event.id,
-        location: "Mumbai",
-        event_dates: "#{Time.zone.yesterday.strftime('%m/%d/%Y')} - #{Time.zone.today.strftime('%m/%d/%Y')}"
+        {
+          recurring_event_id: recurring_event.id,
+          location: "Mumbai",
+          event_dates: "#{Time.zone.yesterday.strftime('%m/%d/%Y')} - #{Time.zone.today.strftime('%m/%d/%Y')}"
+        }
       ],
       travel_category: "business" # NOTE: this field is not available on the create form; only on approval.
     }
@@ -52,7 +54,7 @@ RSpec.describe TravelRequestsController, type: :controller do
 
   let(:invalid_attributes) do
     { participation: "", purpose: "Travel to campus for in-person meetings", travel_dates: "N/A",
-      event_requests: [event_dates: "N/A"] }
+      event_requests: [{ event_dates: "N/A" }] }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -299,9 +301,11 @@ RSpec.describe TravelRequestsController, type: :controller do
           purpose: "Travel to campus for in-person meetings",
           participation: "member",
           event_requests: [
-            recurring_event_id: "A new event",
-            location: "Mumbai",
-            event_dates: "#{Time.zone.yesterday.strftime('%m/%d/%Y')} - #{Time.zone.today.strftime('%m/%d/%Y')}"
+            {
+              recurring_event_id: "A new event",
+              location: "Mumbai",
+              event_dates: "#{Time.zone.yesterday.strftime('%m/%d/%Y')} - #{Time.zone.today.strftime('%m/%d/%Y')}"
+            }
           ],
           travel_category: "business" # NOTE: this field is not available on the create form; only on approval.
         }
@@ -348,7 +352,7 @@ RSpec.describe TravelRequestsController, type: :controller do
       let(:nested_attributes) do
         {
           notes: [{ creator_id: creator.id, content: "Important message" }],
-          estimates: [amount: 200.20, recurrence: 3, cost_type: "lodging"],
+          estimates: [{ amount: 200.20, recurrence: 3, cost_type: "lodging" }],
           event_requests: [{ start_date:, location: "Paris", recurring_event_id: recurring_event.id }]
         }
       end
@@ -371,7 +375,7 @@ RSpec.describe TravelRequestsController, type: :controller do
         let(:nested_attributes) do
           {
             notes: [{ creator_id: creator.id, content: "Important message" }],
-            estimates: [id: travel_request.estimates[0].id, amount: 200.20, recurrence: 3, cost_type: "lodging"],
+            estimates: [{ id: travel_request.estimates[0].id, amount: 200.20, recurrence: 3, cost_type: "lodging" }],
             event_requests: [{ start_date:, location: "Paris", recurring_event_id: recurring_event.id }]
           }
         end

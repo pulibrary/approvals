@@ -208,7 +208,7 @@ class CommonRequestController < ApplicationController
         else
           setup_change_set_for_view
           format.html { render error_action }
-          format.json { render json: request_change_set.errors, status: :unprocessable_entity }
+          format.json { render json: request_change_set.errors, status: :unprocessable_content }
         end
       end
       valid

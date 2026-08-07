@@ -18,7 +18,7 @@ namespace :approvals do
   desc "add fake users to give [:netid] someone to supervise"
   task :make_me_a_supervisor, %i[netid number] => [:environment] do |_t, args|
     netid = args[:netid]
-    number_of_people = args[:number].to_i || 5
+    number_of_people = args[:number].to_i
     staff_profile = StaffProfile.find_by(uid: netid)
     RandomDirectReportsGenerator.create_reports(supervisor: staff_profile, number_of_people:)
     puts "We made you a supervisor with #{number_of_people} direct reports"
@@ -30,7 +30,7 @@ namespace :approvals do
   desc "add a fake department and fake users to give [:netid] a department to head"
   task :make_me_a_department_head, %i[netid number] => [:environment] do |_t, args|
     netid = args[:netid]
-    number_of_people = args[:number].to_i || 5
+    number_of_people = args[:number].to_i
     staff_profile = User.find_by(uid: netid).staff_profile
     RandomDirectReportsGenerator.create_populated_department(head: staff_profile,
                                                              number_of_supervisors: number_of_people)
@@ -58,8 +58,7 @@ namespace :approvals do
 
   desc "process the staff list"
   task process_staff_report: :environment do
-    file = File.open(Rails.application.config.staff_report_location, encoding: "UTF-16")
-    report = file.read
+    report = File.read(Rails.application.config.staff_report_location, encoding: "UTF-16")
     StaffReportProcessor.process(data: report)
     Department.all.each do |department|
       puts department.name
@@ -72,8 +71,7 @@ namespace :approvals do
 
   desc "process the balance report"
   task process_balance_report: :environment do
-    file = File.open(Rails.application.config.balance_report_location, encoding: "UTF-16")
-    report = file.read
+    report = File.read(Rails.application.config.balance_report_location, encoding: "UTF-16")
     errors = BalanceReportProcessor.process(data: report)
     puts "Completed processing the balance report."
     abort("There were unknown entries: #{errors[:unknown].join(', ')}") if errors[:unknown].present?

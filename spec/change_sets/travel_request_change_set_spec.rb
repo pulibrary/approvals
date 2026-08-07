@@ -28,7 +28,7 @@ RSpec.describe TravelRequestChangeSet, type: :model do
       let(:valid_params) do
         {
           travel_category: "business", creator_id: 1, purpose: "my grand purpose", participation: "presenter",
-          event_requests: [recurring_event_id: recurring_event.id, start_date: Time.zone.now, location: "Kalamazoo"]
+          event_requests: [{ recurring_event_id: recurring_event.id, start_date: Time.zone.now, location: "Kalamazoo" }]
         }
       end
 
@@ -41,7 +41,7 @@ RSpec.describe TravelRequestChangeSet, type: :model do
       let(:valid_params) do
         {
           travel_category: "business", creator_id: 1, purpose: "my grand purpose", participation: "presenter",
-          event_requests: [recurring_event_id: "New Event", start_date: Time.zone.now, location: "Kalamazoo"]
+          event_requests: [{ recurring_event_id: "New Event", start_date: Time.zone.now, location: "Kalamazoo" }]
         }
       end
 
@@ -73,7 +73,7 @@ RSpec.describe TravelRequestChangeSet, type: :model do
       end
 
       it "is not valid" do
-        travel_request.validate(event_requests: [recurring_event_id: recurring_event.id])
+        travel_request.validate(event_requests: [{ recurring_event_id: recurring_event.id }])
         expect(travel_request.errors.messages).to eq(errors)
       end
     end
@@ -82,7 +82,7 @@ RSpec.describe TravelRequestChangeSet, type: :model do
       let(:errors) { travel_request_errors.merge("event_requests.recurring_event_id": ["can't be blank"]) }
 
       it "is not valid" do
-        travel_request.validate(event_requests: [location: "Kalamazoo", start_date: Time.zone.now])
+        travel_request.validate(event_requests: [{ location: "Kalamazoo", start_date: Time.zone.now }])
         expect(travel_request.errors.messages).to eq(errors)
       end
     end
@@ -91,7 +91,7 @@ RSpec.describe TravelRequestChangeSet, type: :model do
       let(:errors) { travel_request_errors.merge("event_requests.recurring_event_id": ["must be a RecurringEvent"]) }
 
       it "is not valid" do
-        travel_request.validate(event_requests: [recurring_event_id: 500, location: "Kalamazoo", start_date: Time.zone.now])
+        travel_request.validate(event_requests: [{ recurring_event_id: 500, location: "Kalamazoo", start_date: Time.zone.now }])
         expect(travel_request.errors.messages).to eq(errors)
       end
     end

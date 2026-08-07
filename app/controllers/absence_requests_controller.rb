@@ -24,13 +24,13 @@ class AbsenceRequestsController < CommonRequestController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_absence_request
-      @request = AbsenceRequest.find(params[:id])
+      @request = AbsenceRequest.find(params.expect(:id))
     end
 
     def request_change_set
       @request_change_set ||=
         if params[:id]
-          AbsenceRequestChangeSet.new(AbsenceRequest.find(params[:id]))
+          AbsenceRequestChangeSet.new(AbsenceRequest.find(params.expect(:id)))
         else
           AbsenceRequestChangeSet.new(AbsenceRequest.new, current_staff_profile:)
         end

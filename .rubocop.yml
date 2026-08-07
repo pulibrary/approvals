@@ -1,9 +1,11 @@
 inherit_from: .rubocop_todo.yml
 
 require:
-  - rubocop-rails
   - rubocop-rspec
   - rubocop-performance
+
+plugins:
+  - rubocop-rails
   - rubocop-factory_bot
 
 AllCops:
@@ -38,3 +40,7 @@ Metrics/BlockLength:
     - config/environments/development.rb
     - config/environments/production.rb
     - config/environments/staging.rb
+
+Rails/Exit:
+  Exclude:
+    - 'config/deploy/**/*'
