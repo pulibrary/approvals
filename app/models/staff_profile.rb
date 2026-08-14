@@ -44,15 +44,15 @@ class StaffProfile < ApplicationRecord
   end
 
   def department_head?
-    Department.where(head_id: id).count.positive?
+    Department.where(head_id: id).any?
   end
 
   def supervisor?
-    StaffProfile.where(supervisor: id).count.positive?
+    StaffProfile.where(supervisor: id).any?
   end
 
   def admin_assistant?
-    AdminAssistantsDepartment.joins(:department).where(admin_assistants_departments: { admin_assistant_id: id }).count.positive?
+    AdminAssistantsDepartment.joins(:department).where(admin_assistants_departments: { admin_assistant_id: id }).any?
   end
 
   def supervisor_chain(agent: self, list: [])

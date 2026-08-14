@@ -25,7 +25,7 @@ class Request < ApplicationRecord
 
     # search by id
     id_results = Request.where(id: search_query)
-    return id_results if id_results.count.positive?
+    return id_results if id_results.any?
 
     # escapes the punctuation within the query
     query = connection.quote("%#{search_query}%")
@@ -79,11 +79,11 @@ class Request < ApplicationRecord
   self.inheritance_column = "request_type"
 
   def latest_state_change
-    state_changes.order("created_at ASC").last
+    state_changes.order(:created_at).last
   end
 
   def ordered_state_changes(action: nil)
-    ordered = state_changes.order("created_at ASC")
+    ordered = state_changes.order(:created_at)
     return ordered if action.blank?
 
     ordered.select do |change|

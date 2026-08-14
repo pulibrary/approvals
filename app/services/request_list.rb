@@ -16,7 +16,7 @@ class RequestList
 
       dates = filter.split(" - ")
       start_date = Date.strptime(dates.first, "%m/%d/%Y")
-      end_date = if dates.count > 1
+      end_date = if dates.many?
                    Date.strptime(dates.last, "%m/%d/%Y")
                  else
                    start_date

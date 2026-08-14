@@ -56,7 +56,7 @@ class DelegatesController < ApplicationController
         delegates_for_current_profile
         @staff_list = current_staff_profile.staff_list_json
         format.html { render :index }
-        format.json { render json: @delegate.errors, status: :unprocessable_entity }
+        format.json { render json: @delegate.errors, status: :unprocessable_content }
       end
     end
   end
@@ -84,14 +84,14 @@ class DelegatesController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_delegate
-      @delegate = Delegate.find(params[:id])
+      @delegate = Delegate.find(params.expect(:id))
       @delegate = nil if @delegate.delegator != current_staff_profile
     rescue ActiveRecord::RecordNotFound
       nil
     end
 
     def set_delegator
-      @delegate = Delegate.find(params[:id])
+      @delegate = Delegate.find(params.expect(:id))
       @delegate = nil if @delegate.delegate != current_staff_profile
     rescue ActiveRecord::RecordNotFound
       nil

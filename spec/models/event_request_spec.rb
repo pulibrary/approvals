@@ -19,9 +19,11 @@ RSpec.describe EventRequest, type: :model do
       recurring_event = create(:recurring_event, name: "Ice Capades")
       creator = create(:staff_profile)
       event_requests_attributes = [
-        recurring_event_id: recurring_event.id,
-        location: "Beijing",
-        start_date: Time.zone.today
+        {
+          recurring_event_id: recurring_event.id,
+          location: "Beijing",
+          start_date: Time.zone.today
+        }
       ]
 
       travel_request = TravelRequest.create(event_requests_attributes:, creator:)
