@@ -59,7 +59,7 @@ commands:
     steps:
       - node/install:
           install-yarn: true
-          node-version: '24.3.0'
+          node-version: '26.8.1'
 
 jobs:
   build:
@@ -117,7 +117,7 @@ jobs:
 
       # Run yarn test
       - run:
-          name: Run jest tests
+          name: Run javascript tests
           command: yarn test
 
       - run:
