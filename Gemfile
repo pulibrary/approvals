@@ -12,6 +12,8 @@ gem "activemodel"
 gem "activerecord"
 gem "activesupport"
 gem "pg"
+gem "csv"
+
 # Use Puma as the app server
 gem "puma"
 
