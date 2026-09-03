@@ -6,7 +6,7 @@ orbs:
 executors:
   approvals-executor:
     docker:
-      - image: cimg/ruby:3.3.6-browsers
+      - image: cimg/ruby:3.4.1-browsers
         environment:
           BUNDLER_VERSION: 2.0.1
           BUNDLE_JOBS: 3
@@ -181,7 +181,7 @@ jobs:
 
   deploy:
     docker:
-      - image: cimg/ruby:3.3
+      - image: cimg/ruby:3.4
     steps:
       - run:
           name: Deploy to Staging

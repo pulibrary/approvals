@@ -23,7 +23,7 @@ RSpec.describe "travel_requests/show", type: :view do
     expect(rendered).to match(/#{travel_request.purpose}/)
     expect(rendered).to match(/#{travel_request.participation}/)
     expect(rendered).to match(/#{travel_request.travel_category}/)
-    expect(rendered).to match(/Sally Smith/)
+    expect(rendered).to include("Sally Smith")
     expect(rendered).to include("Sally Smith on")
     expect(rendered).to include(travel_request.notes.first.content)
     expect(rendered).to include("Lodging (per night)")

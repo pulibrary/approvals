@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-# rubocop:disable RSpec/EmptyExampleGroup
+# rubocop:disable-next RSpec/EmptyExampleGroup
 RSpec.describe "RecurringEvents", type: :request do
   # describe "GET /recurring_events" do
   #   context "Signed in user" do
@@ -28,4 +28,3 @@ RSpec.describe "RecurringEvents", type: :request do
   #   end
   # end
 end
-# rubocop:enable RSpec/EmptyExampleGroup

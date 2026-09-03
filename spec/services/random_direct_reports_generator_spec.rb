@@ -31,7 +31,6 @@ RSpec.describe RandomDirectReportsGenerator, type: :model do
 
     context "Random numbers collide" do
       it "creates a direct report" do
-        allow(Random).to receive(:rand).with(1...50_000).and_return(10, 10, 100)
         expect do
           described_class.create_reports(supervisor:, number_of_people: 2)
         end.to change(StaffProfile, :count).by(2)

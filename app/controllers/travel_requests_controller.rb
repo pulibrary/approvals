@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Rails/StrongParametersExpect
+# rubocop:disable-next Rails/StrongParametersExpect
 class TravelRequestsController < CommonRequestController
   before_action :set_travel_request, only: %i[show update destroy review approve deny]
 
@@ -159,4 +159,3 @@ class TravelRequestsController < CommonRequestController
       end
     end
 end
-# rubocop:enable Rails/StrongParametersExpect

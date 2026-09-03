@@ -52,7 +52,7 @@ set :linked_dirs, %w[tmp/pids tmp/sockets log]
 # set :keep_releases, 5
 set :passenger_restart_with_touch, true
 
-# rubocop:disable Metrics/BlockLength
+# rubocop:disable-next Metrics/BlockLength
 namespace :approvals do
   desc "reset the database and reseed"
   task :reset do
@@ -122,7 +122,6 @@ namespace :approvals do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength
 
 namespace :deploy do
   desc "Restart application"
