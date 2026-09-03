@@ -378,7 +378,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       end
     end
 
-    # rubocop:disable RSpec/AnyInstance
+    # rubocop:disable-next RSpec/AnyInstance
     context "invalid save to database" do
       before do
         allow_any_instance_of(AbsenceRequest).to receive(:save).and_return(false)
@@ -400,7 +400,6 @@ RSpec.describe AbsenceRequestsController, type: :controller do
         expect(response.body).to eq('{"request":["must exist"],"creator":["must exist"]}')
       end
     end
-    # rubocop:enable RSpec/AnyInstance
   end
 
   describe "PUT #update" do
@@ -445,7 +444,7 @@ RSpec.describe AbsenceRequestsController, type: :controller do
       end
     end
 
-    # rubocop:disable RSpec/AnyInstance
+    # rubocop:disable-next RSpec/AnyInstance
     context "invalid save to database" do
       before do
         absence_request # make sure our item is created before we stub
@@ -469,7 +468,6 @@ RSpec.describe AbsenceRequestsController, type: :controller do
         expect(response.body).to eq('{"request":["must exist"],"creator":["must exist"]}')
       end
     end
-    # rubocop:enable RSpec/AnyInstance
 
     context "with empty note content" do
       let(:empty_note_attribute) do
