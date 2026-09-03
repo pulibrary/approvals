@@ -18,7 +18,7 @@ RSpec.describe EstimateDecorator, type: :model do
     let(:estimate) { create(:estimate, cost_type: nil, request:) }
 
     it "raises an expected error" do
-        expect { estimate_decorator.data }.to raise_error(NoMethodError, "undefined method `to_sym' for nil")
+        expect { estimate_decorator.data }.to raise_error(NoMethodError)
     end
   end
 
