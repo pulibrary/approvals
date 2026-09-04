@@ -4,7 +4,7 @@ require "csv"
 
 class StaffReportProcessor
   class << self
-    LIBRARY_DEAN_UID = "ajarvis"
+    LIBRARY_DEAN_UID = "jstroop"
 
     def process(data:, ldap_service_class: Ldap, department_config: File.read("config/departments.yml"))
       manager_hash = {}
