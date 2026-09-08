@@ -6,11 +6,11 @@ RSpec.describe StaffReportProcessor, type: :model do
   # rubocop:disable Layout/LineLength
   let(:heading_line) { "Department Number\tDepartment Name\tDepartment Long Name\tBsns Unit\tEID\tFirst Name\tMiddle Name\tLast Name\tNet ID\tPaid\tReg/Temp - Description\tPos #\tTitle\tRegister Title\tManager\tManager Net ID\tPosition Number\tCampus Address - Address 1\tCampus Address - Address 2\tCampus Address - Address 3\tCampus Address - City\tCampus Address - State\tCampus Address - Postal Code\tCampus Address - Country\tPhone\tE-Mail" }
   let(:user_line) { "90009\tTest Department\tTest Department Long\tPUHRS\t99999999\tI\tam\tTest\ttesti\tBiw\tR=BenElig\t000000000\tLibrary Office Assistant II\t\tManager, I Am.\timanager\t00001111\tResearch Collections\tForrestal Campus\t \tPrinceton\tNJ\t08544\tUSA\t609/111-2222\testi@prince.edu" }
-  let(:manager_line) { "90009\tTest Department\tTest Department Long\tPUHRS\t99999991\tI\tam\tManager\timanager\tBiw\tR=BenElig\t000000000\tManager II\tLibrary, Dean of\t\tajarvis\t00001122\tResearch Collections\tForrestal Campus\t \tPrinceton\tNJ\t08544\tUSA\t609/111-2222\timanager@prince.edu" }
-  let(:dean_line) { "41000\tTest Department\tTest Department Long\tPUHRS\t99999991\tAnn\t\tJarvis\tajarvis\tBiw\tR=BenElig\t000000000\tManager II\tLibrary, Dean of\t\tomanagert\t00001122\tResearch Collections\tForrestal Campus\t \tPrinceton\tNJ\t08544\tUSA\t609/111-2222\tajarvis@prince.edu" }
+  let(:manager_line) { "90009\tTest Department\tTest Department Long\tPUHRS\t99999991\tI\tam\tManager\timanager\tBiw\tR=BenElig\t000000000\tManager II\tLibrary, Dean of\t\tjstroop\t00001122\tResearch Collections\tForrestal Campus\t \tPrinceton\tNJ\t08544\tUSA\t609/111-2222\timanager@prince.edu" }
+  let(:dean_line) { "41000\tTest Department\tTest Department Long\tPUHRS\t99999991\tJon\t\tStroop\tjstroop\tBiw\tR=BenElig\t000000000\tManager II\tLibrary, Dean of\t\tomanagert\t00001122\tResearch Collections\tForrestal Campus\t \tPrinceton\tNJ\t08544\tUSA\t609/111-2222\tjstroop@prince.edu" }
   # rubocop:enable Layout/LineLength
   let(:department_config) do
-    "41000:\n  head_uid: ajarvis\n  admin_assistant: \n    - testi\n    - testi\n    - imanager\n"\
+    "41000:\n  head_uid: jstroop\n  admin_assistant: \n    - testi\n    - testi\n    - imanager\n"\
       "90009:\n  admin_assistant: \n    - testabc"
   end
 
@@ -65,7 +65,7 @@ RSpec.describe StaffReportProcessor, type: :model do
       )
       user_profile = StaffProfile.find_by(uid: "testi")
       supervisor_profile = StaffProfile.find_by(uid: "imanager")
-      dean_profile = StaffProfile.find_by(uid: "ajarvis")
+      dean_profile = StaffProfile.find_by(uid: "jstroop")
       library_main_department = Department.find_by(number: "41000")
       expect(user_profile.supervisor).to eq(supervisor_profile)
       expect(user_profile.reload.department.head).to eq(supervisor_profile)
@@ -76,8 +76,8 @@ RSpec.describe StaffReportProcessor, type: :model do
     it "updates a user if their information changes" do
       user = create(:user, uid: "testi")
       staff_profile = create(:staff_profile, user: user)
-      ajarvis_user = create(:user, uid: "ajarvis")
-      create(:staff_profile, user: ajarvis_user)
+      jstroop_user = create(:user, uid: "jstroop")
+      create(:staff_profile, user: jstroop_user)
       expect do
         described_class.process(data: "#{heading_line}\n#{user_line}\n#{manager_line}\n#{dean_line}",
                                 ldap_service_class: FakeLdapClass, department_config:)
@@ -121,11 +121,11 @@ RSpec.describe StaffReportProcessor, type: :model do
 
     context "updating the department config" do
       let(:department_config_old) do
-        "41000:\n  head_uid: ajarvis\n  admin_assistant: \n    - old_assistant_one\n"\
+        "41000:\n  head_uid: jstroop\n  admin_assistant: \n    - old_assistant_one\n"\
           "90009:\n  admin_assistant: \n    - assistant_two\n    - assistant_three\n"
       end
       let(:department_config_new) do
-        "41000:\n  head_uid: ajarvis\n  admin_assistant: \n    - new_assistant_one\n"\
+        "41000:\n  head_uid: jstroop\n  admin_assistant: \n    - new_assistant_one\n"\
           "90009:\n  admin_assistant: \n    - assistant_two\n    - assistant_three\n"
       end
       let(:assistants) { %w[old_assistant_one new_assistant_one assistant_two assistant_three] }
