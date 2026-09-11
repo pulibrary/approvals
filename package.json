@@ -24,7 +24,7 @@
     "sass": "^1.103.1",
     "vite": "^8.2.2",
     "vite-plugin-ruby": "^5.2.2",
-    "vitest": "^4.1.11",
+    "vitest": "^5.0.0",
     "vue-eslint-parser": "^10.4.1"
   },
   "resolutions": {
