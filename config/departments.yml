@@ -3,15 +3,18 @@
   admin_assistant: 
     - jbakeman
 41004:
+  head_uid: jstroop
   admin_assistant: 
     - newalkar
 41006:
+  head_uid: jstroop
   admin_assistant:
     - nishc
 41014:
   admin_assistant: 
     - ddreyer
 10001:
+  head_uid: jstroop
   admin_assistant:
     - kr2
 41032:
@@ -19,6 +22,7 @@
   admin_assistant: 
     - francesj
 41034:
+  head_uid: hwcowles
   admin_assistant:
     - az6987
 26700:
