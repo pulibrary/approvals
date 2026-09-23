@@ -90,6 +90,25 @@ CREATE TYPE public.request_status AS ENUM (
 );
 
 
+--
+-- Name: no_endless_supervisors(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.no_endless_supervisors() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+        DECLARE
+          existing_supervisor staff_profiles%ROWTYPE;
+        BEGIN
+          SELECT * INTO existing_supervisor FROM staff_profiles WHERE id = NEW.supervisor_id AND supervisor_id = NEW.id AND supervisor_id IS NOT NULL;
+          IF FOUND THEN
+            RAISE EXCEPTION '% cannot be the supervisor of %, since % is already the supervisor of %', NEW.id, existing_supervisor.id, existing_supervisor.id, NEW.id;
+          END IF;
+          RETURN NEW;
+        END;
+      $$;
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -799,6 +818,13 @@ CREATE UNIQUE INDEX index_users_on_uid_and_provider ON public.users USING btree 
 
 
 --
+-- Name: staff_profiles no_endless_supervisors_trigger; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER no_endless_supervisors_trigger BEFORE INSERT OR UPDATE ON public.staff_profiles FOR EACH ROW EXECUTE FUNCTION public.no_endless_supervisors();
+
+
+--
 -- Name: event_requests fk_rails_1b72073f7f; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -893,6 +919,7 @@ ALTER TABLE ONLY public.staff_profiles
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260923225914'),
 ('20230627193346'),
 ('20230601221141'),
 ('20200303200344'),
