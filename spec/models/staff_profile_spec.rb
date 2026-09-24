@@ -114,4 +114,12 @@ RSpec.describe StaffProfile, type: :model do
       expect(profile.staff_list_json).to eq("[{ id: '100', label: 'O\\'Keeffe, Georgia (uid123)' }]")
     end
   end
+
+  describe "supervisors" do
+    it "does not allow two people to supervise each other" do
+      profile1 = create(:staff_profile, given_name: "Jane", surname: "Doe")
+      profile2 = create(:staff_profile, given_name: "Maija", surname: "Meikäläinen", supervisor: profile1)
+      expect { profile1.update(supervisor: profile2) }.to raise_error ActiveRecord::StatementInvalid
+    end
+  end
 end
