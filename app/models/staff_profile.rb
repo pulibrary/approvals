@@ -58,6 +58,11 @@ class StaffProfile < ApplicationRecord
   def supervisor_chain(agent: self, list: [])
     return list if agent.supervisor.blank?
 
+    # avoid infinite recursion: if we already have a supervisor in
+    # this chain, don't recursively add them and their supervisors
+    # a second time (...and a third time, and a fourth time, and so on)
+    return list if list.include? agent.supervisor
+
     list << agent.supervisor
     supervisor_chain(agent: agent.supervisor, list:)
   end
