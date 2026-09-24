@@ -104,6 +104,30 @@ RSpec.describe StaffProfile, type: :model do
     end
   end
 
+  describe "#supervisor_chain" do
+    it "lists supervisors in order" do
+      profile1 = create(:staff_profile, given_name: "Jane", surname: "Doe")
+      profile2 = create(:staff_profile, given_name: "Maija", surname: "Meikäläinen", supervisor: profile1)
+      profile3 = create(:staff_profile, given_name: "Anna", surname: "Kowalska", supervisor: profile2)
+      profile4 = create(:staff_profile, given_name: "Zé", surname: "Ninguém", supervisor: profile3)
+      expect(profile4.supervisor_chain).to eq [profile3, profile2, profile1]
+    end
+
+    it "does not recurse endlessly" do
+      # Ideally, we would guard against the following situation at the db/architectural
+      # level, but until we can, we should at least make sure that having this
+      # situation does not cause an endless recursion + error
+      profile1 = create(:staff_profile, given_name: "Jane", surname: "Doe")
+      profile2 = create(:staff_profile, given_name: "Maija", surname: "Meikäläinen", supervisor: profile1)
+      profile3 = create(:staff_profile, given_name: "Anna", surname: "Kowalska", supervisor: profile2)
+      profile4 = create(:staff_profile, given_name: "Zé", surname: "Ninguém", supervisor: profile3)
+      profile1.update(supervisor: profile4)
+
+      expect { profile4.supervisor_chain }.not_to raise_error SystemStackError
+      expect(profile1.supervisor_chain).to include profile2, profile3, profile4
+    end
+  end
+
   describe "#staff_list_json" do
     it "handles staff names with apostrophes" do
       profile = create(:staff_profile, given_name: "Georgia",
