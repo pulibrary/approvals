@@ -3,7 +3,8 @@
   "packages": [
     "ruby@3.4",
     "libyaml.dev",
-    "git@latest"
+    "git@latest",
+    "bash@latest",
   ],
   "shell": {
     "init_hook": [
