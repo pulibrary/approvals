@@ -40,7 +40,7 @@ RSpec.describe "New Travel Request", type: :feature, js: true do
       find("input[id^='travel_request_estimates_recurrence_']").fill_in with: "2"
       find("input[id^='travel_request_estimates_amount_']").fill_in with: "20"
       click_on "Submit Request"
-      expect(TravelRequest.last.event_title).to match(/Event/)
+      expect(TravelRequest.last.event_title).to include("Event")
     end
   end
 
