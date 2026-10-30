@@ -127,7 +127,7 @@ GEM
     health-monitor-rails (12.9.0)
       railties (>= 6.1)
     high_voltage (5.0.0)
-    honeybadger (6.9.1)
+    honeybadger (6.10.0)
       logger
       ostruct
     i18n (1.15.2)
@@ -515,7 +515,7 @@ CHECKSUMS
   hashie (5.1.0) sha256=c266471896f323c446ea8207f8ffac985d2718df0a0ba98651a3057096ca3870
   health-monitor-rails (12.9.0) sha256=f3d15d17ec5835e7ad5f237b4508e03612ffaf420e9621c1394089ae0f72dc82
   high_voltage (5.0.0) sha256=fbdd1a861af30d51d6a9f710b37709ab489211402685972945cd5eac6a4c0b23
-  honeybadger (6.9.1) sha256=3e79543ab171f810306bd152b3f470ce2b905b1a27f766f3138568949078cf68
+  honeybadger (6.10.0) sha256=b59af053820c7a7f5161b1a7ed296d3e2bc2816edc0cc183e3673a62bc8f0f48
   i18n (1.15.2) sha256=00f9eb62412fe593b2a65a97daa75300d37abb8f7202ec748e94b6d46a9dd1b5
   io-console (0.9.2) sha256=efa74f891dd03c0939a931dfc6e74c2813d904763d456ea9762b0525e748db08
   irb (1.18.0) sha256=de9454a0703a54704b9811a5ef31a60c86949fbf4013fcf244fabc7c775248e3
