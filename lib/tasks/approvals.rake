@@ -55,9 +55,9 @@ namespace :approvals do
 
     puts "#{TravelRequest.count} TravelRequests generated and #{AbsenceRequest.count} AbsenceRequests generated for #{StaffProfile.count} Staff"
   end
-
   desc "process the staff list"
   task process_staff_report: :environment do
+    # rubocop:disable-next Style/FileOpen
     file = File.open(Rails.application.config.staff_report_location, encoding: "UTF-16")
     report = file.read
     StaffReportProcessor.process(data: report)
@@ -69,9 +69,9 @@ namespace :approvals do
       end
     end
   end
-
   desc "process the balance report"
   task process_balance_report: :environment do
+    # rubocop:disable-next Style/FileOpen
     file = File.open(Rails.application.config.balance_report_location, encoding: "UTF-16")
     report = file.read
     errors = BalanceReportProcessor.process(data: report)

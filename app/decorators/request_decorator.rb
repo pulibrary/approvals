@@ -184,6 +184,7 @@ class RequestDecorator
       json.prepend(title:, content: nil, icon: "add")
     end
 
+    # rubocop:disable-next Naming/PredicateMethod
     def created_by_delegate
       first_note = notes.first
       first_note.present? && first_note.creator_id != creator_id && first_note.content.start_with?("This request was created by")

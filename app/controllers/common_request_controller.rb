@@ -41,7 +41,7 @@ class CommonRequestController < ApplicationController
             else
               "You must be the creator to edit a request"
             end
-    respond_with_show_error(message: error, status: :invalid_edit)
+    respond_with_show_error?(message: error, status: :invalid_edit)
   end
 
   # POST
@@ -55,8 +55,8 @@ class CommonRequestController < ApplicationController
     if request_change_set.can_modify_attributes?
       update_model_and_respond(handle_deletes: true, success_verb: "updated", error_action: :edit)
     else
-      respond_with_show_error(message: "#{model_instance_to_name(@request_change_set.model)} can not be updated after it has been #{@request_change_set.model.status}.",
-                              status: :invalid_update)
+      respond_with_show_error?(message: "#{model_instance_to_name(@request_change_set.model)} can not be updated after it has been #{@request_change_set.model.status}.",
+                               status: :invalid_update)
     end
   end
 
@@ -72,6 +72,7 @@ class CommonRequestController < ApplicationController
   end
 
   # GET
+  # rubocop:disable-next Naming/PredicateMethod
   def review
     @request_change_set = request_change_set
 
@@ -85,9 +86,10 @@ class CommonRequestController < ApplicationController
               end
 
     # handle the error
-    respond_with_show_error(message:, status: :invalid_edit)
+    respond_with_show_error?(message:, status: :invalid_edit)
   end
 
+  # rubocop:disable-next Naming/PredicateMethod
   def comment
     @request_change_set = request_change_set
 
@@ -97,7 +99,7 @@ class CommonRequestController < ApplicationController
     message = "You are not allowed access to comment on this #{model_instance_to_name(@request)}"
 
     # handle the error
-    respond_with_show_error(message:, status: :invalid_edit)
+    respond_with_show_error?(message:, status: :invalid_edit)
   end
 
   # PATCH/PUT
@@ -152,7 +154,7 @@ class CommonRequestController < ApplicationController
       end.prepend(delegate_note_hash).compact
     end
 
-    def respond_with_show_error(message:, status:)
+    def respond_with_show_error?(message:, status:)
       respond_to do |format|
         @request = request_change_set.model
         format.html { redirect_to @request, flash: { error: message } }
@@ -161,6 +163,7 @@ class CommonRequestController < ApplicationController
       false
     end
 
+    # rubocop:disable-next Naming/PredicateMethod
     def handle_nested_deletes
       true
     end

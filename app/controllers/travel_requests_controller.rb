@@ -39,6 +39,7 @@ class TravelRequestsController < CommonRequestController
 
   private
 
+    # rubocop:disable-next Naming/PredicateMethod
     def current_profile_has_not_already_reviewed
       @request.latest_state_change.blank? || @request.latest_state_change.agent != current_staff_profile
     end

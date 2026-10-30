@@ -44,6 +44,7 @@ module AasmConfig
     action
   end
 
+  # rubocop:disable-next Naming/PredicateMethod
   def only_department_head(agent)
     agent = agent[:agent] if agent.is_a?(Hash)
     agent.department_head?
@@ -54,6 +55,7 @@ module AasmConfig
     in_supervisor_chain(supervisor: creator.supervisor, agent:)
   end
 
+  # rubocop:disable-next Naming/PredicateMethod
   def only_creator(agent)
     agent = agent[:agent] if agent.is_a?(Hash)
     creator == agent
