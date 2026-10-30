@@ -99,9 +99,8 @@ class DelegatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the specified parameters through.
     def delegate_params
-      # rubocop:disable Rails/StrongParametersExpect
+      # rubocop:disable-next Rails/StrongParametersExpect
       permitted_params = params.require(:delegate).permit(:delegate_id)
-      # rubocop:enable Rails/StrongParametersExpect
 
       # the delegator can only be the logged in user
       permitted_params.merge(delegator_id: current_staff_profile.id)

@@ -25,7 +25,7 @@ class Request < ApplicationRecord
 
     # search by id
     id_results = Request.where(id: search_query)
-    return id_results if id_results.count.positive?
+    return id_results unless id_results.empty?
 
     # escapes the punctuation within the query
     query = connection.quote("%#{search_query}%")

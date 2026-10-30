@@ -38,10 +38,9 @@ class AbsenceRequestsController < CommonRequestController
 
     # Never trust parameters from the scary internet, only allow the specified parameters through.
     def absence_request_params
-      # rubocop:disable Rails/StrongParametersExpect
+      # rubocop:disable-next Rails/StrongParametersExpect
       params.require(:absence_request).permit(:start_date, :end_date, :request_type, :absence_type, :hours_requested,
                                               notes: [:content])
-      # rubocop:enable Rails/StrongParametersExpect
     end
 
     def processed_params

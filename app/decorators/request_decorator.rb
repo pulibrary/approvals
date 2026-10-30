@@ -144,7 +144,7 @@ class RequestDecorator
     end
 
     def decorated_status
-      if (status == "pending") && state_changes.count.positive?
+      if (status == "pending") && !state_changes.empty?
         "Pending further review"
       else
         status.humanize

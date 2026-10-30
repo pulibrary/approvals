@@ -72,7 +72,7 @@ class TravelRequestsController < CommonRequestController
 
     def clean_and_require_params
       clean_params
-      # rubocop:disable Rails/StrongParametersExpect
+      # rubocop:disable-next Rails/StrongParametersExpect
       params.require(:travel_request).permit(
         :creator_id,
         :start_date,
@@ -86,7 +86,6 @@ class TravelRequestsController < CommonRequestController
         new_event: [:id],
         estimates: %i[id amount recurrence cost_type description]
       )
-      # rubocop:enable Rails/StrongParametersExpect
     end
 
     def handle_nested_deletes

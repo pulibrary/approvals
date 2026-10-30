@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-# rubocop:disable RSpec/EmptyExampleGroup
+# rubocop:disable-next RSpec/EmptyExampleGroup
 RSpec.describe RecurringEventsController, type: :routing do
   # describe "routing" do
   #   it "routes to #index" do
@@ -38,4 +38,3 @@ RSpec.describe RecurringEventsController, type: :routing do
   #   end
   # end
 end
-# rubocop:enable RSpec/EmptyExampleGroup

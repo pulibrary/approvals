@@ -2,7 +2,6 @@
 
 require "rails_helper"
 
-# rubocop:disable RSpec/EmptyExampleGroup
+# rubocop:disable-next RSpec/EmptyExampleGroup
 RSpec.describe RecurringEventsController, type: :controller do
 end
-# rubocop:enable RSpec/EmptyExampleGroup

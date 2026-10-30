@@ -97,9 +97,8 @@ RSpec.describe StaffReportProcessor, type: :model do
     end
 
     context "vacant supervisor" do
-      # rubocop:disable Layout/LineLength
+      # rubocop:disable-next Layout/LineLength
       let(:user_line2) { "90009\tTest Department\tTest Department Long\tPUHRS\t99999999\tI\tam2\tTest\ttest2\tBiw\tR=BenElig\t000000000\tLibrary Office Assistant II\t\tVacant\t\t00001111\tResearch Collections\tForrestal Campus\t \tPrinceton\tNJ\t08544\tUSA\t609/111-2222\testi@princeton.edu" }
-      # rubocop:enable Layout/LineLength
 
       it "connects a user and the department head" do
         expect do
